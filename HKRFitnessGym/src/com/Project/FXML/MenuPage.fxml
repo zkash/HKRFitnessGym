@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuPageController">
+   <children>
+      <Button layoutX="91.0" layoutY="155.0" mnemonicParsing="false" onAction="#goToViewSchedulePage" prefHeight="47.0" prefWidth="187.0" text="View Schedule" />
+      <Button layoutX="91.0" layoutY="219.0" mnemonicParsing="false" onAction="#goToViewAnnouncementsPage" prefHeight="47.0" prefWidth="187.0" text="View Announcements" />
+      <Button layoutX="420.0" layoutY="219.0" mnemonicParsing="false" onAction="#goToVisitChatRoomPage" prefHeight="47.0" prefWidth="187.0" text="Visit Chat Room" />
+      <Button layoutX="420.0" layoutY="285.0" mnemonicParsing="false" onAction="#goToMembersPage" prefHeight="47.0" prefWidth="187.0" text="Members" />
+      <Button layoutX="420.0" layoutY="155.0" mnemonicParsing="false" onAction="#goToViewCurrentSubscriberPage" prefHeight="47.0" prefWidth="187.0" text="View Current Subscriber" />
+      <Button layoutX="91.0" layoutY="285.0" mnemonicParsing="false" onAction="#goToViewPackagesPage" prefHeight="47.0" prefWidth="187.0" text="View Packages" />
+      <Button layoutX="91.0" layoutY="351.0" mnemonicParsing="false" onAction="#goToViewGalleryPage" prefHeight="47.0" prefWidth="187.0" text="View Gallery" />
+      <Button layoutX="599.0" layoutY="17.0" mnemonicParsing="false" onAction="#goToLoginPage" prefHeight="31.0" prefWidth="72.0" text="Logout" />
+      <Label layoutX="26.0" layoutY="98.0" text="You are logged as : " textFill="#141414">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="loggedAs" layoutX="148.0" layoutY="98.0" text="username" textFill="#3500ff">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="291.0" layoutY="48.0" text="HKR Fitness Gym" />
+   </children>
+</AnchorPane>

@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -96,5 +95,83 @@ public class CreateUserPageController implements Initializable {
         String ssnum = ssn.getText();
         String un = username.getText();
         String pw = password.getText();
+    
+        if(fn != null && ln != null && gen != null && dob != null && add != null && pnum != null && ead != null && ssnum != null && un != null && pw != null) {
+            if(hasDigit(fn)) {
+                invalidMsgFirstName.setText("Invalid Value");
+            }
+            
+            if(mn != null) {
+                if(hasDigit(mn)) {
+                    invalidMsgMiddleName.setText("Invalid Value");
+                }
+            }
+            
+            if(hasDigit(ln)) {
+                invalidMsgLastName.setText("Invalid Value");
+            }
+            
+            String notAddRegex = "[0-9]+";
+            if(add.matches(notAddRegex)) {
+                invalidMsgAddress.setText("Invalid Value");
+            }
+            
+            if(hasChar(pnum)) {
+                invalidMsgPhoneNumber.setText("Invalid Value");
+            }
+            
+            String emailRegex = "^(.+)@(.+)$";
+            if(!ead.matches(emailRegex)) {
+                invalidMsgEmail.setText("Invalid Value");
+            }
+            
+            
+            String ssnRegex = "[0-9]{6}-[0-9]{4}";
+            if(!ssnum.matches(ssnRegex)) {
+                invalidMsgSSN.setText("Invalid Value");
+            }
+            
+            String unRegex = "^[A-Za-z][A-za-z0-9]*";
+            if(!un.matches(unRegex)) {
+                invalidMsgUsername.setText("Invalid Value");
+            }
+            
+            String pwRegex = "^[A-za-z0-9]{4,}$"; //minimum 1 alpha, 1 number, 5 chars
+            if(!pw.matches(pwRegex)) {
+                invalidMsgPassword.setText("Invalid Value");
+            }
+        }
+        
+        else {
+            invalidMsgFirstName.setText("Enter All Data");
+        }
+    }
+    
+    //Check if a string contains a digit
+    public boolean hasDigit(String str) {
+        if(!str.isEmpty()) {
+            char[] charArray;
+            charArray = str.toCharArray(); //convert string to character array
+            for(char ch: charArray) {   
+                if (Character.isDigit(ch)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    //Check if a string contains a character
+    public boolean hasChar(String str) {
+        if(!str.isEmpty()) {
+            char[] charArray;
+            charArray = str.toCharArray();
+            for(char ch: charArray) {
+                if (Character.isLetter(ch)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

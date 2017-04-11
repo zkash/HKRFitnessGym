@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.Project.Controllers.CreateAnnouncementPageController">
+   <children>
+      <Label layoutX="130.0" layoutY="87.0" text="Title*" />
+      <Label layoutX="130.0" layoutY="127.0" text="Body*" />
+      <TextField fx:id="announcementTitle" layoutX="253.0" layoutY="82.0" prefWidth="210.0" promptText="e.g. Discount Offer" />
+      <Label layoutX="126.0" layoutY="41.0" text="Create Announcement">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="announcementBody" layoutX="130.0" layoutY="153.0" prefHeight="186.0" prefWidth="333.0" />
+      <Button layoutX="403.0" layoutY="350.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" text="Create" />
+   </children>
+</AnchorPane>

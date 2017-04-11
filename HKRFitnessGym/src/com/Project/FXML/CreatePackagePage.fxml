@@ -25,7 +25,7 @@
       <DatePicker fx:id="packageEndDate" layoutX="261.0" layoutY="185.0" prefHeight="27.0" prefWidth="210.0" />
       <TextField fx:id="packageStartTime" layoutX="261.0" layoutY="220.0" prefHeight="27.0" prefWidth="135.0" promptText="e.g. 5:30" />
       <TextField fx:id="packageDuration" layoutX="261.0" layoutY="258.0" prefWidth="210.0" promptText="e.g 1.5" />
-      <Button fx:id="createPackageBtn" layoutX="356.0" layoutY="305.0" mnemonicParsing="false" onAction="#createPackageBtnClick" text="Create Package" />
+      <Button fx:id="createPackageBtn" layoutX="407.0" layoutY="305.0" mnemonicParsing="false" onAction="#createPackageBtnClick" text="Create" />
       <Label layoutX="115.0" layoutY="318.0" text="* denotes compulsory values">
          <font>
             <Font size="10.0" />

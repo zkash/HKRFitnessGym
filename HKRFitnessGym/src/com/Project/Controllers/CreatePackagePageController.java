@@ -80,7 +80,7 @@ public class CreatePackagePageController implements Initializable {
         }
         
         else {
-            invalidMsgPackageName.setText("Enter All Data");
+            invalidMsgPackageName.setText("Enter All Values");
         }
     }
     

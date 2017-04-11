@@ -7,7 +7,12 @@ package com.Project.Controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -19,9 +24,26 @@ public class CreateAnnouncementPageController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    @FXML private TextField announcementTitle;
+    @FXML private TextArea annoucementBody;
+    @FXML private Label invalidMsgAnnouncement;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    public void createAnnouncementBtnClick(ActionEvent event) {
+        String at = announcementTitle.getText();
+        String ab = annoucementBody.getText();
+        
+        if(at != null && ab != null) {
+            //TODO
+        }
+        else {
+            invalidMsgAnnouncement.setText("Enter All Values");
+        }
+    }
     
 }

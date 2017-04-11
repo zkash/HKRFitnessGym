@@ -6,7 +6,11 @@
 package com.Project.Controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -43,5 +47,21 @@ public class CreatePackagePageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    public void createPackageBtnClick(ActionEvent event) {
+        //Clear error messages
+        invalidMsgPackageName.setText("");
+        invalidMsgPackageCost.setText("");
+        invalidMsgPackageStartTime.setText("");
+        invalidMsgPackageStartTimeState.setText("");
+        
+        String pn = packageName.getText();
+        String pc = packageCost.getText();
+        LocalDate psd = packageStartDate.getValue();
+        LocalDate ped = packageEndDate.getValue();
+        String pst = packageStartTime.getText();
+        String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
+        String pd = packageDuration.getText();
+    }
     
 }

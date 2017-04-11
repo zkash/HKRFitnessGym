@@ -54,11 +54,11 @@ public class LoginPageController implements Initializable {
         System.exit(0);
     }
     
-     @FXML
+    @FXML
     private void goToRegisterPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/RegisterPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

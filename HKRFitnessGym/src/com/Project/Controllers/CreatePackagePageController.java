@@ -62,6 +62,39 @@ public class CreatePackagePageController implements Initializable {
         String pst = packageStartTime.getText();
         String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
         String pd = packageDuration.getText();
+        
+        if(pn != null && pc != null && psd != null && ped != null && pst != null & psts != null && pd != null) {
+            if(hasChar(pc)) {
+                invalidMsgPackageCost.setText("Invalid Value");
+            }
+            
+            String startTimeRegex = "^[0-9]{1,2}:[0-9]{2}$";
+            if(!pst.matches(startTimeRegex)) {
+                invalidMsgPackageStartTime.setText("Invalid Value");
+            }
+            
+            String durationRegex = "^([0-9]{1,2}|[0-9]{1,2}.[0-9]{1,2})$";
+            if(!psts.matches(durationRegex)) {
+                invalidMsgPackageStartTimeState.setText("Invalid Value");
+            }
+        }
+        
+        else {
+            invalidMsgPackageName.setText("Enter All Data");
+        }
     }
     
+    //Check if a string contains a character
+    public boolean hasChar(String str) {
+        if(!str.isEmpty()) {
+            char[] charArray;
+            charArray = str.toCharArray();
+            for(char ch: charArray) {
+                if (Character.isLetter(ch)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -6,7 +6,9 @@
 package com.Project.Controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -54,4 +56,45 @@ public class CreateUserPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }      
+    
+    public void createUserBtnClick(ActionEvent event) {
+        //Clear error messages
+        invalidMsgFirstName.setText("");
+        invalidMsgMiddleName.setText("");
+        invalidMsgLastName.setText("");
+        invalidMsgAddress.setText("");
+        invalidMsgPhoneNumber.setText("");
+        invalidMsgEmail.setText("");
+        invalidMsgSSN.setText("");
+        invalidMsgUsername.setText("");
+        invalidMsgPassword.setText("");
+        
+        String fn = firstName.getText();
+        
+        String mn, gen = "";
+        if(middleName.getText() == null || middleName.getText().trim().isEmpty()) {
+            mn = "";
+        }
+        else {
+            mn = middleName.getText(); 
+        }
+        
+        String ln = lastName.getText();
+        if(genderMale.isSelected()) {
+            gen = genderMale.getText();
+        }
+        if(genderFemale.isSelected()) {
+            gen = genderFemale.getText();
+        }
+        if(genderOther.isSelected()) {
+            gen = genderOther.getText();
+        }
+        LocalDate dob = dateOfBirth.getValue();
+        String add = address.getText();
+        String pnum = phoneNumber.getText();
+        String ead = email.getText();
+        String ssnum = ssn.getText();
+        String un = username.getText();
+        String pw = password.getText();
+    }
 }

@@ -7,26 +7,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.Project.Controllers.CreateAnnouncementPageController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateAnnouncementPageController">
    <children>
-      <Label layoutX="130.0" layoutY="87.0" text="Title*" />
-      <Label layoutX="130.0" layoutY="127.0" text="Body*" />
-      <TextField fx:id="announcementTitle" layoutX="253.0" layoutY="82.0" prefWidth="210.0" promptText="e.g. Discount Offer" />
-      <Label layoutX="126.0" layoutY="41.0" text="Create Announcement">
+      <Label layoutX="125.0" layoutY="96.0" text="Title*" AnchorPane.leftAnchor="125.0" />
+      <Label layoutX="125.0" layoutY="136.0" text="Body*" AnchorPane.leftAnchor="125.0" />
+      <TextField fx:id="announcementTitle" layoutX="250.0" layoutY="91.0" prefWidth="210.0" promptText="e.g. Discount Offer" AnchorPane.leftAnchor="250.0" />
+      <Label layoutX="126.0" layoutY="41.0" text="Create Announcement" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="55.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="announcementBody" layoutX="130.0" layoutY="153.0" prefHeight="186.0" prefWidth="333.0" />
-      <Button layoutX="403.0" layoutY="350.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" text="Create" />
-      <Label layoutX="126.0" layoutY="357.0" text="* denotes compulsory values">
+      <TextArea fx:id="announcementBody" layoutX="125.0" layoutY="162.0" prefHeight="186.0" prefWidth="333.0" AnchorPane.leftAnchor="125.0" />
+      <Button layoutX="400.0" layoutY="359.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" text="Create" AnchorPane.leftAnchor="400.0" />
+      <Label layoutX="125.0" layoutY="366.0" text="* denotes compulsory values" AnchorPane.leftAnchor="125.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="invalidMsgAnnouncement" layoutX="477.0" layoutY="87.0" prefHeight="17.0" prefWidth="0.0" textFill="RED" />
-      <Button fx:id="backBtn" layoutX="45.0" layoutY="39.0" mnemonicParsing="false" onAction="#backBtnClick" text="←" />
+      <Label fx:id="invalidMsgAnnouncement" layoutX="477.0" layoutY="96.0" prefHeight="17.0" prefWidth="100.0" textFill="RED" />
+      <Button fx:id="backBtn" layoutX="45.0" layoutY="39.0" mnemonicParsing="false" onAction="#backBtnClick" text="←" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="55.0" />
       <MenuBar>
          <menus>
             <Menu mnemonicParsing="false" text="Account">

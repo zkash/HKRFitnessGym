@@ -7,10 +7,7 @@ package com.Project.Controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,9 +44,6 @@ public class CreatePackagePageController implements Initializable {
     @FXML private ComboBox packageStartTimeState;
     @FXML private TextField packageDuration;
     
-    @FXML private Label lbl;
-    
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,48 +61,47 @@ public class CreatePackagePageController implements Initializable {
         
         String pn = packageName.getText();
         String pc = packageCost.getText();
-        LocalDate psd = packageStartDate.getValue();
-//        LocalDate ped = packageEndDate.getValue();
         String pst = packageStartTime.getText();
-        //String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
         String pd = packageDuration.getText();
-//        
-//        lbl.setText(pn + " " + pc + " " + psd + " " + ped + " " + pst + " " + psts + " " + pd);
         
-        lbl.setText(pn + " " + pc + " " + pst + " " + pd);
-//        if(pn != null && pc != null && psd != null && ped != null && pst != null & psts != null && pd != null) {
-        if(pn != null && pc != null && pst != null && pd != null) {
+        if(!isEmpty(pn) && !isEmpty(pc) && !isEmpty(pst) && !isEmpty(pd)) {
             if(hasChar(pc)) {
                 invalidMsgPackageCost.setText("Invalid Value");
+            }
+            else {
+                String costRegex = "^[0-9]*.[0-9]{1,2}$";
+                if(!pc.matches(costRegex)) {
+                    invalidMsgPackageCost.setText("Invalid Value");
+                }
+                else {
+                    //price less than 0
+                    float pcInt = Float.parseFloat(pc);
+                    if(pcInt < 0) {    
+                        invalidMsgPackageCost.setText("Invalid Value");
+                    }
+                }
             }
             
             String startTimeRegex = "^(([1-9]{1})|([1][1-2])):[0-5]{1}[0-9]{1}$";
             if(!pst.matches(startTimeRegex)) {
                 invalidMsgPackageStartTime.setText("Invalid Value");
             }
-            
-            //String durationRegex = "^(([0-9])|([1][0-9])|([2][0-4])).$";
-            try {
-                int pdInt = Integer.parseInt(pd);
-                System.out.println(pdInt);
-                
-                if((pdInt <= 0) && (pdInt >= 1440)) {
-                    invalidMsgPackageDuration.setText("Invalid Value");       
-                }
-                else
-                {
-                    invalidMsgPackageDuration.setText("What the");
-                }
-            }
-            catch (NumberFormatException e) {
-                invalidMsgPackageDuration.setText("Invalid Value"); 
-            }   
         }
         else {
-            invalidMsgPackageName.setText("Enter All Values");
+            invalidMsgPackageName.setText("Enter All Data");
         }
-    }
         
+    }
+    
+    public void backBtnClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     //Check if a string contains a character
     public boolean hasChar(String str) {
         if(!str.isEmpty()) {
@@ -123,17 +116,10 @@ public class CreatePackagePageController implements Initializable {
         return false;
     }
     
-    /**
-     *
-     * @param event
-     * @throws IOException
-     */
-    public void backBtnClick(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    public boolean isEmpty(String str) {
+        if(str  == null || str.trim().isEmpty()) {
+            return true;
+        }
+        return false;
     }
 }

@@ -32,7 +32,7 @@ public class CreateAnnouncementPageController implements Initializable {
      */
     
     @FXML private TextField announcementTitle;
-    @FXML private TextArea annoucementBody;
+    @FXML private TextArea announcementBody;
     @FXML private Label invalidMsgAnnouncement;
     
     @Override
@@ -41,13 +41,12 @@ public class CreateAnnouncementPageController implements Initializable {
     }    
     
     public void createAnnouncementBtnClick(ActionEvent event) {
-        String at = announcementTitle.getText();
-        String ab = annoucementBody.getText();
+        //Clear error message
+        invalidMsgAnnouncement.setText("");
         
-        if(at != null && ab != null) {
-            //TODO
-        }
-        else {
+        String at = announcementTitle.getText();
+        String ab = announcementBody.getText();
+        if(isEmpty(at) || isEmpty(ab)) {
             invalidMsgAnnouncement.setText("Enter All Values");
         }
     }
@@ -59,6 +58,13 @@ public class CreateAnnouncementPageController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public boolean isEmpty(String str) {
+        if(str  == null || str.trim().isEmpty()) {
+            return true;
+        }
+        return false;
     }
     
 }

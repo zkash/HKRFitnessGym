@@ -38,20 +38,24 @@ public class CreatePackagePageController implements Initializable {
     @FXML private Label invalidMsgPackageName;
     @FXML private Label invalidMsgPackageCost;
     @FXML private Label invalidMsgPackageStartTime;
-    @FXML private Label invalidMsgPackageStartTimeState;
+    @FXML private Label invalidMsgPackageDuration;
     @FXML private TextField packageName;
     @FXML private TextField packageCost;
     @FXML private DatePicker packageStartDate;
-    @FXML private DatePicker packageEndDate;
+    @FXML private DatePicker packageEndDate;    
     @FXML private TextField packageStartTime;
     @FXML private ComboBox packageStartTimeState;
     @FXML private TextField packageDuration;
     
-    ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
+    @FXML private Label lbl;
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
+        //packageStartTimeState.getItems().addAll(timeList);
+        packageStartTimeState.getItems().addAll("AM", "PM");
     }    
     
     public void createPackageBtnClick(ActionEvent event) {
@@ -59,37 +63,52 @@ public class CreatePackagePageController implements Initializable {
         invalidMsgPackageName.setText("");
         invalidMsgPackageCost.setText("");
         invalidMsgPackageStartTime.setText("");
-        invalidMsgPackageStartTimeState.setText("");
+        invalidMsgPackageDuration.setText("");
         
         String pn = packageName.getText();
         String pc = packageCost.getText();
         LocalDate psd = packageStartDate.getValue();
-        LocalDate ped = packageEndDate.getValue();
+//        LocalDate ped = packageEndDate.getValue();
         String pst = packageStartTime.getText();
-        String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
+        //String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
         String pd = packageDuration.getText();
+//        
+//        lbl.setText(pn + " " + pc + " " + psd + " " + ped + " " + pst + " " + psts + " " + pd);
         
-        if(pn != null && pc != null && psd != null && ped != null && pst != null & psts != null && pd != null) {
+        lbl.setText(pn + " " + pc + " " + pst + " " + pd);
+//        if(pn != null && pc != null && psd != null && ped != null && pst != null & psts != null && pd != null) {
+        if(pn != null && pc != null && pst != null && pd != null) {
             if(hasChar(pc)) {
                 invalidMsgPackageCost.setText("Invalid Value");
             }
             
-            String startTimeRegex = "^[0-9]{1,2}:[0-9]{2}$";
+            String startTimeRegex = "^(([1-9]{1})|([1][1-2])):[0-5]{1}[0-9]{1}$";
             if(!pst.matches(startTimeRegex)) {
                 invalidMsgPackageStartTime.setText("Invalid Value");
             }
             
-            String durationRegex = "^([0-9]{1,2}|[0-9]{1,2}.[0-9]{1,2})$";
-            if(!psts.matches(durationRegex)) {
-                invalidMsgPackageStartTimeState.setText("Invalid Value");
+            //String durationRegex = "^(([0-9])|([1][0-9])|([2][0-4])).$";
+            try {
+                int pdInt = Integer.parseInt(pd);
+                System.out.println(pdInt);
+                
+                if((pdInt <= 0) && (pdInt >= 1440)) {
+                    invalidMsgPackageDuration.setText("Invalid Value");       
+                }
+                else
+                {
+                    invalidMsgPackageDuration.setText("What the");
+                }
             }
+            catch (NumberFormatException e) {
+                invalidMsgPackageDuration.setText("Invalid Value"); 
+            }   
         }
-        
         else {
             invalidMsgPackageName.setText("Enter All Values");
         }
     }
-    
+        
     //Check if a string contains a character
     public boolean hasChar(String str) {
         if(!str.isEmpty()) {
@@ -104,6 +123,11 @@ public class CreatePackagePageController implements Initializable {
         return false;
     }
     
+    /**
+     *
+     * @param event
+     * @throws IOException
+     */
     public void backBtnClick(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();

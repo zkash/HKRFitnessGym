@@ -5,10 +5,12 @@
  */
 package com.Project.Controllers;
 
+import javafx.scene.control.Menu;
+
 /**
  *
  * @author shameer
  */
 public class MenuBar {
-    Menu account = new Menu()
+    Menu account = new Menu();
 }

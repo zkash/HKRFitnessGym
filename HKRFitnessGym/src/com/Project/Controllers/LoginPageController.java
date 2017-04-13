@@ -69,7 +69,7 @@ public class LoginPageController implements Initializable {
     private void goToMenuPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();      

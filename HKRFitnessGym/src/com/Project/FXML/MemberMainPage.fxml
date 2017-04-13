@@ -1,11 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberMainPageController">
-    
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar>
+         <menus>
+            <Menu mnemonicParsing="false" text="Account">
+               <items>
+                  <MenuItem fx:id="editAccountMenu" mnemonicParsing="false" text="Edit Account Details" />
+                  <MenuItem fx:id="updateProfilePicMenu" mnemonicParsing="false" text="Update Profile Picture" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" text="View Account Details" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Package">
+               <items>
+                  <Menu fx:id="viewPackageMenu" mnemonicParsing="false" text="View Available Packages">
+                    <items>
+                      <MenuItem fx:id="subscribePackageMenu" mnemonicParsing="false" text="Subscribe to Package" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="View Subscriptions">
+                    <items>
+                      <MenuItem fx:id="renewSubscriptionMenu" mnemonicParsing="false" text="Renew Subscription" />
+                        <MenuItem fx:id="cancelSubscriptionMenu" mnemonicParsing="false" text="Cancel Subscription" />
+                    </items>
+                  </Menu>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Announcement">
+               <items>
+                  <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" text="View Announcement" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Chat">
+              <items>
+                  <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" text="Visit Chat Room" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Gallery">
+              <items>
+                <MenuItem fx:id="uploadPictureMenu" mnemonicParsing="false" text="Upload Picture" />
+                  <MenuItem fx:id="deletePictureMenu" mnemonicParsing="false" text="Delete Picture" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewGalleryMenu" mnemonicParsing="false" text="View Gallery" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="accountBtn" layoutX="200.0" layoutY="59.0" mnemonicParsing="false" prefWidth="180.0" text="Account">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="announcementBtn" layoutX="200.0" layoutY="159.0" mnemonicParsing="false" prefWidth="180.0" text="Announcement">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="chatButton" layoutX="200.0" layoutY="208.0" mnemonicParsing="false" prefWidth="180.0" text="Chat">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="packageBtn" layoutX="200.0" layoutY="109.0" mnemonicParsing="false" prefWidth="180.0" text="Package" AnchorPane.topAnchor="109.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="galleryButton" layoutX="200.0" layoutY="260.0" mnemonicParsing="false" prefWidth="180.0" text="Gallery">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="signOutBtn" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" text="Sign Out" />
+            <Label layoutX="31.0" layoutY="343.0" text="Welcome! You are logged in as" AnchorPane.bottomAnchor="15.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="loggedUserLbl" layoutX="196.0" layoutY="342.0" textFill="#ab0eaa" underline="true" AnchorPane.bottomAnchor="15.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

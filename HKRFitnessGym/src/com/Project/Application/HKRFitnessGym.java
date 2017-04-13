@@ -24,7 +24,7 @@ public class HKRFitnessGym extends Application {
         
         Scene scene = new Scene(root);
         
-        stage.setTitle("HKR Fitness Gym");
+        stage.setTitle("HKR Gym");
         stage.setScene(scene);
         stage.show();
     }

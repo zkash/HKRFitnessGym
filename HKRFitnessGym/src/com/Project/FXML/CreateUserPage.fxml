@@ -7,102 +7,106 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateUserPageController">
-   <children>
-      <Label layoutX="131.0" layoutY="96.0" text="First Name*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="132.0" text="Middle Name" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="419.0" text="Username*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="278.0" prefHeight="17.0" prefWidth="66.0" text="Address*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="172.0" text="Last Name*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="314.0" text="Phone Number*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="240.0" text="Date of Birth*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="349.0" text="Email*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="455.0" text="Password*" AnchorPane.leftAnchor="125.0" />
-      <TextField fx:id="firstName" layoutX="313.0" layoutY="91.0" prefWidth="210.0" promptText="e.g. John" />
-      <TextField fx:id="middleName" layoutX="313.0" layoutY="127.0" prefWidth="210.0" promptText="e.g. Henry" />
-      <TextField fx:id="lastName" layoutX="313.0" layoutY="167.0" prefHeight="27.0" prefWidth="210.0" promptText="e.g. Doe" />
-      <RadioButton fx:id="genderMale" layoutX="313.0" layoutY="208.0" mnemonicParsing="false" text="Male">
-         <toggleGroup>
-            <ToggleGroup fx:id="gender" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="genderFemale" layoutX="381.0" layoutY="208.0" mnemonicParsing="false" text="Female" toggleGroup="$gender" />
-      <RadioButton fx:id="genderOther" layoutX="461.0" layoutY="208.0" mnemonicParsing="false" text="Other" toggleGroup="$gender" />
-      <DatePicker fx:id="dateOfBirth" layoutX="310.0" layoutY="235.0" prefHeight="27.0" prefWidth="210.0" />
-      <TextField fx:id="address" layoutX="310.0" layoutY="273.0" prefWidth="210.0" promptText="e.g 1 Example Blvd., Town" />
-      <TextField fx:id="phoneNumber" layoutX="310.0" layoutY="309.0" prefWidth="210.0" promptText="e.g. 123456780" />
-      <TextField fx:id="email" layoutX="310.0" layoutY="344.0" prefWidth="210.0" promptText="e.g. john@johndoe.com" />
-      <TextField fx:id="ssn" layoutX="310.0" layoutY="380.0" prefWidth="210.0" promptText="e.g. 000101-1111" />
-      <TextField fx:id="username" layoutX="310.0" layoutY="414.0" prefWidth="210.0" />
-      <PasswordField fx:id="password" layoutX="310.0" layoutY="450.0" prefWidth="210.0" promptText="1 letter, 1 number, min. length 5" />
-      <Label layoutX="131.0" layoutY="385.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
-      <Label layoutX="131.0" layoutY="209.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
-      <Button fx:id="createUserBtn" layoutX="461.0" layoutY="488.0" mnemonicParsing="false" onAction="#createUserBtnClick" text="Create" />
-      <Label layoutX="127.0" layoutY="55.0" text="Create User Account" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="55.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="129.0" layoutY="501.0" text="* denotes compulsory values">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label fx:id="invalidMsgFirstName" layoutX="537.0" layoutY="96.0" textFill="RED" />
-      <Label fx:id="invalidMsgMiddleName" layoutX="537.0" layoutY="132.0" textFill="RED" />
-      <Label fx:id="invalidMsgLastName" layoutX="537.0" layoutY="172.0" textFill="RED" />
-      <Label fx:id="invalidMsgAddress" layoutX="537.0" layoutY="278.0" textFill="RED" />
-      <Label fx:id="invalidMsgPhoneNumber" layoutX="537.0" layoutY="314.0" textFill="RED" />
-      <Label fx:id="invalidMsgEmail" layoutX="537.0" layoutY="349.0" textFill="RED" />
-      <Label fx:id="invalidMsgSSN" layoutX="537.0" layoutY="385.0" textFill="RED" />
-      <Label fx:id="invalidMsgUsername" layoutX="537.0" layoutY="419.0" textFill="RED" />
-      <Label fx:id="invalidMsgPassword" layoutX="537.0" layoutY="455.0" textFill="RED" />
-      <Label fx:id="invalidMsgUsername" layoutX="537.0" layoutY="419.0" prefHeight="17.0" prefWidth="8.0" textFill="RED" />
-      <Label fx:id="invalidMsgPassword" layoutX="537.0" layoutY="455.0" textFill="RED" />
-      <Button fx:id="backBtn" layoutX="53.0" layoutY="53.0" mnemonicParsing="false" onAction="#backBtnClick" text="←" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="55.0" />
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="Account">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Create Account" />
-                  <MenuItem mnemonicParsing="false" text="Delete Account" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="View Accounts" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Package">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Create Package" />
-                  <MenuItem mnemonicParsing="false" text="Update Package" />
-                  <MenuItem mnemonicParsing="false" text="Delete Package" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="View Packages" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Schedule">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Add Schedule" />
-                  <MenuItem mnemonicParsing="false" text="Update Schedule" />
-                  <MenuItem mnemonicParsing="false" text="Delete Schedule" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="View Schedule" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Announcement">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Create Announcement" />
-                  <MenuItem mnemonicParsing="false" text="Update Announcement" />
-                  <MenuItem mnemonicParsing="false" text="Delete Announcement" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="View Announcements" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Help">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateUserPageController">
+    <top>
+        <MenuBar>
+         <menus>
+            <Menu mnemonicParsing="false" text="Account">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="createAccountMenu" mnemonicParsing="false" text="Create Account" />
+                  <MenuItem fx:id="deleteAccoutMenu" mnemonicParsing="false" text="Delete Account" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" text="View Account" />
                </items>
             </Menu>
-        </menus>
-      </MenuBar>
-   </children>
-</AnchorPane>
+            <Menu mnemonicParsing="false" text="Package">
+               <items>
+                  <MenuItem fx:id="createPackageMenu" mnemonicParsing="false" text="Create Package" />
+                  <MenuItem fx:id="updatePackageMenu" mnemonicParsing="false" text="Update Package" />
+                  <MenuItem fx:id="deletePackageMenu" mnemonicParsing="false" text="Delete Package" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewPackageMenu" mnemonicParsing="false" text="View Package" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Schedule">
+               <items>
+                  <MenuItem fx:id="addScheduleMenu" mnemonicParsing="false" text="Add Schedule" />
+                  <MenuItem fx:id="updateScheduleMenu" mnemonicParsing="false" text="Update Schedule" />
+                  <MenuItem fx:id="deleteScheduleMenu" mnemonicParsing="false" text="Delete Schedule" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" text="View Schedule" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Announcement">
+               <items>
+                  <MenuItem fx:id="createAnnouncementMenu" mnemonicParsing="false" text="Create Announcement" />
+                  <MenuItem fx:id="updateAnnouncementMenu" mnemonicParsing="false" text="Update Announcement" />
+                  <MenuItem fx:id="deleteAnnouncementMenu" mnemonicParsing="false" text="Delete Announcement" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" text="View Announcement" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+        </MenuBar>
+    </top>
+    <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <children>
+            <Label layoutX="125.0" layoutY="73.0" text="First Name*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="109.0" text="Middle Name" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="124.0" layoutY="396.0" text="Username*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="255.0" prefHeight="17.0" prefWidth="66.0" text="Address*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="149.0" text="Last Name*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="291.0" text="Phone Number*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="217.0" text="Date of Birth*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="326.0" text="Email*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="432.0" text="Password*" AnchorPane.leftAnchor="125.0" />
+            <TextField fx:id="firstName" layoutX="313.0" layoutY="68.0" prefWidth="210.0" promptText="e.g. John" />
+            <TextField fx:id="middleName" layoutX="313.0" layoutY="104.0" prefWidth="210.0" promptText="e.g. Henry" />
+            <TextField fx:id="lastName" layoutX="313.0" layoutY="144.0" prefHeight="27.0" prefWidth="210.0" promptText="e.g. Doe" />
+            <RadioButton fx:id="genderMale" layoutX="313.0" layoutY="185.0" mnemonicParsing="false" text="Male">
+               <toggleGroup>
+                  <ToggleGroup fx:id="gender" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="genderFemale" layoutX="381.0" layoutY="185.0" mnemonicParsing="false" text="Female" toggleGroup="$gender" />
+            <RadioButton fx:id="genderOther" layoutX="461.0" layoutY="185.0" mnemonicParsing="false" text="Other" toggleGroup="$gender" />
+            <DatePicker fx:id="dateOfBirth" layoutX="310.0" layoutY="212.0" prefHeight="27.0" prefWidth="210.0" />
+            <TextField fx:id="address" layoutX="310.0" layoutY="250.0" prefWidth="210.0" promptText="e.g 1 Example Blvd., Town" />
+            <TextField fx:id="phoneNumber" layoutX="310.0" layoutY="286.0" prefWidth="210.0" promptText="e.g. 123456780" />
+            <TextField fx:id="email" layoutX="310.0" layoutY="321.0" prefWidth="210.0" promptText="e.g. john@johndoe.com" />
+            <TextField fx:id="ssn" layoutX="310.0" layoutY="357.0" prefWidth="210.0" promptText="e.g. 000101-1111" />
+            <TextField fx:id="username" layoutX="310.0" layoutY="391.0" prefWidth="210.0" />
+            <PasswordField fx:id="password" layoutX="310.0" layoutY="427.0" prefWidth="210.0" promptText="1 letter, 1 number, min. length 5" />
+            <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
+            <Button fx:id="createUserBtn" layoutX="461.0" layoutY="465.0" mnemonicParsing="false" onAction="#createUserBtnClick" text="Create" />
+            <Label layoutX="127.0" layoutY="55.0" text="Create User Account" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="129.0" layoutY="478.0" text="* denotes compulsory values">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidMsgFirstName" layoutX="537.0" layoutY="73.0" textFill="RED" />
+            <Label fx:id="invalidMsgMiddleName" layoutX="537.0" layoutY="109.0" textFill="RED" />
+            <Label fx:id="invalidMsgLastName" layoutX="537.0" layoutY="149.0" textFill="RED" />
+            <Label fx:id="invalidMsgAddress" layoutX="537.0" layoutY="255.0" textFill="RED" />
+            <Label fx:id="invalidMsgPhoneNumber" layoutX="537.0" layoutY="291.0" textFill="RED" />
+            <Label fx:id="invalidMsgEmail" layoutX="537.0" layoutY="326.0" textFill="RED" />
+            <Label fx:id="invalidMsgSSN" layoutX="537.0" layoutY="362.0" textFill="RED" />
+            <Label fx:id="invalidMsgUsername" layoutX="537.0" layoutY="396.0" textFill="RED" />
+            <Label fx:id="invalidMsgPassword" layoutX="537.0" layoutY="432.0" textFill="RED" />
+            <Button fx:id="backBtn" layoutX="53.0" layoutY="53.0" mnemonicParsing="false" onAction="#backBtnClick" text="←" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+          </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

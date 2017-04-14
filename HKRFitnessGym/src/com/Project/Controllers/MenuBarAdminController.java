@@ -8,6 +8,7 @@ package com.Project.Controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,11 +37,7 @@ public class MenuBarAdminController implements Initializable {
     }    
     
     public void createAccountMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/CreateUserPage.fxml");
     }
     
     public void deleteAccoutMenuClick(ActionEvent event) {
@@ -48,19 +45,11 @@ public class MenuBarAdminController implements Initializable {
     }
     
     public void viewMembersMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewAccounts.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/AdminViewAccounts.fxml");
     }
     
     public void createPackageMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreatePackagePage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/CreatePackagePage.fxml");
     }
     
     public void updatePackageMenuClick(ActionEvent event) {
@@ -72,11 +61,7 @@ public class MenuBarAdminController implements Initializable {
     }
     
     public void viewPackageMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewPackages.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/AdminViewPackages.fxml");
     }
     
     public void addScheduleMenuClick(ActionEvent event) {
@@ -96,11 +81,7 @@ public class MenuBarAdminController implements Initializable {
     }
     
     public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAnnouncementPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/CreateAnnouncementPage.fxml");
     }
     
     public void updateAnnouncementMenuClick(ActionEvent event) {
@@ -112,15 +93,18 @@ public class MenuBarAdminController implements Initializable {
     }
     
     public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewAnnouncements.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setupAndShowStage("/com/Project/FXML/AdminViewAnnouncements.fxml");
     }
     
     public void aboutMenuClick(ActionEvent event) {
         
     }
     
+    public void setupAndShowStage(String fxmlFileURL) throws IOException {
+        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlFileURL));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

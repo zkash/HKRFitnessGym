@@ -111,8 +111,12 @@ public class MenuBarAdminController implements Initializable {
         
     }
     
-    public void viewAnnouncementMenuClick(ActionEvent event) {
-        
+    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewAnnouncements.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
     
     public void aboutMenuClick(ActionEvent event) {

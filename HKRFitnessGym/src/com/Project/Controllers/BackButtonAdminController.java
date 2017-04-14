@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author shameer
  */
-public class BackButtonController implements Initializable {
+public class BackButtonAdminController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -31,7 +31,7 @@ public class BackButtonController implements Initializable {
         // TODO
     }    
     
-    public void backBtnClick(ActionEvent event) throws IOException {
+    public void backBtnAdminClick(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));

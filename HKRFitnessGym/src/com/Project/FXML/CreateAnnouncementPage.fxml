@@ -30,7 +30,7 @@
                </font>
             </Label>
             <Label fx:id="invalidMsgAnnouncement" layoutX="477.0" layoutY="67.0" prefHeight="17.0" prefWidth="100.0" textFill="RED" />
-            <fx:include fx:id="backButton" source="BackButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0"/>
+            <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0"/>
           </children>
       </AnchorPane>
    </center>

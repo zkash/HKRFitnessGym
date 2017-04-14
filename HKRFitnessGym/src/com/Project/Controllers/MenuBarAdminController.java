@@ -47,8 +47,12 @@ public class MenuBarAdminController implements Initializable {
         
     }
     
-    public void viewAccountMenuClick(ActionEvent event) {
-        
+    public void viewMembersMenuClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewAccounts.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
     
     public void createPackageMenuClick(ActionEvent event) throws IOException {
@@ -67,8 +71,12 @@ public class MenuBarAdminController implements Initializable {
         
     }
     
-    public void viewPackageMenuClick(ActionEvent event) {
-        
+    public void viewPackageMenuClick(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewPackages.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
     
     public void addScheduleMenuClick(ActionEvent event) {

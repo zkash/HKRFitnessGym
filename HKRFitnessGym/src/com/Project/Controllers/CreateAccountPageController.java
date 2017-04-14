@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  *
  * @author shameer
  */
-public class CreateUserPageController implements Initializable {
+public class CreateAccountPageController implements Initializable {
 
     /**
      * Initializes the controller class.

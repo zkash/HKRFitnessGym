@@ -9,50 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreatePackagePageController">
     <top>
-        <MenuBar>
-         <menus>
-            <Menu mnemonicParsing="false" text="Account">
-               <items>
-                  <MenuItem fx:id="createAccountMenu" mnemonicParsing="false" text="Create Account" />
-                  <MenuItem fx:id="deleteAccoutMenu" mnemonicParsing="false" text="Delete Account" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" text="View Account" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Package">
-               <items>
-                  <MenuItem fx:id="createPackageMenu" mnemonicParsing="false" text="Create Package" />
-                  <MenuItem fx:id="updatePackageMenu" mnemonicParsing="false" text="Update Package" />
-                  <MenuItem fx:id="deletePackageMenu" mnemonicParsing="false" text="Delete Package" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="viewPackageMenu" mnemonicParsing="false" text="View Package" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Schedule">
-               <items>
-                  <MenuItem fx:id="addScheduleMenu" mnemonicParsing="false" text="Add Schedule" />
-                  <MenuItem fx:id="updateScheduleMenu" mnemonicParsing="false" text="Update Schedule" />
-                  <MenuItem fx:id="deleteScheduleMenu" mnemonicParsing="false" text="Delete Schedule" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" text="View Schedule" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Announcement">
-               <items>
-                  <MenuItem fx:id="createAnnouncementMenu" mnemonicParsing="false" text="Create Announcement" />
-                  <MenuItem fx:id="updateAnnouncementMenu" mnemonicParsing="false" text="Update Announcement" />
-                  <MenuItem fx:id="deleteAnnouncementMenu" mnemonicParsing="false" text="Delete Announcement" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" text="View Announcement" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
     <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">

@@ -53,7 +53,7 @@ public class LoginPageController implements Initializable {
         //Check if username and password belongs to admin or members
         //TODO remove the hard-coded and change it from the database
         
-        if(uname.equals("admin") && pwd.equals("admin")) {
+        if(uname.equals("a") && pwd.equals("a")) {
             visitAdminPage(event);
         }
         else {
@@ -70,7 +70,7 @@ public class LoginPageController implements Initializable {
     private void visitAdminPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

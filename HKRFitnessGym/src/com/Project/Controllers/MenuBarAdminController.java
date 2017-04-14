@@ -37,7 +37,7 @@ public class MenuBarAdminController implements Initializable {
     
     public void createAccountMenuClick(ActionEvent event) throws IOException {
         Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAccountPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

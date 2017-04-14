@@ -27,12 +27,11 @@ import javafx.stage.Stage;
  *
  * @author shameer
  */
-public class CreateAccountPageController implements Initializable {
+public class CreateUserPageController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
-    
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;

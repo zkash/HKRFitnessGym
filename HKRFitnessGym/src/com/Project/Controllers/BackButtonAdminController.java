@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author shameer
  */
-public class MemberMainPageController implements Initializable {
+public class BackButtonAdminController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -31,10 +31,10 @@ public class MemberMainPageController implements Initializable {
         // TODO
     }    
     
-    public void signOutBtnClick(ActionEvent event) throws IOException {
+    public void backBtnAdminClick(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

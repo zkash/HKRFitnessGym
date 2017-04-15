@@ -87,4 +87,12 @@ public class MenuBarMemberController implements Initializable {
     public void aboutMenuClick(ActionEvent event) {
         
     }
+    
+    public void setupAndShowStage(String fxmlFileURL) throws IOException {
+        Stage stage = (Stage) menuBarMember.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlFileURL));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

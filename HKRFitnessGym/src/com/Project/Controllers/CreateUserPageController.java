@@ -21,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import com.Project.Controllers.Helper;
 /**
  * FXML Controller class
  *
@@ -101,19 +101,24 @@ public class CreateUserPageController implements Initializable {
         String un = username.getText();
         String pw = password.getText();
     
-        if(fn != null && ln != null && gen != null && dob != null && add != null && pnum != null && ead != null && ssnum != null && un != null && pw != null) {
-            if(hasDigit(fn)) {
+        if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
+                Helper.isEmpty(pnum) || Helper.isEmpty(ead) || Helper.isEmpty(ssnum) || 
+                Helper.isEmpty(un) || Helper.isEmpty(pw)) {
+            invalidMsgFirstName.setText("Enter All Data");
+        }
+        else {
+            if(Helper.hasDigit(fn)) {
                 invalidMsgFirstName.setText("Invalid Value");
             }
             
-            if(mn != null) {
-                if(hasDigit(mn)) {
+            if(!Helper.isEmpty(mn)) {
+                if(Helper.hasDigit(mn)) {
                     invalidMsgMiddleName.setText("Invalid Value");
                 }
             }
             
-            if(hasDigit(ln)) {
-                invalidMsgLastName.setText("Invalid Value");
+            if(Helper.hasDigit(ln)) {
+                invalidMsgFirstName.setText("Invalid Value");
             }
             
             String notAddRegex = "[0-9]+";
@@ -121,7 +126,7 @@ public class CreateUserPageController implements Initializable {
                 invalidMsgAddress.setText("Invalid Value");
             }
             
-            if(hasChar(pnum)) {
+            if(Helper.hasChar(pnum)) {
                 invalidMsgPhoneNumber.setText("Invalid Value");
             }
             
@@ -129,7 +134,6 @@ public class CreateUserPageController implements Initializable {
             if(!ead.matches(emailRegex)) {
                 invalidMsgEmail.setText("Invalid Value");
             }
-            
             
             String ssnRegex = "[0-9]{6}-[0-9]{4}";
             if(!ssnum.matches(ssnRegex)) {
@@ -146,46 +150,5 @@ public class CreateUserPageController implements Initializable {
                 invalidMsgPassword.setText("Invalid Value");
             }
         }
-        
-        else {
-            invalidMsgFirstName.setText("Enter All Data");
-        }
-    }
-    
-    //Check if a string contains a digit
-    public boolean hasDigit(String str) {
-        if(!str.isEmpty()) {
-            char[] charArray;
-            charArray = str.toCharArray(); //convert string to character array
-            for(char ch: charArray) {   
-                if (Character.isDigit(ch)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
-    //Check if a string contains a character
-    public boolean hasChar(String str) {
-        if(!str.isEmpty()) {
-            char[] charArray;
-            charArray = str.toCharArray();
-            for(char ch: charArray) {
-                if (Character.isLetter(ch)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
-    public void backBtnClick(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 }

@@ -20,6 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.Project.Controllers.Helper;
 
 /**
  * FXML Controller class
@@ -64,8 +65,8 @@ public class CreatePackagePageController implements Initializable {
         String pst = packageStartTime.getText();
         String pd = packageDuration.getText();
         
-        if(!isEmpty(pn) && !isEmpty(pc) && !isEmpty(pst) && !isEmpty(pd)) {
-            if(hasChar(pc)) {
+        if(!Helper.isEmpty(pn) && !Helper.isEmpty(pc) && !Helper.isEmpty(pst) && !Helper.isEmpty(pd)) {
+            if(Helper.hasChar(pc)) {
                 invalidMsgPackageCost.setText("Invalid Value");
             }
             else {
@@ -89,37 +90,6 @@ public class CreatePackagePageController implements Initializable {
         }
         else {
             invalidMsgPackageName.setText("Enter All Data");
-        }
-        
-    }
-    
-    public void backBtnClick(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    //Check if a string contains a character
-    public boolean hasChar(String str) {
-        if(!str.isEmpty()) {
-            char[] charArray;
-            charArray = str.toCharArray();
-            for(char ch: charArray) {
-                if (Character.isLetter(ch)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
-    public boolean isEmpty(String str) {
-        if(str  == null || str.trim().isEmpty()) {
-            return true;
-        }
-        return false;
+        }  
     }
 }

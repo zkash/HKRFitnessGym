@@ -35,7 +35,6 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="signOutBtn" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#signOutBtnClick" text="Sign Out" />
             <Label layoutX="31.0" layoutY="343.0" text="Welcome! You are logged in as" AnchorPane.bottomAnchor="15.0">
                <font>
                   <Font size="11.0" />
@@ -46,6 +45,8 @@
                   <Font size="11.0" />
                </font>
             </Label>
+            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0"/>
+          
          </children>
       </AnchorPane>
    </center>

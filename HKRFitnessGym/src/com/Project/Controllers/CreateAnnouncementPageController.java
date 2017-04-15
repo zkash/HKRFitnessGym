@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.Project.Controllers.Helper;
 
 /**
  * FXML Controller class
@@ -46,25 +47,8 @@ public class CreateAnnouncementPageController implements Initializable {
         
         String at = announcementTitle.getText();
         String ab = announcementBody.getText();
-        if(isEmpty(at) || isEmpty(ab)) {
+        if(Helper.isEmpty(at) || Helper.isEmpty(ab)) {
             invalidMsgAnnouncement.setText("Enter All Values");
         }
-    }
-    
-    public void backBtnClick(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    public boolean isEmpty(String str) {
-        if(str  == null || str.trim().isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-    
+    }  
 }

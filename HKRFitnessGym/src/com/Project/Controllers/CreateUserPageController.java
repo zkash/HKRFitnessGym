@@ -125,12 +125,12 @@ public class CreateUserPageController implements Initializable {
             if(add.matches(notAddRegex)) {
                 invalidMsgAddress.setText("Invalid Value");
             }
-            
-            if(Helper.hasChar(pnum)) {
+            System.out.println(pnum.length());
+            if(Helper.hasChar(pnum) && pnum.length() < 5) {
                 invalidMsgPhoneNumber.setText("Invalid Value");
             }
             
-            String emailRegex = "^(.+)@(.+)$";
+           String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(.+[a-zA-Z0-9-.]+)+$";
             if(!ead.matches(emailRegex)) {
                 invalidMsgEmail.setText("Invalid Value");
             }
@@ -145,7 +145,7 @@ public class CreateUserPageController implements Initializable {
                 invalidMsgUsername.setText("Invalid Value");
             }
             
-            String pwRegex = "^[A-za-z0-9]{4,}$"; //minimum 1 alpha, 1 number, 5 chars
+            String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
             if(!pw.matches(pwRegex)) {
                 invalidMsgPassword.setText("Invalid Value");
             }

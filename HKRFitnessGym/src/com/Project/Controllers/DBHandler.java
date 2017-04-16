@@ -5,10 +5,12 @@
  */
 package com.Project.Controllers;
 
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,27 +23,59 @@ public class DBHandler {
     private final String password = "root";
     private final String connectionURL = "jdbc:mysql://localhost/" + dbName  + "?user=" + user + "&password=" + password + "&useSSL=false";
     
-    public void printAll() {
-        try (Connection conn = (Connection) DriverManager.getConnection(connectionURL)) {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELCT * FROM Admin");
-            while(rs.next()) {
-                System.out.printf("[%d] --> %s%n", rs.getInt("ssn"), rs.getString("adminFirstName"));
+    public static ResultSet adminViewAccounts() throws SQLException {
+        Connection conn = establishConnection();
+        ResultSet rs = null;
+        ArrayList<ArrayList<String>> finalArray = new ArrayList<>();
+        
+        if (conn != null) {
+            
+            
+            //TODO change this to member table
+            try ( //Create a statement
+                    Statement statement = conn.createStatement()) {
+                //Execute SQL query
+                //TODO change this to member table
+                String sql = "select adminFirstName, username from Admin";
+                rs = statement.executeQuery(sql);
+                ArrayList<String> array = new ArrayList<>();
+                
+                while(rs.next()) {
+                    System.out.print(rs.getString("adminFirstName"));
+                    System.out.print(" ");
+                    array.add(rs.getString("adminFirstName"));
+                    array.add(rs.getString("username"));
+                }   System.out.println("All records have been selected");
+                finalArray.add(array);  
             }
+            System.out.println("Statement closed");
+            
+            System.out.println("connection closed");
+            conn.close();
         }
-        catch(Exception ex) {
-            ex.printStackTrace();
-        }
+
+        return rs;  
+        
+       // return null;
+        
     }
             
-            //"jdbc:mysql://1270.0.0.1:3306/hkrfitnessgymdb?user=root&password=root";
+
     
-//    //constructor will manage establishing a connection to the database
-//    public DatabaseConnection() {
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver").newInstance();
-//            
-//        }
-//    }
-    
+    public static Connection establishConnection() {
+        Connection conn;
+
+        //Get connection to database
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
+            if(conn!=null) {
+                System.out.println("connected to database successfully");
+                return conn;
+            }
+        }
+        catch (Exception ex) {
+            System.out.println("Not connected to database");
+        }
+        return null;
+    }
 }

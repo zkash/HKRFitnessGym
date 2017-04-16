@@ -40,6 +40,7 @@ public class Admin {
         this.gender = new SimpleStringProperty(gen);
         this.ssn = new SimpleStringProperty(ssnum);
     }
+
     
     public String getDOB() {
         return dateOfBirth.get();

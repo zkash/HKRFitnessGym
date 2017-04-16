@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -34,10 +35,6 @@ public class AdminViewAccountsController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            ResultSet rs = DBHandler.adminViewAccounts();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminViewAccountsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 }

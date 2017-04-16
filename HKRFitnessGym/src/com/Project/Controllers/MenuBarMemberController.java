@@ -33,11 +33,11 @@ public class MenuBarMemberController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // @FXML MenuBar menuBarAdmin;
+        
     }    
     
-    public void editAccountMenuClick(ActionEvent event) {
-        
+    public void editAccountMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("/com/Project/FXML/EditUserAccountInformationPage.fxml");
     }
     
     public void updateProfilePicMenuClick(ActionEvent event) {
@@ -48,12 +48,12 @@ public class MenuBarMemberController implements Initializable {
         
     }
     
-    public void subscribePackageMenuClick(ActionEvent event) {
-        
+    public void subscribePackageMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/SubscribeToPackagePage.fxml");
     }
     
-    public void viewSubscriptionMenuClick(ActionEvent event) {
-        
+    public void viewSubscriptionMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/ViewSubscriptionPage.fxml");
     }
     
     public void renewSubscriptionMenuClick(ActionEvent event) {
@@ -64,8 +64,12 @@ public class MenuBarMemberController implements Initializable {
         
     }
     
-    public void viewAnnouncementMenuClick(ActionEvent event) {
-        
+    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewSchedule.fxml");
+    }
+    
+    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewAnnouncements.fxml");
     }
     
     public void visitChatRoomMenuClick(ActionEvent event) {

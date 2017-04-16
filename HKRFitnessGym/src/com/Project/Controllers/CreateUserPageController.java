@@ -55,6 +55,7 @@ public class CreateUserPageController implements Initializable {
     @FXML private Label invalidMsgSSN;
     @FXML private Label invalidMsgUsername;
     @FXML private Label invalidMsgPassword;
+    @FXML private Label invalidMsgAllData;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,7 +105,7 @@ public class CreateUserPageController implements Initializable {
         if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
                 Helper.isEmpty(pnum) || Helper.isEmpty(ead) || Helper.isEmpty(ssnum) || 
                 Helper.isEmpty(un) || Helper.isEmpty(pw)) {
-            invalidMsgFirstName.setText("Enter All Data");
+            invalidMsgAllData.setText("Enter All Data");
         }
         else {
             if(Helper.hasDigit(fn)) {

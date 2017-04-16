@@ -32,6 +32,11 @@
             </Menu>
          </items>
       </Menu>
+      <Menu mnemonicParsing="false" text="Schedule">
+         <items>
+            <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" onAction="#viewScheduleMenuClick" text="View Schedule" />
+         </items>
+      </Menu>
       <Menu mnemonicParsing="false" text="Announcement">
          <items>
             <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" onAction="#viewAnnouncementMenuClick" text="View Announcement" />

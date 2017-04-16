@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.TableView;
 
 /**
  *
@@ -23,10 +25,12 @@ public class DBHandler {
     private final String password = "root";
     private final String connectionURL = "jdbc:mysql://localhost/" + dbName  + "?user=" + user + "&password=" + password + "&useSSL=false";
     
-    public static ResultSet adminViewAccounts() throws SQLException {
+    public static void adminViewAccounts() throws SQLException {
         Connection conn = establishConnection();
         ResultSet rs = null;
         ArrayList<ArrayList<String>> finalArray = new ArrayList<>();
+        
+        List<Admin> admins = new ArrayList<>();
         
         if (conn != null) {
             
@@ -39,14 +43,10 @@ public class DBHandler {
                 String sql = "select adminFirstName, username from Admin";
                 rs = statement.executeQuery(sql);
                 ArrayList<String> array = new ArrayList<>();
-                
-                while(rs.next()) {
-                    System.out.print(rs.getString("adminFirstName"));
-                    System.out.print(" ");
-                    array.add(rs.getString("adminFirstName"));
-                    array.add(rs.getString("username"));
-                }   System.out.println("All records have been selected");
-                finalArray.add(array);  
+                System.out.println(rs);
+
+                System.out.println("All records have been selected");
+                //finalArray.add(array);  
             }
             System.out.println("Statement closed");
             
@@ -54,10 +54,6 @@ public class DBHandler {
             conn.close();
         }
 
-        return rs;  
-        
-       // return null;
-        
     }
             
 

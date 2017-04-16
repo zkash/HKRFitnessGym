@@ -44,7 +44,7 @@ public class CreatePackagePageController implements Initializable {
     @FXML private TextField packageStartTime;
     @FXML private ComboBox packageStartTimeState;
     @FXML private TextField packageDuration;
-    
+    @FXML private Label invalidMsgAllData;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,7 +89,7 @@ public class CreatePackagePageController implements Initializable {
             }
         }
         else {
-            invalidMsgPackageName.setText("Enter All Data");
+            invalidMsgAllData.setText("Enter All Data");
         }  
     }
 }

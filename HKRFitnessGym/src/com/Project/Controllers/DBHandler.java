@@ -55,6 +55,25 @@ public class DBHandler {
         }
 
     }
+    
+    public static void createUserAccount(String fn, String mn, String ln, String gen, String dob, String add, String pnum, String ead, String ssnum, String uname, String pwd) throws SQLException {
+        Connection conn = establishConnection();
+        ResultSet rs = null;
+        if(conn != null) {
+            try(Statement statement = conn.createStatement()) {
+                String sql = "INSERT INTO Member ("
+                        + "adminFirstName, adminMiddleName, adminLastName,"
+                        + "gender, dateOfBirth, address, phoneNumber, email,"
+                        + "ssn, username, password) "
+                        + "VALUES (" + fn + ", " + mn + ", " + ln + ", " + gen 
+                        + ", " + dob + ", " + add + ", " + pnum + ", " + ead 
+                        + ", " + ssnum + ", " + uname + ", " + pwd + ")";
+                rs = statement.executeQuery(sql);
+        }
+            conn.close();
+    }
+        System.out.println("Inserted");
+    }
             
 
     

@@ -22,6 +22,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.Project.Controllers.Helper;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 /**
  * FXML Controller class
  *
@@ -62,8 +65,9 @@ public class CreateUserPageController implements Initializable {
         // TODO
     }      
     
-    public void createUserBtnClick(ActionEvent event) {
+    public void createUserBtnClick(ActionEvent event) throws SQLException  {
         //Clear error messages
+        
         invalidMsgFirstName.setText("");
         invalidMsgMiddleName.setText("");
         invalidMsgLastName.setText("");
@@ -108,6 +112,7 @@ public class CreateUserPageController implements Initializable {
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
+            invalidMsgAllData.setText("");
             if(Helper.hasDigit(fn)) {
                 invalidMsgFirstName.setText("Invalid Value");
             }
@@ -150,6 +155,37 @@ public class CreateUserPageController implements Initializable {
             if(!pw.matches(pwRegex)) {
                 invalidMsgPassword.setText("Invalid Value");
             }
+        }
+        
+        if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
+                    Helper.isEmpty(invalidMsgMiddleName.getText()) &&  
+                    Helper.isEmpty(invalidMsgLastName.getText()) &&
+                    Helper.isEmpty(invalidMsgAddress.getText()) &&
+                    Helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
+                    Helper.isEmpty(invalidMsgEmail.getText()) &&
+                    Helper.isEmpty(invalidMsgSSN.getText()) &&
+                    Helper.isEmpty(invalidMsgUsername.getText()) &&
+                    Helper.isEmpty(invalidMsgPassword.getText())) { 
+            
+            //Convert LocalDate to string
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            String dobStr = dob.format(formatter);
+            
+            
+            //Convert string to int
+            int pnumber = Integer.parseInt(pnum);
+            String[] ssnParts = ssnum.split("-");
+            
+            int ssnumber = Integer.parseInt(ssnParts[0]+ssnParts[1]);
+                        System.out.println("HEREHEHE  1  ");
+                        System.out.println(ssnumber);
+            
+            String finalssn = Integer.toString(ssnumber);
+            DBHandler.createUserAccount(fn, mn, ln, gen, dobStr, add, pnum, ead, finalssn, un, pw);
+            //System.out.println("Put in database");
+        }
+        else {
+            invalidMsgAllData.setText("Still Error");
         }
     }
 }

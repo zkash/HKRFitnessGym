@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreatePackagePageController">
+    <top>
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
+    </top>
+    <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <children>
+            <Label layoutX="114.0" layoutY="50.0" text="Create Package" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="125.0" layoutY="73.0" text="Package Name*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="186.0" text="End Date*" AnchorPane.leftAnchor="125.0" />
+            <TextField fx:id="packageName" layoutX="259.0" layoutY="68.0" prefWidth="210.0" promptText="e.g. Platinum Yoga" AnchorPane.leftAnchor="259.0" />
+            <TextField fx:id="packageCost" layoutX="259.0" layoutY="104.0" prefWidth="210.0" promptText="e.g. 5000" />
+            <Label layoutX="125.0" layoutY="149.0" text="Start Date*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="113.0" text="Cost*" AnchorPane.leftAnchor="125.0" />
+            <DatePicker fx:id="packageStartDate" layoutX="259.0" layoutY="144.0" prefHeight="27.0" prefWidth="210.0" />
+            <DatePicker fx:id="packageEndDate" layoutX="259.0" layoutY="181.0" prefHeight="27.0" prefWidth="210.0" />
+            <TextField fx:id="packageStartTime" layoutX="259.0" layoutY="216.0" prefHeight="27.0" prefWidth="135.0" promptText="e.g. 5:30" />
+            <TextField fx:id="packageDuration" layoutX="259.0" layoutY="254.0" prefWidth="210.0" promptText="e.g 90" AnchorPane.leftAnchor="259.0" />
+            <Button fx:id="createPackageBtn" layoutX="405.0" layoutY="301.0" mnemonicParsing="false" onAction="#createPackageBtnClick" text="Create" />
+            <Label layoutX="125.0" layoutY="314.0" text="* denotes compulsory values" AnchorPane.leftAnchor="125.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidMsgPackageCost" layoutX="477.0" layoutY="113.0" prefWidth="100.0" textFill="RED" />
+            <Label fx:id="invalidMsgPackageName" layoutX="477.0" layoutY="77.0" prefWidth="100.0" textFill="RED" />
+            <Label layoutX="125.0" layoutY="221.0" text="Start Time*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="259.0" prefHeight="17.0" prefWidth="128.0" text="Duration in Minutes*" AnchorPane.leftAnchor="125.0" />
+            <ComboBox fx:id="packageStartTimeState" layoutX="399.0" layoutY="216.0" prefHeight="27.0" prefWidth="70.0" promptText="AM" />
+            <Label fx:id="invalidMsgPackageStartTime" layoutX="477.0" layoutY="221.0" prefWidth="100.0" textFill="RED" />
+            <Label fx:id="invalidMsgPackageDuration" layoutX="477.0" layoutY="259.0" prefWidth="100.0" textFill="RED" />
+            <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Label fx:id="invalidMsgAllData" layoutX="287.0" layoutY="306.0" prefWidth="100.0" textFill="RED" />
+          </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

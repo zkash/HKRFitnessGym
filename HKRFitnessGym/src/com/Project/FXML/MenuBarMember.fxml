@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<MenuBar fx:id="menuBarMember" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuBarMemberController">
+  <menus>
+      <Menu mnemonicParsing="false" text="Account">
+         <items>
+            <MenuItem fx:id="editAccountMenu" mnemonicParsing="false" onAction="#editAccountMenuClick" text="Edit Account Details" />
+            <MenuItem fx:id="updateProfilePicMenu" mnemonicParsing="false" onAction="#updateProfilePicMenuClick" text="Update Profile Picture" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" onAction="#viewAccountMenuClick" text="View Account Details" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Package">
+         <items>
+            <Menu fx:id="viewPackageMenu" mnemonicParsing="false" text="View Available Packages">
+               <items>
+                  <MenuItem fx:id="subscribePackageMenu" mnemonicParsing="false" onAction="#subscribePackageMenuClick" text="Subscribe to Package" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="View Subscriptions">
+               <items>
+                  <MenuItem fx:id="viewSubscriptionMenu" mnemonicParsing="false" onAction="#viewSubscriptionMenuClick" text="View Subscription Details" />
+                  <MenuItem fx:id="renewSubscriptionMenu" mnemonicParsing="false" onAction="#renewSubscriptionMenuClick" text="Renew Subscription" />
+                  <MenuItem fx:id="cancelSubscriptionMenu" mnemonicParsing="false" onAction="#cancelSubscriptionMenuClick" text="Cancel Subscription" />
+               </items>
+            </Menu>
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Schedule">
+         <items>
+            <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" onAction="#viewScheduleMenuClick" text="View Schedule" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Announcement">
+         <items>
+            <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" onAction="#viewAnnouncementMenuClick" text="View Announcement" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Chat">
+         <items>
+            <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#visitChatRoomMenuClick" text="Visit Chat Room" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Gallery">
+         <items>
+            <MenuItem fx:id="uploadPictureMenu" mnemonicParsing="false" onAction="#uploadPictureMenuClick" text="Upload Picture" />
+            <MenuItem fx:id="deletePictureMenu" mnemonicParsing="false" onAction="#deletePictureMenuClick" text="Delete Picture" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="viewGalleryMenu" mnemonicParsing="false" onAction="#viewGalleryMenuClick" text="View Gallery" />
+         </items>
+      </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />
+               </items>
+            </Menu>
+         </menus>
+</MenuBar>

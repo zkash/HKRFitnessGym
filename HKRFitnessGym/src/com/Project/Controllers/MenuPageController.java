@@ -46,7 +46,8 @@ public class MenuPageController implements Initializable {
     private void goToViewAnnouncementsPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewAnnouncementsPage.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewAnnouncementsPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAnnouncementPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -76,7 +77,8 @@ public class MenuPageController implements Initializable {
     private void goToViewPackagesPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewPackagesPage.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewPackagesPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreatePackagePage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

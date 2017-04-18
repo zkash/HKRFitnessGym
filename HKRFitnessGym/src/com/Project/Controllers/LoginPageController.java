@@ -44,9 +44,22 @@ public class LoginPageController implements Initializable {
 
     }    
 
+   
    @FXML
     private void handleLogin(ActionEvent event) throws IOException {
-        goToMenuPage(event);
+        String uname = userNameField.getText();
+        String pwd = passwordField.getText();
+        
+        //Check if username and password belongs to admin or members
+        //TODO remove the hard-coded and change it from the database
+        
+        if(uname.equals("a") && pwd.equals("a")) {
+            visitAdminPage(event);
+        }
+        else {
+            visitMemberPage(event);
+        }
+        
     }
 
     @FXML // Exit the application.
@@ -54,11 +67,29 @@ public class LoginPageController implements Initializable {
         System.exit(0);
     }
     
-     @FXML
+    private void visitAdminPage(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    private void visitMemberPage(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
     private void goToRegisterPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/RegisterPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -69,7 +100,7 @@ public class LoginPageController implements Initializable {
     private void goToMenuPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();      

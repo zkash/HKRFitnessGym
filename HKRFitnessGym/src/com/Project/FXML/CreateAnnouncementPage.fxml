@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateAnnouncementPageController">
+    <top>
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
+    </top>
+    <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <children>
+            <Label layoutX="125.0" layoutY="67.0" text="Title*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="107.0" text="Body*" AnchorPane.leftAnchor="125.0" />
+            <TextField fx:id="announcementTitle" layoutX="250.0" layoutY="62.0" prefWidth="210.0" promptText="e.g. Discount Offer" AnchorPane.leftAnchor="250.0" />
+            <Label layoutX="126.0" layoutY="41.0" text="Create Announcement" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="announcementBody" layoutX="125.0" layoutY="133.0" prefHeight="186.0" prefWidth="333.0" AnchorPane.leftAnchor="125.0" />
+            <Button layoutX="400.0" layoutY="330.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" text="Create" AnchorPane.leftAnchor="400.0" />
+            <Label layoutX="125.0" layoutY="337.0" text="* denotes compulsory values" AnchorPane.leftAnchor="125.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidMsgAnnouncement" layoutX="477.0" layoutY="67.0" prefHeight="17.0" prefWidth="100.0" textFill="RED" />
+            <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Label fx:id="invalidMsgAllData" layoutX="283.0" layoutY="335.0" prefWidth="100.0" textFill="RED" />
+          </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

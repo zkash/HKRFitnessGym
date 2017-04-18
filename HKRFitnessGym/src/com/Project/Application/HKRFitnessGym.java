@@ -21,9 +21,7 @@ public class HKRFitnessGym extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
-        
         Scene scene = new Scene(root);
-        
         stage.setTitle("HKR Fitness Gym");
         stage.setScene(scene);
         stage.show();
@@ -39,5 +37,4 @@ public class HKRFitnessGym extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

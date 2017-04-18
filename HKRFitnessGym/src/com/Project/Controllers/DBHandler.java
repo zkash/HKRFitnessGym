@@ -85,7 +85,7 @@ public class DBHandler {
 //                String query = "INSERT INTO Member " +
 //                        "VALUES (134211-2341, '1990-01-01', 'Testfn', 'Testln', 'Testmn', 'testaddress', 12345, 'testun', 'testpw', 'test@test.com', 'Male')";
                 
-                String query = "INSERT INTO Member (mamberFirstName, memberMiddleName, memberLastName, "
+                String query = "INSERT INTO Member (memberFirstName, memberMiddleName, memberLastName, "
                         + "gender, dateOfBirth, address, phoneNumber, email, ssn, username, password) "
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement statement = conn.prepareStatement(query);

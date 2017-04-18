@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -36,6 +37,9 @@ public class LoginPageController implements Initializable {
     @FXML
     private PasswordField passwordField;
 
+    private boolean isLoggedIn;
+    private String uName;
+    private int ssn;
     /**
      * Initializes the controller class.
      */
@@ -54,6 +58,12 @@ public class LoginPageController implements Initializable {
         //TODO remove the hard-coded and change it from the database
         
         if(uname.equals("a") && pwd.equals("a")) {
+            int adminSSN = 1234567890; //TODO get from database;
+           // visitAdminPage(event, uname, adminSSN);
+            
+            //setLogInStatus();
+            loginStatus.setSSN(adminSSN);
+            loginStatus.setLogin(true);
             visitAdminPage(event);
         }
         else {
@@ -66,6 +76,66 @@ public class LoginPageController implements Initializable {
     private void handleExit(ActionEvent event) {
         System.exit(0);
     }
+    
+    private void setLogInStatus() {
+        isLoggedIn = true;
+        uName = "a"; //TODO change this
+    }
+    
+    private String getUsername() {
+        return this.uName;
+    }
+    
+    private int getSSN() {
+        return this.ssn;
+    }
+    
+//    private void visitAdminPage(ActionEvent event, String userName, int adminSSN) throws IOException {
+//        Node node = (Node) event.getSource();
+//        Stage stage = (Stage) node.getScene().getWindow();
+//        FXMLLoader loader = new FXMLLoader();
+//        Parent root = loader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
+//        AdminMainPageController adminMainPageController = loader.<AdminMainPageController>getController();
+//        adminMainPageController.setSSN(adminSSN);
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+        
+//        AdminMainPageController adminMainPageController = (AdminMainPageController)loader.getController();
+//        System.out.println(adminMainPageController);
+//        adminMainPageController.setUsername(userName);
+//        AdminMainPageController ampc = (AdminMainPageController)loader.getController();
+//        ampc.setSSN(adminSSN);
+     //   adminMainPageController.initSession(userName);
+        
+//        stage.show();
+//
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
+//        try {
+//            loader.load();
+//        }
+//        catch(IOException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        
+//       AdminMainPageController ampc = loader.getController();
+//       //MenuBarAdminController mbac = loader.getController();
+//       // CreateUserPageController cupc = loader.<CreateUserPageController>getController();
+//       // System.out.println("hoooo");
+//        //ampc.setUsername(userName);
+//        //ampc.setSSN(adminSSN);
+//       // mbac.setSSN(adminSSN);
+//       // cupc.setAdminUsername(userName);
+//        //cupc.setAdminSSN(adminSSN);
+//        System.out.println("hoo");
+//        //AdminMainPageController ampc = new AdminMainPageController();
+//        ampc.setSSN(adminSSN);
+//        
+//        Pane root = loader.getRoot();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(root));
+//        stage.show();
+//    }
     
     private void visitAdminPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateUserPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateUserPageController">
     <top>
         <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
@@ -66,13 +66,13 @@
                </tooltip></PasswordField>
             <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
-            <Button fx:id="createUserBtn" layoutX="461.0" layoutY="465.0" mnemonicParsing="false" onAction="#createUserBtnClick" text="Create" />
+            <Button fx:id="createUserBtn" layoutX="456.0" layoutY="495.0" mnemonicParsing="false" onAction="#createUserBtnClick" text="Create" />
             <Label layoutX="127.0" layoutY="55.0" text="Create User Account" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="129.0" layoutY="478.0" text="* denotes compulsory values">
+            <Label layoutX="124.0" layoutY="508.0" text="* denotes compulsory values">
                <font>
                   <Font size="10.0" />
                </font>
@@ -89,6 +89,7 @@
             <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <Label fx:id="invalidMsgAllData" layoutX="331.0" layoutY="476.0" prefWidth="100.0" textFill="RED" />
+            <CheckBox fx:id="isAdmin" layoutX="123.0" layoutY="467.0" mnemonicParsing="false" text="Administrator" />
           </children>
       </AnchorPane>
    </center>

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewAccountsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewAccountsController">
     <top>
         <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
@@ -30,6 +30,8 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <Button fx:id="searchPackageBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#searchPackageBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
+            <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" AnchorPane.bottomAnchor="30.0" />
          </children>
       </AnchorPane>
    </center>

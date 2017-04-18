@@ -30,11 +30,16 @@ public class MenuBarAdminController implements Initializable {
      */
     
     @FXML MenuBar menuBarAdmin;
+    private int adminSSN;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    public void setSSN(int ssn) {
+        this.adminSSN = ssn;
+    }
     
     public void createAccountMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/CreateUserPage.fxml");

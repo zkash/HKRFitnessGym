@@ -59,12 +59,12 @@ public class CreateSchedulePageController implements Initializable {
         }
         else {
             invalidMsgAllData.setText("");
-            String openingTimeRegex = "^(([1-9]{1})|([1][1-2])):[0-5]{1}[0-9]{1}$";
+            String openingTimeRegex = "(([1-9])|([1][1-2])):[0-5][0-9]";
             if(!ot.matches(openingTimeRegex)) {
                 invalidMsgOpeningTime.setText("Invalid Value");
             }
             
-            String closingTimeRegex = "^(([1-9]{1})|([1][1-2])):[0-5]{1}[0-9]{1}$";
+            String closingTimeRegex = "(([1-9])|([1][1-2])):[0-5][0-9]";
             if(!ct.matches(closingTimeRegex)) {
                 invalidMsgClosingTime.setText("Invalid Value");
             }

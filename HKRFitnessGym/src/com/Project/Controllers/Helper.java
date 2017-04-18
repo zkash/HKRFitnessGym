@@ -5,6 +5,9 @@
  */
 package com.Project.Controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author shameer
@@ -45,5 +48,13 @@ public class Helper {
             }
         }
         return false;
+    }
+    
+    //Convert LocalDate format to SQL Date format 
+    public static String convertDate(LocalDate ld) {
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        String dateStr = ld.format(formatter);
+        System.out.println(dateStr);
+        return dateStr;
     }
 }

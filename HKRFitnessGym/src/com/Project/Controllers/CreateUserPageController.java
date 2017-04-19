@@ -183,10 +183,6 @@ public class CreateUserPageController implements Initializable {
         String un = username.getText();
         String pw = password.getText();
         
-        boolean admin;
-        
-        
-        
         if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
                 Helper.isEmpty(add) || Helper.isEmpty(pnum) || Helper.isEmpty(ead) || 
                 Helper.isEmpty(ssnum) || Helper.isEmpty(un) || Helper.isEmpty(pw)) {
@@ -222,19 +218,7 @@ public class CreateUserPageController implements Initializable {
                 
                         System.out.println("Put in Member table in database");
                     }
-                    
-                    
-//                    String dobStr = Helper.convertDate(dob);
-//                    System.out.println(dob);
-                   }        
+                }        
             }
-        
-//            if(error == false)
-//            {
-//                System.out.println("Put in database");
-//            }
-//            else {
-//                invalidMsgAllData.setText("Still Error");
-//            }
         }
 }

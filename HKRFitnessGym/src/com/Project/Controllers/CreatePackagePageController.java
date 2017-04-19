@@ -45,7 +45,7 @@ public class CreatePackagePageController implements Initializable {
     @FXML private ComboBox packageStartTimeState;
     @FXML private TextField packageDuration;
     @FXML private Label invalidMsgAllData;
-    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");

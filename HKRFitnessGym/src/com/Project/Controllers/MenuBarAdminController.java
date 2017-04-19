@@ -49,7 +49,11 @@ public class MenuBarAdminController implements Initializable {
         
     }
     
-    public void viewMembersMenuClick(ActionEvent event) throws IOException {
+    public void viewAdminAccountMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/AdminViewAccounts.fxml");
+    }
+    
+    public void viewMemberAccountMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/AdminViewAccounts.fxml");
     }
     

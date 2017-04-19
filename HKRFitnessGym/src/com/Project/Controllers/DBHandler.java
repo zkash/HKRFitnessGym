@@ -219,4 +219,15 @@ public class DBHandler {
             System.out.println(rs.getString("username"));
         }
     }
+    
+    public static void searchInAdminViewPackage(String str) throws SQLException  {
+        Connection conn = establishConnection();
+        String query = "SELECT * FROM Package WHERE nameOfPackage LIKE '%" + str +"%'";
+               
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            System.out.println(rs.getString("nameOfPackage"));
+        }
+    }
 }

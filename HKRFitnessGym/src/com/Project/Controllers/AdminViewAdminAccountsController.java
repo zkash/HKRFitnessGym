@@ -41,9 +41,15 @@ public class AdminViewAdminAccountsController implements Initializable {
     @FXML private TableColumn<Admin, String> fullNameColumn;
     @FXML private TableColumn<Admin, String> usernameColumn;
     @FXML private TableColumn<Admin, String> ssnColumn;
+    @FXML private TableColumn<Admin, String> dobColumn;
+    @FXML private TableColumn<Admin, String> addressColumn;
+    @FXML private TableColumn<Admin, String> genderColumn;
+    @FXML private TableColumn<Admin, String> emailColumn;
+    @FXML private TableColumn<Admin, String> phoneNumberColumn;
     
     private  ObservableList<Admin> data;
-    @FXML private TextField searchMember;
+    private  ObservableList<Admin> searchData;
+    @FXML private TextField searchAdmin;
     
     
     @Override
@@ -53,13 +59,16 @@ public class AdminViewAdminAccountsController implements Initializable {
         try {
             ArrayList<ArrayList<String>> finalArray;
             data = DBHandler.adminViewAccounts("Admin");
-           // System.out.println(data);
             
             // Set cell value factory to TableView
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
             ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
-            
+            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
+            genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+            addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+            phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
             adminViewAccountsTable.setItems(null);
             adminViewAccountsTable.setItems(data);
         } 
@@ -68,8 +77,38 @@ public class AdminViewAdminAccountsController implements Initializable {
         }
     }
     
+    public void viewDetailsBtnClick(ActionEvent event) {
+        //String selected = adminViewAccountsTable.selectionModel.getSelectedItem();
+    }
+    
+    public void deleteBtnClick(ActionEvent event) {
+        
+    }
+    
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {
-        String searchQuery = searchMember.getText();
-        //DBHandler.searchInAdminViewAccounts(searchQuery);
+        String searchQuery = searchAdmin.getText();
+        searchData = DBHandler.searchInAdminViewAccounts(searchQuery);
+        System.out.println(searchData);
+//        for ( int i = 0; i<adminViewAccountsTable.getItems().size(); i++) {
+//            adminViewAccountsTable.getItems().clear();
+//        }
+          adminViewAccountsTable.getColumns().clear();
+          fullNameColumn = new TableColumn("Full Name");
+          usernameColumn = new TableColumn("Username");
+          ssnColumn = new TableColumn("SSN");
+         adminViewAccountsTable.getColumns().addAll(fullNameColumn, usernameColumn, ssnColumn);
+         fullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.33653846));
+         usernameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.19230769));
+         ssnColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.19230769));
+         
+        adminViewAccountsTable.setItems(null);
+        
+//         Set cell value factory to TableView
+        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+
+        adminViewAccountsTable.setItems(null);
+        adminViewAccountsTable.setItems(searchData);
     }
 }

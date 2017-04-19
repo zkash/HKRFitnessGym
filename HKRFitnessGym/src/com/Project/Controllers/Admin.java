@@ -5,7 +5,10 @@
  */
 package com.Project.Controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -19,10 +22,10 @@ public class Admin {
     private final StringProperty firstName;
     private final StringProperty middleName;
     private final StringProperty lastName;
-    private final StringProperty dateOfBirth;
+    private final DateProperty dateOfBirth;
     private final StringProperty gender;
     private final StringProperty address;
-    private final StringProperty phoneNumber;
+    private final IntegerProperty phoneNumber;
     private final StringProperty email;
     private final IntegerProperty ssn;
     private final StringProperty username;
@@ -33,10 +36,11 @@ public class Admin {
         this.firstName = new SimpleStringProperty("");
         this.middleName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
-        this.dateOfBirth = new SimpleStringProperty("");
+        this.dateOfBirth = null;
+        //this.dateOfBirth = new SimpleStringProperty("");
         this.gender = new SimpleStringProperty("");
         this.address = new SimpleStringProperty("");
-        this.phoneNumber = new SimpleStringProperty("");
+        this.phoneNumber = new SimpleIntegerProperty();
         this.email = new SimpleStringProperty("");
         this.ssn = new SimpleIntegerProperty(ssn);
         this.username = new SimpleStringProperty(uname);
@@ -44,16 +48,33 @@ public class Admin {
         this.fullName = new SimpleStringProperty(fullName);
     }
     
-    public Admin(String dob, String fn, String mn, String ln, String add,
-            String pnum, String uname, String pwd, String ead, String gen,
+    public Admin(String fullName, String uname, String gen, Date dob,
+            String add, int pnum, String ead, int ssn) {
+        this.firstName = new SimpleStringProperty("");
+        this.middleName = new SimpleStringProperty("");
+        this.lastName = new SimpleStringProperty("");
+        this.dateOfBirth = dob;
+        //this.dateOfBirth = new SimpleStringProperty(dob);
+        this.gender = new SimpleStringProperty(gen);
+        this.address = new SimpleStringProperty(add);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
+        this.email = new SimpleStringProperty(ead);
+        this.ssn = new SimpleIntegerProperty(ssn);
+        this.username = new SimpleStringProperty(uname);
+        this.password = new SimpleStringProperty("");
+        this.fullName = new SimpleStringProperty(fullName);
+    }
+    
+    public Admin(Date dob, String fn, String mn, String ln, String add,
+            int pnum, String uname, String pwd, String ead, String gen,
             int ssnum) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = new SimpleStringProperty(dob);
+        this.dateOfBirth = dob;
         this.gender = new SimpleStringProperty(gen);
         this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleStringProperty(pnum);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
         this.email = new SimpleStringProperty(ead);
         this.ssn = new SimpleIntegerProperty(ssnum);
         this.username = new SimpleStringProperty(uname);
@@ -62,8 +83,8 @@ public class Admin {
     }
 
     // Getters
-    public String getDOB() {
-        return dateOfBirth.get();
+    public Date getDOB() {
+        return dateOfBirth;
     }
 
     public String getFirstName() {
@@ -86,7 +107,7 @@ public class Admin {
         return address.get();
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber.get();
     }
 
@@ -107,8 +128,8 @@ public class Admin {
     }
 
     //Setters
-    public void setDOB(String dob) {
-        dateOfBirth.set(dob);
+    public void setDOB(Date dob) {
+        dateOfBirth = dob;
     }
 
     public void setFirstName(String fn) {
@@ -131,7 +152,7 @@ public class Admin {
         address.set(add);
     }
 
-    public void setPhoneNumber(String pnum) {
+    public void setPhoneNumber(int pnum) {
         phoneNumber.set(pnum);
     }
 
@@ -165,7 +186,7 @@ public class Admin {
         return lastName;
     }
     
-    public StringProperty dobProperty() {
+    public Date dobProperty() {
         return dateOfBirth;
     }
     
@@ -177,7 +198,7 @@ public class Admin {
         return address;
     }
     
-    public StringProperty phoneNumberProperty() {
+    public IntegerProperty phoneNumberProperty() {
         return phoneNumber;
     }
     

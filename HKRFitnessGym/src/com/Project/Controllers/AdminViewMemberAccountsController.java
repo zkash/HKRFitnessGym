@@ -20,6 +20,10 @@ public class AdminViewMemberAccountsController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    private int adminSSN;
+    private boolean login;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

@@ -18,13 +18,18 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <TableView fx:id="adminViewAccountsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
+            <TableView fx:id="adminViewAccountsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="520.0">
               <columns>
-                <TableColumn fx:id="fullNameColumn" prefWidth="174.0" text="Full Name" />
-                <TableColumn fx:id="usernameColumn" prefWidth="91.0" text="Username" />
-                  <TableColumn fx:id="ssnColumn" prefWidth="101.0" text="SSN" />
-                  <TableColumn prefWidth="87.0" text="View Details" />
-                  <TableColumn prefWidth="62.0" text="Delete" />
+                <TableColumn fx:id="fullNameColumn" prefWidth="175.0" text="Full Name" />
+                <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username" />
+                  <TableColumn fx:id="ssnColumn" prefWidth="100.0" text="SSN" />
+                  <TableColumn fx:id="genderColumn" prefWidth="60.0" text="Gender" />
+                  <TableColumn fx:id="dobColumn" prefWidth="100.0" text="DOB" />
+                  <TableColumn fx:id="addressColumn" prefWidth="100.0" text="Address" />
+                  <TableColumn fx:id="phoneNumberColumn" prefWidth="100.0" text="phoneNumber" />
+                  <TableColumn fx:id="emailColumn" prefWidth="100.0" text="Email" />
+                  <!--<TableColumn prefWidth="85.0" text="View Details" />
+                  <TableColumn prefWidth="60.0" text="Delete" />-->
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Admins" AnchorPane.leftAnchor="92.0">
@@ -35,6 +40,8 @@
             <fx:include fx:id="signOutBtn" source="signOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TextField fx:id="searchAdmin" layoutX="44.0" layoutY="365.0" AnchorPane.bottomAnchor="30.0" />
             <Button fx:id="searchAdminBtn" layoutX="227.0" layoutY="365.0" mnemonicParsing="false" onAction="#searchAdminBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
+            <Button fx:id="viewDetailsBtn" layoutX="402.0" layoutY="364.0" mnemonicParsing="false" onAction="#viewDetailsBtnClick" text="View Details" />
+            <Button fx:id="deleteBtn" layoutX="503.0" layoutY="364.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Delete" />
          </children>
       </AnchorPane>
    </center>

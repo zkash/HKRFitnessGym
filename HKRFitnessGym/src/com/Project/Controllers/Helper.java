@@ -5,8 +5,10 @@
  */
 package com.Project.Controllers;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javafx.scene.control.Alert;
 
 /**
@@ -75,5 +77,14 @@ public class Helper {
             alert.setHeaderText(null);
             alert.showAndWait();
         }
+    }
+    
+    public static String DateToString(Date d) {
+        String DATE_FORMAT_NOW = "yyyy-MM-dd";
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String stringDate = sdf.format(date );
+        System.out.println(stringDate);
+        return stringDate;
     }
 }

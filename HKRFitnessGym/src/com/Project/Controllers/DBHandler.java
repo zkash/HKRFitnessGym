@@ -34,21 +34,35 @@ public class DBHandler {
 
     private static ArrayList<Admin> admins;
     private static ObservableList<Admin> data = FXCollections.observableArrayList();
+    
 
     public static ObservableList<Admin> adminViewAccounts(String table) throws SQLException {
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn FROM `%s`", table.replace("`", "``"));
+//            String query = String.format("SELECT firstName, middleName, lastName, username, ssn FROM `%s`", table.replace("`", "``"));
+            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM `%s`", table.replace("`", "``"));
             PreparedStatement statement = conn.prepareStatement(query);
             //System.out.println(statement);
             ResultSet rs = statement.executeQuery();
             System.out.println(rs);
             while (rs.next()) {
+                //System.out.println(rs.getDate("dateOfBirth"));
+                
               data.add(new Admin(rs.getString("firstname") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                rs.getString("username"),
-                rs.getInt("ssn")
-              ));       
+//                rs.getString("username"),
+//                rs.getInt("ssn")
+//              ));   
+                      rs.getString("username"),
+                    rs.getString("gender"),
+                   // Helper.DateToString(rs.getDate("dateOfBirth")),
+                      rs.getDate("dateOfBirth"),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getInt("ssn")
+              ));   
             }
+            
             return data;
         } 
         catch (Exception e) {
@@ -134,22 +148,40 @@ public class DBHandler {
         }
     }
 
-    public static void searchInAdminViewAccounts(String str) throws SQLException {
+    public static ObservableList<Admin> searchInAdminViewAccounts(String str) throws SQLException {
+        ObservableList<Admin> searchData = FXCollections.observableArrayList();
+        System.out.println("hehrehh");
         Connection conn = establishConnection();
-        String query = "SELECT * FROM Member WHERE firstName LIKE '%" + str + "%'"
+        
+        String query = "SELECT * FROM Admin WHERE firstName LIKE '%" + str + "%'"
                 + "OR middleName LIKE '%" + str + "%'"
                 + "OR lastName LIKE '%" + str + "%'"
                 + "OR address LIKE '%" + str + "%'"
                 + "OR username LIKE '%" + str + "%'";
         PreparedStatement statement = conn.prepareStatement(query);
+        System.out.println(statement);
+        
         ResultSet rs = statement.executeQuery();
+        //System.out.println(rs);
         while (rs.next()) {
-            System.out.println(rs.getString("firstName"));
-            System.out.println(rs.getString("middleName"));
-            System.out.println(rs.getString("lastName"));
-            System.out.println(rs.getString("address"));
-            System.out.println(rs.getString("username"));
-        }
+            //System.out.println(rs.getString("firstName"));
+//              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+//                rs.getString("username"),
+//                rs.getInt("ssn")
+//              ));  
+
+                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                    rs.getString("username"),
+                    rs.getString("gender"),
+                    rs.getDate("dateOfBirth"),
+                    //Helper.DateToString(rs.getDate("dateOfBirth")),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getInt("ssn")
+              ));   
+            }
+        return searchData;
     }
 
     public static void searchInAdminViewPackage(String str) throws SQLException {

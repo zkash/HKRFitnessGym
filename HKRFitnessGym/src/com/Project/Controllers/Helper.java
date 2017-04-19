@@ -7,6 +7,7 @@ package com.Project.Controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -56,5 +57,23 @@ public class Helper {
         String dateStr = ld.format(formatter);
         System.out.println(dateStr);
         return dateStr;
+    }
+    
+    //Dialog box
+    public static void DialogBox(boolean alreadyExists) {
+        if(alreadyExists) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("Data insertion failed");
+            alert.setHeaderText(null);
+            alert.showAndWait();  
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Data inserted in the database");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }
     }
 }

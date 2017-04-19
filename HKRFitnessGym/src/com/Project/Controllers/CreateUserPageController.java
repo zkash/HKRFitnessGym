@@ -24,9 +24,12 @@ import javafx.stage.Stage;
 import com.Project.Controllers.Helper;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 /**
  * FXML Controller class
@@ -69,6 +72,9 @@ public class CreateUserPageController implements Initializable {
     private int adminSSN;
     private boolean login;
     
+    private List<TextField> fields;
+    private List<RadioButton> radioButtons;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         changeFocus(firstName, invalidMsgFirstName);
@@ -95,16 +101,11 @@ public class CreateUserPageController implements Initializable {
     }
     
     public void setTextOnCondition(boolean condition, Label lbl) {
-        
         if(condition) {
             lbl.setText("Invalid Value"); 
-//            error = true;
-//            System.out.println(error);
         }
         else {
             lbl.setText("");
-//            error = false;
-//            System.out.println(error);
         }
     }
    
@@ -156,7 +157,7 @@ public class CreateUserPageController implements Initializable {
         String fn = firstName.getText();
         String ln = lastName.getText();
         
-        String mn = "";
+        String mn;
         if(!Helper.isEmpty(middleName.getText())) {
             mn = middleName.getText();
         }
@@ -189,10 +190,14 @@ public class CreateUserPageController implements Initializable {
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
+            System.out.println("here");
             String[] ssnParts = ssnum.split("-");
+            System.out.println(ssnParts);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
-            int ssnumber = Integer.parseInt(ssnumberStr);
-            int pnumber = Integer.parseInt(pnum);
+            System.out.println(ssnumberStr);
+            int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
+            int pnumber = Integer.valueOf(pnum);
+            System.out.println(ssnumber);
             System.out.println(dob);
             Date birthDate = Date.valueOf(dob);
                     
@@ -205,20 +210,54 @@ public class CreateUserPageController implements Initializable {
                 Helper.isEmpty(invalidMsgSSN.getText()) &&
                 Helper.isEmpty(invalidMsgUsername.getText()) &&
                 Helper.isEmpty(invalidMsgPassword.getText())) {
+                System.out.println("reached here");
+                boolean alreadyExists;
+                System.out.println(isAdmin.isSelected());
+                if (isAdmin.isSelected()) {
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssnumber);
+                }
+                else {
+                    System.out.println("hell");
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssnumber);
+                    System.out.println(alreadyExists);
+                }
+                
+                if(alreadyExists) {
+                    Helper.DialogBox(alreadyExists);
+                }
+                else {
                     if (isAdmin.isSelected()) {
-                        //admin = true;
                         DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
-                       // DBHandler.conne(birthDate, pnumber, ssnumber);
-                        System.out.println("Put in Admin table in database");
+                        clearTextField();
+                        dateOfBirth.getEditor().clear();
+                        clearRadioButton();
                     }
                     else {
-                        //admin = false;
-                        System.out.println(this.adminSSN);
+                        System.out.println("hoohaa");
                         DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
-                
-                        System.out.println("Put in Member table in database");
+                        clearTextField();
+                        dateOfBirth.getEditor().clear();
+                        clearRadioButton();
+                        
                     }
-                }        
+                    Helper.DialogBox(alreadyExists);
+                } 
             }
+        }        
+    }
+    
+    public void clearTextField() {
+        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
+        for (TextField field : fields) {
+            field.clear();
         }
+    }
+    
+    public void clearRadioButton() {
+        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
+        for (RadioButton radioButton : radioButtons) {
+            radioButton.setSelected(false);
+        }
+    }
 }
+

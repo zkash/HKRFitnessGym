@@ -31,7 +31,7 @@ public class DBHandler {
     
     public static void adminViewAccounts() throws SQLException {
         Connection conn = establishConnection();
-        ResultSet rs = null;
+        ResultSet rs;
         ArrayList<ArrayList<String>> finalArray = new ArrayList<>();
         
         List<Admin> admins = new ArrayList<>();
@@ -81,7 +81,7 @@ public class DBHandler {
             statement.execute();
             conn.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -108,72 +108,10 @@ public class DBHandler {
             statement.execute();
             conn.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
-//        Connection conn = establishConnection();
-//        ResultSet rs = null;
-//        
-//        if(conn != null) {
-//            try {
-//                String fullQuery, query;
-////                query = "INSERT INTO %s (firstName, middleName, lastName, gender, "
-////                        + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
-////                            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//                
-//                if (admin) {
-//                 //   fullQuery = String.format(query, "Admin");
-//                    query = "INSERT INTO %s (firstName, middleName, lastName, gender, "
-//                        + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
-//                            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//                    
-//                    PreparedStatement statement = conn.prepareStatement(query);
-//                    statement.setString(1, fn);
-//                    statement.setString(2, mn);
-//                    statement.setString(3, ln);
-//                    statement.setString(4, gen);
-//                    statement.setDate(5, dob);
-//                    statement.setString(6, add);
-//                    statement.setInt(7, pnum);
-//                    statement.setString(8, ead);
-//                    statement.setInt(9, ssnum);
-//                    statement.setString(10, uname);
-//                    statement.setString(11, pwd);
-//                }
-//                else {
-//                 //   fullQuery = String.format(query, "Member");
-//                    
-//                    query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
-//                        + "dateOfBirth, address, phoneNumber, email, ssn, username, password, Admin_ssn) "
-//                            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//                    PreparedStatement statement = conn.prepareStatement(query);
-//                    statement.setString(1, fn);
-//                    statement.setString(2, mn);
-//                    statement.setString(3, ln);
-//                    statement.setString(4, gen);
-//                    statement.setDate(5, dob);
-//                    statement.setString(6, add);
-//                    statement.setInt(7, pnum);
-//                    statement.setString(8, ead);
-//                    statement.setInt(9, ssnum);
-//                    statement.setString(10, uname);
-//                    statement.setString(11, pwd);
-//                    statement.setString(12, );
-//                }
-//                System.out.println(query);
-//                
-//                
-//                statement.execute();
-//                conn.close();
-//            }
-//            catch(Exception e) {
-//                System.out.println(e.getMessage());
-//                System.out.println(e.getStackTrace());
-//            }
-//        }
-//    }
     
     public static Connection establishConnection() {
         Connection conn;
@@ -229,5 +167,24 @@ public class DBHandler {
         while(rs.next()) {
             System.out.println(rs.getString("nameOfPackage"));
         }
+    }
+    
+    public static boolean checkUsernameAndSSN(String table, String uname, int ssn) throws SQLException {
+        Connection conn = establishConnection();
+        System.out.println(uname);
+        System.out.println(ssn);
+        String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR ssn = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, uname);
+        statement.setInt(2, ssn);
+        System.out.println(statement);
+        ResultSet rs = statement.executeQuery();
+        boolean alreadyExists = false;
+        System.out.println(rs);
+        while(rs.next()) {
+            alreadyExists = rs.getInt(1) != 0;
+        }
+        System.out.println(alreadyExists);
+        return alreadyExists;
     }
 }

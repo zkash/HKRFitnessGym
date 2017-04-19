@@ -27,7 +27,7 @@ import javafx.scene.control.TextField;
  *
  * @author shameer
  */
-public class AdminViewAccountsController implements Initializable {
+public class AdminViewAdminAccountsController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -45,8 +45,8 @@ public class AdminViewAccountsController implements Initializable {
         login = loginStatus.getLogin();
     }
     
-    public void searchMemberBtnClick(ActionEvent event) throws SQLException {
+    public void searchAdminBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchMember.getText();
-        DBHandler.searchInAdminViewAccounts(searchQuery);
+        //DBHandler.searchInAdminViewAccounts(searchQuery);
     }
 }

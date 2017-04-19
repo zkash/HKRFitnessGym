@@ -20,9 +20,9 @@
             <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TableView fx:id="adminViewAccountsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
               <columns>
-                <TableColumn prefWidth="174.0" text="Full Name" />
-                <TableColumn prefWidth="91.0" text="Username" />
-                  <TableColumn prefWidth="101.0" text="Package" />
+                <TableColumn fx:id="fullNameColumn" prefWidth="174.0" text="Full Name" />
+                <TableColumn fx:id="usernameColumn" prefWidth="91.0" text="Username" />
+                  <TableColumn fx:id="ssnColumn" prefWidth="101.0" text="SSN" />
                   <TableColumn prefWidth="87.0" text="View Details" />
                   <TableColumn prefWidth="62.0" text="Delete" />
               </columns>

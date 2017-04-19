@@ -18,8 +18,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 //import com.Project.Controllers.DBHandler;
 
 /**
@@ -35,14 +37,35 @@ public class AdminViewAdminAccountsController implements Initializable {
     private int adminSSN;
     private boolean login;
     
-    @FXML private TableView adminViewAccountsTable;
-    private final ObservableList<Object> data = FXCollections.observableArrayList();
+    @FXML private TableView<Admin> adminViewAccountsTable;
+    @FXML private TableColumn<Admin, String> fullNameColumn;
+    @FXML private TableColumn<Admin, String> usernameColumn;
+    @FXML private TableColumn<Admin, String> ssnColumn;
+    
+    private  ObservableList<Admin> data;
     @FXML private TextField searchMember;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         adminSSN = loginStatus.getSSN();
         login = loginStatus.getLogin();
+        try {
+            ArrayList<ArrayList<String>> finalArray;
+            data = DBHandler.adminViewAccounts("Admin");
+           // System.out.println(data);
+            
+            // Set cell value factory to TableView
+            fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+            usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+            ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+            
+            adminViewAccountsTable.setItems(null);
+            adminViewAccountsTable.setItems(data);
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(AdminViewAdminAccountsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {

@@ -45,7 +45,7 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("/com/Project/FXML/CreateUserPage.fxml");
     }
     
-    public void deleteAccoutMenuClick(ActionEvent event) {
+    public void editPersonalInformationMenuClick(ActionEvent event) {
         
     }
     

@@ -27,6 +27,10 @@ import javafx.scene.control.TableView;
  */
 public class DBHandler {
 
+    static void createPackage(String pn, String pc, LocalDate psd, LocalDate ped, String pst, String pd, int admin_ssn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private final String dbName = "HKRFitnessGymDB";
     private final String user = "root";
     private final String password = "root";
@@ -306,5 +310,10 @@ public class DBHandler {
         statement.setString(12, pwd);
         statement.execute();
         conn.close();
+    }
+    
+    public static void createPackage(String pn, float pc, Date psd, Date ped, String pst, String pet, int admin_ssn) {
+        Connection conn = establishConnection();
+        String query = "INSERT INTO Package nameOfPackage, price, startDate, endDate, startTime, endTine, Admin_ssn";
     }
 }

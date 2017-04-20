@@ -61,9 +61,10 @@ public class LoginPageController implements Initializable {
             int adminSSN = 1234567890; //TODO get from database;
            // visitAdminPage(event, uname, adminSSN);
             
-            //setLogInStatus();
-            LoginStatus.setSSN(adminSSN);
-            LoginStatus.setLogin(true);
+//            LoginStatus ls = new LoginStatus();
+//            //setLogInStatus();
+//            ls.setSSN(adminSSN);
+//            ls.setLogin(true);
             visitAdminPage(event);
         }
         else {

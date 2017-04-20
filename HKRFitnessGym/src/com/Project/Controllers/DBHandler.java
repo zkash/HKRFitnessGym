@@ -32,39 +32,72 @@ public class DBHandler {
     private final String password = "root";
     private final String connectionURL = "jdbc:mysql://localhost/" + dbName + "?user=" + user + "&password=" + password + "&useSSL=false";
 
-    private static ArrayList<Admin> admins;
-    private static ObservableList<Admin> data = FXCollections.observableArrayList();
-    
+    private static ArrayList<Person> persons;
+//    private static ArrayList<Member> members;
+   // private static 
+//    private static ObservableList<Member> dataMember = FXCollections.observableArrayList();
 
-    public static ObservableList<Admin> adminViewAccounts(String table) throws SQLException {
+    public static ObservableList<Person> adminViewAccounts(String table) throws SQLException {
+        ObservableList<Person> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
 //            String query = String.format("SELECT firstName, middleName, lastName, username, ssn FROM `%s`", table.replace("`", "``"));
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM `%s`", table.replace("`", "``"));
             PreparedStatement statement = conn.prepareStatement(query);
-            //System.out.println(statement);
             ResultSet rs = statement.executeQuery();
-            System.out.println(rs);
-            while (rs.next()) {
-                //System.out.println(rs.getDate("dateOfBirth"));
-                
-              data.add(new Admin(rs.getString("firstname") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-//                rs.getString("username"),
-//                rs.getInt("ssn")
-//              ));   
-                      rs.getString("username"),
+            while(rs.next()) {
+                //System.out.println(rs.getString("gender"));
+            data.add(new Person(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                    rs.getString("username"),
                     rs.getString("gender"),
-                   // Helper.DateToString(rs.getDate("dateOfBirth")),
-                      rs.getString("dateOfBirth"),
+                    rs.getString("dateOfBirth"),
+                    //Helper.DateToString(rs.getDate("dateOfBirth")),
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
                     rs.getInt("ssn")
-              ));   
-            }
-            
+                ));  
+            }   
             return data;
-        } 
+        }
+        
+//            }
+//            if (table.equals("Admin")) {
+//                while (rs.next()) {
+//                    //System.out.println(rs.getDate("dateOfBirth"));
+//
+//                  data.add(new Person(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+//                        rs.getString("username"),
+//                        rs.getString("gender"),
+//                        rs.getString("dateOfBirth"),
+//                        //Helper.DateToString(rs.getDate("dateOfBirth")),
+//                        rs.getString("address"),
+//                        rs.getInt("phoneNumber"),
+//                        rs.getString("email"),
+//                        rs.getInt("ssn")
+//                  ));   
+//                }
+//                return dataAdmin;
+//            }
+//            else if (table.equals("Member")) {
+//                while (rs.next()) {
+//                    //System.out.println(rs.getDate("dateOfBirth"));
+//
+//                  dataMember.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+//                        rs.getString("username"),
+//                        rs.getString("gender"),
+//                        rs.getString("dateOfBirth"),
+//                        //Helper.DateToString(rs.getDate("dateOfBirth")),
+//                        rs.getString("address"),
+//                        rs.getInt("phoneNumber"),
+//                        rs.getString("email"),
+//                        rs.getInt("ssn")
+//                  ));   
+//                }
+//                return dataAdmin;
+//            }
+            
+//        } 
         catch (Exception e) {
 
         }
@@ -148,12 +181,12 @@ public class DBHandler {
         }
     }
 
-    public static ObservableList<Admin> searchInAdminViewAccounts(String str) throws SQLException {
-        ObservableList<Admin> searchData = FXCollections.observableArrayList();
+    public static ObservableList<Person> searchInAdminViewAccounts(String str, String table) throws SQLException {
+        ObservableList<Person> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
 
-        String address = "address";
-        String email = "";
+//        String address = "address";
+//        String email = "";
         
 //        String qu = "SELECT * FROM Admin WHERE firstName LIKE '%?%'"
 //                + "OR middleName LIKE '%?%'"
@@ -163,32 +196,35 @@ public class DBHandler {
 //                + "OR email LIKE '%?%'"
 //                + "OR phoneNumber LIKE '%?%'"
 //                + "OR ssn LIKE '%?%'";
-        String qu = "SELECT * FROM Admin WHERE address LIKE '%?%'"
-                + "OR email LIKE '%?%'";
-        PreparedStatement statement = conn.prepareStatement(qu);
-        if(address.equals(""))
-            statement.setString(1, "");
-        else
-            statement.setString(1, address);
+//        String qu = "SELECT * FROM Admin WHERE address LIKE '%?%'"
+//                + "OR email LIKE '%?%'";
+//        PreparedStatement statement = conn.prepareStatement(qu);
+//        if(address.equals(""))
+//            statement.setString(1, "");
+//        else
+//            statement.setString(1, address);
+//        
+//        if(email.equals(""))
+//            statement.setString(2, "");
+//        else
+//            statement.setString(2, email);
         
-        if(email.equals(""))
-            statement.setString(2, "");
-        else
-            statement.setString(2, email);
-        
-        
-//        String query = "SELECT * FROM Admin WHERE firstName LIKE '%" + str + "%'"
-//                + "OR middleName LIKE '%" + str + "%'"
-//                + "OR lastName LIKE '%" + str + "%'"
-//                + "OR address LIKE '%" + str + "%'"
-//                + "OR username LIKE '%" + str + "%'";
-//       // PreparedStatement statement = conn.prepareStatement(query);
-        System.out.println(statement);
+//        
+        String query = "SELECT * FROM $tableName WHERE firstName LIKE '%" + str + "%'"
+                + "OR middleName LIKE '%" + str + "%'"
+                + "OR lastName LIKE '%" + str + "%'"
+                + "OR address LIKE '%" + str + "%'"
+                + "OR username LIKE '%" + str + "%'";
+        query = query.replace("$tableName", table);
+        System.out.println(query);
+        PreparedStatement statement = conn.prepareStatement(query);
+        //statement.setString(1, table);
+        //System.out.println(statement);
         
         ResultSet rs = statement.executeQuery();
         //System.out.println(rs);
         while (rs.next()) {
-            System.out.println(rs.getString("address"));
+           // System.out.println(rs.getString("address"));
             
             //System.out.println(rs.getString("firstName"));
 //              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
@@ -196,16 +232,16 @@ public class DBHandler {
 //                rs.getInt("ssn")
 //              ));  
 
-//                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-//                    rs.getString("username"),
-//                    rs.getString("gender"),
-//                    rs.getString("dateOfBirth"),
-//                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-//                    rs.getString("address"),
-//                    rs.getInt("phoneNumber"),
-//                    rs.getString("email"),
-//                    rs.getInt("ssn")
-//              ));   
+                searchData.add(new Person(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                    rs.getString("username"),
+                    rs.getString("gender"),
+                    rs.getString("dateOfBirth"),
+                    //Helper.DateToString(rs.getDate("dateOfBirth")),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getInt("ssn")
+              ));   
             }
         return searchData;
     }

@@ -21,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.Project.Controllers.Helper;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * FXML Controller class
@@ -46,11 +48,19 @@ public class CreatePackagePageController implements Initializable {
     @FXML private TextField packageDuration;
     @FXML private Label invalidMsgAllData;
    
+    private List<TextField> textfields;
+    private List<Label> labels;
+    private List<String> validationChecks;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
         //packageStartTimeState.getItems().addAll(timeList);
         packageStartTimeState.getItems().addAll("AM", "PM");
+        
+        textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageDuration);
+        labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageDuration);
+        validationChecks = Arrays.asList("[a-zA-Z]");
     }    
     
     public void createPackageBtnClick(ActionEvent event) {

@@ -275,4 +275,36 @@ public class DBHandler {
         System.out.println(alreadyExists);
         return alreadyExists;
     }
+    
+    public static void updatePersonalInformation(String table, String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE ? SET"
+                + " firstName = ?,"
+                + " middleName = ?,"
+                + " lastName = ?,"
+                + " gender = ?,"
+                + " dateOfBirth = ?,"
+                + " address = ?,"
+                + " phoneNumber = ?,"
+                + " email = ?, "
+                + " ssn = ?,"
+                + " username = ?,"
+                + " password =?"
+                + "WHERE ssn = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, table);
+        statement.setString(2, fn);
+        statement.setString(3, mn);
+        statement.setString(4, ln);
+        statement.setString(5, gen);
+        statement.setDate(6, dob);
+        statement.setString(7, add);
+        statement.setInt(8, pnum);
+        statement.setString(9, ead);
+        statement.setInt(10, ssnum);
+        statement.setString(11, uname);
+        statement.setString(12, pwd);
+        statement.execute();
+        conn.close();
+    }
 }

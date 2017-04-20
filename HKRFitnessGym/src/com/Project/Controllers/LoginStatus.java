@@ -9,7 +9,7 @@ package com.Project.Controllers;
  *
  * @author shameer
  */
-public class loginStatus {
+public class LoginStatus {
     private static int ssn;
     private static boolean login;
     

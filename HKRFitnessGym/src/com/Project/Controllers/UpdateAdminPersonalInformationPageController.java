@@ -38,7 +38,7 @@ import javafx.scene.control.ToggleGroup;
  *
  * @author shameer
  */
-public class CreateUserPageController implements Initializable {
+public class UpdateAdminPersonalInformationPageController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -157,7 +157,7 @@ public class CreateUserPageController implements Initializable {
     }
 
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException {
+    public void updateBtnClick(ActionEvent event) throws SQLException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -218,37 +218,7 @@ public class CreateUserPageController implements Initializable {
                 Helper.isEmpty(invalidMsgUsername.getText()) &&
                 Helper.isEmpty(invalidMsgPassword.getText())) {
                 System.out.println("reached here");
-                boolean alreadyExists;
-                System.out.println(isAdmin.isSelected());
-                if (isAdmin.isSelected()) {
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssnumber);
-                }
-                else {
-                    System.out.println("hell");
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssnumber);
-                    System.out.println(alreadyExists);
-                }
-                
-                if(alreadyExists) {
-                    Helper.DialogBox(alreadyExists);
-                }
-                else {
-                    if (isAdmin.isSelected()) {
-                        DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
-                        clearTextField();
-                        dateOfBirth.getEditor().clear();
-                        clearRadioButton();
-                    }
-                    else {
-                        System.out.println("hoohaa");
-                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
-                        clearTextField();
-                        dateOfBirth.getEditor().clear();
-                        clearRadioButton();
-                        
-                    }
-                    Helper.DialogBox(alreadyExists);
-                } 
+                DBHandler.updatePersonalInformation("Admin", fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
             }
         }        
     }

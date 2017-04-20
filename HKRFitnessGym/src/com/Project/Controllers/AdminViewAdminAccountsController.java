@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -51,6 +52,13 @@ public class AdminViewAdminAccountsController implements Initializable {
     private  ObservableList<Admin> searchData;
     @FXML private TextField searchAdmin;
     
+    @FXML private CheckBox searchFullName;
+    @FXML private CheckBox searchUsername;
+    @FXML private CheckBox searchEmail;
+    @FXML private CheckBox searchSSN;
+    @FXML private CheckBox searchPhoneNumber;
+    @FXML private CheckBox searchAddress;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,12 +89,17 @@ public class AdminViewAdminAccountsController implements Initializable {
         //String selected = adminViewAccountsTable.selectionModel.getSelectedItem();
     }
     
+    
     public void deleteBtnClick(ActionEvent event) {
         
     }
     
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {
-        String searchQuery = searchAdmin.getText();
+        String searchQuery = searchAdmin.getText(); 
+        ArrayList<String> checks = filterSearch(event);
+        for(String check : checks) {
+            System.out.println(check);
+        }
         searchData = DBHandler.searchInAdminViewAccounts(searchQuery);
         System.out.println(searchData);
 //        for ( int i = 0; i<adminViewAccountsTable.getItems().size(); i++) {
@@ -110,5 +123,30 @@ public class AdminViewAdminAccountsController implements Initializable {
 
         adminViewAccountsTable.setItems(null);
         adminViewAccountsTable.setItems(searchData);
+    }
+    
+    public ArrayList<String> filterSearch(ActionEvent event) {
+        ArrayList<String> checks = new ArrayList<>();
+        if(searchFullName.isSelected()) {
+            checks.add("firstName");
+            checks.add("middleName");
+            checks.add("lastName");
+        }
+        if(searchUsername.isSelected()) {
+            checks.add("username");
+        }
+        if(searchAddress.isSelected()) {
+            checks.add("address");
+        }
+        if(searchPhoneNumber.isSelected()) {
+            checks.add("phoneNumber");
+        }
+        if(searchEmail.isSelected()) {
+            checks.add("email");
+        }
+        if(searchSSN.isSelected()) {
+            checks.add("ssn");
+        }
+        return checks;
     }
 }

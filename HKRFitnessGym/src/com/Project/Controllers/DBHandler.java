@@ -55,7 +55,7 @@ public class DBHandler {
                       rs.getString("username"),
                     rs.getString("gender"),
                    // Helper.DateToString(rs.getDate("dateOfBirth")),
-                      rs.getDate("dateOfBirth"),
+                      rs.getString("dateOfBirth"),
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
@@ -150,36 +150,62 @@ public class DBHandler {
 
     public static ObservableList<Admin> searchInAdminViewAccounts(String str) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
-        System.out.println("hehrehh");
         Connection conn = establishConnection();
+
+        String address = "address";
+        String email = "";
         
-        String query = "SELECT * FROM Admin WHERE firstName LIKE '%" + str + "%'"
-                + "OR middleName LIKE '%" + str + "%'"
-                + "OR lastName LIKE '%" + str + "%'"
-                + "OR address LIKE '%" + str + "%'"
-                + "OR username LIKE '%" + str + "%'";
-        PreparedStatement statement = conn.prepareStatement(query);
+//        String qu = "SELECT * FROM Admin WHERE firstName LIKE '%?%'"
+//                + "OR middleName LIKE '%?%'"
+//                + "OR lastName LIKE '%?%'"
+//                + "OR username LIKE '%?%'"
+//                + "OR address LIKE '%?%'"
+//                + "OR email LIKE '%?%'"
+//                + "OR phoneNumber LIKE '%?%'"
+//                + "OR ssn LIKE '%?%'";
+        String qu = "SELECT * FROM Admin WHERE address LIKE '%?%'"
+                + "OR email LIKE '%?%'";
+        PreparedStatement statement = conn.prepareStatement(qu);
+        if(address.equals(""))
+            statement.setString(1, "");
+        else
+            statement.setString(1, address);
+        
+        if(email.equals(""))
+            statement.setString(2, "");
+        else
+            statement.setString(2, email);
+        
+        
+//        String query = "SELECT * FROM Admin WHERE firstName LIKE '%" + str + "%'"
+//                + "OR middleName LIKE '%" + str + "%'"
+//                + "OR lastName LIKE '%" + str + "%'"
+//                + "OR address LIKE '%" + str + "%'"
+//                + "OR username LIKE '%" + str + "%'";
+//       // PreparedStatement statement = conn.prepareStatement(query);
         System.out.println(statement);
         
         ResultSet rs = statement.executeQuery();
         //System.out.println(rs);
         while (rs.next()) {
+            System.out.println(rs.getString("address"));
+            
             //System.out.println(rs.getString("firstName"));
 //              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
 //                rs.getString("username"),
 //                rs.getInt("ssn")
 //              ));  
 
-                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getInt("ssn")
-              ));   
+//                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+//                    rs.getString("username"),
+//                    rs.getString("gender"),
+//                    rs.getString("dateOfBirth"),
+//                    //Helper.DateToString(rs.getDate("dateOfBirth")),
+//                    rs.getString("address"),
+//                    rs.getInt("phoneNumber"),
+//                    rs.getString("email"),
+//                    rs.getInt("ssn")
+//              ));   
             }
         return searchData;
     }

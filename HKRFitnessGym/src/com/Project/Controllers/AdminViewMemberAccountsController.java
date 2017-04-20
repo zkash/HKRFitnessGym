@@ -49,14 +49,6 @@ public class AdminViewMemberAccountsController implements Initializable {
     private  ObservableList<Person> searchData;
     @FXML private TextField searchAdmin;
     
-    @FXML private CheckBox searchFullName;
-    @FXML private CheckBox searchUsername;
-    @FXML private CheckBox searchEmail;
-    @FXML private CheckBox searchSSN;
-    @FXML private CheckBox searchPhoneNumber;
-    @FXML private CheckBox searchAddress;
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         adminSSN = loginStatus.getSSN();
@@ -126,30 +118,5 @@ public class AdminViewMemberAccountsController implements Initializable {
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         adminViewAccountsTable.setItems(null);
         adminViewAccountsTable.setItems(searchData);
-    }
-    
-    public ArrayList<String> filterSearch(ActionEvent event) {
-        ArrayList<String> checks = new ArrayList<>();
-        if(searchFullName.isSelected()) {
-            checks.add("firstName");
-            checks.add("middleName");
-            checks.add("lastName");
-        }
-        if(searchUsername.isSelected()) {
-            checks.add("username");
-        }
-        if(searchAddress.isSelected()) {
-            checks.add("address");
-        }
-        if(searchPhoneNumber.isSelected()) {
-            checks.add("phoneNumber");
-        }
-        if(searchEmail.isSelected()) {
-            checks.add("email");
-        }
-        if(searchSSN.isSelected()) {
-            checks.add("ssn");
-        }
-        return checks;
     }
 }

@@ -130,28 +130,35 @@ public class CreatePackagePageController implements Initializable {
                 
                 System.out.println(psts);
                 System.out.println(pets);
-                if(psts.equals("PM")) {
-                    pst = Helper.convertTimeTo24HourFormat(pst);
-                }
                 
-                if(pets.equals("PM")) {
-                    pet = Helper.convertTimeTo24HourFormat(pet);
+                if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
+                    Helper.DialogBox(alreadyExists, "End date cannot be earlier than start date");
                 }
+                else {
                 
-                if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
-                    //End time before start time
-                    if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                        Helper.DialogBox(alreadyExists, "Start time cannot be earlier than end time");
-                        Helper.clearTextField(packageStartTime, packageEndTime);
+                    if(psts.equals("PM")) {
+                        pst = Helper.convertTimeTo24HourFormat(pst);
                     }
-                    else {
+
+                    if(pets.equals("PM")) {
+                        pet = Helper.convertTimeTo24HourFormat(pet);
+                    }
+
+                    if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
+                        //End time before start time
+                        if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
+                            Helper.DialogBox(alreadyExists, "Start time cannot be earlier than end time");
+                            Helper.clearTextField(packageStartTime, packageEndTime);
+                        }
+                        else {
+                            pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                            insertIntoDB(pack, admin_ssn, alreadyExists);
+                        }
+                    }
+                    else if (psts.equals("AM") && pets.equals("PM")) {
                         pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
                         insertIntoDB(pack, admin_ssn, alreadyExists);
                     }
-                }
-                else if (psts.equals("AM") && pets.equals("PM")) {
-                    pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                    insertIntoDB(pack, admin_ssn, alreadyExists);
                 }
             }
             else {
@@ -161,7 +168,7 @@ public class CreatePackagePageController implements Initializable {
             }
         }
         else {
-            
+            Helper.DialogBox(true, "Enter all data");
         }
     }
     

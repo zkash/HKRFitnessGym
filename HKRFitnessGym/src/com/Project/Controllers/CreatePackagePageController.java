@@ -153,8 +153,6 @@ public class CreatePackagePageController implements Initializable {
                     pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
                     insertIntoDB(pack, admin_ssn, alreadyExists);
                 }
-                
-                
             }
             else {
                 alreadyExists = true;

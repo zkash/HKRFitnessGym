@@ -5,11 +5,16 @@
  */
 package com.Project.Controllers;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -62,29 +67,55 @@ public class Helper {
     }
     
     //Dialog box
-    public static void DialogBox(boolean alreadyExists) {
+    public static void DialogBox(boolean alreadyExists, String message) {
         if(alreadyExists) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
-            alert.setContentText("Data insertion failed");
+            alert.setContentText(message);
             alert.setHeaderText(null);
             alert.showAndWait();  
         }
         else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Confirmation");
-            alert.setContentText("Data inserted in the database");
+            alert.setContentText(message);
             alert.setHeaderText(null);
             alert.showAndWait();
         }
     }
     
-    public static String DateToString(Date d) {
-        String DATE_FORMAT_NOW = "yyyy-MM-dd";
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date );
-        System.out.println(stringDate);
-        return stringDate;
+//    public static String convertDateToString(Date d) {
+//        String DATE_FORMAT_NOW = "yyyy-MM-dd";
+//        Date date = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+//        String stringDate = sdf.format(date );
+//        System.out.println(stringDate);
+//        return stringDate;
+//    }
+    
+    public static Date convertLocalDateToSQLDate(LocalDate ld) {
+        Date date = java.sql.Date.valueOf(ld);
+        return date;
+    }
+    
+    public static void clearTextField(TextField... fields) {
+        for (TextField field : fields) {
+            field.clear();
+        }
+    }
+    
+    public static void clearRadioButton(RadioButton... radioButtons) {
+        for (RadioButton radioButton : radioButtons) {
+            radioButton.setSelected(false);
+        }
+    }
+    
+    public static String convertTimeTo24HourFormat(String timeIn12HourFormat) {
+        String[] startTimeDivided = timeIn12HourFormat.split(":");
+        int hour = Integer.parseInt(startTimeDivided[0]);
+        String minute = startTimeDivided[1];
+        hour = hour + 12;
+        String timeIn24HourFormat = Integer.toString(hour) + ":" + minute;
+        return timeIn24HourFormat;
     }
 }

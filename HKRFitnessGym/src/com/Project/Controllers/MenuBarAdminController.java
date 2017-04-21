@@ -45,8 +45,8 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("/com/Project/FXML/CreateUserPage.fxml");
     }
     
-    public void deleteAccoutMenuClick(ActionEvent event) {
-        
+    public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/UpdateAdminPersonalInformationPage.fxml");
     }
     
     public void viewAdminAccountsMenuClick(ActionEvent event) throws IOException {

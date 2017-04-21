@@ -38,7 +38,7 @@ import javafx.scene.control.ToggleGroup;
  *
  * @author shameer
  */
-public class CreateUserPageController implements Initializable {
+public class UpdateAdminPersonalInformationPageController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -74,7 +74,8 @@ public class CreateUserPageController implements Initializable {
     private int adminSSN;
     private boolean login;
     
-    
+    private List<TextField> fields;
+    private List<RadioButton> radioButtons;
     @FXML
     private ToggleGroup gender;
     @FXML
@@ -92,8 +93,8 @@ public class CreateUserPageController implements Initializable {
         changeFocus(username, invalidMsgUsername);
         changeFocus(password, invalidMsgPassword);
         
-//        this.adminSSN = LoginStatus.getSSN();
-//        this.login = LoginStatus.getLogin();
+        this.adminSSN = LoginStatus.getSSN();
+        this.login = LoginStatus.getLogin();
         
     }     
     
@@ -156,7 +157,7 @@ public class CreateUserPageController implements Initializable {
     }
 
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException {
+    public void updateBtnClick(ActionEvent event) throws SQLException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -217,40 +218,23 @@ public class CreateUserPageController implements Initializable {
                 Helper.isEmpty(invalidMsgUsername.getText()) &&
                 Helper.isEmpty(invalidMsgPassword.getText())) {
                 System.out.println("reached here");
-                boolean alreadyExists;
-                System.out.println(isAdmin.isSelected());
-                if (isAdmin.isSelected()) {
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssnumber);
-                }
-                else {
-                    System.out.println("hell");
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssnumber);
-                    System.out.println(alreadyExists);
-                }
-                
-                if(alreadyExists) {
-                    Helper.DialogBox(alreadyExists, "User already exists");
-                }
-                else {
-                    if (isAdmin.isSelected()) {
-                        DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
-                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-                        dateOfBirth.getEditor().clear();
-                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
-                    }
-                    else {
-                        System.out.println("hoohaa");
-                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
-                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-                        dateOfBirth.getEditor().clear();
-                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
-                    }
-                    Helper.DialogBox(alreadyExists, "User account successfully created");
-                } 
+                DBHandler.updatePersonalInformation("Admin", fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
             }
         }        
     }
     
+    public void clearTextField() {
+        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
+        for (TextField field : fields) {
+            field.clear();
+        }
+    }
     
+    public void clearRadioButton() {
+        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
+        for (RadioButton radioButton : radioButtons) {
+            radioButton.setSelected(false);
+        }
+    }
 }
 

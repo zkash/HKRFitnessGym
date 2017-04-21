@@ -40,8 +40,8 @@
             <fx:include fx:id="signOutBtn" source="signOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TextField fx:id="searchAdmin" layoutX="44.0" layoutY="365.0" AnchorPane.bottomAnchor="30.0" />
             <Button fx:id="searchAdminBtn" layoutX="227.0" layoutY="365.0" mnemonicParsing="false" onAction="#searchAdminBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
-            <Button fx:id="viewDetailsBtn" layoutX="402.0" layoutY="364.0" mnemonicParsing="false" onAction="#viewDetailsBtnClick" text="View Details" />
             <Button fx:id="deleteBtn" layoutX="503.0" layoutY="364.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Delete" />
+            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="364.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
          </children>
       </AnchorPane>
    </center>

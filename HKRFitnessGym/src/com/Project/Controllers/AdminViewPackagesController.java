@@ -29,8 +29,8 @@ public class AdminViewPackagesController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        adminSSN = loginStatus.getSSN();
-        login = loginStatus.getLogin();
+        adminSSN = LoginStatus.getSSN();
+        login = LoginStatus.getLogin();
     }    
     
     public void searchPackageBtnClick(ActionEvent event) throws SQLException {

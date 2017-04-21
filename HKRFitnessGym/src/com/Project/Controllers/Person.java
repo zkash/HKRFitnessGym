@@ -110,6 +110,10 @@ public class Person {
         return email.get();
     }
 
+    public int getSSN() {
+        return ssn.get();
+    }
+    
     public String getUsername() {
         return username.get();
     }

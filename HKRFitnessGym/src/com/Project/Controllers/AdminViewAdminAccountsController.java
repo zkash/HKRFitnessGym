@@ -54,8 +54,8 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        adminSSN = loginStatus.getSSN();
-        login = loginStatus.getLogin();
+        adminSSN = LoginStatus.getSSN();
+        login = LoginStatus.getLogin();
         try {
             ArrayList<ArrayList<String>> finalArray;
             data = DBHandler.adminViewAccounts("Admin");
@@ -76,8 +76,19 @@ public class AdminViewAdminAccountsController implements Initializable {
         }
     }
     
-    public void viewDetailsBtnClick(ActionEvent event) {
-        //String selected = adminViewAccountsTable.selectionModel.getSelectedItem();
+    public void resetSearchBtnClick(ActionEvent event) throws SQLException {
+        data = DBHandler.adminViewAccounts("Admin");
+            // Set cell value factory to TableView
+        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        adminViewAccountsTable.setItems(null);
+        adminViewAccountsTable.setItems(data);
     }
     
     

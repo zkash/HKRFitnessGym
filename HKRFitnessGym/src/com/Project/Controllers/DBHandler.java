@@ -27,6 +27,10 @@ import javafx.scene.control.TableView;
  */
 public class DBHandler {
 
+    static void createPackage(String pn, String pc, LocalDate psd, LocalDate ped, String pst, String pd, int admin_ssn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private final String dbName = "HKRFitnessGymDB";
     private final String user = "root";
     private final String password = "root";
@@ -274,5 +278,66 @@ public class DBHandler {
         }
         System.out.println(alreadyExists);
         return alreadyExists;
+    }
+    
+    public static void updatePersonalInformation(String table, String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE ? SET"
+                + " firstName = ?,"
+                + " middleName = ?,"
+                + " lastName = ?,"
+                + " gender = ?,"
+                + " dateOfBirth = ?,"
+                + " address = ?,"
+                + " phoneNumber = ?,"
+                + " email = ?, "
+                + " ssn = ?,"
+                + " username = ?,"
+                + " password =?"
+                + "WHERE ssn = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, table);
+        statement.setString(2, fn);
+        statement.setString(3, mn);
+        statement.setString(4, ln);
+        statement.setString(5, gen);
+        statement.setDate(6, dob);
+        statement.setString(7, add);
+        statement.setInt(8, pnum);
+        statement.setString(9, ead);
+        statement.setInt(10, ssnum);
+        statement.setString(11, uname);
+        statement.setString(12, pwd);
+        statement.execute();
+        conn.close();
+    }
+    
+    public static void createPackage(Package pack, int admin_ssn) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "INSERT INTO Package (nameOfPackage, price, startDate, endDate, startTime, "
+                + "endTime, Admin_ssn) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pack.getPackageName());
+        statement.setFloat(2, pack.getPrice());
+        statement.setDate(3, pack.getStartDate());
+        statement.setDate(4, pack.getEndDate());
+        statement.setString(5, pack.getStartTime());
+        statement.setString(6, pack.getEndTime());
+        statement.setInt(7, admin_ssn);
+        statement.execute();
+        conn.close();
+    }
+    
+    public static int checkPackageName(String pn) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT count(*) FROM Package WHERE nameOfPackage = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pn);
+        ResultSet rs = statement.executeQuery();
+        int count = 0;
+        while(rs.next()) {
+            count = rs.getInt(1);
+        }
+        return count;
     }
 }

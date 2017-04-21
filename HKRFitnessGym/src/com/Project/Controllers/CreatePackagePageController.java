@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.Project.Controllers.Helper;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -42,14 +43,15 @@ public class CreatePackagePageController implements Initializable {
     @FXML private Label invalidMsgPackageName;
     @FXML private Label invalidMsgPackageCost;
     @FXML private Label invalidMsgPackageStartTime;
-    @FXML private Label invalidMsgPackageDuration;
+    @FXML private Label invalidMsgPackageEndTime;
     @FXML private TextField packageName;
     @FXML private TextField packageCost;
     @FXML private DatePicker packageStartDate;
     @FXML private DatePicker packageEndDate;    
     @FXML private TextField packageStartTime;
     @FXML private ComboBox packageStartTimeState;
-    @FXML private TextField packageDuration;
+    @FXML private ComboBox packageEndTimeState;
+    @FXML private TextField packageEndTime;
     @FXML private Label invalidMsgAllData;
    
     private List<TextField> textfields;
@@ -57,6 +59,7 @@ public class CreatePackagePageController implements Initializable {
     private List<String> validationChecks;
     
     private BooleanBinding validated;
+    private Package pack;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,10 +67,9 @@ public class CreatePackagePageController implements Initializable {
         //packageStartTimeState.getItems().addAll(timeList);
         packageStartTimeState.getItems().addAll("AM", "PM");
         
-        textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageDuration);
-        labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageDuration);
-        validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][1-2]):[0-5][0-9]", "[1-9]|[1-9][0-9]*");
-        //([1-9]{1}|[1][1-2]):[0-5]{1}[0-9]{1}"
+        textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
+        labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
+        validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][1-2]):[0-5][0-9]", "([1-9]|[1][1-2]):[0-5][0-9]");
     
         //Add listeners to the textfields
         IntStream.range(0, textfields.size()).forEach(i -> {
@@ -98,23 +100,52 @@ public class CreatePackagePageController implements Initializable {
         };
     }    
     
-    public void createPackageBtnClick(ActionEvent event) {
+    public void createPackageBtnClick(ActionEvent event) throws SQLException {
         //Clear error messages
         invalidMsgPackageName.setText("");
         invalidMsgPackageCost.setText("");
         invalidMsgPackageStartTime.setText("");
-        invalidMsgPackageDuration.setText("");
+        invalidMsgPackageEndTime.setText("");
         
         String pn = packageName.getText();
         String pc = packageCost.getText();
         String pst = packageStartTime.getText();
-        String pd = packageDuration.getText();
+        String pet = packageEndTime.getText();
         LocalDate psd = packageStartDate.getValue();
         LocalDate ped = packageEndDate.getValue();
+       
         int admin_ssn = 1234567890;
         
         if (validated.get()) {
-            DBHandler.createPackage(pn, pc, psd, ped, pst, pd, admin_ssn);
+            int count = DBHandler.checkPackageName(pn);
+            boolean alreadyExists;
+            if (count == 0) {
+                alreadyExists = false;
+                
+                //Get AM/PM text
+                String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
+                String pets = packageEndTimeState.getSelectionModel().getSelectedItem().toString();
+                
+                if(psts.equals("PM")) {
+                    pst = Helper.convertTimeTo24HourFormat(psts);
+                }
+                
+                if(pets.equals("PM")) {
+                    pet = Helper.convertTimeTo24HourFormat(pets);
+                }
+                
+                pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                DBHandler.createPackage(pack, admin_ssn);
+                Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
+                packageStartDate.getEditor().clear();
+                packageEndDate.getEditor().clear();
+                Helper.DialogBox(alreadyExists, "Package successfully created");
+            }
+            else {
+                alreadyExists = true;
+                Helper.DialogBox(alreadyExists, "Package with same name already exists");
+                Helper.clearTextField(packageName);
+            }
         }
         else {
             

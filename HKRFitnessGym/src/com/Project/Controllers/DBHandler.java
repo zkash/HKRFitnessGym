@@ -312,8 +312,32 @@ public class DBHandler {
         conn.close();
     }
     
-    public static void createPackage(String pn, float pc, Date psd, Date ped, String pst, String pet, int admin_ssn) {
+    public static void createPackage(Package pack, int admin_ssn) throws SQLException {
         Connection conn = establishConnection();
-        String query = "INSERT INTO Package nameOfPackage, price, startDate, endDate, startTime, endTine, Admin_ssn";
+        String query = "INSERT INTO Package (nameOfPackage, price, startDate, endDate, startTime, "
+                + "endTime, Admin_ssn) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pack.getPackageName());
+        statement.setFloat(2, pack.getPrice());
+        statement.setDate(3, pack.getStartDate());
+        statement.setDate(4, pack.getEndDate());
+        statement.setString(5, pack.getStartTime());
+        statement.setString(6, pack.getEndTime());
+        statement.setInt(7, admin_ssn);
+        statement.execute();
+        conn.close();
+    }
+    
+    public static int checkPackageName(String pn) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT count(*) FROM Package WHERE nameOfPackage = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pn);
+        ResultSet rs = statement.executeQuery();
+        int count = 0;
+        while(rs.next()) {
+            count = rs.getInt(1);
+        }
+        return count;
     }
 }

@@ -74,8 +74,7 @@ public class CreateUserPageController implements Initializable {
     private int adminSSN;
     private boolean login;
     
-    private List<TextField> fields;
-    private List<RadioButton> radioButtons;
+    
     @FXML
     private ToggleGroup gender;
     @FXML
@@ -93,8 +92,8 @@ public class CreateUserPageController implements Initializable {
         changeFocus(username, invalidMsgUsername);
         changeFocus(password, invalidMsgPassword);
         
-        this.adminSSN = LoginStatus.getSSN();
-        this.login = LoginStatus.getLogin();
+//        this.adminSSN = LoginStatus.getSSN();
+//        this.login = LoginStatus.getLogin();
         
     }     
     
@@ -230,41 +229,28 @@ public class CreateUserPageController implements Initializable {
                 }
                 
                 if(alreadyExists) {
-                    Helper.DialogBox(alreadyExists);
+                    Helper.DialogBox(alreadyExists, "User already exists");
                 }
                 else {
                     if (isAdmin.isSelected()) {
                         DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
-                        clearTextField();
+                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                         dateOfBirth.getEditor().clear();
-                        clearRadioButton();
+                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     }
                     else {
                         System.out.println("hoohaa");
                         DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
-                        clearTextField();
+                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                         dateOfBirth.getEditor().clear();
-                        clearRadioButton();
-                        
+                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     }
-                    Helper.DialogBox(alreadyExists);
+                    Helper.DialogBox(alreadyExists, "User account successfully created");
                 } 
             }
         }        
     }
     
-    public void clearTextField() {
-        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-        for (TextField field : fields) {
-            field.clear();
-        }
-    }
     
-    public void clearRadioButton() {
-        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
-        for (RadioButton radioButton : radioButtons) {
-            radioButton.setSelected(false);
-        }
-    }
 }
 

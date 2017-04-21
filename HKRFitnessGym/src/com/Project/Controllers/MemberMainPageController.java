@@ -41,6 +41,15 @@ public class MemberMainPageController implements Initializable {
       stage.setScene(scene);
       stage.show();
     }
+     @FXML
+    private void goToChatPage(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
   
     
     

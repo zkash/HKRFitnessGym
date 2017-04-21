@@ -66,6 +66,7 @@ public class CreatePackagePageController implements Initializable {
         //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
         //packageStartTimeState.getItems().addAll(timeList);
         packageStartTimeState.getItems().addAll("AM", "PM");
+        packageEndTimeState.getItems().addAll("AM", "PM");
         
         textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
         labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
@@ -119,27 +120,41 @@ public class CreatePackagePageController implements Initializable {
         if (validated.get()) {
             int count = DBHandler.checkPackageName(pn);
             boolean alreadyExists;
+            System.out.println(count);
             if (count == 0) {
                 alreadyExists = false;
                 
                 //Get AM/PM text
-                String psts = packageStartTimeState.getSelectionModel().getSelectedItem().toString();
-                String pets = packageEndTimeState.getSelectionModel().getSelectedItem().toString();
+                String psts = (String)packageStartTimeState.getValue();
+                String pets = (String)packageEndTimeState.getValue();
                 
+                System.out.println(psts);
+                System.out.println(pets);
                 if(psts.equals("PM")) {
-                    pst = Helper.convertTimeTo24HourFormat(psts);
+                    pst = Helper.convertTimeTo24HourFormat(pst);
                 }
                 
                 if(pets.equals("PM")) {
-                    pet = Helper.convertTimeTo24HourFormat(pets);
+                    pet = Helper.convertTimeTo24HourFormat(pet);
                 }
                 
-                pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                DBHandler.createPackage(pack, admin_ssn);
-                Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
-                packageStartDate.getEditor().clear();
-                packageEndDate.getEditor().clear();
-                Helper.DialogBox(alreadyExists, "Package successfully created");
+                if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
+                    //End time before start time
+                    if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
+                        Helper.DialogBox(alreadyExists, "Start time cannot be earlier than end time");
+                        Helper.clearTextField(packageStartTime, packageEndTime);
+                    }
+                    else {
+                        pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                        insertIntoDB(pack, admin_ssn, alreadyExists);
+                    }
+                }
+                else if (psts.equals("AM") && pets.equals("PM")) {
+                    pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                    insertIntoDB(pack, admin_ssn, alreadyExists);
+                }
+                
+                
             }
             else {
                 alreadyExists = true;
@@ -150,7 +165,25 @@ public class CreatePackagePageController implements Initializable {
         else {
             
         }
-        
+    }
+    
+    public int convertTimeToMinuteSinceMidnight(String time) {
+        String[] timeDivided = time.split(":");
+        int hour = Integer.parseInt(timeDivided[0]);
+        int minute = Integer.parseInt(timeDivided[1]);
+        int minutesSinceMidnight = (hour * 60) + minute;
+        return minutesSinceMidnight;
+    }
+    
+    public void insertIntoDB(Package pack, int admin_ssn, boolean alreadyExists) throws SQLException {
+        DBHandler.createPackage(pack, admin_ssn);
+        Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
+        packageStartDate.getEditor().clear();
+        packageEndDate.getEditor().clear();
+        Helper.DialogBox(alreadyExists, "Package successfully created");
+    }
+}
+
         //MY CODE
 //        if(!Helper.isEmpty(pn) && !Helper.isEmpty(pc) && !Helper.isEmpty(pst) && !Helper.isEmpty(pd)) {
 //            if(Helper.hasChar(pc)) {
@@ -178,5 +211,4 @@ public class CreatePackagePageController implements Initializable {
 //        else {
 //            invalidMsgAllData.setText("Enter All Data");
 //        }  
-    }
-}
+ 

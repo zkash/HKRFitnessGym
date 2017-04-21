@@ -156,7 +156,7 @@ public class LoginPageController implements Initializable {
     }
     
     @FXML
-    private void goToRegisterPage(ActionEvent event) throws IOException {
+    private void goToCreateUserPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));

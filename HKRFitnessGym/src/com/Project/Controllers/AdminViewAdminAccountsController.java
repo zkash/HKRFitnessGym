@@ -57,8 +57,7 @@ public class AdminViewAdminAccountsController implements Initializable {
         try {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
-            ArrayList<ArrayList<String>> finalArray;
-        data = DBHandler.adminViewAdminAccounts();
+            data = DBHandler.adminViewAdminAccounts();
             // Set cell value factory to TableView
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));

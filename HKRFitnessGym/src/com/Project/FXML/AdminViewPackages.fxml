@@ -17,12 +17,12 @@
             <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TableView fx:id="adminViewPackagesTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
               <columns>
-                <TableColumn prefWidth="131.0" text="Package Name" />
-                  <TableColumn prefWidth="91.0" text="Start Time" />
-                  <TableColumn prefWidth="86.0" text="Duration" />
-                <TableColumn prefWidth="68.0" text="Members" />
-                  <TableColumn prefWidth="86.0" text="View Details" />
-                  <TableColumn prefWidth="54.0" text="Delete" />
+                <TableColumn fx:id="packageNameColumn" prefWidth="135.0" text="Package Name" />
+                  <TableColumn fx:id="startDateColumn" text="Start Date" />
+                  <TableColumn fx:id="endDateColumn" text="End Date" />
+                <TableColumn fx:id="startTimeColumn" prefWidth="75.0" text="Start Time" />
+                  <TableColumn fx:id="endTimeColumn" prefWidth="75.0" text="End Time" />
+                  <TableColumn fx:id="membersColumn" prefWidth="70.0" text="Members" />
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Packages" AnchorPane.leftAnchor="92.0">
@@ -30,8 +30,10 @@
                   <Font size="18.0" />
                </font>
             </Label>
+            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <Button fx:id="searchPackageBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#searchPackageBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
             <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" AnchorPane.bottomAnchor="30.0" />
+            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="364.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
          </children>
       </AnchorPane>
    </center>

@@ -312,7 +312,7 @@ public class DBHandler {
     
     public static void createPackage(Package pack, int admin_ssn) throws SQLException {
         Connection conn = establishConnection();
-        String query = "INSERT INTO Package (nameOfPackage, price, startDate, endDate, startTime, "
+        String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
                 + "endTime, Admin_ssn) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, pack.getPackageName());
@@ -328,7 +328,7 @@ public class DBHandler {
     
     public static int checkPackageName(String pn) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT count(*) FROM Package WHERE nameOfPackage = ?";
+        String query = "SELECT count(*) FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, pn);
         ResultSet rs = statement.executeQuery();
@@ -339,23 +339,22 @@ public class DBHandler {
         return count;
     }
     
-    public static ObservableList<Person> adminViewPackages(String table) throws SQLException {
-        ObservableList<Person> data = FXCollections.observableArrayList();
+    public static ObservableList<Package> adminViewPackages() throws SQLException {
+        ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM `%s`", table.replace("`", "``"));
+            String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
-            data.add(new Person(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getString("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getInt("ssn")
-                ));  
+                data.add(new Package(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime")
+                ));     
             }   
             return data;
         }

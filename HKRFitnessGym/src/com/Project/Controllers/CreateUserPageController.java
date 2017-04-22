@@ -235,17 +235,16 @@ public class CreateUserPageController implements Initializable {
                 else {
                     if (isAdmin.isSelected()) {
                         DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
-                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-                        dateOfBirth.getEditor().clear();
-                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
+                        
                     }
                     else {
                         System.out.println("hoohaa");
                         DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
-                        Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-                        dateOfBirth.getEditor().clear();
-                        Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     }
+                    Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
+                    Helper.clearRadioButton(genderMale, genderFemale, genderOther);
+                    dateOfBirth.getEditor().clear();
+                    isAdmin.setSelected(false);
                     Helper.DialogBox(alreadyExists, "User account successfully created");
                 } 
             }

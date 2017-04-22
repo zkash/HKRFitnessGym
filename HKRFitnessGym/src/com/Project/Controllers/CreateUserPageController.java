@@ -71,7 +71,7 @@ public class CreateUserPageController implements Initializable {
     
     private boolean error;
     private String adminUsername;
-    private int adminSSN;
+    private int adminSSN = 1234567890; //ToDO change this
     private boolean login;
     
     
@@ -101,8 +101,8 @@ public class CreateUserPageController implements Initializable {
         this.adminUsername = uname;
     }
     
-    public void setAdminSSN(int ssn) {
-        this.adminSSN = ssn;
+    public void setAdminSSN() {
+        this.adminSSN = 1234567890;
     }
     
     public void setTextOnCondition(boolean condition, Label lbl) {

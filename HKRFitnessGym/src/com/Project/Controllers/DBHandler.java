@@ -378,11 +378,24 @@ public class DBHandler {
         return null;
     }
     
-    public static boolean deleteFromAdminAccounts(int ssn) throws SQLException {
+    public static boolean deleteAccount(int ssn, String table) throws SQLException {
         Connection conn = establishConnection();
-        String query = "DELETE FROM Admin WHERE ssn = ?";
+        String query = "DELETE FROM $table_name WHERE ssn = ?";
+        query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, ssn);
+        System.out.println(statement);
+        statement.execute();
+        boolean deletionError = false;
+        conn.close();
+        return deletionError;
+    }
+    
+    public static boolean deletePackage(String pName) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "DELETE FROM Package WHERE packageName = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pName);
         statement.execute();
         boolean deletionError = false;
         conn.close();

@@ -77,8 +77,26 @@ public class AdminViewMemberAccountsController implements Initializable {
        
     }
     
-    public void deleteBtnClick(ActionEvent event) {
+    public void deleteBtnClick(ActionEvent event) throws SQLException {
+        ObservableList<Member> row , allRows;
+        allRows = adminViewAccountsTable.getItems();
+        row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
+        boolean deletionError = false;
+        //try {
+            deletionError = DBHandler.deleteAccount(row.get(0).getSSN(), "Member");
+        //}
+        //catch(Exception e) {
+        //    deletionError = true;
+        //}
         
+        if (!deletionError) {
+            Helper.DialogBox(deletionError, "Member successfully deleted");
+        }
+        else {
+            Helper.DialogBox(deletionError, "Could not delete member because it is associated with other data in the system. \n\nDelete such data before trying to delete the member");
+        }
+        System.out.println(row.get(0).getFullName()); 
+        row.forEach(allRows::remove);
     }
     
     public void searchMemberBtnClick(ActionEvent event) throws SQLException {

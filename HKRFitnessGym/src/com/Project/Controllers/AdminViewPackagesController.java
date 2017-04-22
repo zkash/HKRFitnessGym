@@ -68,7 +68,7 @@ public class AdminViewPackagesController implements Initializable {
         }
     }    
     
-    public void searchPackageBtnClick(ActionEvent event) throws SQLException {
+    public void searchBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchPackage.getText();
         searchData = DBHandler.searchInAdminViewPackage(searchQuery);
         
@@ -106,6 +106,31 @@ public class AdminViewPackagesController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
+        
+    }
+    
+    public void deleteBtnClick(ActionEvent event) throws SQLException {
+        ObservableList<Package> row , allRows;
+        allRows = adminViewPackagesTable.getItems();
+        row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
+        boolean deletionError = false;
+        //try {
+            deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
+        //}
+        //catch(Exception e) {
+         //   deletionError = true;
+        //}
+        
+        if (!deletionError) {
+            Helper.DialogBox(deletionError, "Package successfully deleted");
+        }
+        else {
+            Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+        }
+        row.forEach(allRows::remove);
+    }
+    
+    public void updateBtnClick(ActionEvent event) throws SQLException {
         
     }
 }

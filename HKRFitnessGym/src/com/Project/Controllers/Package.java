@@ -25,7 +25,8 @@ public class Package {
     private Date endDate;
     private final StringProperty startTime;
     private final StringProperty endTime;
-   
+    private final IntegerProperty packageId;    
+    
     public Package(String pn, float price, Date sd, Date ed, String st, String et) {
         this.packageName = new SimpleStringProperty(pn);
         this.price = new SimpleFloatProperty(price);
@@ -33,7 +34,19 @@ public class Package {
         this.endDate = ed;
         this.startTime = new SimpleStringProperty(st);
         this.endTime = new SimpleStringProperty(et);
+        this.packageId = null;
     }
+    
+    public Package(String pn, float price, Date sd, Date ed, String st, String et, int pid) {
+        this.packageName = new SimpleStringProperty(pn);
+        this.price = new SimpleFloatProperty(price);
+        this.startDate = sd;
+        this.endDate = ed;
+        this.startTime = new SimpleStringProperty(st);
+        this.endTime = new SimpleStringProperty(et);
+        this.packageId = new SimpleIntegerProperty(pid);
+    }
+
 
     // Getters
     public String getPackageName() {
@@ -58,6 +71,10 @@ public class Package {
 
     public String getEndTime() {
         return endTime.get();
+    }
+    
+    public int getPackageId() {
+        return packageId.get();
     }
     
     //Setters
@@ -108,5 +125,9 @@ public class Package {
     
     public StringProperty endTimeProperty() {
         return endTime;
+    }
+    
+    public IntegerProperty packageIdProperty() {
+        return packageId;
     }
 }

@@ -34,11 +34,13 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML private TableView<Package> adminViewPackagesTable;
     @FXML private TableColumn<Package, String> packageNameColumn;
+    @FXML private TableColumn<Package, String> priceColumn; 
     @FXML private TableColumn<Package, String> startDateColumn;
     @FXML private TableColumn<Package, String> endDateColumn;
     @FXML private TableColumn<Package, String> startTimeColumn;
     @FXML private TableColumn<Package, String> endTimeColumn;
     @FXML private TableColumn<Package, String> membersColumn;
+    @FXML private TableColumn<Package, String> adminUsernameColumn;
 
     /**
      * Initializes the controller class.
@@ -67,7 +69,39 @@ public class AdminViewPackagesController implements Initializable {
     
     public void searchPackageBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchPackage.getText();
-        DBHandler.searchInAdminViewPackage(searchQuery);
+        searchData = DBHandler.searchInAdminViewPackage(searchQuery);
+        
+        adminViewPackagesTable.getColumns().clear();
+        packageNameColumn = new TableColumn("Package Name");
+        priceColumn = new TableColumn("Price");
+        startDateColumn = new TableColumn("Start Date");
+        endDateColumn = new TableColumn("End Date");
+        startTimeColumn = new TableColumn("Start Time");
+        endTimeColumn = new TableColumn("End Time");
+        membersColumn = new TableColumn("Members");
+        adminUsernameColumn = new TableColumn("Admin");
+          
+         adminViewPackagesTable.getColumns().addAll(packageNameColumn, priceColumn, startDateColumn, endDateColumn, startTimeColumn, endTimeColumn, membersColumn, adminUsernameColumn);
+         packageNameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.30837004)); 
+         priceColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
+         startDateColumn .prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
+         endDateColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
+         startTimeColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.10572688));
+         endTimeColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
+         membersColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
+         adminUsernameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
+ 
+//      Set cell value factory to TableView
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
+        adminUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("Admin_ssn"));
+        adminViewPackagesTable.setItems(null);
+        adminViewPackagesTable.setItems(searchData);
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {

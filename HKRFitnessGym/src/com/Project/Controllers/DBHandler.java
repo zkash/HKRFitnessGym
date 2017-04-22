@@ -248,16 +248,29 @@ public class DBHandler {
         return searchData;
     }
     
-    public static void searchInAdminViewPackage(String str) throws SQLException {
+    public static ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
+        ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
-        String query = "SELECT * FROM Package WHERE nameOfPackage LIKE '%" + str + "%'";
-
+        String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
+               // + "OR adminLIKE '%" + str + "%'";
         PreparedStatement statement = conn.prepareStatement(query);
+        System.out.println(statement);
+        
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            System.out.println(rs.getString("nameOfPackage"));
+            searchData.add(new Package(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("startDate"),
+                    rs.getDate("endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("endTime")
+            ));
         }
+        return searchData;
     }
+    
+    
 
     public static boolean checkUsernameAndSSN(String table, String uname, int ssn) throws SQLException {
         Connection conn = establishConnection();

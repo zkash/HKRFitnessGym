@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +54,13 @@ public class AdminViewAdminAccountsController implements Initializable {
     private  ObservableList<Admin> searchData;
     @FXML private TextField searchAdmin;
     
+    @FXML private CheckBox searchFullName;
+    @FXML private CheckBox searchUsername;
+    @FXML private CheckBox searchEmail;
+    @FXML private CheckBox searchSSN;
+    @FXML private CheckBox searchPhoneNumber;
+    @FXML private CheckBox searchAddress;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -90,12 +99,91 @@ public class AdminViewAdminAccountsController implements Initializable {
     }
     
     
-    public void deleteBtnClick(ActionEvent event) {
+    public void deleteBtnClick(ActionEvent event) throws SQLException {
+        ObservableList<Admin> row , allRows;
+        allRows = adminViewAccountsTable.getItems();
+        row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
+        boolean deletionError = false;
+        try {
+            deletionError = DBHandler.deleteFromAdminAccounts(row.get(0).getSSN());
+        }
+        catch(Exception e) {
+            deletionError = true;
+        }
         
+        if (!deletionError) {
+            Helper.DialogBox(deletionError, "Admin successfully deleted");
+        }
+        else {
+            Helper.DialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
+        }
+        System.out.println(row.get(0).getFullName()); 
+        row.forEach(allRows::remove);
     }
     
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchAdmin.getText(); 
+        String sqlQuery = "";
+        ArrayList<CheckBox> checkboxes = new ArrayList<>();
+        checkboxes.add(searchFullName);
+        checkboxes.add(searchUsername);
+        checkboxes.add(searchEmail);
+        checkboxes.add(searchSSN);
+        checkboxes.add(searchPhoneNumber);
+        checkboxes.add(searchAddress);
+        
+        Map<CheckBox, String> map = new HashMap<>();
+        map.put(searchUsername, "username");
+        map.put(searchEmail, "email");
+        map.put(searchSSN, "ssn");
+        map.put(searchPhoneNumber, "phoneNumber");
+        map.put(searchAddress, "address");
+        
+        int checkboxCounter = 0;
+        CheckBox cb = null;
+        for(CheckBox checkbox : checkboxes) {
+            if (checkbox.isSelected()) {
+                checkboxCounter++;
+                cb = checkbox;
+            }
+        }
+//        searchFieldStr = "";
+//        
+//        if (cb == searchFullName) {
+//            searcchFieldStr = ""
+//        }
+        
+        if(checkboxCounter == 1) {
+            sqlQuery = cb + " LIKE '%" + searchQuery + "%' ";
+        }
+        else { 
+            if(searchFullName.isSelected()) {
+                sqlQuery = sqlQuery + " OR firstName LIKE '%" + searchQuery + "%' "
+                        + "OR middleName LIKE '%" + searchQuery + "%' "
+                        + "OR lastName LIKE '%" + searchQuery + "%' ";
+            }
+            if(searchUsername.isSelected()) {
+                sqlQuery = sqlQuery + " OR username LIKE '%" + searchQuery + "%'";
+            }
+
+            if(searchEmail.isSelected()) {
+                sqlQuery = sqlQuery + " OR email LIKE '%" + searchQuery + "%'";
+            }
+
+            if(searchSSN.isSelected()) {
+                sqlQuery = sqlQuery + " OR ssn LIKE '%" + searchQuery + "%'";
+            }
+
+            if(searchPhoneNumber.isSelected()) {
+                sqlQuery = sqlQuery + " OR phoneNumber LIKE '%" + searchQuery + "%'";
+            }
+
+            if(searchAddress.isSelected()) {
+                sqlQuery = sqlQuery + " OR address LIKE '%" + searchQuery + "%'";
+            }
+        }
+        
+        System.out.println(sqlQuery);
         searchData = DBHandler.searchInAdminViewAdminAccounts(searchQuery, "Admin");
 
         adminViewAccountsTable.getColumns().clear();

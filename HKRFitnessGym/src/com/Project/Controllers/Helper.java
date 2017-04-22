@@ -67,8 +67,8 @@ public class Helper {
     }
     
     //Dialog box
-    public static void DialogBox(boolean alreadyExists, String message) {
-        if(alreadyExists) {
+    public static void DialogBox(boolean errorCondition, String message) {
+        if(errorCondition) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setContentText(message);

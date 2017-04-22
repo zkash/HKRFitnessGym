@@ -172,39 +172,39 @@ public class DBHandler {
     public static ObservableList<Admin> searchInAdminViewAdminAccounts(String str, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
-        String query = "SELECT * FROM $tableName WHERE firstName LIKE '%" + str + "%'"
-                + "OR middleName LIKE '%" + str + "%'"
-                + "OR lastName LIKE '%" + str + "%'"
-                + "OR address LIKE '%" + str + "%'"
-                + "OR username LIKE '%" + str + "%'";
-        query = query.replace("$tableName", table);
-        System.out.println(query);
-        PreparedStatement statement = conn.prepareStatement(query);
-        //statement.setString(1, table);
-        //System.out.println(statement);
-        
-        ResultSet rs = statement.executeQuery();
-        //System.out.println(rs);
-        while (rs.next()) {
-           // System.out.println(rs.getString("address"));
-            
-            //System.out.println(rs.getString("firstName"));
-//              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-//                rs.getString("username"),
-//                rs.getInt("ssn")
-//              ));  
-
-                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getString("dateOfBirth"),
-                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getInt("ssn")
-              ));   
-            }
+//        String query = "SELECT * FROM $tableName WHERE firstName LIKE '%" + str + "%'"
+//                + "OR middleName LIKE '%" + str + "%'"
+//                + "OR lastName LIKE '%" + str + "%'"
+//                + "OR address LIKE '%" + str + "%'"
+//                + "OR username LIKE '%" + str + "%'";
+//        query = query.replace("$tableName", table);
+//        System.out.println(query);
+//        PreparedStatement statement = conn.prepareStatement(query);
+//        //statement.setString(1, table);
+//        //System.out.println(statement);
+//        
+//        ResultSet rs = statement.executeQuery();
+//        //System.out.println(rs);
+//        while (rs.next()) {
+//           // System.out.println(rs.getString("address"));
+//            
+//            //System.out.println(rs.getString("firstName"));
+////              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+////                rs.getString("username"),
+////                rs.getInt("ssn")
+////              ));  
+//
+//                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+//                    rs.getString("username"),
+//                    rs.getString("gender"),
+//                    rs.getString("dateOfBirth"),
+//                    //Helper.DateToString(rs.getDate("dateOfBirth")),
+//                    rs.getString("address"),
+//                    rs.getInt("phoneNumber"),
+//                    rs.getString("email"),
+//                    rs.getInt("ssn")
+//              ));   
+//            }
         return searchData;
     }
 
@@ -376,5 +376,16 @@ public class DBHandler {
 
         }
         return null;
+    }
+    
+    public static boolean deleteFromAdminAccounts(int ssn) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "DELETE FROM Admin WHERE ssn = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, ssn);
+        statement.execute();
+        boolean deletionError = false;
+        conn.close();
+        return deletionError;
     }
 }

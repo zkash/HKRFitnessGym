@@ -193,7 +193,8 @@ public class CreateUserPageController implements Initializable {
         if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
                 Helper.isEmpty(add) || Helper.isEmpty(pnum) || Helper.isEmpty(ead) || 
                 Helper.isEmpty(ssnum) || Helper.isEmpty(un) || Helper.isEmpty(pw)) {
-            invalidMsgAllData.setText("Enter All Data");
+            //invalidMsgAllData.setText("Enter All Data");
+            Helper.DialogBox(true, "Enter all data");
         }
         else {
             System.out.println("here");

@@ -38,27 +38,27 @@ public class AdminViewAdminAccountsController implements Initializable {
     private int adminSSN;
     private boolean login;
     
-    @FXML private TableView<Person> adminViewAccountsTable;
-    @FXML private TableColumn<Person, String> fullNameColumn;
-    @FXML private TableColumn<Person, String> usernameColumn;
-    @FXML private TableColumn<Person, String> ssnColumn;
-    @FXML private TableColumn<Person, String> dobColumn;
-    @FXML private TableColumn<Person, String> addressColumn;
-    @FXML private TableColumn<Person, String> genderColumn;
-    @FXML private TableColumn<Person, String> emailColumn;
-    @FXML private TableColumn<Person, String> phoneNumberColumn;
+    @FXML private TableView<Admin> adminViewAccountsTable;
+    @FXML private TableColumn<Admin, String> fullNameColumn;
+    @FXML private TableColumn<Admin, String> usernameColumn;
+    @FXML private TableColumn<Admin, String> ssnColumn;
+    @FXML private TableColumn<Admin, String> dobColumn;
+    @FXML private TableColumn<Admin, String> addressColumn;
+    @FXML private TableColumn<Admin, String> genderColumn;
+    @FXML private TableColumn<Admin, String> emailColumn;
+    @FXML private TableColumn<Admin, String> phoneNumberColumn;
     
-    private  ObservableList<Person> data;
-    private  ObservableList<Person> searchData;
+    private  ObservableList<Admin> data;
+    private  ObservableList<Admin> searchData;
     @FXML private TextField searchAdmin;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        adminSSN = LoginStatus.getSSN();
-        login = LoginStatus.getLogin();
         try {
+            adminSSN = LoginStatus.getSSN();
+            login = LoginStatus.getLogin();
             ArrayList<ArrayList<String>> finalArray;
-            data = DBHandler.adminViewAccounts("Admin");
+        data = DBHandler.adminViewAdminAccounts();
             // Set cell value factory to TableView
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -70,14 +70,13 @@ public class AdminViewAdminAccountsController implements Initializable {
             phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
             adminViewAccountsTable.setItems(null);
             adminViewAccountsTable.setItems(data);
-        } 
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(AdminViewAdminAccountsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        data = DBHandler.adminViewAccounts("Admin");
+        data = DBHandler.adminViewAdminAccounts();
             // Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -98,7 +97,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchAdmin.getText(); 
-        searchData = DBHandler.searchInAdminViewAccounts(searchQuery, "Admin");
+        searchData = DBHandler.searchInAdminViewAdminAccounts(searchQuery, "Admin");
 
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");

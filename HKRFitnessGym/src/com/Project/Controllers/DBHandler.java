@@ -258,6 +258,7 @@ public class DBHandler {
         
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
+            System.out.println(rs.getFloat("price"));
             searchData.add(new Package(
                     rs.getString("packageName"),
                     rs.getFloat("price"),

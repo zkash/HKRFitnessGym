@@ -54,6 +54,7 @@ public class AdminViewPackagesController implements Initializable {
             data = DBHandler.adminViewPackages();
             // Set cell value factory to TableView
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
             endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
             startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));

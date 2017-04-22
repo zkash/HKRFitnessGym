@@ -391,14 +391,28 @@ public class DBHandler {
         return deletionError;
     }
     
-    public static boolean deletePackage(String pName) throws SQLException {
+    public static boolean deletePackage(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, pName);
+        statement.setString(1, pn);
         statement.execute();
         boolean deletionError = false;
         conn.close();
         return deletionError;
+    }
+    
+    public static void updatePackage(String pn, Float price, Date sd, Date ed, String st, String et) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE Package SET "
+                + "packageName = ?, "
+                + "price = ?, "
+                + "startDate = ?, "
+                + "endDate = ?, "
+                + "startTime = ?, "
+                + "endTime = ? "
+                + "WHERE packageName = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pn);
     }
 }

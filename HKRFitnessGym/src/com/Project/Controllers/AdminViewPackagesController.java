@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -13,11 +14,16 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -106,7 +112,18 @@ public class AdminViewPackagesController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        
+        data = DBHandler.adminViewPackages();
+        // Set cell value factory to TableView
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        //TODO Fix this
+        membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
+        adminViewPackagesTable.setItems(null);
+        adminViewPackagesTable.setItems(data);
     }
     
     public void deleteBtnClick(ActionEvent event) throws SQLException {
@@ -130,7 +147,18 @@ public class AdminViewPackagesController implements Initializable {
         row.forEach(allRows::remove);
     }
     
-    public void updateBtnClick(ActionEvent event) throws SQLException {
-        
+    public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
+        ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
+        String packageName = row.get(0).getPackageName();
+        goToUpdatePackagePage(event, packageName);
+    }
+    
+    public void goToUpdatePackagePage(ActionEvent event, String packageName) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();   
     }
 }

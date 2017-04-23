@@ -402,7 +402,7 @@ public class DBHandler {
         return deletionError;
     }
     
-    public static void updatePackage(String pn, Float price, Date sd, Date ed, String st, String et) throws SQLException {
+    public static void updatePackage(Package pack, String packageNameOld, int admin_ssn) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
                 + "packageName = ?, "
@@ -413,7 +413,15 @@ public class DBHandler {
                 + "endTime = ? "
                 + "WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, pn);
+        statement.setString(1, pack.getPackageName());
+        statement.setFloat(2, pack.getPrice());
+        statement.setDate(3, pack.getStartDate());
+        statement.setDate(4, pack.getEndDate());
+        statement.setString(5, pack.getStartTime());
+        statement.setString(6, pack.getEndTime());
+        statement.setString(7, packageNameOld);
+        statement.executeUpdate();
+        conn.close();
     }
     
         public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {

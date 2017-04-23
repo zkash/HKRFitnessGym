@@ -63,7 +63,7 @@ public class UpdatePackageInformationPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
         labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
-        validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][1-2]):[0-5][0-9]", "([1-9]|[1][1-2]):[0-5][0-9]");
+        validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][0-2]):[0-5][0-9]", "([1-9]|[1][0-2]):[0-5][0-9]");
     
         //Add listeners to the textfields
         IntStream.range(0, textfields.size()).forEach(i -> {

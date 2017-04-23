@@ -17,12 +17,16 @@ import javafx.beans.property.StringProperty;
  */
 public class Admin extends Person {
 
-    public Admin(Date dob, String fn, String mn, String ln, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
-        super(dob, fn, mn, ln, add, pnum, uname, pwd, ead, gen, ssnum);
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssnum);
     }
     
     public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {
         super(fullName, uname, gen, dob, add, pnum, ead, ssnum);
+    }
+    
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssnum) {
+        super(fn, mn, ln, dob, add, pnum, ead, gen, ssnum);
     }
     
     public void createAccount() {

@@ -26,9 +26,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.binding.BooleanBinding;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -50,8 +54,6 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private TextField phoneNumber;
     @FXML private TextField email;
     @FXML private TextField ssn;
-    @FXML private TextField username;
-    @FXML private TextField password;
     @FXML private RadioButton genderMale;
     @FXML private RadioButton genderFemale;
     @FXML private RadioButton genderOther;
@@ -65,13 +67,11 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private Label invalidMsgPhoneNumber;
     @FXML private Label invalidMsgEmail;
     @FXML private Label invalidMsgSSN;
-    @FXML private Label invalidMsgUsername;
-    @FXML private Label invalidMsgPassword;
     @FXML private Label invalidMsgAllData;
     
     private boolean error;
     private String adminUsername;
-    private int adminSSN;
+    private int adminSSN = 1234567890;
     private boolean login;
     
     private List<TextField> fields;
@@ -81,8 +81,19 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML
     private Button createUserBtn;
     
+    private List<TextField> textfields;
+    private List<Label> labels;
+    private List<String> validationChecks;
+    private BooleanBinding validated;
+    
+    ObservableList<Admin> data;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//        textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
+//        labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
+//        validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][0-2]):[0-5][0-9]", "([1-9]|[1][0-2]):[0-5][0-9]");
+    
         changeFocus(firstName, invalidMsgFirstName);
         changeFocus(middleName, invalidMsgMiddleName);
         changeFocus(lastName, invalidMsgLastName);
@@ -90,12 +101,36 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         changeFocus(phoneNumber, invalidMsgPhoneNumber);
         changeFocus(email, invalidMsgEmail);
         changeFocus(ssn, invalidMsgSSN);
-        changeFocus(username, invalidMsgUsername);
-        changeFocus(password, invalidMsgPassword);
         
-        this.adminSSN = LoginStatus.getSSN();
+        
+        //this.adminSSN = LoginStatus.getSSN();
         this.login = LoginStatus.getLogin();
         
+        try {
+            data = DBHandler.getAdminPersonalInformation(adminSSN);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        firstName.setText(data.get(0).getFirstName());
+        middleName.setText(data.get(0).getMiddleName());
+        lastName.setText(data.get(0).getLastName());
+        dateOfBirth.setValue(Helper.convertSQLDateToLocalDate(data.get(0).getDOB())); 
+        address.setText(data.get(0).getAddress());
+        phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
+        email.setText(data.get(0).getEmail());
+        ssn.setText(Integer.toString(data.get(0).getSSN()));
+        
+        String gen = data.get(0).getGender();
+
+        if(gen.equals("Male")) {
+            genderMale.setSelected(true);
+        }
+        else if (gen.equals("Female")) {
+            genderFemale.setSelected(true);
+        }
+        else if (gen.equals("Other")) {
+            genderOther.setSelected(true);
+        }
     }     
     
     public void setAdminUsername(String uname) {
@@ -141,16 +176,6 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                         String ssnum = ssn.getText();
                         setTextOnCondition(!Helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
                     }
-                    else if (tf == username) {
-                        String unRegex = "^[A-Za-z][A-za-z0-9]*";
-                        String uname = username.getText();
-                        setTextOnCondition(!Helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
-                    }
-                    else if (tf == password) {
-                        String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-                        String pwd = password.getText();
-                        setTextOnCondition(!Helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
-                    }
                 }
             }  
         });
@@ -188,12 +213,10 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         String pnum = phoneNumber.getText();
         String ead = email.getText();
         String ssnum = ssn.getText();
-        String un = username.getText();
-        String pw = password.getText();
         
         if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
                 Helper.isEmpty(add) || Helper.isEmpty(pnum) || Helper.isEmpty(ead) || 
-                Helper.isEmpty(ssnum) || Helper.isEmpty(un) || Helper.isEmpty(pw)) {
+                Helper.isEmpty(ssnum)) {
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
@@ -214,17 +237,15 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 Helper.isEmpty(invalidMsgAddress.getText()) &&
                 Helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
                 Helper.isEmpty(invalidMsgEmail.getText()) &&
-                Helper.isEmpty(invalidMsgSSN.getText()) &&
-                Helper.isEmpty(invalidMsgUsername.getText()) &&
-                Helper.isEmpty(invalidMsgPassword.getText())) {
+                Helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
-                DBHandler.updatePersonalInformation("Admin", fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
+                DBHandler.updatePersonalInformation("Admin", fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber);
             }
         }        
     }
     
     public void clearTextField() {
-        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
+        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
         for (TextField field : fields) {
             field.clear();
         }
@@ -236,5 +257,13 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
             radioButton.setSelected(false);
         }
     }
+    
+//    public void updateBtnClick(ActionEvent event) {
+//        
+//    }
+//    
+//    public void deleteBtnClick(ActionEvent event) {
+//        
+//    }
 }
 

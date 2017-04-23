@@ -17,8 +17,8 @@ import javafx.beans.property.StringProperty;
  */
 public class Member extends Person {
 
-    public Member(Date dob, String fn, String mn, String ln, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
-        super(dob, fn, mn, ln, add, pnum, uname, pwd, ead, gen, ssnum);
+    public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssnum);
     }
 
     public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {

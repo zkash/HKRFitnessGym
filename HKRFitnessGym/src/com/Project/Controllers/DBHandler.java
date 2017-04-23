@@ -292,7 +292,7 @@ public class DBHandler {
         return alreadyExists;
     }
     
-    public static void updatePersonalInformation(String table, String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) throws SQLException {
+    public static void updatePersonalInformation(String table, String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE ? SET"
                 + " firstName = ?,"
@@ -303,9 +303,7 @@ public class DBHandler {
                 + " address = ?,"
                 + " phoneNumber = ?,"
                 + " email = ?, "
-                + " ssn = ?,"
-                + " username = ?,"
-                + " password =?"
+                + " ssn = ?"
                 + "WHERE ssn = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, table);
@@ -318,8 +316,6 @@ public class DBHandler {
         statement.setInt(8, pnum);
         statement.setString(9, ead);
         statement.setInt(10, ssnum);
-        statement.setString(11, uname);
-        statement.setString(12, pwd);
         statement.execute();
         conn.close();
     }
@@ -450,25 +446,36 @@ public class DBHandler {
         return null;
     }
         
-    public static void getAdminPersonalInformation(int ssnum) throws SQLException {
+    public static ObservableList<Admin> getAdminPersonalInformation(int ssnum) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT * FROM Admin WHERE ssn = ?";
+        String query = "SELECT firstName, middleName, lastName,"
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn"
+                + " FROM Admin WHERE ssn = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, ssnum);
         ResultSet rs = statement.executeQuery();
+        
         ObservableList<Admin> data = FXCollections.observableArrayList();
         while(rs.next()) {
-            data.add(new Admin(rs.getDate("dateOfBirth"),
-            rs.getString("firstName"),
-            rs.getString("middleName"),
-            rs.getString("lastName"),
-            rs.getString("address"),
-            rs.getInt("phoneNumber"),
-            rs.getString("username"),
-            rs.getString("password"),
-            rs.getString("email"),
-            rs.getString("gender"),
-            rs.getInt("ssn")));
+           try {
+                data.add(new Admin(rs.getString("firstName"),
+                    rs.getString("middleName"),
+                    rs.getString("lastName"),
+                    rs.getDate("dateOfBirth"),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getString("gender"),
+                    rs.getInt("ssn")
+                ));  
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+                System.out.println(e.getStackTrace());
+            }
         }
+        System.out.println(data);
+        return data;
     }
 }

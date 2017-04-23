@@ -61,7 +61,7 @@ public class Person {
         this.fullName = new SimpleStringProperty(fullName);
     }
     
-    public Person(Date dob, String fn, String mn, String ln, String add,
+    public Person(String fn, String mn, String ln, Date dob, String add,
             int pnum, String uname, String pwd, String ead, String gen,
             int ssnum) {
         this.firstName = new SimpleStringProperty(fn);
@@ -78,6 +78,22 @@ public class Person {
         this.fullName = (StringProperty) (this.firstName.concat(this.middleName)).concat(this.lastName);
     }
 
+    public Person(String fn, String mn, String ln, Date dob, String add,
+            int pnum, String ead, String gen, int ssnum) {
+        this.firstName = new SimpleStringProperty(fn);
+        this.middleName = new SimpleStringProperty(mn);
+        this.lastName = new SimpleStringProperty(ln);
+        this.dateOfBirth = dob;
+        this.gender = new SimpleStringProperty(gen);
+        this.address = new SimpleStringProperty(add);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
+        this.email = new SimpleStringProperty(ead);
+        this.ssn = new SimpleIntegerProperty(ssnum);
+        this.username = null;
+        this.password = null;
+        this.fullName = null;
+    }
+    
     // Getters
     public Date getDOB() {
         return dateOfBirth;

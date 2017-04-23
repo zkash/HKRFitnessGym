@@ -77,7 +77,7 @@ public class UpdatePackageInformationPageController implements Initializable {
             packageStartTimeState.setValue("PM");
         }
         
-        if(endTime.get(1) == "AM") {
+        if(endTime.get(1) == "PM") {
             packageEndTimeState.setValue("PM");
         }
     }

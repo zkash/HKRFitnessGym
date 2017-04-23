@@ -58,7 +58,6 @@ public class AdminViewPackagesController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      //  updatePackageInformationPageController.injectAdminViewPackagesController(this);
         try {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
@@ -103,7 +102,7 @@ public class AdminViewPackagesController implements Initializable {
          membersColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
          adminUsernameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
  
-//      Set cell value factory to TableView
+        // Set cell value factory to TableView
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -136,12 +135,12 @@ public class AdminViewPackagesController implements Initializable {
         allRows = adminViewPackagesTable.getItems();
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = false;
-        //try {
+        try {
             deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
-        //}
-        //catch(Exception e) {
-         //   deletionError = true;
-        //}
+        }
+        catch(Exception e) {
+            deletionError = true;
+        }
         
         if (!deletionError) {
             Helper.DialogBox(deletionError, "Package successfully deleted");
@@ -155,95 +154,16 @@ public class AdminViewPackagesController implements Initializable {
     public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         String packageName = row.get(0).getPackageName();
-        //ObservableList<Package> pack = DBHandler.getPackageInfoAdmin(packageName);
         pack = DBHandler.getPackageInfoAdmin(packageName);
         
         Node node = (Node) event.getSource();
-       Stage stage = (Stage) node.getScene().getWindow();
-        
+        Stage stage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
         Parent root = (Parent)loader.load();
         updatePackageInformationPageController = loader.getController();
         updatePackageInformationPageController.setPackage(pack);
-        //updatePackageInformationPageController = loader.<UpdatePackageInformationPageController>getController();
-//       / updatePackageInformationPageController = (UpdatePackageInformationPageController)loader.getController();
-       // updatePackageInformationPageController = new UpdatePackageInformationPageController();
-        System.out.println(updatePackageInformationPageController);
-      //  updatePackageInformationPageController.printer("Hello");
         Scene scene = new Scene(root);
-       // Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        
-        
-//        System.out.println(pack);
-//        
-////        updatePackageInformationPageController = new UpdatePackageInformationPageController(pack);
-////        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-////        //loader.setController(updatePackageInformationPageController);
-////        Pane mainpane = (Pane) loader.load();
-//        //updatePackageInformationPageController.setPackage(pack);
-////        updatePackageInformationPageController = new UpdatePackageInformationPageController();
-////        updatePackageInformationPageController.setPackage(pack);
-//
-//        FXMLLoader loader = new FXMLLoader();
-//        Pane root = FXMLLoader.load(getClass().getResource("com/Project/FXML/UpdatePackageInformationPage.fxml"));
-//        UpdatePackageInformationPageController updatePackageInformationPageController = (UpdatePackageInformationPageController)loader.getController();
-//        updatePackageInformationPageController.printer("Hello");
-////        FXMLLoader fxmlLoader = loader (getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-////        Parent root = (Parent) fxmlLoader.load();
-//       // UpdatePackageInformationPageController updatePackageInformationPageController = fxmlLoader.<UpdatePackageInformationPageController>getController();
-//        // updatePackageInformationPageController.setPackage(pack);
-//        Stage stage = new Stage();
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-////        Node node = (Node)event.getSource();
-////        Stage stage = (Stage)node.getScene().getWindow();
-////        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-////        updatePackageInformationPageController = FXMLLoader.<UpdatePackageInformationPageController>getController();
-////                
-////                //new UpdatePackageInformationPageController();
-////        updatePackageInformationPageController.setPackage(pack);
-////        Scene scene = new Scene(root);
-////        stage.setScene(scene);
-////        
-////        stage.show();
-//        
-////        ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
-////        String packageName = row.get(0).getPackageName();
-////        ObservableList<Package> pack = DBHandler.getPackageInfoAdmin(packageName);
-//////        
-//////        Stage stage = new Stage();
-//////        FXMLLoader loader = new FXMLLoader();
-//////        Pane root = loader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-//////        
-////        Node node = (Node)event.getSource();
-////        Stage stage = (Stage) node.getScene().getWindow();
-////        
-////        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-////        FXMLLoader loader = new FXMLLoader();
-//////         upipc = (UpdatePackageInformationPageController)loader.getController();
-//////        CreateUserPageController cupc = (CreateUserPageController)loader.getController();
-//////        System.out.println(upipc);
-//////        System.out.println(cupc);
-////        //upipc.setFields(pack);
-////        
-////        Scene scene = new Scene(root);
-////        stage.setScene(scene);
-////        stage.show();
-//        
-//
-//        
-//        //UpdatePackageInformationPageController upipc = Loader.getController();
-//        //upipc.setFields(pack);
-//        //upipc.setAllFields(packageName, Float.NaN, sd, ed, packageName, packageName);
-//        //((UpdatePackageInformationPageController)FXMLLoader.getController()).setPackageName(packageName);
-////        stage.show();   
     }
-    
-//    public void printer() {
-//        System.out.println("Printer");
-//    }
-   
 }

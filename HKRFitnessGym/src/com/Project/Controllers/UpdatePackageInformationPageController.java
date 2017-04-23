@@ -48,15 +48,6 @@ public class UpdatePackageInformationPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        //adminViewPackagesController.printer();
-//        System.out.println("FDJHFSDKH " + this.pack);
-//        System.out.println(packageName);
-      //  System.out.println("PSADOSAOPKDS " + pack);
-//        pack.addListener((observable, oldProperty, newProperty) -> {
-//            invalidMsgAllData.setText("HOHO");
-//        });
-      //  System.out.println( adminViewPackagesController.pack);
-        
     }    
     
     public void updateBtnClick(ActionEvent event) {

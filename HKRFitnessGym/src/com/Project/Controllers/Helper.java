@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.Alert;
@@ -111,11 +113,33 @@ public class Helper {
     }
     
     public static String convertTimeTo24HourFormat(String timeIn12HourFormat) {
-        String[] startTimeDivided = timeIn12HourFormat.split(":");
-        int hour = Integer.parseInt(startTimeDivided[0]);
-        String minute = startTimeDivided[1];
+        String[] timeDivided = timeIn12HourFormat.split(":");
+        int hour = Integer.parseInt(timeDivided[0]);
+        String minute = timeDivided[1];
         hour = hour + 12;
         String timeIn24HourFormat = Integer.toString(hour) + ":" + minute;
         return timeIn24HourFormat;
+    }
+    
+    public static ArrayList<String> convertTimeTo12HourFormat(String timeIn24HourFormat) {
+        String[] timeDivided = timeIn24HourFormat.split(":");
+        ArrayList<String> time = new ArrayList<>();
+        int hour = Integer.parseInt(timeDivided[0]);
+        String minute = timeDivided[1];
+        String timeState = "AM";
+        if (hour > 12) {
+            hour = hour - 12;
+            timeState = "PM";
+        }
+        String timeIn12HourFormat = Integer.toString(hour) + ":" + minute;
+        time.add(timeIn12HourFormat);
+        time.add(timeState);
+        return time;
+    }
+    
+    public static LocalDate convertSQLDateToLocalDate(Date date) {
+       // LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate ld = date.toLocalDate();
+        return ld;
     }
 }

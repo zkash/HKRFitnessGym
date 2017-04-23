@@ -415,4 +415,30 @@ public class DBHandler {
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, pn);
     }
+    
+        public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
+        ObservableList<Package> data = FXCollections.observableArrayList();
+        Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package WHERE packageName = ?");
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, pn);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                data.add(new Package(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime")
+                ));     
+            }   
+            return data;
+        }
+        catch (Exception e) {
+
+        }
+        return null;
+    }
 }

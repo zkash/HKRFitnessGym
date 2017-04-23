@@ -14,7 +14,7 @@
     <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
           <children>
-            <Label layoutX="114.0" layoutY="50.0" text="Update Package" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
+            <Label layoutX="114.0" layoutY="50.0" text="Create Package" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
                <font>
                   <Font size="18.0" />
                </font>

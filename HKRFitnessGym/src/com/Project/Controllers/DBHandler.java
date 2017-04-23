@@ -292,9 +292,9 @@ public class DBHandler {
         return alreadyExists;
     }
     
-    public static void updatePersonalInformation(String table, String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum) throws SQLException {
+    public static void updatePersonalInformation(String table, Admin admin, int ssnOld) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE ? SET"
+        String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
                 + " middleName = ?,"
                 + " lastName = ?,"
@@ -304,19 +304,21 @@ public class DBHandler {
                 + " phoneNumber = ?,"
                 + " email = ?, "
                 + " ssn = ?"
-                + "WHERE ssn = ?";
+                + " WHERE ssn = ?";
+        query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, table);
-        statement.setString(2, fn);
-        statement.setString(3, mn);
-        statement.setString(4, ln);
-        statement.setString(5, gen);
-        statement.setDate(6, dob);
-        statement.setString(7, add);
-        statement.setInt(8, pnum);
-        statement.setString(9, ead);
-        statement.setInt(10, ssnum);
-        statement.execute();
+        statement.setString(1, admin.getFirstName());
+        statement.setString(2, admin.getMiddleName());
+        statement.setString(3, admin.getLastName());
+        statement.setString(4, admin.getGender());
+        statement.setDate(5, admin.getDOB());
+        statement.setString(6, admin.getAddress());
+        statement.setInt(7, admin.getPhoneNumber());
+        statement.setString(8, admin.getEmail());
+        statement.setInt(9, admin.getSSN());
+        statement.setInt(10, ssnOld);
+        System.out.println(statement);
+        statement.executeUpdate();
         conn.close();
     }
     

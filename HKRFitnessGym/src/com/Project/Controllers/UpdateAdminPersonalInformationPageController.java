@@ -87,6 +87,9 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private BooleanBinding validated;
     
     ObservableList<Admin> data;
+    Admin admin;
+    
+    private int ssnOld;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -118,7 +121,23 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         address.setText(data.get(0).getAddress());
         phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
         email.setText(data.get(0).getEmail());
-        ssn.setText(Integer.toString(data.get(0).getSSN()));
+        int ssnumber = data.get(0).getSSN();
+        int lastFourDigitsOfSSN = 0;
+        int firstSixDigitsOfSSN = 0;
+        int multiplier = 1;
+        for (int i = 0; i < 4; i++) {
+            lastFourDigitsOfSSN = lastFourDigitsOfSSN + (ssnumber % 10) * multiplier;
+            multiplier *= 10;
+            ssnumber = ssnumber/10;
+        }
+        multiplier = 1;
+        for (int i = 0; i < 6; i++) {
+            firstSixDigitsOfSSN = firstSixDigitsOfSSN + (ssnumber % 10) * multiplier;
+            multiplier *= 10;
+            ssnumber = ssnumber/10;
+        }
+        
+        ssn.setText(Integer.toString(firstSixDigitsOfSSN) + "-" + Integer.toString(lastFourDigitsOfSSN));
         
         String gen = data.get(0).getGender();
 
@@ -131,6 +150,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         else if (gen.equals("Other")) {
             genderOther.setSelected(true);
         }
+        
+        ssnOld = data.get(0).getSSN();
     }     
     
     public void setAdminUsername(String uname) {
@@ -220,7 +241,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
-            System.out.println("here");
+            System.out.println("herefdsdsf");
             String[] ssnParts = ssnum.split("-");
             System.out.println(ssnParts);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
@@ -239,7 +260,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 Helper.isEmpty(invalidMsgEmail.getText()) &&
                 Helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
-                DBHandler.updatePersonalInformation("Admin", fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber);
+                admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssnumber);
+                DBHandler.updatePersonalInformation("Admin", admin, ssnOld);
             }
         }        
     }

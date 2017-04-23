@@ -262,6 +262,10 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 System.out.println("reached here");
                 admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssnumber);
                 DBHandler.updatePersonalInformation("Admin", admin, ssnOld);
+                Helper.DialogBox(false, "Admin details successfully updated");
+            }
+            else {
+                Helper.DialogBox(true, "Could not update admin details");
             }
         }        
     }

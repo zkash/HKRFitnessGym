@@ -49,7 +49,7 @@ public class DBHandler {
                 data.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                     rs.getString("username"),
                     rs.getString("gender"),
-                    rs.getString("dateOfBirth"),
+                    rs.getDate("dateOfBirth"),
                     //Helper.DateToString(rs.getDate("dateOfBirth")),
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
@@ -76,7 +76,7 @@ public class DBHandler {
                 data.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                     rs.getString("username"),
                     rs.getString("gender"),
-                    rs.getString("dateOfBirth"),
+                    rs.getDate("dateOfBirth"),
                     //Helper.DateToString(rs.getDate("dateOfBirth")),
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
@@ -237,7 +237,7 @@ public class DBHandler {
                 searchData.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                     rs.getString("username"),
                     rs.getString("gender"),
-                    rs.getString("dateOfBirth"),
+                    rs.getDate("dateOfBirth"),
                     //Helper.DateToString(rs.getDate("dateOfBirth")),
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
@@ -448,5 +448,27 @@ public class DBHandler {
 
         }
         return null;
+    }
+        
+    public static void getAdminPersonalInformation(int ssnum) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT * FROM Admin WHERE ssn = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, ssnum);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Admin> data = FXCollections.observableArrayList();
+        while(rs.next()) {
+            data.add(new Admin(rs.getDate("dateOfBirth"),
+            rs.getString("firstName"),
+            rs.getString("middleName"),
+            rs.getString("lastName"),
+            rs.getString("address"),
+            rs.getInt("phoneNumber"),
+            rs.getString("username"),
+            rs.getString("password"),
+            rs.getString("email"),
+            rs.getString("gender"),
+            rs.getInt("ssn")));
+        }
     }
 }

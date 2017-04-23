@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.sql.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,11 +17,11 @@ import javafx.beans.property.StringProperty;
  */
 public class Member extends Person {
 
-    public Member(String dob, String fn, String mn, String ln, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
+    public Member(Date dob, String fn, String mn, String ln, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
         super(dob, fn, mn, ln, add, pnum, uname, pwd, ead, gen, ssnum);
     }
 
-    public Member(String fullName, String uname, String gen, String dob, String add, int pnum, String ead, int ssnum) {
+    public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {
         super(fullName, uname, gen, dob, add, pnum, ead, ssnum);
     }
     

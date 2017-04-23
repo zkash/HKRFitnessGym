@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.sql.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +20,7 @@ public class Person {
     private final StringProperty firstName;
     private final StringProperty middleName;
     private final StringProperty lastName;
-    private final StringProperty dateOfBirth;
+    private Date dateOfBirth;
     private final StringProperty gender;
     private final StringProperty address;
     private final IntegerProperty phoneNumber;
@@ -33,7 +34,7 @@ public class Person {
         this.firstName = new SimpleStringProperty("");
         this.middleName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
-        this.dateOfBirth = new SimpleStringProperty("");
+        this.dateOfBirth = null;
         this.gender = new SimpleStringProperty("");
         this.address = new SimpleStringProperty("");
         this.phoneNumber = new SimpleIntegerProperty();
@@ -44,12 +45,12 @@ public class Person {
         this.fullName = new SimpleStringProperty(fullName);
     }
     
-    public Person(String fullName, String uname, String gen, String dob,
+    public Person(String fullName, String uname, String gen, Date dob,
             String add, int pnum, String ead, int ssn) {
         this.firstName = new SimpleStringProperty("");
         this.middleName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
-        this.dateOfBirth = new SimpleStringProperty(dob);
+        this.dateOfBirth = dob;
         this.gender = new SimpleStringProperty(gen);
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);
@@ -60,13 +61,13 @@ public class Person {
         this.fullName = new SimpleStringProperty(fullName);
     }
     
-    public Person(String dob, String fn, String mn, String ln, String add,
+    public Person(Date dob, String fn, String mn, String ln, String add,
             int pnum, String uname, String pwd, String ead, String gen,
             int ssnum) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = new SimpleStringProperty(dob);
+        this.dateOfBirth = dob;
         this.gender = new SimpleStringProperty(gen);
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);
@@ -78,8 +79,8 @@ public class Person {
     }
 
     // Getters
-    public String getDOB() {
-        return dateOfBirth.get();
+    public Date getDOB() {
+        return dateOfBirth;
     }
 
     public String getFirstName() {
@@ -127,8 +128,8 @@ public class Person {
     }
 
     //Setters
-    public void setDOB(String dob) {
-        dateOfBirth.set(dob);
+    public void setDOB(Date dob) {
+        dateOfBirth = dob;
     }
 
     public void setFirstName(String fn) {
@@ -185,9 +186,9 @@ public class Person {
         return lastName;
     }
     
-    public StringProperty dobProperty() {
-        return dateOfBirth;
-    }
+//    public StringProperty dobProperty() {
+//        return dateOfBirth;
+//    }
     
     public StringProperty genderProperty() {
         return gender;

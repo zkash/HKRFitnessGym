@@ -99,17 +99,6 @@ public class DBHandler {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
                     + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//            System.out.println(admin.getFirstName());
-//            System.out.println(admin.getMiddleName());
-//            System.out.println(admin.getLastName());
-//            System.out.println(admin.getGender());
-//            System.out.println(admin.getDOB());
-//            System.out.println(admin.getAddress());
-//            System.out.println(admin.getPhoneNumber());
-//            System.out.println(admin.getEmail());
-//            System.out.println(admin.getSSN1());
-//            System.out.println(admin.getUsername());
-//            System.out.println(admin.getPassword());
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getMiddleName());
@@ -499,28 +488,21 @@ public class DBHandler {
         statement.setInt(1, ssnum1);
         statement.setInt(2, ssnum2);
         ResultSet rs = statement.executeQuery();
-        ObservableList<Admin> data = FXCollections.observableArrayList();
+        ObservableList<Admin> admin = FXCollections.observableArrayList();
         while(rs.next()) {
-           try {
-                data.add(new Admin(rs.getString("firstName"),
-                    rs.getString("middleName"),
-                    rs.getString("lastName"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getString("gender"),
-                    rs.getInt("ssn1"),
-                        rs.getInt("ssn2")
-                ));  
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println(e.getStackTrace());
-            }
+            admin.add(new Admin(rs.getString("firstName"),
+                rs.getString("middleName"),
+                rs.getString("lastName"),
+                rs.getDate("dateOfBirth"),
+                rs.getString("address"),
+                rs.getInt("phoneNumber"),
+                rs.getString("email"),
+                rs.getString("gender"),
+                rs.getInt("ssn1"),
+                rs.getInt("ssn2")
+            ));  
         }
-        System.out.println(data);
-        return data;
+        System.out.println(admin);
+        return admin;
     }
 }

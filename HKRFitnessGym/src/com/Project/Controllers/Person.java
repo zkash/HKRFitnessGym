@@ -69,6 +69,24 @@ public class Person {
         this.fullSSN = null;
     }
     
+    // For AdminViewPersonalInformationController, UpdateAdminPersonalInformationPageController
+    public Person(String fn, String mn, String ln, Date dob, String add,
+            int pnum, String ead, String gen, int ssn1, int ssn2) {
+        this.firstName = new SimpleStringProperty(fn);
+        this.middleName = new SimpleStringProperty(mn);
+        this.lastName = new SimpleStringProperty(ln);
+        this.dateOfBirth = dob;
+        this.gender = new SimpleStringProperty(gen);
+        this.address = new SimpleStringProperty(add);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
+        this.email = new SimpleStringProperty(ead);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
+        this.username = null;
+        this.password = null;
+        this.fullName = null;
+        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
+    }
     
     
     
@@ -110,23 +128,7 @@ public class Person {
         this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
     }
 
-    public Person(String fn, String mn, String ln, Date dob, String add,
-            int pnum, String ead, String gen, int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = dob;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = null;
-        this.password = null;
-        this.fullName = null;
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
+    
     
     // Getters
     public Date getDOB() {

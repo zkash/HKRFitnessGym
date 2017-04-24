@@ -47,7 +47,6 @@ public class AdminViewPersonalInformationController implements Initializable {
             middleNameLbl.setText(admin.get(0).getMiddleName());
             lastNameLbl.setText(admin.get(0).getLastName());
             genderLbl.setText(admin.get(0).getGender());
-            System.out.println(admin.get(0).getDOB());
             dobLbl.setText(Helper.convertDateToString(admin.get(0).getDOB()));
             addressLbl.setText(admin.get(0).getAddress());
             phoneNumberLbl.setText(Integer.toString(admin.get(0).getPhoneNumber()));

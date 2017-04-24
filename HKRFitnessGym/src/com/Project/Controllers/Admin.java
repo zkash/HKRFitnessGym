@@ -17,17 +17,32 @@ import javafx.beans.property.StringProperty;
  */
 public class Admin extends Person {
 
-    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssn1, int ssn2) {
-        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssn1, ssn2);
-    }
-    
+    //For AdminViewAdminAccounts, AdminViewMemberAccounts
     public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, String fullSSN) {
         super(fullName, uname, gen, dob, add, pnum, ead, fullSSN);
     }
     
+    // For CreateAdminAccount, CreateMemberAccount
+    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
+        super(fn, mn, ln, gen, dob, add, pnum, ead, ssn1, ssn2, uname, pwd);
+    }
+    
+    // For AdminViewPersonalInformationController, UpdateAdminPersonalInformationPageController
     public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssn1, int ssn2) {
         super(fn, mn, ln, dob, add, pnum, ead, gen, ssn1, ssn2);
     }
+    
+    
+    
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssn1, int ssn2) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssn1, ssn2);
+    }
+    
+//    public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, String fullSSN) {
+//        super(fullName, uname, gen, dob, add, pnum, ead, fullSSN);
+//    }
+    
+    
     
     public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
         super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
@@ -40,9 +55,7 @@ public class Admin extends Person {
 //        super(fn, mn, ln, gen, dob, add, ead, pnum, ssn1, ssn2, uname, pwd);
 //    }
     
-    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
-        super(fn, mn, ln, gen, dob, add, pnum, ead, ssn1, ssn2, uname, pwd);
-    }
+    
     public void createAccount() {
         
     }

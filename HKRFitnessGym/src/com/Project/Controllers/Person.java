@@ -25,12 +25,13 @@ public class Person {
     private final StringProperty address;
     private final IntegerProperty phoneNumber;
     private final StringProperty email;
-    private final IntegerProperty ssn;
+    private final IntegerProperty ssn1;
+    private final IntegerProperty ssn2;
     private final StringProperty username;
     private final StringProperty password;
     private final StringProperty fullName;
 
-    public Person(String fullName, String uname, int ssn) {
+    public Person(String fullName, String uname, int ssn1, int ssn2) {
         this.firstName = new SimpleStringProperty("");
         this.middleName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
@@ -39,14 +40,15 @@ public class Person {
         this.address = new SimpleStringProperty("");
         this.phoneNumber = new SimpleIntegerProperty();
         this.email = new SimpleStringProperty("");
-        this.ssn = new SimpleIntegerProperty(ssn);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
         this.username = new SimpleStringProperty(uname);
         this.password = new SimpleStringProperty("");
         this.fullName = new SimpleStringProperty(fullName);
     }
     
     public Person(String fullName, String uname, String gen, Date dob,
-            String add, int pnum, String ead, int ssn) {
+            String add, int pnum, String ead, int ssn1, int ssn2) {
         this.firstName = new SimpleStringProperty("");
         this.middleName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("");
@@ -55,7 +57,8 @@ public class Person {
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);
         this.email = new SimpleStringProperty(ead);
-        this.ssn = new SimpleIntegerProperty(ssn);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
         this.username = new SimpleStringProperty(uname);
         this.password = new SimpleStringProperty("");
         this.fullName = new SimpleStringProperty(fullName);
@@ -63,7 +66,7 @@ public class Person {
     
     public Person(String fn, String mn, String ln, Date dob, String add,
             int pnum, String uname, String pwd, String ead, String gen,
-            int ssnum) {
+            int ssn1, int ssn2) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
@@ -72,14 +75,15 @@ public class Person {
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);
         this.email = new SimpleStringProperty(ead);
-        this.ssn = new SimpleIntegerProperty(ssnum);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
         this.username = new SimpleStringProperty(uname);
         this.password = new SimpleStringProperty(pwd);
         this.fullName = (StringProperty) (this.firstName.concat(this.middleName)).concat(this.lastName);
     }
 
     public Person(String fn, String mn, String ln, Date dob, String add,
-            int pnum, String ead, String gen, int ssnum) {
+            int pnum, String ead, String gen, int ssn1, int ssn2) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
@@ -88,7 +92,8 @@ public class Person {
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);
         this.email = new SimpleStringProperty(ead);
-        this.ssn = new SimpleIntegerProperty(ssnum);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
         this.username = null;
         this.password = null;
         this.fullName = null;
@@ -127,8 +132,12 @@ public class Person {
         return email.get();
     }
 
-    public int getSSN() {
-        return ssn.get();
+    public int getSSN1() {
+        return ssn1.get();
+    }
+    
+    public int getSSN2() {
+        return ssn2.get();
     }
     
     public String getUsername() {
@@ -184,8 +193,12 @@ public class Person {
         password.set(pwd);
     }
 
-    public void setSSN(int ssnum) {
-        ssn.set(ssnum);
+    public void setSSN1(int ssnum1) {
+        ssn1.set(ssnum1);
+    }
+    
+    public void setSSN2(int ssnum2) {
+        ssn2.set(ssnum2);
     }
     
     
@@ -222,8 +235,12 @@ public class Person {
         return email;
     }
     
-    public IntegerProperty ssnProperty() {
-        return ssn;
+    public IntegerProperty ssn1Property() {
+        return ssn1;
+    }
+    
+    public IntegerProperty ssn2Property() {
+        return ssn2;
     }
     
     public StringProperty usernameProperty() {
@@ -236,5 +253,21 @@ public class Person {
     
     public StringProperty fullNameProperty() {
         return fullName;
+    }
+    
+    public Person(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
+        this.firstName = new SimpleStringProperty(fn);
+        this.middleName = new SimpleStringProperty(mn);
+        this.lastName = new SimpleStringProperty(ln);
+        this.dateOfBirth = null;
+        this.gender = new SimpleStringProperty(gen);
+        this.address = new SimpleStringProperty(add);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
+        this.email = new SimpleStringProperty(ead);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
+        this.username = new SimpleStringProperty(uname);
+        this.password = new SimpleStringProperty(pwd);
+        this.fullName = null;
     }
 }

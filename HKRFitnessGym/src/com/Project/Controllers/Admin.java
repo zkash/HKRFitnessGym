@@ -29,6 +29,10 @@ public class Admin extends Person {
         super(fn, mn, ln, dob, add, pnum, ead, gen, ssnum);
     }
     
+    public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssnum, int pnum) {
+        super(fn, mn, ln, gen, add, ead, uname, pwd, ssnum, pnum);
+    }
+    
     public void createAccount() {
         
     }

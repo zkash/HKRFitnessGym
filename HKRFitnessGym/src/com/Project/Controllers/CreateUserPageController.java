@@ -92,6 +92,15 @@ public class CreateUserPageController implements Initializable {
         changeFocus(username, invalidMsgUsername);
         changeFocus(password, invalidMsgPassword);
         
+        firstName.setText("John");
+        middleName.setText("James");
+        lastName.setText("Doerr");
+        address.setText("CA");
+        phoneNumber.setText("3423421");
+        email.setText("john@johndoerr.com");
+        ssn.setText("441233-1324");
+        username.setText("johnd");
+        password.setText("johnd1");
 //        this.adminSSN = LoginStatus.getSSN();
 //        this.login = LoginStatus.getLogin();
         
@@ -197,15 +206,23 @@ public class CreateUserPageController implements Initializable {
             Helper.DialogBox(true, "Enter all data");
         }
         else {
-            System.out.println("here");
             String[] ssnParts = ssnum.split("-");
-            System.out.println(ssnParts);
+            System.out.println(ssnParts[0]);
+            System.out.println(ssnParts[1]);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
             System.out.println(ssnumberStr);
-            int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
-            int pnumber = Integer.valueOf(pnum);
+            int p1 = Integer.parseInt(ssnParts[0]);
+            int p2 = Integer.parseInt(ssnParts[1]);
+            System.out.println("P1 " + p1);
+            System.out.println("P2 " + p2);
+            int ssnumber = p1*10000 + p2;
+           // int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
+            int pnumber = Integer.parseInt(pnum);
+            
+            //int ssnumber = Integer.parseInt(ssnumberStr);
             System.out.println(ssnumber);
             System.out.println(dob);
+            
             Date birthDate = Date.valueOf(dob);
                     
             if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
@@ -234,7 +251,19 @@ public class CreateUserPageController implements Initializable {
                 }
                 else {
                     if (isAdmin.isSelected()) {
-                        DBHandler.createAdminAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw);
+                        Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssnumber, pnumber);
+                        System.out.println(admin.getFirstName());
+                        System.out.println(admin.getMiddleName());
+                        System.out.println(admin.getLastName());
+                        System.out.println(admin.getGender());
+                        System.out.println(admin.getAddress());
+                        System.out.println(admin.getEmail());
+                        System.out.println(admin.getUsername());
+                        System.out.println(admin.getPassword());
+                        System.out.println(admin.getSSN());
+                        System.out.println(admin.getPhoneNumber());
+                        //Admin admin = new Admin(fn, mn, ln, birthDate, add, pnumber, un, pw, ead, gen, ssnumber);
+                        //DBHandler.createAdminAccount(admin);
                         
                     }
                     else {

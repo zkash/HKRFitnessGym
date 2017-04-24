@@ -92,30 +92,66 @@ public class DBHandler {
         return null;
     }
 
-    public static void createAdminAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) {
+        public static void createAdminAccount(Admin admin) {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
                     + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            System.out.println(admin.getFirstName());
+            System.out.println(admin.getMiddleName());
+            System.out.println(admin.getLastName());
+            System.out.println(admin.getGender());
+            System.out.println(admin.getDOB());
+            System.out.println(admin.getAddress());
+            System.out.println(admin.getPhoneNumber());
+            System.out.println(admin.getEmail());
+            System.out.println(admin.getSSN());
+            System.out.println(admin.getUsername());
+            System.out.println(admin.getPassword());
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, fn);
-            statement.setString(2, mn);
-            statement.setString(3, ln);
-            statement.setString(4, gen);
-            statement.setDate(5, dob);
-            statement.setString(6, add);
-            statement.setInt(7, pnum);
-            statement.setString(8, ead);
-            statement.setInt(9, ssnum);
-            statement.setString(10, uname);
-            statement.setString(11, pwd);
+            statement.setString(1, admin.getFirstName());
+            statement.setString(2, admin.getMiddleName());
+            statement.setString(3, admin.getLastName());
+            statement.setString(4, admin.getGender());
+            statement.setDate(5, admin.getDOB());
+            statement.setString(6, admin.getAddress());
+            statement.setInt(7, admin.getPhoneNumber());
+            statement.setString(8, admin.getEmail());
+            statement.setInt(9, admin.getSSN());
+            statement.setString(10, admin.getUsername());
+            statement.setString(11, admin.getPassword());
             statement.execute();
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+        
+//    public static void createAdminAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) {
+//        Connection conn = establishConnection();
+//        try {
+//            String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
+//                    + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
+//                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//            PreparedStatement statement = conn.prepareStatement(query);
+//            statement.setString(1, fn);
+//            statement.setString(2, mn);
+//            statement.setString(3, ln);
+//            statement.setString(4, gen);
+//            statement.setDate(5, dob);
+//            statement.setString(6, add);
+//            statement.setInt(7, pnum);
+//            statement.setString(8, ead);
+//            statement.setInt(9, ssnum);
+//            statement.setString(10, uname);
+//            statement.setString(11, pwd);
+//            statement.execute();
+//            conn.close();
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     public static void createMemberAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd, int adminSSN) throws SQLException {
         Connection conn = establishConnection();
@@ -275,20 +311,16 @@ public class DBHandler {
 
     public static boolean checkUsernameAndSSN(String table, String uname, int ssn) throws SQLException {
         Connection conn = establishConnection();
-        System.out.println(uname);
-        System.out.println(ssn);
         String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR ssn = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, uname);
         statement.setInt(2, ssn);
-        System.out.println(statement);
         ResultSet rs = statement.executeQuery();
         boolean alreadyExists = false;
-        System.out.println(rs);
         while (rs.next()) {
             alreadyExists = rs.getInt(1) != 0;
         }
-        System.out.println(alreadyExists);
+        System.out.println("kjsadflkjdfsklj");
         return alreadyExists;
     }
     

@@ -42,10 +42,11 @@ public class DBHandler {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
+            String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
+                System.out.println(rs.getString("ssn2"));
                 data.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                     rs.getString("username"),
                     rs.getString("gender"),
@@ -54,7 +55,7 @@ public class DBHandler {
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
-                    rs.getInt("ssn")
+                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
                 ));  
             }   
             return data;
@@ -69,7 +70,7 @@ public class DBHandler {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM Member");
+            String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Member");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
@@ -81,7 +82,7 @@ public class DBHandler {
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
-                    rs.getInt("ssn")
+                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
                 ));  
             }   
             return data;
@@ -96,8 +97,8 @@ public class DBHandler {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
-                    + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             System.out.println(admin.getFirstName());
             System.out.println(admin.getMiddleName());
             System.out.println(admin.getLastName());
@@ -106,7 +107,7 @@ public class DBHandler {
             System.out.println(admin.getAddress());
             System.out.println(admin.getPhoneNumber());
             System.out.println(admin.getEmail());
-            System.out.println(admin.getSSN());
+            System.out.println(admin.getSSN1());
             System.out.println(admin.getUsername());
             System.out.println(admin.getPassword());
             PreparedStatement statement = conn.prepareStatement(query);
@@ -118,9 +119,10 @@ public class DBHandler {
             statement.setString(6, admin.getAddress());
             statement.setInt(7, admin.getPhoneNumber());
             statement.setString(8, admin.getEmail());
-            statement.setInt(9, admin.getSSN());
-            statement.setString(10, admin.getUsername());
-            statement.setString(11, admin.getPassword());
+            statement.setInt(9, admin.getSSN1());
+            statement.setInt(10, admin.getSSN2());
+            statement.setString(11, admin.getUsername());
+            statement.setString(12, admin.getPassword());
             statement.execute();
             conn.close();
         } catch (SQLException e) {
@@ -153,12 +155,12 @@ public class DBHandler {
 //        }
 //    }
 
-    public static void createMemberAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd, int adminSSN) throws SQLException {
+    public static void createMemberAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum1, int ssnum2, String uname, String pwd, int adminSSN) throws SQLException {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
                     + "dateOfBirth, address, phoneNumber, email, ssn, username, password, Admin_ssn) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, fn);
             statement.setString(2, mn);
@@ -168,7 +170,8 @@ public class DBHandler {
             statement.setString(6, add);
             statement.setInt(7, pnum);
             statement.setString(8, ead);
-            statement.setInt(9, ssnum);
+            statement.setInt(9, ssnum1);
+            statement.setInt(10, ssnum2);
             statement.setString(10, uname);
             statement.setString(11, pwd);
             statement.setInt(12, adminSSN);
@@ -195,9 +198,9 @@ public class DBHandler {
         return null;
     }
 
-    public static void getAdminUsername(int ssn) throws SQLException {
+    public static void getAdminUsername(int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT username FROM Admin WHERE ssn = " + ssn;
+        String query = "SELECT username FROM Admin WHERE ssn1 = " + ssn1 + "AND ssn2 = " + ssn2;
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
@@ -278,8 +281,8 @@ public class DBHandler {
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
-                    rs.getInt("ssn")
-              ));   
+                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
+                ));   
             }
         return searchData;
     }
@@ -309,12 +312,13 @@ public class DBHandler {
     
     
 
-    public static boolean checkUsernameAndSSN(String table, String uname, int ssn) throws SQLException {
+    public static boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR ssn = ?";
+        String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR (ssn1 = ? AND ssn2 = ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, uname);
-        statement.setInt(2, ssn);
+        statement.setInt(2, ssn1);
+        statement.setInt(3, ssn2);
         ResultSet rs = statement.executeQuery();
         boolean alreadyExists = false;
         while (rs.next()) {
@@ -324,7 +328,7 @@ public class DBHandler {
         return alreadyExists;
     }
     
-    public static void updatePersonalInformation(String table, Admin admin, int ssnOld) throws SQLException {
+    public static void updatePersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -335,8 +339,9 @@ public class DBHandler {
                 + " address = ?,"
                 + " phoneNumber = ?,"
                 + " email = ?, "
-                + " ssn = ?"
-                + " WHERE ssn = ?";
+                + " ssn1 = ?"
+                + " ssn2 = ?"
+                + " WHERE ssn1 = ? AND ssn2 = ?";
         query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, admin.getFirstName());
@@ -347,17 +352,19 @@ public class DBHandler {
         statement.setString(6, admin.getAddress());
         statement.setInt(7, admin.getPhoneNumber());
         statement.setString(8, admin.getEmail());
-        statement.setInt(9, admin.getSSN());
-        statement.setInt(10, ssnOld);
+        statement.setInt(9, admin.getSSN1());
+        statement.setInt(10, admin.getSSN2());
+        statement.setInt(11, ssnOld1);
+        statement.setInt(12, ssnOld2);
         System.out.println(statement);
         statement.executeUpdate();
         conn.close();
     }
     
-    public static void createPackage(Package pack, int admin_ssn) throws SQLException {
+    public static void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
-                + "endTime, Admin_ssn) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, pack.getPackageName());
         statement.setFloat(2, pack.getPrice());
@@ -365,7 +372,7 @@ public class DBHandler {
         statement.setDate(4, pack.getEndDate());
         statement.setString(5, pack.getStartTime());
         statement.setString(6, pack.getEndTime());
-        statement.setInt(7, admin_ssn);
+        statement.setInt(7, adminId);
         statement.execute();
         conn.close();
     }
@@ -408,12 +415,13 @@ public class DBHandler {
         return null;
     }
     
-    public static boolean deleteAccount(int ssn, String table) throws SQLException {
+    public static boolean deleteAccount(int ssn1, int ssn2, String table) throws SQLException {
         Connection conn = establishConnection();
-        String query = "DELETE FROM $table_name WHERE ssn = ?";
+        String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ?";
         query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssn);
+        statement.setInt(1, ssn1);
+        statement.setInt(2, ssn2);
         System.out.println(statement);
         statement.execute();
         boolean deletionError = false;
@@ -432,7 +440,7 @@ public class DBHandler {
         return deletionError;
     }
     
-    public static void updatePackage(Package pack, String packageNameOld, int admin_ssn) throws SQLException {
+    public static void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
                 + "packageName = ?, "
@@ -480,13 +488,14 @@ public class DBHandler {
         return null;
     }
         
-    public static ObservableList<Admin> getAdminPersonalInformation(int ssnum) throws SQLException {
+    public static ObservableList<Admin> getAdminPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn"
-                + " FROM Admin WHERE ssn = ?";
+                + " FROM Admin WHERE ssn1 = ? AND ssn2 = ?";
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssnum);
+        statement.setInt(1, ssnum1);
+        statement.setInt(2, ssnum2);
         ResultSet rs = statement.executeQuery();
         
         ObservableList<Admin> data = FXCollections.observableArrayList();
@@ -500,7 +509,8 @@ public class DBHandler {
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
                     rs.getString("gender"),
-                    rs.getInt("ssn")
+                    rs.getInt("ssn1"),
+                        rs.getInt("ssn2")
                 ));  
             }
             catch (Exception e)

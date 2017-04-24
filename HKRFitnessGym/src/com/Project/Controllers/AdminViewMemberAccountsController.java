@@ -83,7 +83,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = false;
         //try {
-            deletionError = DBHandler.deleteAccount(row.get(0).getSSN(), "Member");
+            deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(), "Member");
         //}
         //catch(Exception e) {
         //    deletionError = true;

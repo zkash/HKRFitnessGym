@@ -71,7 +71,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     
     private boolean error;
     private String adminUsername;
-    private int adminSSN = 1234567890;
+    private int adminSSN1 = 123456;
+    private int adminSSN2 = 7890;
     private boolean login;
     
     private List<TextField> fields;
@@ -89,7 +90,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     ObservableList<Admin> data;
     Admin admin;
     
-    private int ssnOld;
+    private int ssnOld1;
+    private int ssnOld2;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -110,7 +112,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         this.login = LoginStatus.getLogin();
         
         try {
-            data = DBHandler.getAdminPersonalInformation(adminSSN);
+            data = DBHandler.getAdminPersonalInformation(adminSSN1, adminSSN2);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,23 +123,25 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         address.setText(data.get(0).getAddress());
         phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
         email.setText(data.get(0).getEmail());
-        int ssnumber = data.get(0).getSSN();
-        int lastFourDigitsOfSSN = 0;
-        int firstSixDigitsOfSSN = 0;
-        int multiplier = 1;
-        for (int i = 0; i < 4; i++) {
-            lastFourDigitsOfSSN = lastFourDigitsOfSSN + (ssnumber % 10) * multiplier;
-            multiplier *= 10;
-            ssnumber = ssnumber/10;
-        }
-        multiplier = 1;
-        for (int i = 0; i < 6; i++) {
-            firstSixDigitsOfSSN = firstSixDigitsOfSSN + (ssnumber % 10) * multiplier;
-            multiplier *= 10;
-            ssnumber = ssnumber/10;
-        }
+        int ssnumber1 = data.get(0).getSSN1();
+        int ssnumber2 = data.get(0).getSSN2();
+//        int lastFourDigitsOfSSN = 0;
+//        int firstSixDigitsOfSSN = 0;
+//        int multiplier = 1;
+//        for (int i = 0; i < 4; i++) {
+//            lastFourDigitsOfSSN = lastFourDigitsOfSSN + (ssnumber % 10) * multiplier;
+//            multiplier *= 10;
+//            ssnumber = ssnumber/10;
+//        }
+//        multiplier = 1;
+//        for (int i = 0; i < 6; i++) {
+//            firstSixDigitsOfSSN = firstSixDigitsOfSSN + (ssnumber % 10) * multiplier;
+//            multiplier *= 10;
+//            ssnumber = ssnumber/10;
+//        }
         
-        ssn.setText(Integer.toString(firstSixDigitsOfSSN) + "-" + Integer.toString(lastFourDigitsOfSSN));
+        //ssn.setText(Integer.toString(firstSixDigitsOfSSN) + "-" + Integer.toString(lastFourDigitsOfSSN));
+        ssn.setText(Integer.toString(ssnumber1) + "-" + Integer.toString(ssnumber2));
         
         String gen = data.get(0).getGender();
 
@@ -151,7 +155,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
             genderOther.setSelected(true);
         }
         
-        ssnOld = data.get(0).getSSN();
+        ssnOld1 = data.get(0).getSSN1();
+        ssnOld2 = data.get(0).getSSN2();
     }     
     
     public void setAdminUsername(String uname) {
@@ -159,7 +164,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     }
     
     public void setAdminSSN(int ssn) {
-        this.adminSSN = ssn;
+        this.adminSSN1 = ssn;
     }
     
     public void setTextOnCondition(boolean condition, Label lbl) {
@@ -246,9 +251,11 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
             System.out.println(ssnParts);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
             System.out.println(ssnumberStr);
-            int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
-            int pnumber = Integer.valueOf(pnum);
-            System.out.println(ssnumber);
+            //int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
+            int ssn1 = Integer.parseInt(ssnParts[0]);
+            int ssn2 = Integer.parseInt(ssnParts[1]);;
+            int pnumber = Integer.parseInt(pnum);
+           // System.out.println(ssnumber);
             System.out.println(dob);
             Date birthDate = Date.valueOf(dob);
                     
@@ -260,8 +267,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 Helper.isEmpty(invalidMsgEmail.getText()) &&
                 Helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
-                admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssnumber);
-                DBHandler.updatePersonalInformation("Admin", admin, ssnOld);
+                admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
+                DBHandler.updatePersonalInformation("Admin", admin, ssnOld1, ssnOld2);
                 Helper.DialogBox(false, "Admin details successfully updated");
             }
             else {

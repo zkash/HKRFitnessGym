@@ -211,16 +211,16 @@ public class CreateUserPageController implements Initializable {
             System.out.println(ssnParts[1]);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
             System.out.println(ssnumberStr);
-            int p1 = Integer.parseInt(ssnParts[0]);
-            int p2 = Integer.parseInt(ssnParts[1]);
-            System.out.println("P1 " + p1);
-            System.out.println("P2 " + p2);
-            int ssnumber = p1*10000 + p2;
+            int ssn1 = Integer.parseInt(ssnParts[0]);
+            int ssn2 = Integer.parseInt(ssnParts[1]);
+            //System.out.println("P1 " + p1);
+            //System.out.println("P2 " + p2);
+            //int ssnumber = p1*10000 + p2;
            // int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
             int pnumber = Integer.parseInt(pnum);
             
             //int ssnumber = Integer.parseInt(ssnumberStr);
-            System.out.println(ssnumber);
+          //  System.out.println(ssnumber);
             System.out.println(dob);
             
             Date birthDate = Date.valueOf(dob);
@@ -238,11 +238,11 @@ public class CreateUserPageController implements Initializable {
                 boolean alreadyExists;
                 System.out.println(isAdmin.isSelected());
                 if (isAdmin.isSelected()) {
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssnumber);
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssn1, ssn2);
                 }
                 else {
                     System.out.println("hell");
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssnumber);
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssn1, ssn2);
                     System.out.println(alreadyExists);
                 }
                 
@@ -251,7 +251,7 @@ public class CreateUserPageController implements Initializable {
                 }
                 else {
                     if (isAdmin.isSelected()) {
-                        Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssnumber, pnumber);
+                        Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssn1, ssn2, pnumber);
                         System.out.println(admin.getFirstName());
                         System.out.println(admin.getMiddleName());
                         System.out.println(admin.getLastName());
@@ -260,15 +260,15 @@ public class CreateUserPageController implements Initializable {
                         System.out.println(admin.getEmail());
                         System.out.println(admin.getUsername());
                         System.out.println(admin.getPassword());
-                        System.out.println(admin.getSSN());
+                        System.out.println(admin.getSSN1());
                         System.out.println(admin.getPhoneNumber());
                         //Admin admin = new Admin(fn, mn, ln, birthDate, add, pnumber, un, pw, ead, gen, ssnumber);
-                        //DBHandler.createAdminAccount(admin);
+                        DBHandler.createAdminAccount(admin);
                         
                     }
                     else {
                         System.out.println("hoohaa");
-                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
+                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw, this.adminSSN);
                     }
                     Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                     Helper.clearRadioButton(genderMale, genderFemale, genderOther);

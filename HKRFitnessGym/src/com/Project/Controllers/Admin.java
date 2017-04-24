@@ -17,20 +17,24 @@ import javafx.beans.property.StringProperty;
  */
 public class Admin extends Person {
 
-    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
-        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssnum);
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssn1, int ssn2) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssn1, ssn2);
     }
     
-    public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {
-        super(fullName, uname, gen, dob, add, pnum, ead, ssnum);
+    public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, String fullSSN) {
+        super(fullName, uname, gen, dob, add, pnum, ead, fullSSN);
     }
     
-    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssnum) {
-        super(fn, mn, ln, dob, add, pnum, ead, gen, ssnum);
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssn1, int ssn2) {
+        super(fn, mn, ln, dob, add, pnum, ead, gen, ssn1, ssn2);
     }
     
-    public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssnum, int pnum) {
-        super(fn, mn, ln, gen, add, ead, uname, pwd, ssnum, pnum);
+    public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
+        super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
+    }
+    
+    public Admin(String fn, String mn, String ln, String gen, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+        super(fn, mn, ln, gen, add, ead, pnum, uname, pwd, ssn1, ssn2, fullSSN);
     }
     
     public void createAccount() {

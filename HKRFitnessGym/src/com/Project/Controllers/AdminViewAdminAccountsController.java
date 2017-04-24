@@ -67,11 +67,15 @@ public class AdminViewAdminAccountsController implements Initializable {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
             data = DBHandler.adminViewAdminAccounts();
-            System.out.println(data.get(0).getDOB());
+            System.out.println(data);
+            //System.out.println(data.get(0).getDOB());
             // Set cell value factory to TableView
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-            ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+            //ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn1 + ssn2"));
+           // ssnColumn.setCellValueFactory(data -> Bindings.concat(data.getValue().ssn1Property(), "-", data.getValue().ssn2Property()));
+            
+             ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
             dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
             genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
             addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -106,7 +110,7 @@ public class AdminViewAdminAccountsController implements Initializable {
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = false;
         try {
-            deletionError = DBHandler.deleteAccount(row.get(0).getSSN(), "Admin");
+            deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(),"Admin");
         }
         catch(Exception e) {
             deletionError = true;

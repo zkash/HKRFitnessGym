@@ -493,13 +493,12 @@ public class DBHandler {
     public static ObservableList<Admin> getAdminPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn"
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
                 + " FROM Admin WHERE ssn1 = ? AND ssn2 = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, ssnum1);
         statement.setInt(2, ssnum2);
         ResultSet rs = statement.executeQuery();
-        
         ObservableList<Admin> data = FXCollections.observableArrayList();
         while(rs.next()) {
            try {

@@ -154,8 +154,10 @@ public class Helper {
     }
     
     public static String convertDateToString(Date date) {
+        System.out.println("Date " + date);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = dateFormat.format(date);
+        System.out.println(dateInString);
         return dateInString;
     }
     

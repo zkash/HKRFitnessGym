@@ -165,7 +165,7 @@ public class CreateUserPageController implements Initializable {
     }
 
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException {
+    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -263,7 +263,8 @@ public class CreateUserPageController implements Initializable {
                     Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     dateOfBirth.getEditor().clear();
                     isAdmin.setSelected(false);
-                    Helper.DialogBox(alreadyExists, "User account successfully created");
+                    //Helper.DialogBox(alreadyExists, "User account successfully created");
+                    Helper.DialogBoxChoice("User account successfully created", "Do you want to create another account?");
                 } 
             }
         }        

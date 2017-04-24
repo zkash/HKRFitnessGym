@@ -394,7 +394,9 @@ public class DBHandler {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
+            //String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
             String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
+            
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {

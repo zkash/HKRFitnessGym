@@ -115,7 +115,7 @@ public class CreatePackagePageController implements Initializable {
         LocalDate psd = packageStartDate.getValue();
         LocalDate ped = packageEndDate.getValue();
        
-        int admin_ssn = 1234567890;
+        int adminId = 1;
         
         if (validated.get()) {
             int count = DBHandler.checkPackageName(pn);
@@ -152,12 +152,12 @@ public class CreatePackagePageController implements Initializable {
                         }
                         else {
                             pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                            insertIntoDB(pack, admin_ssn, alreadyExists);
+                            insertIntoDB(pack, adminId, alreadyExists);
                         }
                     }
                     else if (psts.equals("AM") && pets.equals("PM")) {
                         pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                        insertIntoDB(pack, admin_ssn, alreadyExists);
+                        insertIntoDB(pack, adminId, alreadyExists);
                     }
                 }
             }
@@ -180,8 +180,8 @@ public class CreatePackagePageController implements Initializable {
         return minutesSinceMidnight;
     }
     
-    public void insertIntoDB(Package pack, int admin_ssn, boolean alreadyExists) throws SQLException {
-        DBHandler.createPackage(pack, admin_ssn);
+    public void insertIntoDB(Package pack, int adminId, boolean alreadyExists) throws SQLException {
+        DBHandler.createPackage(pack, adminId);
         Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();

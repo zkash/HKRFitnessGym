@@ -59,7 +59,7 @@ public class AdminViewMemberAccountsController implements Initializable {
             // Set cell value factory to TableView
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-            ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+            ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
             dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
             genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
             addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -126,7 +126,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         //      Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -141,7 +141,7 @@ public class AdminViewMemberAccountsController implements Initializable {
             // Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
         dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));

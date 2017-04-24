@@ -289,11 +289,11 @@ public class Person {
         this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
     }
     
-    public Person(String fn, String mn, String ln, String gen, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = null;
+        this.dateOfBirth = dob;
         this.gender = new SimpleStringProperty(gen);
         this.address = new SimpleStringProperty(add);
         this.phoneNumber = new SimpleIntegerProperty(pnum);

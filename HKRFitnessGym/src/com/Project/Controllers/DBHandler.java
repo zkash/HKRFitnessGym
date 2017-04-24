@@ -155,26 +155,26 @@ public class DBHandler {
 //        }
 //    }
 
-    public static void createMemberAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum1, int ssnum2, String uname, String pwd, int adminSSN) throws SQLException {
+    public static void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
-                    + "dateOfBirth, address, phoneNumber, email, ssn, username, password, Admin_ssn) "
+                    + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password, Admin_adminId) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, fn);
-            statement.setString(2, mn);
-            statement.setString(3, ln);
-            statement.setString(4, gen);
-            statement.setDate(5, dob);
-            statement.setString(6, add);
-            statement.setInt(7, pnum);
-            statement.setString(8, ead);
-            statement.setInt(9, ssnum1);
-            statement.setInt(10, ssnum2);
-            statement.setString(10, uname);
-            statement.setString(11, pwd);
-            statement.setInt(12, adminSSN);
+            statement.setString(1, member.getFirstName());
+            statement.setString(2, member.getMiddleName());
+            statement.setString(3, member.getLastName());
+            statement.setString(4, member.getGender());
+            statement.setDate(5, member.getDOB());
+            statement.setString(6, member.getAddress());
+            statement.setInt(7, member.getPhoneNumber());
+            statement.setString(8, member.getEmail());
+            statement.setInt(9, member.getSSN1());
+            statement.setInt(10, member.getSSN2());
+            statement.setString(11, member.getUsername());
+            statement.setString(12, member.getPassword());
+            statement.setInt(13, adminId);
             statement.execute();
             conn.close();
         } catch (SQLException e) {

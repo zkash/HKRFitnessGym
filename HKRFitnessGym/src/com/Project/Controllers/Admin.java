@@ -33,8 +33,8 @@ public class Admin extends Person {
         super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
     }
     
-    public Admin(String fn, String mn, String ln, String gen, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
-        super(fn, mn, ln, gen, add, ead, pnum, uname, pwd, ssn1, ssn2, fullSSN);
+    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+        super(fn, mn, ln, gen, dob, add, ead, pnum, uname, pwd, ssn1, ssn2, fullSSN);
     }
     
     public void createAccount() {

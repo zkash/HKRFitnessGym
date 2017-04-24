@@ -71,7 +71,7 @@ public class CreateUserPageController implements Initializable {
     
     private boolean error;
     private String adminUsername;
-    private int adminSSN = 1234567890; //ToDO change this
+    private int adminId = 1; //ToDO change this
     private boolean login;
     
     
@@ -106,13 +106,13 @@ public class CreateUserPageController implements Initializable {
         
     }     
     
-    public void setAdminUsername(String uname) {
-        this.adminUsername = uname;
-    }
-    
-    public void setAdminSSN() {
-        this.adminSSN = 1234567890;
-    }
+//    public void setAdminUsername(String uname) {
+//        this.adminUsername = uname;
+//    }
+//    
+//    public void setAdminSSN() {
+//        this.adminSSN = 1234567890;
+//    }
     
     public void setTextOnCondition(boolean condition, Label lbl) {
         if(condition) {
@@ -252,23 +252,12 @@ public class CreateUserPageController implements Initializable {
                 else {
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssn1, ssn2, pnumber);
-                        System.out.println(admin.getFirstName());
-                        System.out.println(admin.getMiddleName());
-                        System.out.println(admin.getLastName());
-                        System.out.println(admin.getGender());
-                        System.out.println(admin.getAddress());
-                        System.out.println(admin.getEmail());
-                        System.out.println(admin.getUsername());
-                        System.out.println(admin.getPassword());
-                        System.out.println(admin.getSSN1());
-                        System.out.println(admin.getPhoneNumber());
-                        //Admin admin = new Admin(fn, mn, ln, birthDate, add, pnumber, un, pw, ead, gen, ssnumber);
                         DBHandler.createAdminAccount(admin);
                         
                     }
                     else {
-                        System.out.println("hoohaa");
-                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw, this.adminSSN);
+                        Member member = new Member(fn, mn, ln, gen, add, ead, un, pw, ssn1, ssn2, pnumber);
+                        DBHandler.createMemberAccount(member, adminId);
                     }
                     Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                     Helper.clearRadioButton(genderMale, genderFemale, genderOther);

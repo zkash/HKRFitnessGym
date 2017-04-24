@@ -32,23 +32,7 @@ public class Person {
     private final StringProperty fullName;
     private final StringProperty fullSSN;
 
-    public Person(String fullName, String uname, int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty("");
-        this.middleName = new SimpleStringProperty("");
-        this.lastName = new SimpleStringProperty("");
-        this.dateOfBirth = null;
-        this.gender = new SimpleStringProperty("");
-        this.address = new SimpleStringProperty("");
-        this.phoneNumber = new SimpleIntegerProperty();
-        this.email = new SimpleStringProperty("");
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty("");
-        this.fullName = new SimpleStringProperty(fullName);
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
-    
+    //For AdminViewAdminAccounts, AdminViewMemberAccounts
     public Person(String fullName, String uname, String gen, Date dob,
             String add, int pnum, String ead, String fullSSN) {
         this.firstName = new SimpleStringProperty("");
@@ -66,6 +50,46 @@ public class Person {
         this.fullName = new SimpleStringProperty(fullName);
         this.fullSSN = new SimpleStringProperty(fullSSN);
     }
+    
+    // For CreateAdminAccount, CreateMemberAccount
+    public Person(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
+        this.firstName = new SimpleStringProperty(fn);
+        this.middleName = new SimpleStringProperty(mn);
+        this.lastName = new SimpleStringProperty(ln);
+        this.gender = new SimpleStringProperty(gen);
+        this.dateOfBirth = dob;
+        this.address = new SimpleStringProperty(add);
+        this.phoneNumber = new SimpleIntegerProperty(pnum);
+        this.email = new SimpleStringProperty(ead);
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
+        this.username = new SimpleStringProperty(uname);
+        this.password = new SimpleStringProperty(pwd);
+        this.fullName = null;
+        this.fullSSN = null;
+    }
+    
+    
+    
+    
+    public Person(String fullName, String uname, int ssn1, int ssn2) {
+        this.firstName = new SimpleStringProperty("");
+        this.middleName = new SimpleStringProperty("");
+        this.lastName = new SimpleStringProperty("");
+        this.dateOfBirth = null;
+        this.gender = new SimpleStringProperty("");
+        this.address = new SimpleStringProperty("");
+        this.phoneNumber = new SimpleIntegerProperty();
+        this.email = new SimpleStringProperty("");
+        this.ssn1 = new SimpleIntegerProperty(ssn1);
+        this.ssn2 = new SimpleIntegerProperty(ssn2);
+        this.username = new SimpleStringProperty(uname);
+        this.password = new SimpleStringProperty("");
+        this.fullName = new SimpleStringProperty(fullName);
+        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
+    }
+    
+    
     
     public Person(String fn, String mn, String ln, Date dob, String add,
             int pnum, String uname, String pwd, String ead, String gen,
@@ -289,7 +313,24 @@ public class Person {
         this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
     }
     
-    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+//    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+//        this.firstName = new SimpleStringProperty(fn);
+//        this.middleName = new SimpleStringProperty(mn);
+//        this.lastName = new SimpleStringProperty(ln);
+//        this.dateOfBirth = dob;
+//        this.gender = new SimpleStringProperty(gen);
+//        this.address = new SimpleStringProperty(add);
+//        this.phoneNumber = new SimpleIntegerProperty(pnum);
+//        this.email = new SimpleStringProperty(ead);
+//        this.ssn1 = new SimpleIntegerProperty(ssn1);
+//        this.ssn2 = new SimpleIntegerProperty(ssn2);
+//        this.username = new SimpleStringProperty(uname);
+//        this.password = new SimpleStringProperty(pwd);
+//        this.fullName = null;
+//        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
+//    }
+    
+    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2) {
         this.firstName = new SimpleStringProperty(fn);
         this.middleName = new SimpleStringProperty(mn);
         this.lastName = new SimpleStringProperty(ln);
@@ -305,4 +346,6 @@ public class Person {
         this.fullName = null;
         this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
     }
+    
+    
 }

@@ -33,10 +33,16 @@ public class Admin extends Person {
         super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
     }
     
-    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
-        super(fn, mn, ln, gen, dob, add, ead, pnum, uname, pwd, ssn1, ssn2, fullSSN);
-    }
+    //    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
+//        super(fn, mn, ln, gen, dob, add, ead, pnum, uname, pwd, ssn1, ssn2, fullSSN);
+//    }
+//    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, int ssn1, int ssn2, String uname, String pwd) {
+//        super(fn, mn, ln, gen, dob, add, ead, pnum, ssn1, ssn2, uname, pwd);
+//    }
     
+    public Admin(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
+        super(fn, mn, ln, gen, dob, add, pnum, ead, ssn1, ssn2, uname, pwd);
+    }
     public void createAccount() {
         
     }

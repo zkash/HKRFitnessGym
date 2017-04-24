@@ -99,17 +99,17 @@ public class DBHandler {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
                     + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            System.out.println(admin.getFirstName());
-            System.out.println(admin.getMiddleName());
-            System.out.println(admin.getLastName());
-            System.out.println(admin.getGender());
-            System.out.println(admin.getDOB());
-            System.out.println(admin.getAddress());
-            System.out.println(admin.getPhoneNumber());
-            System.out.println(admin.getEmail());
-            System.out.println(admin.getSSN1());
-            System.out.println(admin.getUsername());
-            System.out.println(admin.getPassword());
+//            System.out.println(admin.getFirstName());
+//            System.out.println(admin.getMiddleName());
+//            System.out.println(admin.getLastName());
+//            System.out.println(admin.getGender());
+//            System.out.println(admin.getDOB());
+//            System.out.println(admin.getAddress());
+//            System.out.println(admin.getPhoneNumber());
+//            System.out.println(admin.getEmail());
+//            System.out.println(admin.getSSN1());
+//            System.out.println(admin.getUsername());
+//            System.out.println(admin.getPassword());
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getMiddleName());

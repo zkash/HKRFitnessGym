@@ -24,6 +24,10 @@ public class Member extends Person {
    public Member(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
         super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
     }
+   
+   public Member(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
+        super(fn, mn, ln, gen, dob, add, pnum, ead, ssn1, ssn2, uname, pwd);
+    }
     
     public void createAccount() {
         

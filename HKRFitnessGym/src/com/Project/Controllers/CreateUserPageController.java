@@ -224,6 +224,7 @@ public class CreateUserPageController implements Initializable {
             System.out.println(dob);
             
             Date birthDate = Date.valueOf(dob);
+            System.out.println("DATE D " + birthDate.getClass().getName());
                     
             if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
                 Helper.isEmpty(invalidMsgMiddleName.getText()) &&  
@@ -251,12 +252,12 @@ public class CreateUserPageController implements Initializable {
                 }
                 else {
                     if (isAdmin.isSelected()) {
-                        Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssn1, ssn2, pnumber);
+                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         DBHandler.createAdminAccount(admin);
                         
                     }
                     else {
-                        Member member = new Member(fn, mn, ln, gen, add, ead, un, pw, ssn1, ssn2, pnumber);
+                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         DBHandler.createMemberAccount(member, adminId);
                     }
                     Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);

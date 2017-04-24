@@ -505,10 +505,19 @@ public class DBHandler {
         return admin;
     }
     
-//    public void memberViewSchedule() throws SQLException {
-//        Connection conn = establishConnection();
-//        String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
-//        PreparedStatement statement = conn.prepareStatement(query);
-//        
-//    }
+    public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Schedule> schedule = FXCollections.observableArrayList();
+        while(rs.next()) {
+            schedule.add(new Schedule(rs.getDate("date"),
+                rs.getString("openingTime"),
+                rs.getString("closingTime"),
+                rs.getBoolean("isHoliday")
+            ));  
+        }
+        return schedule;
+    }
 }

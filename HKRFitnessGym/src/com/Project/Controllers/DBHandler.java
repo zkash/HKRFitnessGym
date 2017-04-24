@@ -328,7 +328,7 @@ public class DBHandler {
                 + " address = ?,"
                 + " phoneNumber = ?,"
                 + " email = ?, "
-                + " ssn1 = ?"
+                + " ssn1 = ?,"
                 + " ssn2 = ?"
                 + " WHERE ssn1 = ? AND ssn2 = ?";
         query = query.replace("$table_name", table);
@@ -345,7 +345,6 @@ public class DBHandler {
         statement.setInt(10, admin.getSSN2());
         statement.setInt(11, ssnOld1);
         statement.setInt(12, ssnOld2);
-        System.out.println(statement);
         statement.executeUpdate();
         conn.close();
     }

@@ -76,7 +76,7 @@ public class AdminViewAdminAccountsController implements Initializable {
            // ssnColumn.setCellValueFactory(data -> Bindings.concat(data.getValue().ssn1Property(), "-", data.getValue().ssn2Property()));
             
              ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
-            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
+            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
             genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
             addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
             emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));

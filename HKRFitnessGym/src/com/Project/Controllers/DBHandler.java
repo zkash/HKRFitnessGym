@@ -504,4 +504,11 @@ public class DBHandler {
         System.out.println(admin);
         return admin;
     }
+    
+//    public void memberViewSchedule() throws SQLException {
+//        Connection conn = establishConnection();
+//        String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
+//        PreparedStatement statement = conn.prepareStatement(query);
+//        
+//    }
 }

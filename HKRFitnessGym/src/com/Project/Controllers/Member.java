@@ -17,12 +17,12 @@ import javafx.beans.property.StringProperty;
  */
 public class Member extends Person {
 
-    public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
-        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssnum);
+    public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, long ssn) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssn);
     }
 
-    public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {
-        super(fullName, uname, gen, dob, add, pnum, ead, ssnum);
+    public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, long ssn) {
+        super(fullName, uname, gen, dob, add, pnum, ead, ssn);
     }
     
     public void createAccount() {

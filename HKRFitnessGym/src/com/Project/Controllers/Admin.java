@@ -17,20 +17,20 @@ import javafx.beans.property.StringProperty;
  */
 public class Admin extends Person {
 
-    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, int ssnum) {
-        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssnum);
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String uname, String pwd, String ead, String gen, long ssn) {
+        super(fn, mn, ln, dob, add, pnum, uname, pwd, ead, gen, ssn);
     }
     
-    public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, int ssnum) {
-        super(fullName, uname, gen, dob, add, pnum, ead, ssnum);
+    public Admin(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, long ssn) {
+        super(fullName, uname, gen, dob, add, pnum, ead, ssn);
     }
     
-    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssnum) {
-        super(fn, mn, ln, dob, add, pnum, ead, gen, ssnum);
+    public Admin(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, long ssn) {
+        super(fn, mn, ln, dob, add, pnum, ead, gen, ssn);
     }
     
-    public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssnum, int pnum) {
-        super(fn, mn, ln, gen, add, ead, uname, pwd, ssnum, pnum);
+    public Admin(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, long ssn, int pnum) {
+        super(fn, mn, ln, gen, add, ead, uname, pwd, ssn, pnum);
     }
     
     public void createAccount() {

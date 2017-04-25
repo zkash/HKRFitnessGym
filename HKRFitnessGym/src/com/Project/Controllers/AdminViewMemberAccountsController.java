@@ -81,22 +81,27 @@ public class AdminViewMemberAccountsController implements Initializable {
         ObservableList<Member> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
-        boolean deletionError = false;
-        //try {
-            deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(), "Member");
-        //}
-        //catch(Exception e) {
-        //    deletionError = true;
-        //}
-        
-        if (!deletionError) {
-            Helper.DialogBox(deletionError, "Member successfully deleted");
+        boolean deletionError = true;
+        if (row.size() == 0) {
+            Helper.DialogBox(deletionError, "Please select an admin account first to delete the account");
         }
         else {
-            Helper.DialogBox(deletionError, "Could not delete member because it is associated with other data in the system. \n\nDelete such data before trying to delete the member");
+            try {
+                deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(), "Member");
+            }
+            catch(Exception e) {
+                deletionError = true;
+            }
+
+            if (!deletionError) {
+                Helper.DialogBox(deletionError, "Member successfully deleted");
+            }
+            else {
+                Helper.DialogBox(deletionError, "Could not delete member because it is associated with other data in the system. \n\nDelete such data before trying to delete the member");
+            }
+            System.out.println(row.get(0).getFullName()); 
+            row.forEach(allRows::remove);
         }
-        System.out.println(row.get(0).getFullName()); 
-        row.forEach(allRows::remove);
     }
     
     public void searchMemberBtnClick(ActionEvent event) throws SQLException {

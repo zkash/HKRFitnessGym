@@ -181,18 +181,12 @@ public class Helper {
        // alert.showAndWait();  
     }
        public static void show() throws IOException {
-           URL url = new URL("Helper.class.getResource('com/Project/FXML/AdminMainPage.fxml')");
-           Stage stage = new Stage();
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(url);
-           Parent root = loader.load();
-           //Controller controller = loader.getController();
-         //  controller.start();
-           Scene scene = new Scene(root);
-           stage.setScene(scene);
-           // stage.setTitle("Hello World");
-       // stage.setScene(new Scene(root, 300, 275));
-        stage.show();
+//           Node node = (Node) event.getSource();
+//            Stage stage = (Stage) node.getScene().getWindow();
+//            Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();    
        }
     
 }

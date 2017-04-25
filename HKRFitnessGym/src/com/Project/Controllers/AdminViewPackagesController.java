@@ -134,21 +134,27 @@ public class AdminViewPackagesController implements Initializable {
         ObservableList<Package> row , allRows;
         allRows = adminViewPackagesTable.getItems();
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
-        boolean deletionError = false;
-        try {
-            deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
-        }
-        catch(Exception e) {
-            deletionError = true;
-        }
-        
-        if (!deletionError) {
-            Helper.DialogBox(deletionError, "Package successfully deleted");
+        boolean deletionError = true;
+        System.out.println("RORW" + row.size());
+        if (row.size() == 0) {
+            Helper.DialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
-            Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+            try {
+                deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
+            }
+            catch(Exception e) {
+                deletionError = true;
+            }
+
+            if (!deletionError) {
+                Helper.DialogBox(deletionError, "Package successfully deleted");
+            }
+            else {
+                Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+            }
+            row.forEach(allRows::remove);
         }
-        row.forEach(allRows::remove);
     }
     
     public void updateBtnClick(ActionEvent event) throws SQLException, IOException {

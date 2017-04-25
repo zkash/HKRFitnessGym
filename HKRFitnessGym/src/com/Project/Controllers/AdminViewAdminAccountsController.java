@@ -133,7 +133,6 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     public void searchAdminBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchAdmin.getText(); 
-        String sqlQuery = "";
         ArrayList<CheckBox> checkboxes = new ArrayList<>();
         checkboxes.add(searchFullName);
         checkboxes.add(searchUsername);
@@ -142,60 +141,62 @@ public class AdminViewAdminAccountsController implements Initializable {
         checkboxes.add(searchPhoneNumber);
         checkboxes.add(searchAddress);
         
-        Map<CheckBox, String> map = new HashMap<>();
-        map.put(searchUsername, "username");
-        map.put(searchEmail, "email");
-        map.put(searchSSN, "ssn");
-        map.put(searchPhoneNumber, "phoneNumber");
-        map.put(searchAddress, "address");
+        String fn = null, mn = null, ln = null, add = null, un = null, ead = null;
+        int pnum = -1, ssn1 = -1, ssn2 = -1;
         
-        int checkboxCounter = 0;
-        CheckBox cb = null;
-        for(CheckBox checkbox : checkboxes) {
-            if (checkbox.isSelected()) {
-                checkboxCounter++;
-                cb = checkbox;
-            }
+        if(searchFullName.isSelected()) {
+            fn = searchQuery;
+            mn = searchQuery;
+            ln = searchQuery;
         }
-//        searchFieldStr = "";
-//        
-//        if (cb == searchFullName) {
-//            searcchFieldStr = ""
-//        }
         
-        if(checkboxCounter == 1) {
-            sqlQuery = cb + " LIKE '%" + searchQuery + "%' ";
+        if(searchAddress.isSelected()) {
+            add = searchQuery;
         }
-        else { 
-            if(searchFullName.isSelected()) {
-                sqlQuery = sqlQuery + " OR firstName LIKE '%" + searchQuery + "%' "
-                        + "OR middleName LIKE '%" + searchQuery + "%' "
-                        + "OR lastName LIKE '%" + searchQuery + "%' ";
+        
+        if(searchUsername.isSelected()) {
+            un = searchQuery;
+        }
+        
+        if(searchEmail.isSelected()) {
+            ead = searchQuery;
+        }
+        
+        if(searchPhoneNumber.isSelected()) {
+            if(Helper.hasChar(searchQuery)) {
+                Helper.DialogBox(true, "Cannot search for text in phone number");
             }
-            if(searchUsername.isSelected()) {
-                sqlQuery = sqlQuery + " OR username LIKE '%" + searchQuery + "%'";
-            }
-
-            if(searchEmail.isSelected()) {
-                sqlQuery = sqlQuery + " OR email LIKE '%" + searchQuery + "%'";
-            }
-
-            if(searchSSN.isSelected()) {
-                sqlQuery = sqlQuery + " OR ssn LIKE '%" + searchQuery + "%'";
-            }
-
-            if(searchPhoneNumber.isSelected()) {
-                sqlQuery = sqlQuery + " OR phoneNumber LIKE '%" + searchQuery + "%'";
-            }
-
-            if(searchAddress.isSelected()) {
-                sqlQuery = sqlQuery + " OR address LIKE '%" + searchQuery + "%'";
+            else {
+                try {
+                    System.out.println("sfjkhdfs");
+                    pnum = Integer.parseInt(searchQuery);
+                }
+                catch (Exception e) {
+                    Helper.DialogBox(true, "Cannot search for text in phone number");
+                }
             }
         }
         
-        System.out.println(sqlQuery);
-        searchData = DBHandler.searchInAdminViewAdminAccounts(searchQuery, "Admin");
-
+        if(searchSSN.isSelected()) {
+            String ssnRegex = "([0-9]{6}-[0-9]{4})|([0-9]{10})";
+            if (searchQuery.matches(ssnRegex)) {
+                //try {
+                    String[] ssnDivided = searchQuery.split("-");
+                    if(ssnDivided.length == 1) {
+                        ssn1 = Integer.parseInt(searchQuery.substring(0, 6));
+                        ssn2 = Integer.parseInt(searchQuery.substring(6, 10));
+                    }
+                    else if (ssnDivided.length == 2) {
+                        ssn1 = Integer.parseInt(ssnDivided[0]);
+                        ssn2 = Integer.parseInt(ssnDivided[1]);
+                    }
+            }
+            else {
+                Helper.DialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
+            }
+        }
+        
+        searchData = DBHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");
         usernameColumn = new TableColumn("Username");

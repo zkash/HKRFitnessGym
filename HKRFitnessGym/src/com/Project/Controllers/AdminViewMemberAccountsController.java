@@ -47,7 +47,14 @@ public class AdminViewMemberAccountsController implements Initializable {
     
     private  ObservableList<Member> data;
     private  ObservableList<Member> searchData;
-    @FXML private TextField searchAdmin;
+    @FXML private TextField searchMember;
+    
+    @FXML private CheckBox searchFullName;
+    @FXML private CheckBox searchUsername;
+    @FXML private CheckBox searchEmail;
+    @FXML private CheckBox searchSSN;
+    @FXML private CheckBox searchPhoneNumber;
+    @FXML private CheckBox searchAddress;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,9 +112,66 @@ public class AdminViewMemberAccountsController implements Initializable {
     }
     
     public void searchMemberBtnClick(ActionEvent event) throws SQLException {
-        String searchQuery = searchAdmin.getText(); 
-        searchData = DBHandler.searchInAdminViewMemberAccounts(searchQuery, "Member");
-        System.out.println(searchData);
+        String searchQuery = searchMember.getText(); 
+        
+        
+        String fn = null, mn = null, ln = null, add = null, un = null, ead = null;
+        int pnum = -1, ssn1 = -1, ssn2 = -1;
+        
+        if(searchFullName.isSelected()) {
+            fn = searchQuery;
+            mn = searchQuery;
+            ln = searchQuery;
+        }
+        
+        if(searchAddress.isSelected()) {
+            add = searchQuery;
+        }
+        
+        if(searchUsername.isSelected()) {
+            un = searchQuery;
+        }
+        
+        if(searchEmail.isSelected()) {
+            ead = searchQuery;
+        }
+        
+        if(searchPhoneNumber.isSelected()) {
+            if(Helper.hasChar(searchQuery)) {
+                //Helper.DialogBox(true, "Cannot search for text in phone number");
+            }
+            else {
+                try {
+                    System.out.println("sfjkhdfs");
+                    pnum = Integer.parseInt(searchQuery);
+                }
+                catch (Exception e) {
+                    Helper.DialogBox(true, "Cannot search for text in phone number");
+                }
+            }
+        }
+        
+        if(searchSSN.isSelected()) {
+            String ssnRegex = "([0-9]{6}-[0-9]{4})|([0-9]{10})";
+            if (searchQuery.matches(ssnRegex)) {
+                //try {
+                    String[] ssnDivided = searchQuery.split("-");
+                    if(ssnDivided.length == 1) {
+                        ssn1 = Integer.parseInt(searchQuery.substring(0, 6));
+                        ssn2 = Integer.parseInt(searchQuery.substring(6, 10));
+                    }
+                    else if (ssnDivided.length == 2) {
+                        ssn1 = Integer.parseInt(ssnDivided[0]);
+                        ssn2 = Integer.parseInt(ssnDivided[1]);
+                    }
+            }
+            else {
+                Helper.DialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
+            }
+        }
+        
+        searchData = DBHandler.searchInAdminViewMemberAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Member");
+        
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");
         usernameColumn = new TableColumn("Username");

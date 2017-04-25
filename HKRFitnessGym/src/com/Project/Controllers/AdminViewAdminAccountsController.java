@@ -196,6 +196,18 @@ public class AdminViewAdminAccountsController implements Initializable {
             }
         }
         
+        if (!searchFullName.isSelected() 
+                && !searchUsername.isSelected() 
+                && !searchAddress.isSelected()
+                && !searchSSN.isSelected()
+                && !searchPhoneNumber.isSelected()
+                && !searchEmail.isSelected()) {
+            fn = searchQuery;
+            mn = searchQuery;
+            ln = searchQuery;
+            un = searchQuery;
+        }
+        
         searchData = DBHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");

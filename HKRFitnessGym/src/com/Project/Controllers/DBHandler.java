@@ -213,16 +213,30 @@ public class DBHandler {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()) {
-            searchData.add(new Admin(
-                    rs.getString("firstName") + rs.getString("middleName") + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-            ));
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Admin(
+                        rs.getString("firstName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
+            else {
+                searchData.add(new Admin(
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
         }
         return searchData;
     }
@@ -244,16 +258,30 @@ public class DBHandler {
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while(rs.next()) {
-            searchData.add(new Member(
-                    rs.getString("firstName") + rs.getString("middleName") + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-            ));
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Member(
+                        rs.getString("firstName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
+            else {
+                searchData.add(new Member(
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
         }
         return searchData;
     }

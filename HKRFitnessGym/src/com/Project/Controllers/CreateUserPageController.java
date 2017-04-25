@@ -71,7 +71,7 @@ public class CreateUserPageController implements Initializable {
     
     private boolean error;
     private String adminUsername;
-    private int adminSSN = 1234567890; //ToDO change this
+    private int adminId = 1; //ToDO change this
     private boolean login;
     
     
@@ -106,13 +106,13 @@ public class CreateUserPageController implements Initializable {
         
     }     
     
-    public void setAdminUsername(String uname) {
-        this.adminUsername = uname;
-    }
-    
-    public void setAdminSSN() {
-        this.adminSSN = 1234567890;
-    }
+//    public void setAdminUsername(String uname) {
+//        this.adminUsername = uname;
+//    }
+//    
+//    public void setAdminSSN() {
+//        this.adminSSN = 1234567890;
+//    }
     
     public void setTextOnCondition(boolean condition, Label lbl) {
         if(condition) {
@@ -165,7 +165,7 @@ public class CreateUserPageController implements Initializable {
     }
 
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException {
+    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -211,19 +211,20 @@ public class CreateUserPageController implements Initializable {
             System.out.println(ssnParts[1]);
             String ssnumberStr = ssnParts[0] + ssnParts[1];
             System.out.println(ssnumberStr);
-            int p1 = Integer.parseInt(ssnParts[0]);
-            int p2 = Integer.parseInt(ssnParts[1]);
-            System.out.println("P1 " + p1);
-            System.out.println("P2 " + p2);
-            int ssnumber = p1*10000 + p2;
+            int ssn1 = Integer.parseInt(ssnParts[0]);
+            int ssn2 = Integer.parseInt(ssnParts[1]);
+            //System.out.println("P1 " + p1);
+            //System.out.println("P2 " + p2);
+            //int ssnumber = p1*10000 + p2;
            // int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
             int pnumber = Integer.parseInt(pnum);
             
             //int ssnumber = Integer.parseInt(ssnumberStr);
-            System.out.println(ssnumber);
+          //  System.out.println(ssnumber);
             System.out.println(dob);
             
             Date birthDate = Date.valueOf(dob);
+            System.out.println("DATE D " + birthDate.getClass().getName());
                     
             if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
                 Helper.isEmpty(invalidMsgMiddleName.getText()) &&  
@@ -238,11 +239,11 @@ public class CreateUserPageController implements Initializable {
                 boolean alreadyExists;
                 System.out.println(isAdmin.isSelected());
                 if (isAdmin.isSelected()) {
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssnumber);
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssn1, ssn2);
                 }
                 else {
                     System.out.println("hell");
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssnumber);
+                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssn1, ssn2);
                     System.out.println(alreadyExists);
                 }
                 
@@ -251,30 +252,20 @@ public class CreateUserPageController implements Initializable {
                 }
                 else {
                     if (isAdmin.isSelected()) {
-                        Admin admin = new Admin(fn, mn, ln, gen, add, ead, un, pw, ssnumber, pnumber);
-                        System.out.println(admin.getFirstName());
-                        System.out.println(admin.getMiddleName());
-                        System.out.println(admin.getLastName());
-                        System.out.println(admin.getGender());
-                        System.out.println(admin.getAddress());
-                        System.out.println(admin.getEmail());
-                        System.out.println(admin.getUsername());
-                        System.out.println(admin.getPassword());
-                        System.out.println(admin.getSSN());
-                        System.out.println(admin.getPhoneNumber());
-                        //Admin admin = new Admin(fn, mn, ln, birthDate, add, pnumber, un, pw, ead, gen, ssnumber);
-                        //DBHandler.createAdminAccount(admin);
+                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        DBHandler.createAdminAccount(admin);
                         
                     }
                     else {
-                        System.out.println("hoohaa");
-                        DBHandler.createMemberAccount(fn, mn, ln, gen, birthDate, add, pnumber, ead, ssnumber, un, pw, this.adminSSN);
+                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        DBHandler.createMemberAccount(member, adminId);
                     }
                     Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                     Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     dateOfBirth.getEditor().clear();
                     isAdmin.setSelected(false);
-                    Helper.DialogBox(alreadyExists, "User account successfully created");
+                    //Helper.DialogBox(alreadyExists, "User account successfully created");
+                    Helper.DialogBoxChoice("User account successfully created", "Do you want to create another account?");
                 } 
             }
         }        

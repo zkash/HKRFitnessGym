@@ -26,6 +26,7 @@ public class Package {
     private final StringProperty startTime;
     private final StringProperty endTime;
     private final IntegerProperty packageId;    
+    private final StringProperty adminFullName;
     
     public Package(String pn, float price, Date sd, Date ed, String st, String et) {
         this.packageName = new SimpleStringProperty(pn);
@@ -35,18 +36,20 @@ public class Package {
         this.startTime = new SimpleStringProperty(st);
         this.endTime = new SimpleStringProperty(et);
         this.packageId = null;
+        this.adminFullName = null;
     }
     
-    public Package(String pn, float price, Date sd, Date ed, String st, String et, int pid) {
+    //For adminViewPackages
+    public Package(String pn, float price, Date sd, Date ed, String st, String et, String afn) {
         this.packageName = new SimpleStringProperty(pn);
         this.price = new SimpleFloatProperty(price);
         this.startDate = sd;
         this.endDate = ed;
         this.startTime = new SimpleStringProperty(st);
         this.endTime = new SimpleStringProperty(et);
-        this.packageId = new SimpleIntegerProperty(pid);
+        this.packageId = null;
+        this.adminFullName = new SimpleStringProperty(afn);
     }
-
 
     // Getters
     public String getPackageName() {
@@ -77,6 +80,10 @@ public class Package {
         return packageId.get();
     }
     
+    public String getAdminFullName() {
+        return adminFullName.get();
+    }
+    
     //Setters
     public void setPackageName(String pn) {
         packageName.set(pn);
@@ -100,6 +107,10 @@ public class Package {
     
     public void setEndTime(String et) {
         endTime.set(et);
+    }
+    
+    public void setAdminFullName(String afn) {
+        adminFullName.set(afn);
     }
     
     // Property values
@@ -129,5 +140,9 @@ public class Package {
     
     public IntegerProperty packageIdProperty() {
         return packageId;
+    }
+    
+    public StringProperty adminFullNameProperty() {
+        return adminFullName;
     }
 }

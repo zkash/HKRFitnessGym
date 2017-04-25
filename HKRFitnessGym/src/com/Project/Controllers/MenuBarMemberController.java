@@ -75,19 +75,7 @@ public class MenuBarMemberController implements Initializable {
     public void visitChatRoomMenuClick(ActionEvent event) {
         
     }
-    
-    public void uploadPictureMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void deletePictureMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void viewGalleryMenuClick(ActionEvent event) {
-        
-    }
-    
+
     public void aboutMenuClick(ActionEvent event) {
         
     }

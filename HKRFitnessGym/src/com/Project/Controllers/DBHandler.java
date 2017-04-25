@@ -42,10 +42,11 @@ public class DBHandler {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
+            String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
+                System.out.println(rs.getString("ssn2"));
                 data.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                     rs.getString("username"),
                     rs.getString("gender"),
@@ -54,7 +55,7 @@ public class DBHandler {
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
-                    rs.getInt("ssn")
+                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
                 ));  
             }   
             return data;
@@ -69,7 +70,7 @@ public class DBHandler {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT firstName, middleName, lastName, username, ssn, phoneNumber, address, email, gender, dateOfBirth FROM Member");
+            String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Member");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
@@ -81,7 +82,7 @@ public class DBHandler {
                     rs.getString("address"),
                     rs.getInt("phoneNumber"),
                     rs.getString("email"),
-                    rs.getInt("ssn")
+                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
                 ));  
             }   
             return data;
@@ -96,19 +97,8 @@ public class DBHandler {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
-                    + "dateOfBirth, address, phoneNumber, email, ssn, username, password) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            System.out.println(admin.getFirstName());
-            System.out.println(admin.getMiddleName());
-            System.out.println(admin.getLastName());
-            System.out.println(admin.getGender());
-            System.out.println(admin.getDOB());
-            System.out.println(admin.getAddress());
-            System.out.println(admin.getPhoneNumber());
-            System.out.println(admin.getEmail());
-            System.out.println(admin.getSSN());
-            System.out.println(admin.getUsername());
-            System.out.println(admin.getPassword());
+                    + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getMiddleName());
@@ -118,9 +108,10 @@ public class DBHandler {
             statement.setString(6, admin.getAddress());
             statement.setInt(7, admin.getPhoneNumber());
             statement.setString(8, admin.getEmail());
-            statement.setInt(9, admin.getSSN());
-            statement.setString(10, admin.getUsername());
-            statement.setString(11, admin.getPassword());
+            statement.setInt(9, admin.getSSN1());
+            statement.setInt(10, admin.getSSN2());
+            statement.setString(11, admin.getUsername());
+            statement.setString(12, admin.getPassword());
             statement.execute();
             conn.close();
         } catch (SQLException e) {
@@ -153,25 +144,26 @@ public class DBHandler {
 //        }
 //    }
 
-    public static void createMemberAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd, int adminSSN) throws SQLException {
+    public static void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
-                    + "dateOfBirth, address, phoneNumber, email, ssn, username, password, Admin_ssn) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "dateOfBirth, address, phoneNumber, email, ssn1, ssn2, username, password, Admin_adminId) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, fn);
-            statement.setString(2, mn);
-            statement.setString(3, ln);
-            statement.setString(4, gen);
-            statement.setDate(5, dob);
-            statement.setString(6, add);
-            statement.setInt(7, pnum);
-            statement.setString(8, ead);
-            statement.setInt(9, ssnum);
-            statement.setString(10, uname);
-            statement.setString(11, pwd);
-            statement.setInt(12, adminSSN);
+            statement.setString(1, member.getFirstName());
+            statement.setString(2, member.getMiddleName());
+            statement.setString(3, member.getLastName());
+            statement.setString(4, member.getGender());
+            statement.setDate(5, member.getDOB());
+            statement.setString(6, member.getAddress());
+            statement.setInt(7, member.getPhoneNumber());
+            statement.setString(8, member.getEmail());
+            statement.setInt(9, member.getSSN1());
+            statement.setInt(10, member.getSSN2());
+            statement.setString(11, member.getUsername());
+            statement.setString(12, member.getPassword());
+            statement.setInt(13, adminId);
             statement.execute();
             conn.close();
         } catch (SQLException e) {
@@ -195,9 +187,9 @@ public class DBHandler {
         return null;
     }
 
-    public static void getAdminUsername(int ssn) throws SQLException {
+    public static void getAdminUsername(int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT username FROM Admin WHERE ssn = " + ssn;
+        String query = "SELECT username FROM Admin WHERE ssn1 = " + ssn1 + "AND ssn2 = " + ssn2;
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
@@ -205,82 +197,92 @@ public class DBHandler {
         }
     }
 
-    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String str, String table) throws SQLException {
+    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln,  String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
-//        String query = "SELECT * FROM $tableName WHERE firstName LIKE '%" + str + "%'"
-//                + "OR middleName LIKE '%" + str + "%'"
-//                + "OR lastName LIKE '%" + str + "%'"
-//                + "OR address LIKE '%" + str + "%'"
-//                + "OR username LIKE '%" + str + "%'";
-//        query = query.replace("$tableName", table);
-//        System.out.println(query);
-//        PreparedStatement statement = conn.prepareStatement(query);
-//        //statement.setString(1, table);
-//        //System.out.println(statement);
-//        
-//        ResultSet rs = statement.executeQuery();
-//        //System.out.println(rs);
-//        while (rs.next()) {
-//           // System.out.println(rs.getString("address"));
-//            
-//            //System.out.println(rs.getString("firstName"));
-////              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-////                rs.getString("username"),
-////                rs.getInt("ssn")
-////              ));  
-//
-//                searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-//                    rs.getString("username"),
-//                    rs.getString("gender"),
-//                    rs.getString("dateOfBirth"),
-//                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-//                    rs.getString("address"),
-//                    rs.getInt("phoneNumber"),
-//                    rs.getString("email"),
-//                    rs.getInt("ssn")
-//              ));   
-//            }
+        String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
+                + " OR middleName LIKE \"%" + mn + "%\""
+                + " OR lastName LIKE \"%" + ln + "%\""
+                + " OR address LIKE \"%" + add + "%\""
+                + " OR username LIKE \"%" + un + "%\""
+                + " OR email = \"" + ead + "\""
+                + " OR phoneNumber = " + pnum
+                + " OR (ssn1 = " + ssn1
+                + " AND ssn2 = " + ssn2 + ")";
+        query = query.replace("$tableName", table);
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Admin(
+                        rs.getString("firstName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
+            else {
+                searchData.add(new Admin(
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
+        }
         return searchData;
     }
 
     
-    public static ObservableList<Member> searchInAdminViewMemberAccounts(String str, String table) throws SQLException {
+    public static ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln,  String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Member> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
-        String query = "SELECT * FROM $tableName WHERE firstName LIKE '%" + str + "%'"
-                + "OR middleName LIKE '%" + str + "%'"
-                + "OR lastName LIKE '%" + str + "%'"
-                + "OR address LIKE '%" + str + "%'"
-                + "OR username LIKE '%" + str + "%'";
+        String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
+                + " OR middleName LIKE \"%" + mn + "%\""
+                + " OR lastName LIKE \"%" + ln + "%\""
+                + " OR address LIKE \"%" + add + "%\""
+                + " OR username LIKE \"%" + un + "%\""
+                + " OR email = \"" + ead + "\""
+                + " OR phoneNumber = " + pnum
+                + " OR (ssn1 = " + ssn1
+                + " AND ssn2 = " + ssn2 + ")";
         query = query.replace("$tableName", table);
-        System.out.println(query);
         PreparedStatement statement = conn.prepareStatement(query);
-        //statement.setString(1, table);
-        //System.out.println(statement);
-        
         ResultSet rs = statement.executeQuery();
-        //System.out.println(rs);
-        while (rs.next()) {
-           // System.out.println(rs.getString("address"));
-            
-            //System.out.println(rs.getString("firstName"));
-//              searchData.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-//                rs.getString("username"),
-//                rs.getInt("ssn")
-//              ));  
-
-                searchData.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getInt("ssn")
-              ));   
+        while(rs.next()) {
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Member(
+                        rs.getString("firstName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
             }
+            else {
+                searchData.add(new Member(
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
+        }
         return searchData;
     }
     
@@ -309,12 +311,13 @@ public class DBHandler {
     
     
 
-    public static boolean checkUsernameAndSSN(String table, String uname, int ssn) throws SQLException {
+    public static boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR ssn = ?";
+        String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR (ssn1 = ? AND ssn2 = ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, uname);
-        statement.setInt(2, ssn);
+        statement.setInt(2, ssn1);
+        statement.setInt(3, ssn2);
         ResultSet rs = statement.executeQuery();
         boolean alreadyExists = false;
         while (rs.next()) {
@@ -324,7 +327,7 @@ public class DBHandler {
         return alreadyExists;
     }
     
-    public static void updatePersonalInformation(String table, Admin admin, int ssnOld) throws SQLException {
+    public static void updatePersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -335,8 +338,9 @@ public class DBHandler {
                 + " address = ?,"
                 + " phoneNumber = ?,"
                 + " email = ?, "
-                + " ssn = ?"
-                + " WHERE ssn = ?";
+                + " ssn1 = ?,"
+                + " ssn2 = ?"
+                + " WHERE ssn1 = ? AND ssn2 = ?";
         query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, admin.getFirstName());
@@ -347,17 +351,18 @@ public class DBHandler {
         statement.setString(6, admin.getAddress());
         statement.setInt(7, admin.getPhoneNumber());
         statement.setString(8, admin.getEmail());
-        statement.setInt(9, admin.getSSN());
-        statement.setInt(10, ssnOld);
-        System.out.println(statement);
+        statement.setInt(9, admin.getSSN1());
+        statement.setInt(10, admin.getSSN2());
+        statement.setInt(11, ssnOld1);
+        statement.setInt(12, ssnOld2);
         statement.executeUpdate();
         conn.close();
     }
     
-    public static void createPackage(Package pack, int admin_ssn) throws SQLException {
+    public static void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
-                + "endTime, Admin_ssn) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, pack.getPackageName());
         statement.setFloat(2, pack.getPrice());
@@ -365,7 +370,7 @@ public class DBHandler {
         statement.setDate(4, pack.getEndDate());
         statement.setString(5, pack.getStartTime());
         statement.setString(6, pack.getEndTime());
-        statement.setInt(7, admin_ssn);
+        statement.setInt(7, adminId);
         statement.execute();
         conn.close();
     }
@@ -387,18 +392,37 @@ public class DBHandler {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
-            String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
+            //String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
+            String query = String.format("SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId");
+            
             PreparedStatement statement = conn.prepareStatement(query);
+            System.out.println(statement);
             ResultSet rs = statement.executeQuery();
+            System.out.println(rs);
             while(rs.next()) {
-                data.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime")
-                ));     
+                if (rs.getString("middleName").equals("")) {
+                    data.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                    ));
+                }
+                else {
+                    data.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                    ));
+                }
+  
             }   
             return data;
         }
@@ -408,12 +432,13 @@ public class DBHandler {
         return null;
     }
     
-    public static boolean deleteAccount(int ssn, String table) throws SQLException {
+    public static boolean deleteAccount(int ssn1, int ssn2, String table) throws SQLException {
         Connection conn = establishConnection();
-        String query = "DELETE FROM $table_name WHERE ssn = ?";
+        String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ?";
         query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssn);
+        statement.setInt(1, ssn1);
+        statement.setInt(2, ssn2);
         System.out.println(statement);
         statement.execute();
         boolean deletionError = false;
@@ -432,7 +457,7 @@ public class DBHandler {
         return deletionError;
     }
     
-    public static void updatePackage(Package pack, String packageNameOld, int admin_ssn) throws SQLException {
+    public static void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
                 + "packageName = ?, "
@@ -480,36 +505,46 @@ public class DBHandler {
         return null;
     }
         
-    public static ObservableList<Admin> getAdminPersonalInformation(int ssnum) throws SQLException {
+    public static ObservableList<Admin> getAdminPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn"
-                + " FROM Admin WHERE ssn = ?";
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                + " FROM Admin WHERE ssn1 = ? AND ssn2 = ?";
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssnum);
+        statement.setInt(1, ssnum1);
+        statement.setInt(2, ssnum2);
         ResultSet rs = statement.executeQuery();
-        
-        ObservableList<Admin> data = FXCollections.observableArrayList();
+        ObservableList<Admin> admin = FXCollections.observableArrayList();
         while(rs.next()) {
-           try {
-                data.add(new Admin(rs.getString("firstName"),
-                    rs.getString("middleName"),
-                    rs.getString("lastName"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getString("gender"),
-                    rs.getInt("ssn")
-                ));  
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println(e.getStackTrace());
-            }
+            admin.add(new Admin(rs.getString("firstName"),
+                rs.getString("middleName"),
+                rs.getString("lastName"),
+                rs.getDate("dateOfBirth"),
+                rs.getString("address"),
+                rs.getInt("phoneNumber"),
+                rs.getString("email"),
+                rs.getString("gender"),
+                rs.getInt("ssn1"),
+                rs.getInt("ssn2")
+            ));  
         }
-        System.out.println(data);
-        return data;
+        System.out.println(admin);
+        return admin;
+    }
+    
+    public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Schedule> schedule = FXCollections.observableArrayList();
+        while(rs.next()) {
+            schedule.add(new Schedule(rs.getDate("date"),
+                rs.getString("openingTime"),
+                rs.getString("closingTime"),
+                rs.getBoolean("isHoliday")
+            ));  
+        }
+        return schedule;
     }
 }

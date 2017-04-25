@@ -113,9 +113,13 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         
         try {
             data = DBHandler.getAdminPersonalInformation(adminSSN1, adminSSN2);
+            if(data.size() == 0) {
+                Helper.DialogBox(true, "There is no such user to view personal details about");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println(data.get(0).getFirstName());
         firstName.setText(data.get(0).getFirstName());
         middleName.setText(data.get(0).getMiddleName());
         lastName.setText(data.get(0).getLastName());

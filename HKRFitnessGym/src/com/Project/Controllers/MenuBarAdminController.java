@@ -64,29 +64,13 @@ public class MenuBarAdminController implements Initializable {
     public void createPackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/CreatePackagePage.fxml");
     }
-    
-    public void updatePackageMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void deletePackageMenuClick(ActionEvent event) {
-        
-    }
-    
+
     public void viewPackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/AdminViewPackages.fxml");
     }
     
     public void addScheduleMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/CreateSchedulePage.fxml");
-    }
-    
-    public void updateScheduleMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void deleteScheduleMenuClick(ActionEvent event) {
-        
     }
     
     public void viewScheduleMenuClick(ActionEvent event) throws IOException {
@@ -96,15 +80,7 @@ public class MenuBarAdminController implements Initializable {
     public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/CreateAnnouncementPage.fxml");
     }
-    
-    public void updateAnnouncementMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void deleteAnnouncementMenuClick(ActionEvent event) {
-        
-    }
-    
+   
     public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/AdminViewAnnouncements.fxml");
     }

@@ -26,27 +26,18 @@
             <Menu mnemonicParsing="false" text="Package">
                <items>
                   <MenuItem fx:id="createPackageMenu" mnemonicParsing="false" onAction="#createPackageMenuClick" text="Create Package" />
-                  <MenuItem fx:id="updatePackageMenu" mnemonicParsing="false" onAction="#updatePackageMenuClick" text="Update Package" />
-                  <MenuItem fx:id="deletePackageMenu" mnemonicParsing="false" onAction="#deletePackageMenuClick" text="Delete Package" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="viewPackageMenu" mnemonicParsing="false" onAction="#viewPackageMenuClick" text="View Package" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Schedule">
                <items>
                   <MenuItem fx:id="addScheduleMenu" mnemonicParsing="false" onAction="#addScheduleMenuClick" text="Add Schedule" />
-                  <MenuItem fx:id="updateScheduleMenu" mnemonicParsing="false" onAction="#updateScheduleMenuClick" text="Update Schedule" />
-                  <MenuItem fx:id="deleteScheduleMenu" mnemonicParsing="false" onAction="#deleteScheduleMenuClick" text="Delete Schedule" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" onAction="#viewScheduleMenuClick" text="View Schedule" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Announcement">
                <items>
                   <MenuItem fx:id="createAnnouncementMenu" mnemonicParsing="false" onAction="#createAnnouncementMenuClick" text="Create Announcement" />
-                  <MenuItem fx:id="updateAnnouncementMenu" mnemonicParsing="false" onAction="#updateAnnouncementMenuClick" text="Update Announcement" />
-                  <MenuItem fx:id="deleteAnnouncementMenu" mnemonicParsing="false" onAction="#deleteAnnouncementMenuClick" text="Delete Announcement" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" onAction="#viewAnnouncementMenuClick" text="View Announcement" />
                </items>
             </Menu>

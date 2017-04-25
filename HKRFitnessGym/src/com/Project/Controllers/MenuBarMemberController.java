@@ -83,11 +83,7 @@ public class MenuBarMemberController implements Initializable {
     public void deletePictureMenuClick(ActionEvent event) {
         
     }
-    
-    public void viewGalleryMenuClick(ActionEvent event) {
-        
-    }
-    
+
     public void aboutMenuClick(ActionEvent event) {
         
     }

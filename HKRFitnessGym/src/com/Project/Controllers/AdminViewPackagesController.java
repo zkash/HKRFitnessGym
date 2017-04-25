@@ -47,7 +47,7 @@ public class AdminViewPackagesController implements Initializable {
     @FXML private TableColumn<Package, String> startTimeColumn;
     @FXML private TableColumn<Package, String> endTimeColumn;
     @FXML private TableColumn<Package, String> membersColumn;
-    @FXML private TableColumn<Package, String> adminUsernameColumn;
+    @FXML private TableColumn<Package, String> adminFullNameColumn;
     
     @FXML UpdatePackageInformationPageController updatePackageInformationPageController;
 
@@ -69,6 +69,7 @@ public class AdminViewPackagesController implements Initializable {
             endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
             startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
             endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
             //TODO Fix this
             membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
             adminViewPackagesTable.setItems(null);
@@ -90,9 +91,9 @@ public class AdminViewPackagesController implements Initializable {
         startTimeColumn = new TableColumn("Start Time");
         endTimeColumn = new TableColumn("End Time");
         membersColumn = new TableColumn("Members");
-        adminUsernameColumn = new TableColumn("Admin");
+        adminFullNameColumn = new TableColumn("Admin");
           
-         adminViewPackagesTable.getColumns().addAll(packageNameColumn, priceColumn, startDateColumn, endDateColumn, startTimeColumn, endTimeColumn, membersColumn, adminUsernameColumn);
+         adminViewPackagesTable.getColumns().addAll(packageNameColumn, priceColumn, startDateColumn, endDateColumn, startTimeColumn, endTimeColumn, membersColumn, adminFullNameColumn);
          packageNameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.30837004)); 
          priceColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
          startDateColumn .prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
@@ -100,7 +101,7 @@ public class AdminViewPackagesController implements Initializable {
          startTimeColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.10572688));
          endTimeColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
          membersColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
-         adminUsernameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
+         adminFullNameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
  
         // Set cell value factory to TableView
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
@@ -110,7 +111,7 @@ public class AdminViewPackagesController implements Initializable {
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
-        adminUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("Admin_ssn"));
+        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
         adminViewPackagesTable.setItems(null);
         adminViewPackagesTable.setItems(searchData);
     }
@@ -124,6 +125,7 @@ public class AdminViewPackagesController implements Initializable {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
         //TODO Fix this
         membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
         adminViewPackagesTable.setItems(null);
@@ -134,21 +136,27 @@ public class AdminViewPackagesController implements Initializable {
         ObservableList<Package> row , allRows;
         allRows = adminViewPackagesTable.getItems();
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
-        boolean deletionError = false;
-        try {
-            deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
-        }
-        catch(Exception e) {
-            deletionError = true;
-        }
-        
-        if (!deletionError) {
-            Helper.DialogBox(deletionError, "Package successfully deleted");
+        boolean deletionError = true;
+        System.out.println("RORW" + row.size());
+        if (row.size() == 0) {
+            Helper.DialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
-            Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+            try {
+                deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
+            }
+            catch(Exception e) {
+                deletionError = true;
+            }
+
+            if (!deletionError) {
+                Helper.DialogBox(deletionError, "Package successfully deleted");
+            }
+            else {
+                Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+            }
+            row.forEach(allRows::remove);
         }
-        row.forEach(allRows::remove);
     }
     
     public void updateBtnClick(ActionEvent event) throws SQLException, IOException {

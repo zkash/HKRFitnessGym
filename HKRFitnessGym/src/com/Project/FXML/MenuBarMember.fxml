@@ -47,14 +47,6 @@
             <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#visitChatRoomMenuClick" text="Visit Chat Room" />
          </items>
       </Menu>
-      <Menu mnemonicParsing="false" text="Gallery">
-         <items>
-            <MenuItem fx:id="uploadPictureMenu" mnemonicParsing="false" onAction="#uploadPictureMenuClick" text="Upload Picture" />
-            <MenuItem fx:id="deletePictureMenu" mnemonicParsing="false" onAction="#deletePictureMenuClick" text="Delete Picture" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="viewGalleryMenu" mnemonicParsing="false" onAction="#viewGalleryMenuClick" text="View Gallery" />
-         </items>
-      </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />

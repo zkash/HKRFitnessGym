@@ -5,6 +5,8 @@
  */
 package com.Project.Controllers;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -14,9 +16,17 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Control;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  *
@@ -142,4 +152,41 @@ public class Helper {
         LocalDate ld = date.toLocalDate();
         return ld;
     }
+    
+    public static String convertDateToString(Date date) {
+        System.out.println("Date " + date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString = dateFormat.format(date);
+        System.out.println(dateInString);
+        return dateInString;
+    }
+    
+    public static void DialogBoxChoice(String header, String content) throws IOException {    
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setContentText(content);
+        alert.setHeaderText(header);
+        ButtonType yesBtn = new ButtonType("Yes");
+        ButtonType noBtn = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesBtn, noBtn);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        System.out.println("KDJFKLJDF " + result.get());
+        if (result.get() == noBtn) {
+            show();
+        }
+        else if (result.get() == noBtn) {
+            System.out.println("NO");
+        }
+       // alert.showAndWait();  
+    }
+       public static void show() throws IOException {
+//           Node node = (Node) event.getSource();
+//            Stage stage = (Stage) node.getScene().getWindow();
+//            Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();    
+       }
+    
 }

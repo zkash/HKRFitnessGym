@@ -383,19 +383,36 @@ public class DBHandler {
         Connection conn = establishConnection();
         try {
             //String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
-            String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
+            String query = String.format("SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId");
             
             PreparedStatement statement = conn.prepareStatement(query);
+            System.out.println(statement);
             ResultSet rs = statement.executeQuery();
+            System.out.println(rs);
             while(rs.next()) {
-                data.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime")
-                ));     
+                if (rs.getString("middleName").equals("")) {
+                    data.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                    ));
+                }
+                else {
+                    data.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                    ));
+                }
+  
             }   
             return data;
         }

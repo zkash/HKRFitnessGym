@@ -23,6 +23,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -53,7 +55,8 @@ public class CreateSchedulePageController implements Initializable {
     private String oh;
     private String ch;
     private String om,cm;
-    private String ot,ct;
+    private String ot;
+    private String ct; 
     private String openingTimeRegex;
     private String closingTimeRegex;
     private SimpleDateFormat sdf;
@@ -102,11 +105,13 @@ public class CreateSchedulePageController implements Initializable {
     public void checkBox() throws Exception{
         setDate();
         checkHoliday();
-        setTime();
         
         //choose date part
         if(schedule.getDate() == null) {
             invalidMsgAnnouncement.setText("Pick Up A Date");
+        }
+        else if(schedule.getDate().isBefore(currentDate())){
+            invalidMsgAnnouncement.setText("Invalid Date");
         }
         
         // opening time box
@@ -149,13 +154,12 @@ public class CreateSchedulePageController implements Initializable {
         }
         else if(isMorning(openingTimeState) && isMorning(closingTimeState)){
             timeFormat();
-            setTime();
-            if(schedule.getOpeningTime().after(schedule.getClosingTime())){
+            if(d1.after(d2)){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
             }
-            else if(schedule.getOpeningTime().equals(schedule.getClosingTime())){
+            else if(d1.equals(d2)){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
@@ -163,13 +167,13 @@ public class CreateSchedulePageController implements Initializable {
         }
         else if(!isMorning(openingTimeState) && !isMorning(closingTimeState)){
             timeFormat();
-            setTime();
-            if(schedule.getOpeningTime().after(schedule.getClosingTime())){
+            
+            if(d1.after(d2)){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
             }
-            else if(schedule.getOpeningTime().equals(schedule.getClosingTime())){
+            else if(d1.equals(d2)){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
@@ -182,6 +186,9 @@ public class CreateSchedulePageController implements Initializable {
         }
         else{
             timeFormat();
+            schedule.setOpeningTime(ot);
+            schedule.setClosingTime(ct);
+            
             //clear text
             invalidMsgAllData.setText("");
             invalidMsgAnnouncement.setText("");
@@ -189,9 +196,11 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgOpeningTime.setText("");
             
             //insert date to data base.
-            //Time opening = new Time(schedule.getOpeningTime().getTime());
-            //Time closing = new Time(schedule.getClosingTime().getTime());
-            //DBHandler.adminCreateSchedule(Helper.convertDate(scheduleDate.getValue()),opening, closing, schedule.isIsHoliday(),1234567);
+            System.out.println(Helper.toSQLDate(schedule.getDate()));
+            System.out.println(schedule.getOpeningTime());
+            System.out.println(schedule.getClosingTime());
+            System.out.println(schedule.getIsHoliday());
+            DBHandler.adminCreateSchedule(Helper.toSQLDate(schedule.getDate()),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
         }
     }
     
@@ -201,11 +210,6 @@ public class CreateSchedulePageController implements Initializable {
     
     private void checkHoliday(){
         schedule.setIsHoliday(isHoliday.isSelected());
-    }
-    
-    private void setTime(){
-        schedule.setOpeningTime(d1);
-        schedule.setClosingTime(d2);
     }
     
     public void mouseChecked(MouseEvent e){
@@ -241,5 +245,11 @@ public class CreateSchedulePageController implements Initializable {
             return false;
         }
         return true;
+    }
+    
+    private LocalDate currentDate(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate localDate = LocalDate.now();
+        return localDate;
     }
 }

@@ -59,7 +59,7 @@ public class CreateSchedulePageController implements Initializable {
     private SimpleDateFormat sdf;
     private Date d1,d2;
     
-    private Schedule schedule;
+    private Schedule schedule = new Schedule();
     
     @FXML private DatePicker scheduleDate;
     @FXML private TextField openingTime;
@@ -100,10 +100,15 @@ public class CreateSchedulePageController implements Initializable {
     
     
     public void checkBox() throws Exception{
+        setDate();
+        checkHoliday();
+        setTime();
+        
         //choose date part
-        if(scheduleDate.getValue() == null) {
+        if(schedule.getDate() == null) {
             invalidMsgAnnouncement.setText("Pick Up A Date");
         }
+        
         // opening time box
         else if(!Helper.isInteger(oh) || !Helper.isInteger(om)) {
             invalidMsgAllData.setText("");
@@ -142,47 +147,39 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgAnnouncement.setText("");
             invalidMsgClosingTime.setText("Out Of Range");
         }
-        
         else if(isMorning(openingTimeState) && isMorning(closingTimeState)){
             timeFormat();
-            if(d1.after(d2)){
+            setTime();
+            if(schedule.getOpeningTime().after(schedule.getClosingTime())){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
-            }   
+            }
+            else if(schedule.getOpeningTime().equals(schedule.getClosingTime())){
+                invalidMsgAllData.setText("");
+                invalidMsgAnnouncement.setText("");
+                invalidMsgClosingTime.setText("Invalid Time");
+            }
         }
         else if(!isMorning(openingTimeState) && !isMorning(closingTimeState)){
             timeFormat();
-            if(d1.after(d2)){
+            setTime();
+            if(schedule.getOpeningTime().after(schedule.getClosingTime())){
                 invalidMsgAllData.setText("");
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
-            }   
+            }
+            else if(schedule.getOpeningTime().equals(schedule.getClosingTime())){
+                invalidMsgAllData.setText("");
+                invalidMsgAnnouncement.setText("");
+                invalidMsgClosingTime.setText("Invalid Time");
+            }
         }
-        
         else if(isMorning(closingTimeState) && !isMorning(openingTimeState)){
             invalidMsgAllData.setText("");
             invalidMsgAnnouncement.setText("");
             invalidMsgClosingTime.setText("Invalid Time");
         }
-        
-        else if(isMorning(closingTimeState) && isMorning(openingTimeState)){
-            timeFormat();
-            if(d1.equals(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
-            }
-        }
-        else if(!isMorning(closingTimeState) && !isMorning(openingTimeState)){
-            timeFormat();
-            if(d1.equals(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
-            }
-        }
-        
         else{
             timeFormat();
             //clear text
@@ -192,12 +189,24 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgOpeningTime.setText("");
             
             //insert date to data base.
-            Time opening = new Time(d1.getTime());
-            Time closing = new Time(d2.getTime());
-            DBHandler.adminCreateSchedule(Helper.convertDate(scheduleDate.getValue()),opening, closing, isHoliday.isSelected(),1234567);
+            //Time opening = new Time(schedule.getOpeningTime().getTime());
+            //Time closing = new Time(schedule.getClosingTime().getTime());
+            //DBHandler.adminCreateSchedule(Helper.convertDate(scheduleDate.getValue()),opening, closing, schedule.isIsHoliday(),1234567);
         }
     }
     
+    private void setDate(){
+        schedule.setDate(scheduleDate.getValue());
+    }
+    
+    private void checkHoliday(){
+        schedule.setIsHoliday(isHoliday.isSelected());
+    }
+    
+    private void setTime(){
+        schedule.setOpeningTime(d1);
+        schedule.setClosingTime(d2);
+    }
     
     public void mouseChecked(MouseEvent e){
         if(openingTime.getText().isEmpty()){

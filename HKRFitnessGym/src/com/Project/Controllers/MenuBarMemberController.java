@@ -44,9 +44,10 @@ public class MenuBarMemberController implements Initializable {
         
     }
     
-    public void viewAccountMenuClick(ActionEvent event) {
-        
+    public void viewAccountMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("/com/Project/FXML/MemberViewPersonalInformation.fxml");
     }
+    
     
     public void subscribePackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/SubscribeToPackagePage.fxml");

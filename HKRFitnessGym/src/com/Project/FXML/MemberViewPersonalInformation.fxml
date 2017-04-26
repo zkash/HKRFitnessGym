@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberViewPersonalInformationController">
+    <top>
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
+    </top>
+    <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+          <children>
+                <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+                <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Label layoutX="124.0" layoutY="102.0" text="Middle Name" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="77.0" text="First Name" AnchorPane.leftAnchor="124.0" AnchorPane.topAnchor="77.0" />
+            <Label layoutX="124.0" layoutY="127.0" text="Last Name" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="152.0" text="Gender" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="175.0" text="Date of Birth" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="199.0" text="Address" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="269.0" text="Social Security Number" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="246.0" text="Email" AnchorPane.leftAnchor="124.0" />
+            <Label layoutX="124.0" layoutY="223.0" text="Phone Number" AnchorPane.leftAnchor="124.0" />
+            <Label fx:id="firstNameLbl" layoutX="348.0" layoutY="77.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lastNameLbl" layoutX="347.0" layoutY="127.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="middleNameLbl" layoutX="348.0" layoutY="102.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="genderLbl" layoutX="348.0" layoutY="152.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="dobLbl" layoutX="348.0" layoutY="175.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="addressLbl" layoutX="348.0" layoutY="199.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="phoneNumberLbl" layoutX="348.0" layoutY="223.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="emailLbl" layoutX="348.0" layoutY="246.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="ssnLbl" layoutX="347.0" layoutY="269.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+          </children>
+      </AnchorPane>
+    </center>
+</BorderPane>

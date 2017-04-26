@@ -28,6 +28,7 @@
                   <TableColumn fx:id="addressColumn" prefWidth="100.0" text="Address" />
                   <TableColumn fx:id="phoneNumberColumn" prefWidth="100.0" text="phoneNumber" />
                   <TableColumn fx:id="emailColumn" prefWidth="100.0" text="Email" />
+                  <TableColumn fx:id="adminFullNameColumn" prefWidth="75.0" text="Admin" />
                   <!--<TableColumn prefWidth="85.0" text="View Details" />
                   <TableColumn prefWidth="60.0" text="Delete" />-->
               </columns>

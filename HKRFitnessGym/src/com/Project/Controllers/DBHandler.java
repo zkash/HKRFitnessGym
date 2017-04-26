@@ -71,6 +71,7 @@ public class DBHandler {
         Connection conn = establishConnection();
         try {
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Member");
+            //String query = "SELECT m.firstName, m.middleName, m.lastName, m.username, m.ssn1, m.ssn2, m.phoneNumber, m.address, m.email, m.gender, m.dateOfBirth, a.firstName, a.middleName, a.lastName FROM Member as m");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -85,11 +86,73 @@ public class DBHandler {
                         Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
                 ));
             }
-            return data;
-        } catch (Exception e) {
-
+            
+            for(Member member : data) {
+                System.out.println("HERHEHE");
+                String query2 = "SELECT a.firstName, a.middleName, a.lastName"
+                        + " From Admin as a"
+                        + " INNER JOIN Member as m"
+                        + " ON a.adminId = m.Admin_adminId";
+                       // + " WHERE m.ssn1 = " + member.getSSN1() + "AND m.ssn2 = " + member.getSSN2();
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                System.out.println(statement2);
+                ResultSet rs2 = statement2.executeQuery();
+                System.out.println("RS2 " + rs2);
+                String count = "";
+                while(rs2.next()) {
+                    if (rs2.getString(2).equals("")) {       //middle name empty or not
+                        System.out.println("sfsf " + rs2.getString(1));
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(3)); //firstName + lastName
+                    }
+                    else {
+                        System.out.println("sfsffdfd " + rs2.getString(1));
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+                    }
+                    
+                }
+            
+                
+                System.out.println(member.getDateOfBirth());
+            
+            }
+//            System.out.println("DATATSDATD " + data);
+//            
+//            for (Member member : data) {
+//                System.out.println();
+//                String ssn1 = member.getUsername();
+//                int ssn2 = member.getSSN2();
+//                System.out.println("SSN1 " + ssn1);
+//                
+//                String query2 = "SELECT a.firstName, a.middleName, a.lastName"
+//                        + " From Admin as a"
+//                        + " INNER JOIN Member as m"
+//                        + " ON a.adminId = m.Admin_adminId"
+//                        + " WHERE m.ssn1 = " + ssn1 + "AND m.ssn2 = " + ssn2;
+//                
+//                PreparedStatement statement2 = conn.prepareStatement(query2);
+//                System.out.println(statement2);
+//                ResultSet rs2 = statement2.executeQuery();
+//                System.out.println("RS2 " + rs2);
+//                String count = "";
+//                while (rs2.next()) {
+//                    System.out.println("CC " + rs2.getString("firstName"));
+//                    count = rs2.getString(1);
+//                }
+//                System.out.println("count  " + count);
+//               // System.out.println("PACK " + pack);
+//               // pack.setCount(Integer.parseInt(count));
+//                System.out.println("here");
+//                
+//                
+//            
+//            } 
+System.out.println("DSDSAS " + data);
+        return data;
         }
-        return null;
+        catch (Exception e) {
+            
+        }
+          return null;  
     }
 
     public static void createAdminAccount(Admin admin) {

@@ -44,6 +44,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     @FXML private TableColumn<Member, String> genderColumn;
     @FXML private TableColumn<Member, String> emailColumn;
     @FXML private TableColumn<Member, String> phoneNumberColumn;
+    @FXML private TableColumn<Member, String> adminFullNameColumn;
     
     private  ObservableList<Member> data;
     private  ObservableList<Member> searchData;
@@ -72,6 +73,7 @@ public class AdminViewMemberAccountsController implements Initializable {
             addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
             emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
             phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+            adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
             adminViewAccountsTable.setItems(null);
             adminViewAccountsTable.setItems(data);
         } catch (SQLException ex) {
@@ -193,6 +195,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         addressColumn = new TableColumn("Address");
         emailColumn = new TableColumn("Email");
         phoneNumberColumn = new TableColumn("Phone");
+        adminFullNameColumn = new TableColumn("Phone");
           
         adminViewAccountsTable.getColumns().addAll(fullNameColumn, usernameColumn, ssnColumn, genderColumn, dobColumn, addressColumn, emailColumn, phoneNumberColumn);
         fullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.30837004)); 
@@ -203,6 +206,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         addressColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.40));
         emailColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.40));
         phoneNumberColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
+        adminFullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
         
         //      Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
@@ -213,6 +217,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
         adminViewAccountsTable.setItems(null);
         adminViewAccountsTable.setItems(searchData);
     }
@@ -228,6 +233,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
         adminViewAccountsTable.setItems(null);
         adminViewAccountsTable.setItems(data);
     }

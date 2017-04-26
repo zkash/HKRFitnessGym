@@ -17,22 +17,32 @@ import javafx.beans.property.StringProperty;
  */
 public class Member extends Person {
     
+    private final StringProperty adminFullName = new SimpleStringProperty();
+    
     // For MemberViewPersonalInformationController, UpdateMemberPersonalInformationPageController
     public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssn1, int ssn2) {
         super(fn, mn, ln, dob, add, pnum, ead, gen, ssn1, ssn2);
+       
     }
     
+//    public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssn1, int ssn2   ) {
+//        super(fn, mn, ln, dob, add, pnum, ead, gen, ssn1, ssn2);
+//       
+//    }
     
     public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, String fullSSN) {
         super(fullName, uname, gen, dob, add, pnum, ead, fullSSN);
+   
     }
     
    public Member(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
         super(fn, mn, ln, gen, add, ead, uname, pwd, ssn1, ssn2, pnum);
+        
     }
    
    public Member(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
         super(fn, mn, ln, gen, dob, add, pnum, ead, ssn1, ssn2, uname, pwd);
+  
     }
     
     public void createAccount() {
@@ -41,6 +51,14 @@ public class Member extends Person {
     
     public void deleteAccount() {
         
+    }
+    
+    public String getAdminFullName() {
+        return adminFullName.get();
+    }
+    
+    public void setAdminFullName(String afn) {
+        adminFullName.set(afn);
     }
 }
 

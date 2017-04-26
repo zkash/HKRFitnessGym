@@ -43,6 +43,7 @@ public class AdminMainPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         adminSSN = LoginStatus.getSSN();
         login = LoginStatus.getLogin();
+        loggedUserLbl.textProperty().bind(LoginStorage.getInstance().usernameProperty());
        
     }    
     

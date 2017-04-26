@@ -17,6 +17,12 @@ import javafx.beans.property.StringProperty;
  */
 public class Member extends Person {
     
+    // For MemberViewPersonalInformationController, UpdateMemberPersonalInformationPageController
+    public Member(String fn, String mn, String ln, Date dob, String add, int pnum, String ead, String gen, int ssn1, int ssn2) {
+        super(fn, mn, ln, dob, add, pnum, ead, gen, ssn1, ssn2);
+    }
+    
+    
     public Member(String fullName, String uname, String gen, Date dob, String add, int pnum, String ead, String fullSSN) {
         super(fullName, uname, gen, dob, add, pnum, ead, fullSSN);
     }

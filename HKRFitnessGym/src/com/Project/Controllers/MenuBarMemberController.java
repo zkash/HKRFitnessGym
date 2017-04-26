@@ -37,7 +37,7 @@ public class MenuBarMemberController implements Initializable {
     }    
     
     public void editAccountMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("/com/Project/FXML/EditUserAccountInformationPage.fxml");
+       setupAndShowStage("/com/Project/FXML/UpdateMemberPersonalInformationPage.fxml");
     }
     
     public void updateProfilePicMenuClick(ActionEvent event) {

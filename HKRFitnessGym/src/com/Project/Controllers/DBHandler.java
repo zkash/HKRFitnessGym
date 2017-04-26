@@ -320,7 +320,7 @@ public class DBHandler {
         return alreadyExists;
     }
 
-    public static void updatePersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
+    public static void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -352,6 +352,38 @@ public class DBHandler {
         conn.close();
     }
 
+    public static void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE $table_name SET"
+                + " firstName = ?,"
+                + " middleName = ?,"
+                + " lastName = ?,"
+                + " gender = ?,"
+                + " dateOfBirth = ?,"
+                + " address = ?,"
+                + " phoneNumber = ?,"
+                + " email = ?, "
+                + " ssn1 = ?,"
+                + " ssn2 = ?"
+                + " WHERE ssn1 = ? AND ssn2 = ?";
+        query = query.replace("$table_name", table);
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, member.getFirstName());
+        statement.setString(2, member.getMiddleName());
+        statement.setString(3, member.getLastName());
+        statement.setString(4, member.getGender());
+        statement.setDate(5, member.getDateOfBirth());
+        statement.setString(6, member.getAddress());
+        statement.setInt(7, member.getPhoneNumber());
+        statement.setString(8, member.getEmail());
+        statement.setInt(9, member.getSSN1());
+        statement.setInt(10, member.getSSN2());
+        statement.setInt(11, ssnOld1);
+        statement.setInt(12, ssnOld2);
+        statement.executeUpdate();
+        conn.close();
+    }
+    
     public static void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
@@ -711,6 +743,33 @@ public class DBHandler {
         return admin;
     }
 
+    public static ObservableList<Member> getMemberPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT firstName, middleName, lastName,"
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                + " FROM Member WHERE ssn1 = ? AND ssn2 = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, ssnum1);
+        statement.setInt(2, ssnum2);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Member> member = FXCollections.observableArrayList();
+        while (rs.next()) {
+            member.add(new Member(rs.getString("firstName"),
+                    rs.getString("middleName"),
+                    rs.getString("lastName"),
+                    rs.getDate("dateOfBirth"),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getString("gender"),
+                    rs.getInt("ssn1"),
+                    rs.getInt("ssn2")
+            ));
+        }
+        System.out.println(member);
+        return member;
+    }
+    
     public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";

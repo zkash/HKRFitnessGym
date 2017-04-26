@@ -181,12 +181,12 @@ public class Helper {
        // alert.showAndWait();  
     }
        public static void show() throws IOException {
-//           Node node = (Node) event.getSource();
-//            Stage stage = (Stage) node.getScene().getWindow();
-//            Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();    
+           
+            Stage stage = (Stage) node.getScene().getWindow();
+            Parent root = FXMLLoader.load(Helper.class.getResource("/com/Project/FXML/BasicTemplate.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();    
        }
     
 }

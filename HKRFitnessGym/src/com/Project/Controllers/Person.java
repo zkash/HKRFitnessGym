@@ -131,7 +131,7 @@ public class Person {
     
     
     // Getters
-    public Date getDOB() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -188,7 +188,7 @@ public class Person {
     }
     
     //Setters
-    public void setDOB(Date dob) {
+    public void setDateOfBirth(Date dob) {
         dateOfBirth = dob;
     }
 

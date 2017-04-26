@@ -123,7 +123,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         firstName.setText(data.get(0).getFirstName());
         middleName.setText(data.get(0).getMiddleName());
         lastName.setText(data.get(0).getLastName());
-        dateOfBirth.setValue(Helper.convertSQLDateToLocalDate(data.get(0).getDOB())); 
+        dateOfBirth.setValue(Helper.convertSQLDateToLocalDate(data.get(0).getDateOfBirth())); 
         address.setText(data.get(0).getAddress());
         phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
         email.setText(data.get(0).getEmail());

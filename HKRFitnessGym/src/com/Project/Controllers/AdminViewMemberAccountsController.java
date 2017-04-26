@@ -67,7 +67,7 @@ public class AdminViewMemberAccountsController implements Initializable {
             fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
             ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
-            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
+            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
             genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
             addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
             emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -209,7 +209,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
@@ -223,7 +223,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));

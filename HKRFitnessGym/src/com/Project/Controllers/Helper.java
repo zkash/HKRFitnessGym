@@ -161,7 +161,7 @@ public class Helper {
         return dateInString;
     }
     
-    public static void DialogBoxChoice(String header, String content) throws IOException {    
+    public static void DialogBoxChoice(Stage stage, String header, String content, String nextScene) throws IOException {    
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setContentText(content);
@@ -171,22 +171,13 @@ public class Helper {
         alert.getButtonTypes().setAll(yesBtn, noBtn);
         
         Optional<ButtonType> result = alert.showAndWait();
-        System.out.println("KDJFKLJDF " + result.get());
         if (result.get() == noBtn) {
-            show();
-        }
-        else if (result.get() == noBtn) {
-            System.out.println("NO");
-        }
-       // alert.showAndWait();  
-    }
-       public static void show() throws IOException {
-           
-            Stage stage = (Stage) node.getScene().getWindow();
-            Parent root = FXMLLoader.load(Helper.class.getResource("/com/Project/FXML/BasicTemplate.fxml"));
+            Parent root = FXMLLoader.load(Helper.class.getResource(nextScene));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();    
-       }
+        }
+    }
+       
     
 }

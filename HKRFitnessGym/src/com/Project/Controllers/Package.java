@@ -27,6 +27,7 @@ public class Package {
     private final StringProperty endTime;
     private final IntegerProperty packageId;    
     private final StringProperty adminFullName;
+    private final IntegerProperty count = new SimpleIntegerProperty();
     
     public Package(String pn, float price, Date sd, Date ed, String st, String et) {
         this.packageName = new SimpleStringProperty(pn);
@@ -84,6 +85,10 @@ public class Package {
         return adminFullName.get();
     }
     
+    public int getCount() {
+        return count.get();
+    }
+    
     //Setters
     public void setPackageName(String pn) {
         packageName.set(pn);
@@ -111,6 +116,10 @@ public class Package {
     
     public void setAdminFullName(String afn) {
         adminFullName.set(afn);
+    }
+    
+    public void setCount(int c) {
+    count.set(c);
     }
     
     // Property values
@@ -144,5 +153,9 @@ public class Package {
     
     public StringProperty adminFullNameProperty() {
         return adminFullName;
+    }
+    
+    public IntegerProperty countProperty() {
+        return count;
     }
 }

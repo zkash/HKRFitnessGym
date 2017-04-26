@@ -62,6 +62,8 @@ public class AdminViewPackagesController implements Initializable {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
             data = DBHandler.adminViewPackages();
+            
+            //System.out.println("DATANAME " + data.get(0).getPackageName());
             // Set cell value factory to TableView
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -71,7 +73,7 @@ public class AdminViewPackagesController implements Initializable {
             endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
             //TODO Fix this
-            membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
+            membersColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
             adminViewPackagesTable.setItems(null);
             adminViewPackagesTable.setItems(data);
         } catch (SQLException ex) {

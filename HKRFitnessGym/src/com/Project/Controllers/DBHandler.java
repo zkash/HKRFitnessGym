@@ -38,7 +38,7 @@ public class DBHandler {
     private final String connectionURL = "jdbc:mysql://localhost/" + dbName + "?user=" + user + "&password=" + password + "&useSSL=false";
 
     private static ArrayList<Person> persons;
-    
+
     public static ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -46,27 +46,26 @@ public class DBHandler {
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs.getString("ssn2"));
                 data.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
-                ));  
-            }   
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        //Helper.DateToString(rs.getDate("dateOfBirth")),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
             return data;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return null;
     }
-    
+
     public static ObservableList<Member> adminViewMemberAccounts() throws SQLException {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -74,27 +73,26 @@ public class DBHandler {
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Member");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 data.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                    rs.getString("username"),
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"),
-                    //Helper.DateToString(rs.getDate("dateOfBirth")),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))  
-                ));  
-            }   
+                        rs.getString("username"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        //Helper.DateToString(rs.getDate("dateOfBirth")),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                ));
+            }
             return data;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return null;
     }
 
-        public static void createAdminAccount(Admin admin) {
+    public static void createAdminAccount(Admin admin) {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
@@ -119,7 +117,7 @@ public class DBHandler {
             System.out.println(e.getMessage());
         }
     }
-        
+
 //    public static void createAdminAccount(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssnum, String uname, String pwd) {
 //        Connection conn = establishConnection();
 //        try {
@@ -144,7 +142,6 @@ public class DBHandler {
 //            System.out.println(e.getMessage());
 //        }
 //    }
-
     public static void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
@@ -198,7 +195,7 @@ public class DBHandler {
         }
     }
 
-    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln,  String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -213,7 +210,7 @@ public class DBHandler {
         query = query.replace("$tableName", table);
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
-        while(rs.next()) {
+        while (rs.next()) {
             if (rs.getString("middleName").equals("")) {
                 searchData.add(new Admin(
                         rs.getString("firstName") + " " + rs.getString("lastName"),
@@ -225,8 +222,7 @@ public class DBHandler {
                         rs.getString("email"),
                         Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
                 ));
-            }
-            else {
+            } else {
                 searchData.add(new Admin(
                         rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                         rs.getString("username"),
@@ -242,8 +238,7 @@ public class DBHandler {
         return searchData;
     }
 
-    
-    public static ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln,  String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public static ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Member> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -258,7 +253,7 @@ public class DBHandler {
         query = query.replace("$tableName", table);
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
-        while(rs.next()) {
+        while (rs.next()) {
             if (rs.getString("middleName").equals("")) {
                 searchData.add(new Member(
                         rs.getString("firstName") + " " + rs.getString("lastName"),
@@ -270,8 +265,7 @@ public class DBHandler {
                         rs.getString("email"),
                         Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
                 ));
-            }
-            else {
+            } else {
                 searchData.add(new Member(
                         rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                         rs.getString("username"),
@@ -286,15 +280,15 @@ public class DBHandler {
         }
         return searchData;
     }
-    
+
     public static ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
-               // + "OR adminLIKE '%" + str + "%'";
+        // + "OR adminLIKE '%" + str + "%'";
         PreparedStatement statement = conn.prepareStatement(query);
         System.out.println(statement);
-        
+
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             System.out.println(rs.getFloat("price"));
@@ -309,8 +303,6 @@ public class DBHandler {
         }
         return searchData;
     }
-    
-    
 
     public static boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
@@ -327,7 +319,7 @@ public class DBHandler {
         System.out.println("kjsadflkjdfsklj");
         return alreadyExists;
     }
-    
+
     public static void updatePersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
@@ -359,7 +351,7 @@ public class DBHandler {
         statement.executeUpdate();
         conn.close();
     }
-    
+
     public static void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
@@ -375,7 +367,7 @@ public class DBHandler {
         statement.execute();
         conn.close();
     }
-    
+
     public static int checkPackageName(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM Package WHERE packageName = ?";
@@ -383,12 +375,12 @@ public class DBHandler {
         statement.setString(1, pn);
         ResultSet rs = statement.executeQuery();
         int count = 0;
-        while(rs.next()) {
+        while (rs.next()) {
             count = rs.getInt(1);
         }
         return count;
     }
-    
+
     public static ObservableList<Package> adminViewPackages() throws SQLException {
 //        ObservableList<Package> data = FXCollections.observableArrayList();
 //        Package pack = null;
@@ -398,7 +390,7 @@ public class DBHandler {
 //            //String query = String.format("SELECT Package.* FROM Package INNER JOIN Admin ON Admin.adminId = Package.Admin_adminId INNER JOIN Subscription ON Package.Id = Subscription.Package_packageId");
 //                //    + "Admin.firstName, Admin.middleName, Admin.lastName Subscription.Package_packageId FROM Package, Admin, Subscription WHERE Admin.adminId = Package.Admin_adminId");
 //            String query = String.format("SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId ");
-//            String query2 = "SELECT pk.packageName, COUNT(pk.packageName)"
+//            String query2 = "SELECT pk.packageName, COUNT(pk.packageName)"S
 //                    + " FROM Admin as ad INNER JOIN Package as pk "
 //                    + " ON pk.Admin_adminId = ad.adminId"
 //                    + " INNER JOIN Subscription as sub"
@@ -460,30 +452,31 @@ public class DBHandler {
 //        return null;
 //    }
 //    }
+
         ObservableList<Package> data = FXCollections.observableArrayList();
-       // Package pack = 
+        // Package pack = 
         Connection conn = establishConnection();
         try {
             //String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
             //String query = String.format("SELECT Package.* FROM Package INNER JOIN Admin ON Admin.adminId = Package.Admin_adminId INNER JOIN Subscription ON Package.Id = Subscription.Package_packageId");
-                //    + "Admin.firstName, Admin.middleName, Admin.lastName Subscription.Package_packageId FROM Package, Admin, Subscription WHERE Admin.adminId = Package.Admin_adminId");
+            //    + "Admin.firstName, Admin.middleName, Admin.lastName Subscription.Package_packageId FROM Package, Admin, Subscription WHERE Admin.adminId = Package.Admin_adminId");
             String query = String.format("SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId ");
-            String query2 = "SELECT pk.packageName, COUNT(pk.packageName)"
-                    + " FROM Admin as ad INNER JOIN Package as pk "
-                    + " ON pk.Admin_adminId = ad.adminId"
-                    + " INNER JOIN Subscription as sub"
-                    + " ON pk.packageId = sub.Package_packageId"
-                    + " GROUP by packageName";
-            
+//            String query2 = "SELECT pk.packageName, COUNT(pk.packageName)"
+//                    + " FROM Admin as ad INNER JOIN Package as pk "
+//                    + " ON pk.Admin_adminId = ad.adminId"
+//                    + " INNER JOIN Subscription as sub"
+//                    + " ON pk.packageId = sub.Package_packageId"
+//                    + " GROUP by packageName";
+
             PreparedStatement statement = conn.prepareStatement(query);
             System.out.println(statement);
             ResultSet rs = statement.executeQuery();
-            PreparedStatement statement2 = conn.prepareStatement(query2);
-            System.out.println(statement2);
-            ResultSet rs2 = statement2.executeQuery();
+//            PreparedStatement statement2 = conn.prepareStatement(query2);
+//            System.out.println(statement2);
+//            ResultSet rs2 = statement2.executeQuery();
             System.out.println(rs);
-            System.out.println(rs2);
-            while(rs.next()) {
+            //System.out.println(rs2);
+            while (rs.next()) {
                 if (rs.getString("middleName").equals("")) {
                     System.out.println("SPP " + rs.getString("Package_packageId"));
                     data.add(new Package(
@@ -495,8 +488,7 @@ public class DBHandler {
                             rs.getString("endTime"),
                             rs.getString("firstName") + " " + rs.getString("lastName")
                     ));
-                }
-                else {
+                } else {
                     data.add(new Package(
                             rs.getString("packageName"),
                             rs.getFloat("price"),
@@ -507,29 +499,119 @@ public class DBHandler {
                             rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
                     ));
                 }
-  
-            }
-            
-            ObservableList<PackageSubscription> ps = FXCollections.observableArrayList();
-            ResultSetMetaData rsmd = rs2.getMetaData();
-            String name = rsmd.getColumnName(1);
-            String name2 = rsmd.getColumnName(2);
-            System.out.println(name.getClass().getName());
-            System.out.println(name2.getClass().getName());
- 
-            while(rs2.next()) {
-                //ps.add(new PackageSubscription())
-                System.out.println(rs2.getString(1));
-                System.out.println(rs2.getString(2));
-            }
-            return data;
-        }
-        catch (Exception e) {
 
+            }
+            System.out.println("DD " + data);
+            for (Package pack : data) {
+                String name = pack.getPackageName();
+                String query2 = "SELECT COUNT(pk.packageName)"
+                        + " From Package as pk"
+                        + " INNER JOIN Subscription as sub"
+                        + " ON pk.packageId = sub.Package_packageId"
+                        + " WHERE packageName = \"" + name + "\"";
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                System.out.println(statement2);
+                ResultSet rs2 = statement2.executeQuery();
+                System.out.println("RS2 " + rs2);
+                String count = "";
+                while (rs2.next()) {
+                    System.out.println("CC " + rs2.getString(1));
+                    count = rs2.getString(1);
+                }
+                System.out.println("count  " + count);
+                System.out.println("PACK " + pack);
+                pack.setCount(Integer.parseInt(count));
+                System.out.println("here");
+            }
+            System.out.println("DATA " + data);
+//            ObservableList<PackageSubscription> ps = FXCollections.observableArrayList();
+//            ResultSetMetaData rsmd = rs2.getMetaData();
+//            String name = rsmd.getColumnName(1);
+//            String name2 = rsmd.getColumnName(2);
+//            System.out.println(name.getClass().getName());
+//            System.out.println(name2.getClass().getName());
+// 
+//            while(rs2.next()) {
+//                //ps.add(new PackageSubscription())
+//                System.out.println(rs2.getString(1));
+//                System.out.println(rs2.getString(2));
+//            }
+            return data;
+        } catch (Exception e) {
+                e.printStackTrace();
         }
         return null;
     }
-    
+
+//        ObservableList<Package> data = FXCollections.observableArrayList();
+//       // Package pack = 
+//        Connection conn = establishConnection();
+//        try {
+//            //String query = String.format("SELECT packageName, price, startDate, startTime, endDate, endTime FROM Package");
+//            //String query = String.format("SELECT Package.* FROM Package INNER JOIN Admin ON Admin.adminId = Package.Admin_adminId INNER JOIN Subscription ON Package.Id = Subscription.Package_packageId");
+//                //    + "Admin.firstName, Admin.middleName, Admin.lastName Subscription.Package_packageId FROM Package, Admin, Subscription WHERE Admin.adminId = Package.Admin_adminId");
+//            String query = String.format("SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId ");
+//            String query2 = "SELECT pk.packageName, COUNT(pk.packageName)"
+//                    + " FROM Admin as ad INNER JOIN Package as pk "
+//                    + " ON pk.Admin_adminId = ad.adminId"
+//                    + " INNER JOIN Subscription as sub"
+//                    + " ON pk.packageId = sub.Package_packageId"
+//                    + " GROUP by packageName";
+//            
+//            PreparedStatement statement = conn.prepareStatement(query);
+//            System.out.println(statement);
+//            ResultSet rs = statement.executeQuery();
+//            PreparedStatement statement2 = conn.prepareStatement(query2);
+//            System.out.println(statement2);
+//            ResultSet rs2 = statement2.executeQuery();
+//            System.out.println(rs);
+//            System.out.println(rs2);
+//            while(rs.next()) {
+//                if (rs.getString("middleName").equals("")) {
+//                    System.out.println("SPP " + rs.getString("Package_packageId"));
+//                    data.add(new Package(
+//                            rs.getString("packageName"),
+//                            rs.getFloat("price"),
+//                            rs.getDate("startDate"),
+//                            rs.getDate("endDate"),
+//                            rs.getString("startTime"),
+//                            rs.getString("endTime"),
+//                            rs.getString("firstName") + " " + rs.getString("lastName")
+//                    ));
+//                }
+//                else {
+//                    data.add(new Package(
+//                            rs.getString("packageName"),
+//                            rs.getFloat("price"),
+//                            rs.getDate("startDate"),
+//                            rs.getDate("endDate"),
+//                            rs.getString("startTime"),
+//                            rs.getString("endTime"),
+//                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+//                    ));
+//                }
+//  
+//            }
+//            
+//            ObservableList<PackageSubscription> ps = FXCollections.observableArrayList();
+//            ResultSetMetaData rsmd = rs2.getMetaData();
+//            String name = rsmd.getColumnName(1);
+//            String name2 = rsmd.getColumnName(2);
+//            System.out.println(name.getClass().getName());
+//            System.out.println(name2.getClass().getName());
+// 
+//            while(rs2.next()) {
+//                //ps.add(new PackageSubscription())
+//                System.out.println(rs2.getString(1));
+//                System.out.println(rs2.getString(2));
+//            }
+//            return data;
+//        }
+//        catch (Exception e) {
+//
+//        }
+//        return null;
+//    }
     public static boolean deleteAccount(int ssn1, int ssn2, String table) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ?";
@@ -543,7 +625,7 @@ public class DBHandler {
         conn.close();
         return deletionError;
     }
-    
+
     public static boolean deletePackage(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM Package WHERE packageName = ?";
@@ -554,7 +636,7 @@ public class DBHandler {
         conn.close();
         return deletionError;
     }
-    
+
     public static void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
@@ -576,8 +658,8 @@ public class DBHandler {
         statement.executeUpdate();
         conn.close();
     }
-    
-        public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
+
+    public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -585,7 +667,7 @@ public class DBHandler {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, pn);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 data.add(new Package(
                         rs.getString("packageName"),
                         rs.getFloat("price"),
@@ -593,16 +675,15 @@ public class DBHandler {
                         rs.getDate("endDate"),
                         rs.getString("startTime"),
                         rs.getString("endTime")
-                ));     
-            }   
+                ));
+            }
             return data;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return null;
     }
-        
+
     public static ObservableList<Admin> getAdminPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
@@ -613,35 +694,35 @@ public class DBHandler {
         statement.setInt(2, ssnum2);
         ResultSet rs = statement.executeQuery();
         ObservableList<Admin> admin = FXCollections.observableArrayList();
-        while(rs.next()) {
+        while (rs.next()) {
             admin.add(new Admin(rs.getString("firstName"),
-                rs.getString("middleName"),
-                rs.getString("lastName"),
-                rs.getDate("dateOfBirth"),
-                rs.getString("address"),
-                rs.getInt("phoneNumber"),
-                rs.getString("email"),
-                rs.getString("gender"),
-                rs.getInt("ssn1"),
-                rs.getInt("ssn2")
-            ));  
+                    rs.getString("middleName"),
+                    rs.getString("lastName"),
+                    rs.getDate("dateOfBirth"),
+                    rs.getString("address"),
+                    rs.getInt("phoneNumber"),
+                    rs.getString("email"),
+                    rs.getString("gender"),
+                    rs.getInt("ssn1"),
+                    rs.getInt("ssn2")
+            ));
         }
         System.out.println(admin);
         return admin;
     }
-    
+
     public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         ObservableList<Schedule> schedule = FXCollections.observableArrayList();
-        while(rs.next()) {
+        while (rs.next()) {
             schedule.add(new Schedule(rs.getDate("date"),
-                rs.getString("openingTime"),
-                rs.getString("closingTime"),
-                rs.getBoolean("isHoliday")
-            ));  
+                    rs.getString("openingTime"),
+                    rs.getString("closingTime"),
+                    rs.getBoolean("isHoliday")
+            ));
         }
         return schedule;
     }

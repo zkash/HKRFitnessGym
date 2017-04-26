@@ -269,7 +269,6 @@ public class CreateUserPageController implements Initializable {
                     Helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     dateOfBirth.getEditor().clear();
                     isAdmin.setSelected(false);
-                    
                     } 
             }
         }        

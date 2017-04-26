@@ -51,7 +51,7 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML UpdatePackageInformationPageController updatePackageInformationPageController;
 
-        ObservableList<Package> pack;
+    ObservableList<Package> pack;
     /**
      * Initializes the controller class.
      */

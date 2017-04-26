@@ -50,7 +50,7 @@ public class MenuBarMemberController implements Initializable {
     
     
     public void subscribePackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/SubscribeToPackagePage.fxml");
+        setupAndShowStage("/com/Project/FXML/MemberViewPackages.fxml");
     }
     
     public void viewSubscriptionMenuClick(ActionEvent event) throws IOException {

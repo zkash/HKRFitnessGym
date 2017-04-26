@@ -644,6 +644,26 @@ public class DBHandler {
 //        }
 //        return null;
 //    }
+    
+    public static ObservableList<Package> memberViewPackages() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT packageName, price, startDate, endDate, startTime, endTime FROM Package";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Package> pack = FXCollections.observableArrayList();
+        while(rs.next()) {
+            pack.add(new Package(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("startDate"),
+                    rs.getDate("endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("endTime")
+            ));
+        }
+        return pack;
+    }
+    
     public static boolean deleteAccount(int ssn1, int ssn2, String table) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ?";

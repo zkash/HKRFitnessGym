@@ -902,9 +902,9 @@ System.out.println("DSDSAS " + data);
     
     public static ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
-        String query = "select packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate, isCancelled from subscription as sub "
-                + "INNER JOIN package as pk "
+        String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
+                + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
+                + "INNER JOIN package AS pk "
                 + "ON pk.packageId = sub.Package_packageId "
                 + "WHERE sub.isCancelled = 0";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -932,6 +932,7 @@ System.out.println("DSDSAS " + data);
             );
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            sub.setSubscriptionId(rs.getInt("subscriptionId"));
             if(rs.getBoolean("isCancelled") == true) {
                 sub.setSubscriptionStatus("Cancelled");
             }
@@ -964,5 +965,14 @@ System.out.println("DSDSAS " + data);
         return subscription;
     }
     
-    
+    public static Boolean cancelSubscription(int subscriptionId) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE Subscription SET isCancelled = true WHERE  subscriptionId = ?";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, subscriptionId);
+        statement.executeUpdate();
+        Boolean cancelError = false;
+        return cancelError;
+    }
 }

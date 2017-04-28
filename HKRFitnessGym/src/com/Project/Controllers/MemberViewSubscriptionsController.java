@@ -18,12 +18,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
-
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Optional;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 /**
  * FXML Controller class
  *
@@ -81,7 +90,34 @@ public class MemberViewSubscriptionsController implements Initializable {
         }
     }    
     
-    public void cancelBtnClick(ActionEvent event) {
+    public void cancelBtnClick(ActionEvent event) throws IOException, SQLException {
+        ObservableList<Subscription> row , allRows;
+        allRows = memberViewSubscriptionsTable.getItems();
+        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
+        boolean cancelError = true;
+        if(row.isEmpty()) {
+            Helper.DialogBox(cancelError, "Select a subscription first to cancel");
+        }
+        else {
+            String subscriptionStatus = row.get(0).getSubscriptionStatus();
+            if(subscriptionStatus.equals("Cancelled")) {
+                Helper.DialogBox(cancelError, "You have already cancelled this subscription or this subscription has already expired");
+            }
+            else {
+                int subscriptionId = row.get(0).getSubscriptionId();
+                Optional<ButtonType> result = DialogBoxChoice( "Confirm Cancellation", "Are you sure you want to cancel this subscription?", "/com/Project/FXML/MemberViewSubscriptions");
+                if (result.get().getText().equals("Yes")) {
+                    cancelError = DBHandler.cancelSubscription(subscriptionId);
+                    if (cancelError) {
+                        Helper.DialogBox(cancelError, "Cannot cancel subscription");
+                    }
+                    else {
+                        Helper.DialogBox(cancelError, "Successfully cancelled subscription");
+                        row.forEach(allRows::remove);
+                    }
+                }
+            }    
+        }
         
     }
     
@@ -101,6 +137,7 @@ public class MemberViewSubscriptionsController implements Initializable {
             Helper.DialogBox(renewError, "Select a subscription first to renew");
         }
         else {
+            
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Active")) {
                 Helper.DialogBox(renewError, "Your subscription has not expired yet");
@@ -204,5 +241,18 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     public void viewPastSubscriptionsLinkClick(ActionEvent event) {
         
+    }
+    
+    public static Optional<ButtonType> DialogBoxChoice(String header, String content, String nextScene) throws IOException {    
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setContentText(content);
+        alert.setHeaderText(header);
+        ButtonType yesBtn = new ButtonType("Yes");
+        ButtonType noBtn = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesBtn, noBtn);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        return result;
     }
 }

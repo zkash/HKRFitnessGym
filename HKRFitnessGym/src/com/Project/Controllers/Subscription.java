@@ -23,6 +23,7 @@ public class Subscription extends Package {
     private IntegerProperty packageId = null;
     private IntegerProperty memberId = null;
     private StringProperty subscriptionStatus = null;
+    private IntegerProperty subscriptionId = null;
     
     //public Subscription(Date ssd, Date sed, int packageId, int memberId) {
         public Subscription() {
@@ -56,6 +57,10 @@ public class Subscription extends Package {
         return subscriptionStatus.get();
     }
     
+    public int getSubscriptionId() {
+        return subscriptionId.get();
+    }
+    
     public void setSubscriptionStartDate(Date ssd) {
         System.out.println(" outside2 " + ssd);
         subscriptionStartDate = ssd;
@@ -82,5 +87,9 @@ public class Subscription extends Package {
     
     public void setSubscriptionStatus(String subStatus) {
         subscriptionStatus = new SimpleStringProperty(subStatus);
+    }
+    
+    public void setSubscriptionId(int subId) {
+        subscriptionId = new SimpleIntegerProperty(subId);
     }
 }

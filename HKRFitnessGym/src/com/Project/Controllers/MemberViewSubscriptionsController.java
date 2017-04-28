@@ -183,65 +183,6 @@ public class MemberViewSubscriptionsController implements Initializable {
             }
         }
     }
-        
-        //Date currentDate = (java.sql.Date)Helper.getCurrentDate();
-//        
-//        
-//        
-//        if (row.isEmpty()) {
-//            Helper.DialogBox(subscriptionError, "Please select a package first to delete subscribe");
-//        }
-//        else {
-//            LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
-//            LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
-//            if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
-//                Helper.DialogBox(subscriptionError, "Enter subscription start date and end date");
-//            }
-//            else {
-//                String packageName = row.get(0).getPackageName();
-//                Date packageStartDate = row.get(0).getStartDate();
-//                Date packageEndDate = row.get(0).getEndDate();
-//                int packageId = DBHandler.getPackageIdFromPackageName(packageName);
-//                System.out.println("pid" + packageId);
-//                Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
-//                Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
-//                if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
-//                        || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-//                    Helper.DialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
-//                }
-//                else {
-//                    Subscription subscription = new Subscription();
-//                    System.out.println("fskdljfdlskjkldsjf");
-//                    subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
-//                    subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
-//                    subscription.setPackageId(packageId);
-//                     System.out.println("wrreerw "  + subscription.getPackageId());
-//                    
-//                    
-//                    subscription.setPackageId(packageId);
-//                    subscription.setMemberId(memberId);
-//                    System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
-//                    subscriptionError = DBHandler.subscribeToPackage(subscription);
-////                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
-////                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
-////                        (java.sql.Date)  subscriptionEndDate,
-////                        packageId,
-////                        memberId
-////                    ));
-//                    if (subscriptionError) {
-//                        Helper.DialogBox(subscriptionError, "Cannot make a subscription");
-//                    }
-//                    else {
-//                        Helper.DialogBox(subscriptionError, "Successfully subscribe to a package");
-//                    }
-//                }
-//            } 
-//        }
-    
-    
-    public void viewPastSubscriptionsLinkClick(ActionEvent event) {
-        
-    }
     
     public static Optional<ButtonType> DialogBoxChoice(String header, String content, String nextScene) throws IOException {    
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

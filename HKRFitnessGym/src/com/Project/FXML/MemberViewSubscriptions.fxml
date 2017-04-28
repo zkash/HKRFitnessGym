@@ -41,7 +41,6 @@
             <Label layoutX="50.0" layoutY="381.0" text="Till to which date will you" />
             <Label layoutX="50.0" layoutY="395.0" text="take part in the package?" />
             <Button fx:id="renewBtn" layoutX="266.0" layoutY="423.0" mnemonicParsing="false" onAction="#renewBtnClick" text="Renew Subscription" />
-            <Hyperlink layoutX="44.0" layoutY="437.0" onAction="#viewPastSubscriptionsLinkClick" text="View Past Subscriptions" />
            
          </children>
       </AnchorPane>

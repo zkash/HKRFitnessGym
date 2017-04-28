@@ -101,40 +101,45 @@ public class MemberViewSubscriptionsController implements Initializable {
             Helper.DialogBox(renewError, "Select a subscription first to renew");
         }
         else {
-                LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();
-                LocalDate subscriptionEndLocalDate = subscriptionEndDatePicker.getValue();
-                
-            if (subscriptionStartLocalDate == null || subscriptionEndLocalDate  == null) {
-                    Helper.DialogBox(renewError, "Enter subscription start date and end date");
+            String subscriptionStatus = row.get(0).getSubscriptionStatus();
+            if(subscriptionStatus.equals("Active")) {
+                Helper.DialogBox(renewError, "Your subscription has not expired yet");
             }
             else {
-                Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
-                Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
-                
-                if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
-                    Helper.DialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
+                LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();
+                LocalDate subscriptionEndLocalDate = subscriptionEndDatePicker.getValue();
+                if (subscriptionStartLocalDate == null || subscriptionEndLocalDate  == null) {
+                        Helper.DialogBox(renewError, "Enter subscription start date and end date");
                 }
                 else {
-                    Date packageStartDate = row.get(0).getStartDate();
-                    Date packageEndDate = row.get(0).getEndDate();
-                    if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
-                            || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-                        Helper.DialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
+                    Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
+                    Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
+
+                    if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
+                        Helper.DialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
                     }
                     else {
-                        Subscription subscription = new Subscription();
-                        subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
-                        subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
-                        String packageName = row.get(0).getPackageName();
-                        int packageId = DBHandler.getPackageIdFromPackageName(packageName);
-                        subscription.setPackageId(packageId);
-                        subscription.setMemberId(memberId);
-                        renewError = DBHandler.subscribeToPackage(subscription);
-                        if (renewError) {
-                            Helper.DialogBox(renewError, "Cannot renew subscription");
+                        Date packageStartDate = row.get(0).getStartDate();
+                        Date packageEndDate = row.get(0).getEndDate();
+                        if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
+                                || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
+                            Helper.DialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
                         }
                         else {
-                            Helper.DialogBox(renewError, "Successfully renewed subscription");
+                            Subscription subscription = new Subscription();
+                            subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
+                            subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
+                            String packageName = row.get(0).getPackageName();
+                            int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                            subscription.setPackageId(packageId);
+                            subscription.setMemberId(memberId);
+                            renewError = DBHandler.subscribeToPackage(subscription);
+                            if (renewError) {
+                                Helper.DialogBox(renewError, "Cannot renew subscription");
+                            }
+                            else {
+                                Helper.DialogBox(renewError, "Successfully renewed subscription");
+                            }
                         }
                     }
                 }

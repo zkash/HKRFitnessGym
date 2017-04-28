@@ -885,14 +885,15 @@ System.out.println("DSDSAS " + data);
     
     public static Boolean subscribeToPackage(Subscription subscription) throws SQLException {
         Connection conn = establishConnection();
-        String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId)"
-                + " VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
+                + " VALUES (?, ?, ?, ?, false)";
         System.out.println("sssd "  + subscription.getSubscriptionStartDate());
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setDate(1, subscription.getSubscriptionStartDate());
         statement.setDate(2, subscription.getSubscriptionEndDate());
         statement.setInt(3, subscription.getPackageId());
         statement.setInt(4, subscription.getMemberId());
+        
         statement.execute();
         conn.close();
         Boolean subscriptionError = false;
@@ -902,9 +903,10 @@ System.out.println("DSDSAS " + data);
     public static ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "select packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate from subscription as sub "
+                + "startTime, endTime, sub.startDate, sub.endDate, isCancelled from subscription as sub "
                 + "INNER JOIN package as pk "
-                + "ON pk.packageId = sub.Package_packageId";
+                + "ON pk.packageId = sub.Package_packageId "
+                + "WHERE sub.isCancelled = 0";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         ObservableList<Subscription> subscription = FXCollections.observableArrayList();
@@ -919,6 +921,7 @@ System.out.println("DSDSAS " + data);
             System.out.println(rs.getString("pk.endDate"));
             System.out.println(rs.getString("sub.startDate"));
             System.out.println(rs.getString("sub.endDate"));
+            System.out.println(rs.getString("isCancelled"));
             sub = new Subscription(
                     rs.getString("packageName"),
                     rs.getFloat("price"),
@@ -929,6 +932,13 @@ System.out.println("DSDSAS " + data);
             );
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            if(rs.getBoolean("isCancelled") == true) {
+                sub.setSubscriptionStatus("Cancelled");
+            }
+            else {
+                sub.setSubscriptionStatus("Active");
+            }
+            
             subscription.add(sub);
 //            sub.setPackageName(rs.getString("packageName"));
 //            System.out.println("A");

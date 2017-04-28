@@ -6,8 +6,12 @@
 package com.Project.Controllers;
 
 import java.sql.Date;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -18,6 +22,7 @@ public class Subscription extends Package {
     private Date subscriptionEndDate = null;
     private IntegerProperty packageId = null;
     private IntegerProperty memberId = null;
+    private StringProperty subscriptionStatus = null;
     
     //public Subscription(Date ssd, Date sed, int packageId, int memberId) {
         public Subscription() {
@@ -47,6 +52,10 @@ public class Subscription extends Package {
         return memberId.get();
     }
     
+    public String getSubscriptionStatus() {
+        return subscriptionStatus.get();
+    }
+    
     public void setSubscriptionStartDate(Date ssd) {
         System.out.println(" outside2 " + ssd);
         subscriptionStartDate = ssd;
@@ -69,5 +78,9 @@ public class Subscription extends Package {
     
     public void setMemberId(int mid) {
         memberId = new SimpleIntegerProperty(mid);
+    }
+    
+    public void setSubscriptionStatus(String subStatus) {
+        subscriptionStatus = new SimpleStringProperty(subStatus);
     }
 }

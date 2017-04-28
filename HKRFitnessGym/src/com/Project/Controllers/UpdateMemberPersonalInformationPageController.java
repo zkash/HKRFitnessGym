@@ -66,8 +66,8 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     @FXML private Label invalidMsgPassword;
     @FXML private Label invalidMsgAllData;
     
-    private int memberSSN1 = 123456;
-    private int memberSSN2 = 3489;
+    private int memberSSN1 = 234567;
+    private int memberSSN2 = 8901;
     ObservableList<Member> data;
     Member member;
     

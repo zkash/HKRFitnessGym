@@ -25,6 +25,7 @@
                   <TableColumn fx:id="endTimeColumn" prefWidth="75.0" text="End Time" />
                   <TableColumn fx:id="subscriptionStartDateColumn" prefWidth="75.0" text="Subscription Start Date" />
                   <TableColumn fx:id="subscriptionEndDateColumn" prefWidth="75.0" text="Subscription End Date" />
+                  <TableColumn fx:id="subscriptionStatusColumn" prefWidth="75.0" text="Subscription Status" />
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Subscriptions" AnchorPane.leftAnchor="92.0">
@@ -40,6 +41,7 @@
             <Label layoutX="50.0" layoutY="381.0" text="Till to which date will you" />
             <Label layoutX="50.0" layoutY="395.0" text="take part in the package?" />
             <Button fx:id="renewBtn" layoutX="266.0" layoutY="423.0" mnemonicParsing="false" onAction="#renewBtnClick" text="Renew Subscription" />
+            <Hyperlink layoutX="44.0" layoutY="437.0" onAction="#viewPastSubscriptionsLinkClick" text="View Past Subscriptions" />
            
          </children>
       </AnchorPane>

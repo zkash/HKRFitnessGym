@@ -6,7 +6,7 @@
 package com.Project.Controllers;
 
 import java.net.URL;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     private  ObservableList<Package> searchData;
     
     //TODO Change later
-    int memberId = 3;
+    int memberId = 1;
     
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
@@ -50,6 +50,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     @FXML private TableColumn<Subscription, String> endTimeColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStartDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionEndDateColumn;
+    @FXML private TableColumn<Subscription, String> subscriptionStatusColumn;
     
     @FXML private DatePicker subscriptionStartDatePicker;
     @FXML private DatePicker subscriptionEndDatePicker;
@@ -70,8 +71,10 @@ public class MemberViewSubscriptionsController implements Initializable {
             endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
             subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
+            subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
             memberViewSubscriptionsTable.setItems(null);
-            memberViewSubscriptionsTable.setItems(subscription);
+            memberViewSubscriptionsTable.setItems(subscription);    
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(MemberViewPackagesController.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,10 +86,63 @@ public class MemberViewSubscriptionsController implements Initializable {
     }
     
     public void renewBtnClick(ActionEvent event) throws SQLException {
-        ObservableList<Package> row , allRows;
-//        allRows = memberViewPackagesTable.getItems();
-//        row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
-//        boolean subscriptionError = true;
+        System.out.println("Hello");
+        ObservableList<Subscription> row , allRows;
+        allRows = memberViewSubscriptionsTable.getItems();
+        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
+        
+        
+        boolean renewError = true;
+        java.util.Date currentDate = Helper.getCurrentDate();
+        
+        System.out.println("ROW " + row);
+
+        if(row.isEmpty()) {
+            Helper.DialogBox(renewError, "Select a subscription first to renew");
+        }
+        else {
+                LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();
+                LocalDate subscriptionEndLocalDate = subscriptionEndDatePicker.getValue();
+                
+            if (subscriptionStartLocalDate == null || subscriptionEndLocalDate  == null) {
+                    Helper.DialogBox(renewError, "Enter subscription start date and end date");
+            }
+            else {
+                Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
+                Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
+                
+                if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
+                    Helper.DialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
+                }
+                else {
+                    Date packageStartDate = row.get(0).getStartDate();
+                    Date packageEndDate = row.get(0).getEndDate();
+                    if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
+                            || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
+                        Helper.DialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
+                    }
+                    else {
+                        Subscription subscription = new Subscription();
+                        subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
+                        subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
+                        String packageName = row.get(0).getPackageName();
+                        int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                        subscription.setPackageId(packageId);
+                        subscription.setMemberId(memberId);
+                        renewError = DBHandler.subscribeToPackage(subscription);
+                        if (renewError) {
+                            Helper.DialogBox(renewError, "Cannot renew subscription");
+                        }
+                        else {
+                            Helper.DialogBox(renewError, "Successfully renewed subscription");
+                        }
+                    }
+                }
+            }
+        }
+    }
+        
+        //Date currentDate = (java.sql.Date)Helper.getCurrentDate();
 //        
 //        
 //        
@@ -139,5 +195,9 @@ public class MemberViewSubscriptionsController implements Initializable {
 //                }
 //            } 
 //        }
+    
+    
+    public void viewPastSubscriptionsLinkClick(ActionEvent event) {
+        
     }
 }

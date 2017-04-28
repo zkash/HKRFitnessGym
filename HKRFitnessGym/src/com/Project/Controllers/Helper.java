@@ -183,6 +183,23 @@ public class Helper {
          LocalDate localDate = LocalDate.parse(date);
          return localDate;
     }
-       
+    
+    
+    public static java.util.Date getCurrentDate() {
+        //
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date d = new java.util.Date();
+        String dateStr = sdf.format(d);
+        java.util.Date date = null;
+        try {
+           date = sdf.parse(dateStr);
+            System.out.println("Date " + date);
+        }
+        catch(Exception e)
+        {
+        
+        }
+        return date;
+    }
     
 }

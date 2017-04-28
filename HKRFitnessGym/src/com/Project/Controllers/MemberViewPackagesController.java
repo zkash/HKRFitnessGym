@@ -39,7 +39,7 @@ public class MemberViewPackagesController implements Initializable {
     private  ObservableList<Package> searchData;
     
     //TODO Change later
-    int memberId = 3;
+    int memberId = 1;
     
     @FXML private TableView<Package> memberViewPackagesTable;
     @FXML private TableColumn<Package, String> packageNameColumn;

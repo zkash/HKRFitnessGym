@@ -35,8 +35,8 @@ public class MemberViewPersonalInformationController implements Initializable {
     @FXML Label emailLbl;
     @FXML Label ssnLbl;
     
-    private int ssn1 = 123456;
-    private int ssn2 = 3489;
+    private int ssn1 = 234567;
+    private int ssn2 = 8901;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

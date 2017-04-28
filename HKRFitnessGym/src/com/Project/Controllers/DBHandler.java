@@ -869,4 +869,37 @@ System.out.println("DSDSAS " + data);
         }
         return schedule;
     }
+    
+    public static int getPackageIdFromPackageName(String packageName) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT packageId FROM Package WHERE packageName = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, packageName);
+        ResultSet rs = statement.executeQuery();
+        int packageId = 0;
+        while (rs.next()) {
+            packageId = rs.getInt("packageId");
+        }
+        return packageId;
+    }
+    
+    public static int subscribeToPackage(Subscription subscription) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId)"
+                + " VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setDate(1, subscription.getSubscriptionStartDate());
+        statement.setDate(2, subscription.getSubscriptionEndDate());
+        statement.setInt(3, subscription.getPackageId());
+        statement.setInt(4, subscription.getMemberId());
+        statement.execute();
+        conn.close();
+//        ResultSet rs = statement.executeQuery();
+//        int packageId = 0;
+//        while (rs.next()) {
+//            packageId = rs.getInt("packageId");
+//        }
+//        return packageId;
+return 0;
+    }
 }

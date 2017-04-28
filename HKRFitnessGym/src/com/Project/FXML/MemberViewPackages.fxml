@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberViewPackagesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberViewPackagesController">
     <top>
         <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
     </top>
@@ -31,10 +31,15 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="searchBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
-            <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" AnchorPane.bottomAnchor="30.0" />
-            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="364.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
-            <Button fx:id="subscribeBtn" layoutX="503.0" layoutY="364.0" mnemonicParsing="false" onAction="#subscribeBtnClick" text="Subscribe" />
+            <Button fx:id="searchBtn" layoutX="224.0" layoutY="433.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" AnchorPane.bottomAnchor="17.0" />
+            <TextField fx:id="searchPackage" layoutX="49.0" layoutY="433.0" AnchorPane.bottomAnchor="17.0" />
+            <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="433.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
+            <Button fx:id="subscribeBtn" layoutX="493.0" layoutY="365.0" mnemonicParsing="false" onAction="#subscribeBtnClick" text="Subscribe" />
+            <DatePicker fx:id="subscriptionStartDatePicker" layoutX="213.0" layoutY="352.0" />
+            <DatePicker fx:id="subscriptionEndDatePicker" layoutX="213.0" layoutY="386.0" />
+            <Label layoutX="50.0" layoutY="356.0" text="When do you want to start?" />
+            <Label layoutX="50.0" layoutY="381.0" text="Till to which date will you" />
+            <Label layoutX="50.0" layoutY="395.0" text="take part in the package?" />
            
          </children>
       </AnchorPane>

@@ -91,7 +91,7 @@ public class AdminViewMemberAccountsController implements Initializable {
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = true;
-        if (row.size() == 0) {
+        if (row.isEmpty()) {
             Helper.DialogBox(deletionError, "Please select an admin account first to delete the account");
         }
         else {

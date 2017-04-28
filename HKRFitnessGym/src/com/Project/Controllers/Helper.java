@@ -178,6 +178,11 @@ public class Helper {
             stage.show();    
         }
     }
+    
+    public static LocalDate convertStringToLocalDate(String date) {
+         LocalDate localDate = LocalDate.parse(date);
+         return localDate;
+    }
        
     
 }

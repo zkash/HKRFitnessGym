@@ -91,34 +91,43 @@ public class MemberViewPackagesController implements Initializable {
         row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
         boolean subscriptionError = true;
         Subscription subsription;
-        LocalDate subsriptionStartDate = subscriptionStartDatePicker.getValue();
-        LocalDate subsriptionEndDate = subscriptionEndDatePicker.getValue();
+        
         
         if (row.isEmpty()) {
             Helper.DialogBox(subscriptionError, "Please select a package first to delete subscribe");
         }
         else {
-            if (subsriptionStartDate == null || subsriptionEndDate  == null) {
+            LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
+            LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
+            if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
                 Helper.DialogBox(subscriptionError, "Enter subscription start date and end date");
             }
             else {
                 String packageName = row.get(0).getPackageName();
+                Date packageStartDate = row.get(0).getStartDate();
+                Date packageEndDate = row.get(0).getEndDate();
                 int packageId = DBHandler.getPackageIdFromPackageName(packageName);
-                System.out.println("SSD " + subsriptionStartDate);
-                System.out.println("SED " + subsriptionEndDate);
-                System.out.println("PID " + packageId);
-                System.out.println("PN " + packageName);
-                DBHandler.subscribeToPackage(new Subscription(
-                    Helper.convertLocalDateToSQLDate(subsriptionStartDate),
-                    Helper.convertLocalDateToSQLDate(subsriptionEndDate),
-                    packageId,
-                    memberId
-                ));
-            }
+                Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
+                Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
+                if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
+                        || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
+                    Helper.DialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
+                }
+                else {
+                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
+                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
+                        (java.sql.Date)  subscriptionEndDate,
+                        packageId,
+                        memberId
+                    ));
+                    if (subscriptionError) {
+                        Helper.DialogBox(subscriptionError, "Cannot make a subscription");
+                    }
+                    else {
+                        Helper.DialogBox(subscriptionError, "Successfully subscribe to a package");
+                    }
+                }
+            } 
         }
-        
-           
-        
-        
     }
 }

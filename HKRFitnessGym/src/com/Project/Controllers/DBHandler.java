@@ -883,7 +883,7 @@ System.out.println("DSDSAS " + data);
         return packageId;
     }
     
-    public static int subscribeToPackage(Subscription subscription) throws SQLException {
+    public static Boolean subscribeToPackage(Subscription subscription) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId)"
                 + " VALUES (?, ?, ?, ?)";
@@ -894,12 +894,13 @@ System.out.println("DSDSAS " + data);
         statement.setInt(4, subscription.getMemberId());
         statement.execute();
         conn.close();
+        Boolean subscriptionError = false;
 //        ResultSet rs = statement.executeQuery();
 //        int packageId = 0;
 //        while (rs.next()) {
 //            packageId = rs.getInt("packageId");
 //        }
 //        return packageId;
-return 0;
+        return subscriptionError;
     }
 }

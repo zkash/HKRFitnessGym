@@ -96,7 +96,11 @@ public class AdminViewMemberAccountsController implements Initializable {
         }
         else {
             try {
-                deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(), "Member");
+                String[] fullSSN = (row.get(0).getFullSSN()).split("-");
+                int ssn1 = Integer.parseInt(fullSSN[0]);
+                int ssn2 = Integer.parseInt(fullSSN[1]);
+                String username = row.get(0).getUsername();
+                deletionError = DBHandler.deleteAccount(ssn1, ssn2, username, "Member");
             }
             catch(Exception e) {
                 deletionError = true;

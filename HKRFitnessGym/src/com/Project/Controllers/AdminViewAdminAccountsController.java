@@ -105,21 +105,31 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     
     public void deleteBtnClick(ActionEvent event) throws SQLException {
+        System.out.println("gooo");
         ObservableList<Admin> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
+        
         boolean deletionError = true;
+        
         if (row.size() == 0) {
             Helper.DialogBox(deletionError, "Please select an admin account first to delete the account");
         }
         else {
             try {
-                deletionError = DBHandler.deleteAccount(row.get(0).getSSN1(), row.get(0).getSSN2(),"Admin");
+                String[] fullSSN = (row.get(0).getFullSSN()).split("-");
+                int ssn1 = Integer.parseInt(fullSSN[0]);
+                int ssn2 = Integer.parseInt(fullSSN[1]);
+                String username = row.get(0).getUsername();
+                deletionError = DBHandler.deleteAccount(ssn1, ssn2, username, "Admin");
+           
+            System.out.println("de " + deletionError);//
             }
+            
             catch(Exception e) {
                 deletionError = true;
             }
-
+             System.out.println(deletionError);
             if (!deletionError) {
                 Helper.DialogBox(deletionError, "Admin successfully deleted");
             }

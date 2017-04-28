@@ -727,13 +727,14 @@ System.out.println("DSDSAS " + data);
         return pack;
     }
     
-    public static boolean deleteAccount(int ssn1, int ssn2, String table) throws SQLException {
+    public static boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
         Connection conn = establishConnection();
-        String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ?";
+        String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
         query = query.replace("$table_name", table);
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, ssn1);
         statement.setInt(2, ssn2);
+        statement.setString(3, username);
         System.out.println(statement);
         statement.execute();
         boolean deletionError = false;

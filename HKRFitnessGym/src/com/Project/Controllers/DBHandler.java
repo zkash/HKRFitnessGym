@@ -899,7 +899,7 @@ System.out.println("DSDSAS " + data);
         return subscriptionError;
     }
     
-    public static ObservableList<Schedule> memberViewSubscription() throws SQLException {
+    public static ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "select packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate from subscription as sub "
@@ -907,15 +907,51 @@ System.out.println("DSDSAS " + data);
                 + "ON pk.packageId = sub.Package_packageId";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
-        ObservableList<Schedule> schedule = FXCollections.observableArrayList();
+        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
+        Subscription sub;
         while (rs.next()) {
-            schedule.add(new Schedule(rs.getDate("date"),
-                    rs.getString("openingTime"),
-                    rs.getString("closingTime"),
-                    rs.getBoolean("isHoliday")
-            ));
+            //Subscription sub = new Subscription();
+            System.out.println(rs.getString("packageName"));
+            System.out.println(rs.getString("price"));
+            System.out.println(rs.getString("startTime"));
+            System.out.println(rs.getString("endTime"));
+            System.out.println(rs.getString("pk.startDate"));
+            System.out.println(rs.getString("pk.endDate"));
+            System.out.println(rs.getString("sub.startDate"));
+            System.out.println(rs.getString("sub.endDate"));
+            sub = new Subscription(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("pk.startDate"),
+                    rs.getDate("pk.endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("startTime")
+            );
+            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            subscription.add(sub);
+//            sub.setPackageName(rs.getString("packageName"));
+//            System.out.println("A");
+//            sub.setPrice(Float.parseFloat(rs.getString("price")));
+//            System.out.println("B");
+//            sub.setStartDate(rs.getDate("pk.startDate"));
+//            System.out.println("C");
+//            sub.setEndDate(rs.getDate("pk.endDate"));
+//            System.out.println("D");
+//            sub.setStartTime(rs.getString("startTime"));
+//            System.out.println("E");
+//            sub.setEndTime(rs.getString("startTime"));
+//            System.out.println("F");
+//            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+//            System.out.println("G");
+//            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            
+            
+            
+
         }
-        return schedule;
+        System.out.println("sub " + subscription);
+        return subscription;
     }
     
     

@@ -26,6 +26,10 @@ public class Subscription extends Package {
 //        this.packageId = new SimpleIntegerProperty(packageId);
 //        this.memberId = new SimpleIntegerProperty(memberId);
     }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+        }
     
     public Date getSubscriptionStartDate() {
         return subscriptionStartDate;

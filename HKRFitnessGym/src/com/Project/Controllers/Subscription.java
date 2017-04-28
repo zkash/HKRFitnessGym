@@ -7,22 +7,24 @@ package com.Project.Controllers;
 
 import java.sql.Date;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 /**
  *
  * @author shameer
  */
-public class Subscription {
-    private Date subscriptionStartDate;
-    private Date subscriptionEndDate;
-    private SimpleIntegerProperty packageId;
-    private SimpleIntegerProperty memberId;
+public class Subscription extends Package {
+    private Date subscriptionStartDate = null;
+    private Date subscriptionEndDate = null;
+    private IntegerProperty packageId = null;
+    private IntegerProperty memberId = null;
     
-    public Subscription(Date ssd, Date sed, int packageId, int memberId) {
-        this.subscriptionStartDate = ssd;
-        this.subscriptionEndDate = sed;
-        this.packageId = new SimpleIntegerProperty(packageId);
-        this.memberId = new SimpleIntegerProperty(memberId);
+    //public Subscription(Date ssd, Date sed, int packageId, int memberId) {
+        public Subscription() {
+//        this.subscriptionStartDate = ssd;
+//        this.subscriptionEndDate = sed;
+//        this.packageId = new SimpleIntegerProperty(packageId);
+//        this.memberId = new SimpleIntegerProperty(memberId);
     }
     
     public Date getSubscriptionStartDate() {
@@ -42,14 +44,26 @@ public class Subscription {
     }
     
     public void setSubscriptionStartDate(Date ssd) {
+        System.out.println(" outside2 " + ssd);
         subscriptionStartDate = ssd;
+        System.out.println(" outside ");
     }
     
     public void setSubscriptionEndDate(Date sed) {
+        System.out.println(" inside2 " + sed);
         subscriptionEndDate = sed;
+        System.out.println(" inside2 ");
     }
     
     public void setPackageId(int pid) {
+        System.out.println("reached inside" + pid);
+        packageId = new SimpleIntegerProperty(pid);
+        System.out.println("reached inside2 " + pid);
         
+        System.out.println("reached inside3332 ");
+    }
+    
+    public void setMemberId(int mid) {
+        memberId = new SimpleIntegerProperty(mid);
     }
 }

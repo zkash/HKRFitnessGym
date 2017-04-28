@@ -19,15 +19,19 @@ import javafx.beans.property.StringProperty;
  */
 public class Package {
 
-    private final StringProperty packageName;
-    private final FloatProperty price;
-    private Date startDate;
-    private Date endDate;
-    private final StringProperty startTime;
-    private final StringProperty endTime;
-    private final IntegerProperty packageId;    
-    private final StringProperty adminFullName;
-    private final IntegerProperty count = new SimpleIntegerProperty();
+    private StringProperty packageName = null;
+    private FloatProperty price = null;
+    private Date startDate = null;
+    private Date endDate = null;
+    private StringProperty startTime = null;
+    private StringProperty endTime = null;
+    private IntegerProperty packageId = null;
+    private StringProperty adminFullName = null;
+    private IntegerProperty count = new SimpleIntegerProperty();
+    
+    public Package() {
+        
+    }
     
     public Package(String pn, float price, Date sd, Date ed, String st, String et) {
         this.packageName = new SimpleStringProperty(pn);

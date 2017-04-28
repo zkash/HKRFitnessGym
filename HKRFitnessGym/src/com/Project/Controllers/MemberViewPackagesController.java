@@ -90,7 +90,7 @@ public class MemberViewPackagesController implements Initializable {
         allRows = memberViewPackagesTable.getItems();
         row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
         boolean subscriptionError = true;
-        Subscription subsription;
+        
         
         
         if (row.isEmpty()) {
@@ -107,6 +107,7 @@ public class MemberViewPackagesController implements Initializable {
                 Date packageStartDate = row.get(0).getStartDate();
                 Date packageEndDate = row.get(0).getEndDate();
                 int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                System.out.println("pid" + packageId);
                 Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
                 Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
                 if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
@@ -114,12 +115,24 @@ public class MemberViewPackagesController implements Initializable {
                     Helper.DialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
                 }
                 else {
-                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
-                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
-                        (java.sql.Date)  subscriptionEndDate,
-                        packageId,
-                        memberId
-                    ));
+                    Subscription subscription = new Subscription();
+                    System.out.println("fskdljfdlskjkldsjf");
+                    subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
+                    subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
+                    subscription.setPackageId(packageId);
+                     System.out.println("wrreerw "  + subscription.getPackageId());
+                    
+                    
+                    subscription.setPackageId(packageId);
+                    subscription.setMemberId(memberId);
+                    System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
+                    subscriptionError = DBHandler.subscribeToPackage(subscription);
+//                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
+//                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
+//                        (java.sql.Date)  subscriptionEndDate,
+//                        packageId,
+//                        memberId
+//                    ));
                     if (subscriptionError) {
                         Helper.DialogBox(subscriptionError, "Cannot make a subscription");
                     }

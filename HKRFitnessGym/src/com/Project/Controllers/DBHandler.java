@@ -887,6 +887,7 @@ System.out.println("DSDSAS " + data);
         Connection conn = establishConnection();
         String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId)"
                 + " VALUES (?, ?, ?, ?)";
+        System.out.println("sssd "  + subscription.getSubscriptionStartDate());
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setDate(1, subscription.getSubscriptionStartDate());
         statement.setDate(2, subscription.getSubscriptionEndDate());
@@ -895,12 +896,27 @@ System.out.println("DSDSAS " + data);
         statement.execute();
         conn.close();
         Boolean subscriptionError = false;
-//        ResultSet rs = statement.executeQuery();
-//        int packageId = 0;
-//        while (rs.next()) {
-//            packageId = rs.getInt("packageId");
-//        }
-//        return packageId;
         return subscriptionError;
     }
+    
+    public static ObservableList<Schedule> memberViewSubscription() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "select packageName, price, pk.startDate, pk.endDate, "
+                + "startTime, endTime, sub.startDate, sub.endDate from subscription as sub "
+                + "INNER JOIN package as pk "
+                + "ON pk.packageId = sub.Package_packageId";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Schedule> schedule = FXCollections.observableArrayList();
+        while (rs.next()) {
+            schedule.add(new Schedule(rs.getDate("date"),
+                    rs.getString("openingTime"),
+                    rs.getString("closingTime"),
+                    rs.getBoolean("isHoliday")
+            ));
+        }
+        return schedule;
+    }
+    
+    
 }

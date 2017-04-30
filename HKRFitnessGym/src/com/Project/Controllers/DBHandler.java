@@ -826,14 +826,13 @@ System.out.println("DSDSAS " + data);
         return admin;
     }
 
-    public static ObservableList<Member> getMemberPersonalInformation(int ssnum1, int ssnum2) throws SQLException {
+    public static ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
-                + " FROM Member WHERE ssn1 = ? AND ssn2 = ?";
+                + " FROM Member WHERE memberId = ?";
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssnum1);
-        statement.setInt(2, ssnum2);
+        statement.setInt(1, memberId);
         ResultSet rs = statement.executeQuery();
         ObservableList<Member> member = FXCollections.observableArrayList();
         while (rs.next()) {

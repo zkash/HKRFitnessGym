@@ -68,6 +68,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     
     private int memberSSN1 = 234567;
     private int memberSSN2 = 8901;
+    private int memberId = LoginStorage.getInstance().getId();
     ObservableList<Member> data;
     Member member;
     
@@ -92,7 +93,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         //this.login = LoginStatus.getLogin();
         
         try {
-            data = DBHandler.getMemberPersonalInformation(memberSSN1, memberSSN2);
+            data = DBHandler.getMemberPersonalInformation(memberId);
             if(data.size() == 0) {
                 Helper.DialogBox(true, "There is no such user to view personal details about");
             }

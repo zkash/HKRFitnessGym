@@ -62,20 +62,8 @@ public class AdminViewPackagesController implements Initializable {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
             data = DBHandler.adminViewPackages();
-            
-            //System.out.println("DATANAME " + data.get(0).getPackageName());
-            // Set cell value factory to TableView
-            packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-            startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-            endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-            adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-            //TODO Fix this
-            membersColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
-            adminViewPackagesTable.setItems(null);
-            adminViewPackagesTable.setItems(data);
+            setDataInTable(data);
+           
         } catch (SQLException ex) {
             Logger.getLogger(AdminViewPackagesController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,33 +93,12 @@ public class AdminViewPackagesController implements Initializable {
          membersColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.40));
          adminFullNameColumn.prefWidthProperty().bind(adminViewPackagesTable.widthProperty().multiply(0.17621146));
  
-        // Set cell value factory to TableView
-        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
-        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-        adminViewPackagesTable.setItems(null);
-        adminViewPackagesTable.setItems(searchData);
+        setDataInTable(searchData);
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
         data = DBHandler.adminViewPackages();
-        // Set cell value factory to TableView
-        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-        //TODO Fix this
-        membersColumn.setCellValueFactory(new PropertyValueFactory<>("0"));
-        adminViewPackagesTable.setItems(null);
-        adminViewPackagesTable.setItems(data);
+        setDataInTable(data);
     }
     
     public void deleteBtnClick(ActionEvent event) throws SQLException {
@@ -175,5 +142,19 @@ public class AdminViewPackagesController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public void setDataInTable(ObservableList<Package> data) {
+        // Set cell value factory to TableView
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
+        membersColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
+        adminViewPackagesTable.setItems(null);
+        adminViewPackagesTable.setItems(data);
     }
 }

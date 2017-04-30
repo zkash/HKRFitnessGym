@@ -72,7 +72,8 @@ public class CreateUserPageController implements Initializable {
     
     private boolean error;
     private String adminUsername;
-    private int adminId = 1; //ToDO change this
+  //  private int adminId = 1; //ToDO change this
+    private int adminId = LoginStorage.getInstance().getId();
     private boolean login;
     
     
@@ -93,18 +94,19 @@ public class CreateUserPageController implements Initializable {
         changeFocus(username, invalidMsgUsername);
         changeFocus(password, invalidMsgPassword);
         
-        firstName.setText("John");
-        middleName.setText("James");
-        lastName.setText("Doerr");
-        address.setText("CA");
-        phoneNumber.setText("3423421");
-        email.setText("john@johndoerr.com");
-        ssn.setText("441233-1324");
-        username.setText("johnd");
-        password.setText("johnd1");
+//        firstName.setText("John");
+//        middleName.setText("James");
+//        lastName.setText("Doerr");
+//        address.setText("CA");
+//        phoneNumber.setText("3423421");
+//        email.setText("john@johndoerr.com");
+//        ssn.setText("441233-1324");
+//        username.setText("johnd");
+//        password.setText("johnd1");
 //        this.adminSSN = LoginStatus.getSSN();
 //        this.login = LoginStatus.getLogin();
-        
+  
+
     }     
     
 //    public void setAdminUsername(String uname) {

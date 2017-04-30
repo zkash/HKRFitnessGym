@@ -73,6 +73,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private String adminUsername;
     private int adminSSN1 = 123456;
     private int adminSSN2 = 7890;
+    private int adminId = LoginStorage.getInstance().getId();
     private boolean login;
     
     private List<TextField> fields;
@@ -112,7 +113,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         this.login = LoginStatus.getLogin();
         
         try {
-            data = DBHandler.getAdminPersonalInformation(adminSSN1, adminSSN2);
+            data = DBHandler.getAdminPersonalInformation(adminId);
             if(data.size() == 0) {
                 Helper.DialogBox(true, "There is no such user to view personal details about");
             }

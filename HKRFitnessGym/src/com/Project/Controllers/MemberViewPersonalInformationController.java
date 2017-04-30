@@ -45,7 +45,7 @@ public class MemberViewPersonalInformationController implements Initializable {
             // TODO
             ObservableList<Member> member = DBHandler.getMemberPersonalInformation(memberId);
             if(member.size() == 0) {
-                Helper.DialogBox(true, "There is no such user to view personal details about");
+                Helper.showDialogBox(true, "There is no such user to view personal details about");
             }
             firstNameLbl.setText(member.get(0).getFirstName());
             middleNameLbl.setText(member.get(0).getMiddleName());

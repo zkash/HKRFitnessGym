@@ -115,7 +115,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         try {
             data = DBHandler.getAdminPersonalInformation(adminId);
             if(data.size() == 0) {
-                Helper.DialogBox(true, "There is no such user to view personal details about");
+                Helper.showDialogBox(true, "There is no such user to view personal details about");
             }
         } catch (SQLException ex) {
             Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -274,10 +274,10 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 System.out.println("reached here");
                 admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
                 DBHandler.updateAdminPersonalInformation("Admin", admin, ssnOld1, ssnOld2);
-                Helper.DialogBox(false, "Admin details successfully updated");
+                Helper.showDialogBox(false, "Admin details successfully updated");
             }
             else {
-                Helper.DialogBox(true, "Could not update admin details");
+                Helper.showDialogBox(true, "Could not update admin details");
             }
         }        
     }

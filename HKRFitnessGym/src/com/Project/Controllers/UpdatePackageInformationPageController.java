@@ -116,7 +116,7 @@ public class UpdatePackageInformationPageController implements Initializable {
             String pets = (String)packageEndTimeState.getValue();
             
             if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    Helper.DialogBox(true, "End date cannot be earlier than start date");
+                    Helper.showDialogBox(true, "End date cannot be earlier than start date");
             }
                 else {
                 
@@ -131,7 +131,7 @@ public class UpdatePackageInformationPageController implements Initializable {
                     if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
                         //End time before start time
                         if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            Helper.DialogBox(true, "Start time cannot be earlier than end time");
+                            Helper.showDialogBox(true, "Start time cannot be earlier than end time");
                             Helper.clearTextField(packageStartTime, packageEndTime);
                         }
                         else {
@@ -146,7 +146,7 @@ public class UpdatePackageInformationPageController implements Initializable {
                 }
         }
         else {
-            Helper.DialogBox(true, "Enter all data");
+            Helper.showDialogBox(true, "Enter all data");
         }
     }
     
@@ -192,6 +192,6 @@ public class UpdatePackageInformationPageController implements Initializable {
         Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
-        Helper.DialogBox(alreadyExists, "Package information successfully updated");
+        Helper.showDialogBox(alreadyExists, "Package information successfully updated");
     }
 }

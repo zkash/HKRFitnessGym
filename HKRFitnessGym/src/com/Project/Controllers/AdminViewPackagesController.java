@@ -108,7 +108,7 @@ public class AdminViewPackagesController implements Initializable {
         boolean deletionError = true;
         System.out.println("RORW" + row.size());
         if (row.size() == 0) {
-            Helper.DialogBox(deletionError, "Please select a package first to delete it");
+            Helper.showDialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
             try {
@@ -119,10 +119,10 @@ public class AdminViewPackagesController implements Initializable {
             }
 
             if (!deletionError) {
-                Helper.DialogBox(deletionError, "Package successfully deleted");
+                Helper.showDialogBox(deletionError, "Package successfully deleted");
             }
             else {
-                Helper.DialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+                Helper.showDialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
             }
             row.forEach(allRows::remove);
         }

@@ -136,7 +136,7 @@ public class CreatePackagePageController implements Initializable {
                 System.out.println(pets);
                 
                 if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    Helper.DialogBox(alreadyExists, "End date cannot be earlier than start date");
+                    Helper.showDialogBox(alreadyExists, "End date cannot be earlier than start date");
                 }
                 else {
                 
@@ -151,7 +151,7 @@ public class CreatePackagePageController implements Initializable {
                     if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
                         //End time before start time
                         if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            Helper.DialogBox(alreadyExists, "Start time cannot be earlier than end time");
+                            Helper.showDialogBox(alreadyExists, "Start time cannot be earlier than end time");
                             Helper.clearTextField(packageStartTime, packageEndTime);
                         }
                         else {
@@ -167,12 +167,12 @@ public class CreatePackagePageController implements Initializable {
             }
             else {
                 alreadyExists = true;
-                Helper.DialogBox(alreadyExists, "Package with same name already exists");
+                Helper.showDialogBox(alreadyExists, "Package with same name already exists");
                 Helper.clearTextField(packageName);
             }
         }
         else {
-            Helper.DialogBox(true, "Enter all data");
+            Helper.showDialogBox(true, "Enter all data");
         }
     }
     
@@ -190,7 +190,7 @@ public class CreatePackagePageController implements Initializable {
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
         
-        Helper.DialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
+        Helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
     }
 }
 

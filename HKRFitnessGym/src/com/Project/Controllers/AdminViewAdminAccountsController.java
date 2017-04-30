@@ -88,7 +88,7 @@ public class AdminViewAdminAccountsController implements Initializable {
         boolean deletionError = true;
         
         if (row.isEmpty()) {
-            Helper.DialogBox(deletionError, "Please select an admin account first to delete the account");
+            Helper.showDialogBox(deletionError, "Please select an admin account first to delete the account");
         }
         else {
             try {
@@ -106,10 +106,10 @@ public class AdminViewAdminAccountsController implements Initializable {
             }
              System.out.println(deletionError);
             if (!deletionError) {
-                Helper.DialogBox(deletionError, "Admin successfully deleted");
+                Helper.showDialogBox(deletionError, "Admin successfully deleted");
             }
             else {
-                Helper.DialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
+                Helper.showDialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
             }
             System.out.println(row.get(0).getFullName()); 
             row.forEach(allRows::remove);
@@ -149,7 +149,7 @@ public class AdminViewAdminAccountsController implements Initializable {
         
         if(searchPhoneNumber.isSelected()) {
             if(Helper.hasChar(searchQuery)) {
-                Helper.DialogBox(true, "Cannot search for text in phone number");
+                Helper.showDialogBox(true, "Cannot search for text in phone number");
             }
             else {
                 try {
@@ -157,7 +157,7 @@ public class AdminViewAdminAccountsController implements Initializable {
                     pnum = Integer.parseInt(searchQuery);
                 }
                 catch (Exception e) {
-                    Helper.DialogBox(true, "Cannot search for text in phone number");
+                    Helper.showDialogBox(true, "Cannot search for text in phone number");
                 }
             }
         }
@@ -177,7 +177,7 @@ public class AdminViewAdminAccountsController implements Initializable {
                     }
             }
             else {
-                Helper.DialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
+                Helper.showDialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
             }
         }
         

@@ -45,7 +45,7 @@ public class AdminViewPersonalInformationController implements Initializable {
             // TODO
             ObservableList<Admin> admin = DBHandler.getAdminPersonalInformation(adminId);
             if(admin.size() == 0) {
-                Helper.DialogBox(true, "There is no such user to view personal details about");
+                Helper.showDialogBox(true, "There is no such user to view personal details about");
             }
             firstNameLbl.setText(admin.get(0).getFirstName());
             middleNameLbl.setText(admin.get(0).getMiddleName());

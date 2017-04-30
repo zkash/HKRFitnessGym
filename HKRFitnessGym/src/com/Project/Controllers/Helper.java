@@ -80,7 +80,7 @@ public class Helper {
     }
     
     //Dialog box
-    public static void DialogBox(boolean errorCondition, String message) {
+    public static void showDialogBox(boolean errorCondition, String message) {
         if(errorCondition) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -162,7 +162,7 @@ public class Helper {
         return dateInString;
     }
     
-    public static void DialogBoxChoice(Stage stage, String header, String content, String nextScene) throws IOException {    
+    public static void showDialogBoxChoice(Stage stage, String header, String content, String nextScene) throws IOException {    
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setContentText(content);

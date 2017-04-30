@@ -93,13 +93,13 @@ public class MemberViewPackagesController implements Initializable {
         
         
         if (row.isEmpty()) {
-            Helper.DialogBox(subscriptionError, "Please select a package first to delete subscribe");
+            Helper.showDialogBox(subscriptionError, "Please select a package first to delete subscribe");
         }
         else {
             LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
             LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
             if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
-                Helper.DialogBox(subscriptionError, "Enter subscription start date and end date");
+                Helper.showDialogBox(subscriptionError, "Enter subscription start date and end date");
             }
             else {
                 String packageName = row.get(0).getPackageName();
@@ -111,7 +111,7 @@ public class MemberViewPackagesController implements Initializable {
                 Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
                 if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
                         || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-                    Helper.DialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
+                    Helper.showDialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
                 }
                 else {
                     Subscription subscription = new Subscription();
@@ -133,10 +133,10 @@ public class MemberViewPackagesController implements Initializable {
 //                        memberId
 //                    ));
                     if (subscriptionError) {
-                        Helper.DialogBox(subscriptionError, "Cannot make a subscription");
+                        Helper.showDialogBox(subscriptionError, "Cannot make a subscription");
                     }
                     else {
-                        Helper.DialogBox(subscriptionError, "Successfully subscribe to a package");
+                        Helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
                     }
                 }
             } 

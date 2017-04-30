@@ -103,7 +103,7 @@ public class CreatePackagePageController implements Initializable {
         };
     }    
     
-    public void createPackageBtnClick(ActionEvent event) throws SQLException {
+    public void createPackageBtnClick(ActionEvent event) throws SQLException, IOException {
         //Clear error messages
         invalidMsgPackageName.setText("");
         invalidMsgPackageCost.setText("");
@@ -118,7 +118,9 @@ public class CreatePackagePageController implements Initializable {
         LocalDate ped = packageEndDate.getValue();
        
       
-        
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+                    
         if (validated.get()) {
             int count = DBHandler.checkPackageName(pn);
             boolean alreadyExists;
@@ -154,12 +156,12 @@ public class CreatePackagePageController implements Initializable {
                         }
                         else {
                             pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                            insertIntoDB(pack, adminId, alreadyExists);
+                            insertIntoDB(stage, pack, adminId, alreadyExists);
                         }
                     }
                     else if (psts.equals("AM") && pets.equals("PM")) {
                         pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
-                        insertIntoDB(pack, adminId, alreadyExists);
+                        insertIntoDB(stage, pack, adminId, alreadyExists);
                     }
                 }
             }
@@ -182,12 +184,13 @@ public class CreatePackagePageController implements Initializable {
         return minutesSinceMidnight;
     }
     
-    public void insertIntoDB(Package pack, int adminId, boolean alreadyExists) throws SQLException {
+    public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists) throws SQLException, IOException {
         DBHandler.createPackage(pack, adminId);
         Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
-        Helper.DialogBox(alreadyExists, "Package successfully created");
+        
+        Helper.DialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
     }
 }
 

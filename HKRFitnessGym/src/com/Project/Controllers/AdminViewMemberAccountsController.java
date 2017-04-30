@@ -64,18 +64,8 @@ public class AdminViewMemberAccountsController implements Initializable {
             login = LoginStatus.getLogin();
             ArrayList<ArrayList<String>> finalArray;
             data = DBHandler.adminViewMemberAccounts();
-            // Set cell value factory to TableView
-            fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-            usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-            ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
-            dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
-            genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-            addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-            phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-            adminViewAccountsTable.setItems(null);
-            adminViewAccountsTable.setItems(data);
+            setDataInTable(data);
+            
         } catch (SQLException ex) {
             Logger.getLogger(AdminViewMemberAccountsController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -212,23 +202,16 @@ public class AdminViewMemberAccountsController implements Initializable {
         phoneNumberColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
         adminFullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
         
-        //      Set cell value factory to TableView
-        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
-        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-        adminViewAccountsTable.setItems(null);
-        adminViewAccountsTable.setItems(searchData);
+        setDataInTable(searchData);
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
         data = DBHandler.adminViewMemberAccounts();
-            // Set cell value factory to TableView
+        setDataInTable(data);
+    }
+    
+    public void setDataInTable(ObservableList<Member> data) {
+        // Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));
@@ -240,5 +223,5 @@ public class AdminViewMemberAccountsController implements Initializable {
         adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
         adminViewAccountsTable.setItems(null);
         adminViewAccountsTable.setItems(data);
-    }
+        }
 }

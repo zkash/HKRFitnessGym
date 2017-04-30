@@ -8,6 +8,8 @@ package com.Project.Controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +50,8 @@ public class LoginPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        ObservableList<String> accountTypeOptions = FXCollections.observableArrayList("Admin", "Member");
+        accountTypeComboBox.setItems(accountTypeOptions);
     }    
 
    
@@ -59,14 +62,14 @@ public class LoginPageController implements Initializable {
         
         //Check if username and password belongs to admin or members
         //TODO remove the hard-coded and change it from the database
-        
+        System.out.println("at " + LoginStorage.getInstance().getAccountType());
         if(uname.equals("a") && pwd.equals("a")) {
             int adminSSN = 1234567890; //TODO get from database;
            // visitAdminPage(event, uname, adminSSN);
             
 //            LoginStatus ls = new LoginStatus();
 //            //setLogInStatus();
-//            ls.setSSN(adminSSN);
+//            ls.setSSN(adminSSN);, 
 //            ls.setLogin(true);
             LoginStorage.getInstance().setUsername("USER");
             LoginStorage.getInstance().setId(1);

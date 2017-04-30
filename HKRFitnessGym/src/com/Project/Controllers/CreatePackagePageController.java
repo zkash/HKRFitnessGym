@@ -61,6 +61,8 @@ public class CreatePackagePageController implements Initializable {
     private BooleanBinding validated;
     private Package pack;
     
+    private int adminId = LoginStorage.getInstance().getId();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
@@ -115,7 +117,7 @@ public class CreatePackagePageController implements Initializable {
         LocalDate psd = packageStartDate.getValue();
         LocalDate ped = packageEndDate.getValue();
        
-        int adminId = 1;
+      
         
         if (validated.get()) {
             int count = DBHandler.checkPackageName(pn);

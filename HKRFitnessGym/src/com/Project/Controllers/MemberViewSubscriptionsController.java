@@ -47,8 +47,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     //private  ObservableList<Package> data;
     private  ObservableList<Package> searchData;
     
-    //TODO Change later
-    int memberId = 1;
+    private int memberId = LoginStorage.getInstance().getId();
     
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;

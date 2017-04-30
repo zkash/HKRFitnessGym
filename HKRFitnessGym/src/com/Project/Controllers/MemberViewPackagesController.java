@@ -38,8 +38,7 @@ public class MemberViewPackagesController implements Initializable {
     //private  ObservableList<Package> data;
     private  ObservableList<Package> searchData;
     
-    //TODO Change later
-    int memberId = 1;
+    private int memberId = LoginStorage.getInstance().getId();
     
     @FXML private TableView<Package> memberViewPackagesTable;
     @FXML private TableColumn<Package, String> packageNameColumn;

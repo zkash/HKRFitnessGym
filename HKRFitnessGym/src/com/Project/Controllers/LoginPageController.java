@@ -74,6 +74,9 @@ public class LoginPageController implements Initializable {
             visitAdminPage(event);
         }
         else {
+            LoginStorage.getInstance().setUsername("USER");
+            LoginStorage.getInstance().setId(1);
+            LoginStorage.getInstance().setAccountType("Member");
             visitMemberPage(event);
         }
         

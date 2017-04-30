@@ -101,7 +101,7 @@ public class AdminViewPackagesController implements Initializable {
         setDataInTable(data);
     }
     
-    public void deleteBtnClick(ActionEvent event) throws SQLException {
+    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row , allRows;
         allRows = adminViewPackagesTable.getItems();
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
@@ -111,6 +111,9 @@ public class AdminViewPackagesController implements Initializable {
             Helper.showDialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the package?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
             try {
                 deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
             }

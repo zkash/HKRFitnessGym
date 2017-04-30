@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -76,15 +79,18 @@ public class AdminViewMemberAccountsController implements Initializable {
        
     }
     
-    public void deleteBtnClick(ActionEvent event) throws SQLException {
+    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Member> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = true;
         if (row.isEmpty()) {
-            Helper.showDialogBox(deletionError, "Please select an admin account first to delete the account");
+            Helper.showDialogBox(deletionError, "Please select an member account first to delete the account");
         }
         else {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the member account?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
             try {
                 String[] fullSSN = (row.get(0).getFullSSN()).split("-");
                 int ssn1 = Integer.parseInt(fullSSN[0]);

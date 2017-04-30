@@ -17,16 +17,8 @@
       </Menu>
       <Menu mnemonicParsing="false" text="Package">
          <items>
-            <Menu fx:id="viewPackageMenu" mnemonicParsing="false" text="View Available Packages">
-               <items>
-                  <MenuItem fx:id="subscribePackageMenu" mnemonicParsing="false" onAction="#subscribePackageMenuClick" text="Subscribe to Package" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="View Subscriptions">
-               <items>
-                  <MenuItem fx:id="viewSubscriptionMenu" mnemonicParsing="false" onAction="#viewSubscriptionMenuClick" text="View Subscription Details" />
-               </items>
-            </Menu>
+            <MenuItem fx:id="subscribePackageMenu" mnemonicParsing="false" onAction="#subscribePackageMenuClick" text="Subscribe to Package" />
+            <MenuItem fx:id="viewSubscriptionMenu" mnemonicParsing="false" onAction="#viewSubscriptionMenuClick" text="View Subscriptions" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Schedule">

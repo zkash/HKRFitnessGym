@@ -98,12 +98,11 @@ public class AdminViewMemberAccountsController implements Initializable {
 
             if (!deletionError) {
                 Helper.showDialogBox(deletionError, "Member successfully deleted");
+                row.forEach(allRows::remove);
             }
             else {
                 Helper.showDialogBox(deletionError, "Could not delete member because it is associated with other data in the system. \n\nDelete such data before trying to delete the member");
-            }
-            System.out.println(row.get(0).getFullName()); 
-            row.forEach(allRows::remove);
+            }  
         }
     }
     

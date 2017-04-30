@@ -120,11 +120,11 @@ public class AdminViewPackagesController implements Initializable {
 
             if (!deletionError) {
                 Helper.showDialogBox(deletionError, "Package successfully deleted");
+                row.forEach(allRows::remove);
             }
             else {
                 Helper.showDialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
             }
-            row.forEach(allRows::remove);
         }
     }
     

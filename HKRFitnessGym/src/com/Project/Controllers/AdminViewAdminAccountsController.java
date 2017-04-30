@@ -107,12 +107,11 @@ public class AdminViewAdminAccountsController implements Initializable {
              System.out.println(deletionError);
             if (!deletionError) {
                 Helper.showDialogBox(deletionError, "Admin successfully deleted");
+                row.forEach(allRows::remove);
             }
             else {
                 Helper.showDialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
             }
-            System.out.println(row.get(0).getFullName()); 
-            row.forEach(allRows::remove);
         }
     }
     

@@ -40,10 +40,6 @@ public class MenuBarMemberController implements Initializable {
        setupAndShowStage("/com/Project/FXML/UpdateMemberPersonalInformationPage.fxml");
     }
     
-    public void updateProfilePicMenuClick(ActionEvent event) {
-        
-    }
-    
     public void viewAccountMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("/com/Project/FXML/MemberViewPersonalInformation.fxml");
     }
@@ -57,13 +53,6 @@ public class MenuBarMemberController implements Initializable {
         setupAndShowStage("/com/Project/FXML/MemberViewSubscriptions.fxml");
     }
     
-    public void renewSubscriptionMenuClick(ActionEvent event) {
-        
-    }
-    
-    public void cancelSubscriptionMenuClick(ActionEvent event) {
-        
-    }
     
     public void viewScheduleMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("/com/Project/FXML/MemberViewSchedule.fxml");

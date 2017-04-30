@@ -11,7 +11,6 @@
       <Menu mnemonicParsing="false" text="Account">
          <items>
             <MenuItem fx:id="editAccountMenu" mnemonicParsing="false" onAction="#editAccountMenuClick" text="Edit Account Details" />
-            <MenuItem fx:id="updateProfilePicMenu" mnemonicParsing="false" onAction="#updateProfilePicMenuClick" text="Update Profile Picture" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" onAction="#viewAccountMenuClick" text="View Account Details" />
          </items>
@@ -26,8 +25,6 @@
             <Menu mnemonicParsing="false" text="View Subscriptions">
                <items>
                   <MenuItem fx:id="viewSubscriptionMenu" mnemonicParsing="false" onAction="#viewSubscriptionMenuClick" text="View Subscription Details" />
-                  <MenuItem fx:id="renewSubscriptionMenu" mnemonicParsing="false" onAction="#renewSubscriptionMenuClick" text="Renew Subscription" />
-                  <MenuItem fx:id="cancelSubscriptionMenu" mnemonicParsing="false" onAction="#cancelSubscriptionMenuClick" text="Cancel Subscription" />
                </items>
             </Menu>
          </items>

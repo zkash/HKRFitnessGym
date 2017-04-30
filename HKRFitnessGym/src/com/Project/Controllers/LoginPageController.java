@@ -71,13 +71,13 @@ public class LoginPageController implements Initializable {
 //            //setLogInStatus();
 //            ls.setSSN(adminSSN);, 
 //            ls.setLogin(true);
-            LoginStorage.getInstance().setUsername("USER");
+            LoginStorage.getInstance().setUsername("ADMIN");
             LoginStorage.getInstance().setId(1);
             LoginStorage.getInstance().setAccountType("Admin");
             visitAdminPage(event);
         }
         else {
-            LoginStorage.getInstance().setUsername("USER");
+            LoginStorage.getInstance().setUsername("MEMBER");
             LoginStorage.getInstance().setId(1);
             LoginStorage.getInstance().setAccountType("Member");
             visitMemberPage(event);

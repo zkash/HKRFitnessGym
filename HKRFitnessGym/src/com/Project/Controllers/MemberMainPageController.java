@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -23,13 +24,14 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class MemberMainPageController implements Initializable {
-
+    @FXML Label loggedUserLbl;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        loggedUserLbl.textProperty().bind(LoginStorage.getInstance().usernameProperty());
+        
     }   
     
     @FXML

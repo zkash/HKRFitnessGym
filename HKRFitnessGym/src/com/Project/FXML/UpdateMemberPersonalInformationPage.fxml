@@ -79,10 +79,7 @@
             <Label fx:id="invalidMsgSSN" layoutX="537.0" layoutY="362.0" textFill="RED" />
             <Label fx:id="invalidMsgUsername" layoutX="537.0" layoutY="396.0" textFill="RED" />
             <Label fx:id="invalidMsgPassword" layoutX="537.0" layoutY="432.0" textFill="RED" />
-            <fx:include fx:id="backButtonMember" source="BackButtonMember.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-          
-            <!--<fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            -->
+            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <Label fx:id="invalidMsgAllData" layoutX="331.0" layoutY="476.0" prefWidth="100.0" textFill="RED" />
           </children>

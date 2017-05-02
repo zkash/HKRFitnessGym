@@ -573,7 +573,7 @@ System.out.println("DSDSAS " + data);
             //System.out.println(rs2);
             while (rs.next()) {
                 if (rs.getString("middleName").equals("")) {
-                    System.out.println("SPP " + rs.getString("Package_packageId"));
+                    //System.out.println("SPP " + rs.getString("Package_packageId"));
                     data.add(new Package(
                             rs.getString("packageName"),
                             rs.getFloat("price"),

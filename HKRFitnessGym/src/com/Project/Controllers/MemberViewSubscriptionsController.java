@@ -162,19 +162,24 @@ public class MemberViewSubscriptionsController implements Initializable {
                             Helper.showDialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
                         }
                         else {
-                            Subscription subscription = new Subscription();
-                            subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
-                            subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
-                            String packageName = row.get(0).getPackageName();
-                            int packageId = DBHandler.getPackageIdFromPackageName(packageName);
-                            subscription.setPackageId(packageId);
-                            subscription.setMemberId(memberId);
-                            renewError = DBHandler.subscribeToPackage(subscription);
-                            if (renewError) {
-                                Helper.showDialogBox(renewError, "Cannot renew subscription");
+                            if(subscriptionStartDate.after(subscriptionEndDate)) {
+                                Helper.showDialogBox(renewError, "Subscription start date must be earlier than subscription end date");
                             }
-                            else {
-                                Helper.showDialogBox(renewError, "Successfully renewed subscription");
+                             else {
+                                Subscription subscription = new Subscription();
+                                subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
+                                subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
+                                String packageName = row.get(0).getPackageName();
+                                int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                                subscription.setPackageId(packageId);
+                                subscription.setMemberId(memberId);
+                                renewError = DBHandler.subscribeToPackage(subscription);
+                                if (renewError) {
+                                    Helper.showDialogBox(renewError, "Cannot renew subscription");
+                                }
+                                else {
+                                    Helper.showDialogBox(renewError, "Successfully renewed subscription");
+                                }
                             }
                         }
                     }

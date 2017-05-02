@@ -9,6 +9,7 @@ package com.Project.Controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.Random;
 import java.util.ResourceBundle;
 //import java.util.Properties;
 import javafx.collections.FXCollections;
@@ -193,5 +194,64 @@ public class LoginPageController implements Initializable {
     
     @FXML
     private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException {
+        // Set credentials
+        String senderEmail = "";
+        String senderPassword = "";
+        String recepientEmail = "";
+
+        //Set subject and message
+        String subject = "Reset Password";
+        String msg = "Please enter the following code in the program to reset the password for your account\n";
+        msg = msg +  getRandomCode();
+        System.out.println(msg);
+        // Get properties object    
+        Properties properties = new Properties();    
+        properties.put("mail.smtp.host", "smtp.gmail.com");    
+        properties.put("mail.smtp.socketFactory.port", "465");    
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
+        properties.put("mail.smtp.auth", "true");    
+        properties.put("mail.smtp.port", "465");    
+        
+        // Get Session   
+        Session session = Session.getDefaultInstance(properties,    
+            new javax.mail.Authenticator() {    
+                protected PasswordAuthentication getPasswordAuthentication() {    
+                    return new PasswordAuthentication(senderEmail, senderPassword);  
+                }    
+            }
+        );    
+          
+        // Compose message    
+        try {    
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
+            message.setSubject(subject);    
+            message.setText(msg);    
+           
+            
+            // Send message  
+            //Transport.send(message);    
+            Helper.showDialogBox(true, "Message Sent");
+        } 
+        catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    protected String getRandomCode() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$&";
+        int lengthOfCode = 8;
+        int counter = 0;
+        Random random = new Random();
+        String code = "";
+        while(counter < lengthOfCode) {
+            //int index = (int) (random.nextFloat() * characters.length());
+            int index = (int) (random.nextFloat() * random.nextInt(characters.length()-1) + 1);
+            //System.out.println("index " + index);
+            code = code + characters.charAt(index);
+            //System.out.println("code " + code);
+            counter++;
+        }
+        return code;
     }
 }

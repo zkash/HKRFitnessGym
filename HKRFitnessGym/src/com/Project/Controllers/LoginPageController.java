@@ -5,9 +5,12 @@
  */
 package com.Project.Controllers;
 
+//import com.sun.xml.internal.org.jvnet.mimepull.MIMEMessage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
+//import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +26,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -180,4 +191,7 @@ public class LoginPageController implements Initializable {
         stage.show();      
     }
     
+    @FXML
+    private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException {
+    }
 }

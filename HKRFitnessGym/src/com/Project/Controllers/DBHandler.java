@@ -603,7 +603,8 @@ System.out.println("DSDSAS " + data);
                         + " From Package as pk"
                         + " INNER JOIN Subscription as sub"
                         + " ON pk.packageId = sub.Package_packageId"
-                        + " WHERE packageName = \"" + name + "\"";
+                        + " WHERE packageName = \"" + name + "\""
+                        + " AND isCancelled = false";
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 System.out.println(statement2);
                 ResultSet rs2 = statement2.executeQuery();
@@ -903,8 +904,8 @@ System.out.println("DSDSAS " + data);
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
-                + "ON pk.packageId = sub.Package_packageId "
-                + "WHERE sub.isCancelled = 0";
+                + "ON pk.packageId = sub.Package_packageId ";
+                //+ "WHERE sub.isCancelled = 0";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         ObservableList<Subscription> subscription = FXCollections.observableArrayList();
@@ -965,7 +966,7 @@ System.out.println("DSDSAS " + data);
     
     public static Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET isCancelled = true WHERE  subscriptionId = ?";
+        String query = "UPDATE Subscription SET isCancelled = true WHERE subscriptionId = ?";
         
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);

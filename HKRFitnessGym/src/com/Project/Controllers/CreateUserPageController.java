@@ -82,6 +82,8 @@ public class CreateUserPageController implements Initializable {
     @FXML
     private Button createUserBtn;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         changeFocus(firstName, invalidMsgFirstName);
@@ -242,11 +244,11 @@ public class CreateUserPageController implements Initializable {
                 boolean alreadyExists;
                 System.out.println(isAdmin.isSelected());
                 if (isAdmin.isSelected()) {
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Admin", un, ssn1, ssn2);
+                    alreadyExists = dbHandler.checkUsernameAndSSN("Admin", un, ssn1, ssn2);
                 }
                 else {
                     System.out.println("hell");
-                    alreadyExists = DBHandler.checkUsernameAndSSN("Member", un, ssn1, ssn2);
+                    alreadyExists = dbHandler.checkUsernameAndSSN("Member", un, ssn1, ssn2);
                     System.out.println(alreadyExists);
                 }
                 
@@ -259,13 +261,13 @@ public class CreateUserPageController implements Initializable {
                     
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
-                        DBHandler.createAdminAccount(admin);
+                        dbHandler.createAdminAccount(admin);
                         Helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewAdminAccounts.fxml");
                 
                     }
                     else {
                         Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
-                        DBHandler.createMemberAccount(member, adminId);
+                        dbHandler.createMemberAccount(member, adminId);
                         Helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewMemberAccounts.fxml");
                     }
                     Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);

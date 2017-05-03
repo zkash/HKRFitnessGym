@@ -64,12 +64,14 @@ public class AdminViewAdminAccountsController implements Initializable {
     @FXML private CheckBox searchPhoneNumber;
     @FXML private CheckBox searchAddress;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
-            data = DBHandler.adminViewAdminAccounts();
+            data = dbHandler.adminViewAdminAccounts();
             setDataInTable(data);
         } catch (SQLException ex) {
             Logger.getLogger(AdminViewAdminAccountsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,7 +79,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        data = DBHandler.adminViewAdminAccounts();
+        data = dbHandler.adminViewAdminAccounts();
         setDataInTable(data);
     }
     
@@ -102,7 +104,7 @@ public class AdminViewAdminAccountsController implements Initializable {
                 int ssn1 = Integer.parseInt(fullSSN[0]);
                 int ssn2 = Integer.parseInt(fullSSN[1]);
                 String username = row.get(0).getUsername();
-                deletionError = DBHandler.deleteAccount(ssn1, ssn2, username, "Admin");
+                deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Admin");
            
             System.out.println("de " + deletionError);//
             }
@@ -198,7 +200,7 @@ public class AdminViewAdminAccountsController implements Initializable {
             un = searchQuery;
         }
         
-        searchData = DBHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
+        searchData = dbHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");
         usernameColumn = new TableColumn("Username");

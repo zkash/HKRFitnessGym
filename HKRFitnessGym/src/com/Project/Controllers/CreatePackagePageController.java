@@ -63,6 +63,8 @@ public class CreatePackagePageController implements Initializable {
     
     private int adminId = LoginStorage.getInstance().getId();
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
@@ -122,7 +124,7 @@ public class CreatePackagePageController implements Initializable {
         Stage stage = (Stage) node.getScene().getWindow();
                     
         if (validated.get()) {
-            int count = DBHandler.checkPackageName(pn);
+            int count = dbHandler.checkPackageName(pn);
             boolean alreadyExists;
             System.out.println(count);
             if (count == 0) {
@@ -185,7 +187,7 @@ public class CreatePackagePageController implements Initializable {
     }
     
     public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists) throws SQLException, IOException {
-        DBHandler.createPackage(pack, adminId);
+        dbHandler.createPackage(pack, adminId);
         Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();

@@ -51,6 +51,8 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML UpdatePackageInformationPageController updatePackageInformationPageController;
 
+    private DBHandler dbHandler = new DBHandler();
+    
     ObservableList<Package> pack;
     /**
      * Initializes the controller class.
@@ -61,7 +63,7 @@ public class AdminViewPackagesController implements Initializable {
         try {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
-            data = DBHandler.adminViewPackages();
+            data = dbHandler.adminViewPackages();
             setDataInTable(data);
            
         } catch (SQLException ex) {
@@ -71,7 +73,7 @@ public class AdminViewPackagesController implements Initializable {
     
     public void searchBtnClick(ActionEvent event) throws SQLException {
         String searchQuery = searchPackage.getText();
-        searchData = DBHandler.searchInAdminViewPackage(searchQuery);
+        searchData = dbHandler.searchInAdminViewPackage(searchQuery);
         
         adminViewPackagesTable.getColumns().clear();
         packageNameColumn = new TableColumn("Package Name");
@@ -97,7 +99,7 @@ public class AdminViewPackagesController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        data = DBHandler.adminViewPackages();
+        data = dbHandler.adminViewPackages();
         setDataInTable(data);
     }
     
@@ -115,7 +117,7 @@ public class AdminViewPackagesController implements Initializable {
             Stage stage = (Stage) node.getScene().getWindow();
             Helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the package?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
             try {
-                deletionError = DBHandler.deletePackage(row.get(0).getPackageName());
+                deletionError = dbHandler.deletePackage(row.get(0).getPackageName());
             }
             catch(Exception e) {
                 deletionError = true;
@@ -134,7 +136,7 @@ public class AdminViewPackagesController implements Initializable {
     public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         String packageName = row.get(0).getPackageName();
-        pack = DBHandler.getPackageInfoAdmin(packageName);
+        pack = dbHandler.getPackageInfoAdmin(packageName);
         
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();

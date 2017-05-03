@@ -61,6 +61,9 @@ public class LoginPageController implements Initializable {
     private boolean isLoggedIn;
     private String uName;
     private int ssn;
+    
+    private DBHandler dbHandler = new DBHandler();
+    
     /**
      * Initializes the controller class.
      */
@@ -218,7 +221,7 @@ public class LoginPageController implements Initializable {
                 String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
                 if(emailAddress.matches(emailRegex)) {
                     System.out.println("EMAIL GET " + email.get());
-                    Boolean emailExists = DBHandler.checkEmailExistence(email.get());
+                    Boolean emailExists = dbHandler.checkEmailExistence(email.get());
                     System.out.println("EXISTS " + emailExists);
                     if(emailExists) {
                         // Set credentials

@@ -77,7 +77,7 @@ public class DBHandler {
         return properties;
     }
     
-    public static ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
+    public ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -104,7 +104,7 @@ public class DBHandler {
         return null;
     }
 
-    public static ObservableList<Member> adminViewMemberAccounts() throws SQLException {
+    public ObservableList<Member> adminViewMemberAccounts() throws SQLException {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -193,7 +193,7 @@ System.out.println("DSDSAS " + data);
           return null;  
     }
 
-    public static void createAdminAccount(Admin admin) {
+    public void createAdminAccount(Admin admin) {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
@@ -243,7 +243,7 @@ System.out.println("DSDSAS " + data);
 //            System.out.println(e.getMessage());
 //        }
 //    }
-    public static void createMemberAccount(Member member, int adminId) throws SQLException {
+    public void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
@@ -272,7 +272,7 @@ System.out.println("DSDSAS " + data);
 
     
 
-    public static void getAdminUsername(int ssn1, int ssn2) throws SQLException {
+    public void getAdminUsername(int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT username FROM Admin WHERE ssn1 = " + ssn1 + "AND ssn2 = " + ssn2;
         PreparedStatement statement = conn.prepareStatement(query);
@@ -282,7 +282,7 @@ System.out.println("DSDSAS " + data);
         }
     }
 
-    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -325,7 +325,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Member> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -368,7 +368,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
+    public ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
@@ -391,7 +391,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
+    public boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR (ssn1 = ? AND ssn2 = ?)";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -407,7 +407,7 @@ System.out.println("DSDSAS " + data);
         return alreadyExists;
     }
 
-    public static void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -439,7 +439,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -471,7 +471,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
     
-    public static void createPackage(Package pack, int adminId) throws SQLException {
+    public void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
                 + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -487,7 +487,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static int checkPackageName(String pn) throws SQLException {
+    public int checkPackageName(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -500,7 +500,7 @@ System.out.println("DSDSAS " + data);
         return count;
     }
 
-    public static ObservableList<Package> adminViewPackages() throws SQLException {
+    public ObservableList<Package> adminViewPackages() throws SQLException {
 //        ObservableList<Package> data = FXCollections.observableArrayList();
 //        Package pack = null;
 //        Connection conn = establishConnection();
@@ -732,7 +732,7 @@ System.out.println("DSDSAS " + data);
 //        return null;
 //    }
     
-    public static ObservableList<Package> memberViewPackages() throws SQLException {
+    public ObservableList<Package> memberViewPackages() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, startDate, endDate, startTime, endTime FROM Package";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -751,7 +751,7 @@ System.out.println("DSDSAS " + data);
         return pack;
     }
     
-    public static boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
+    public boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
         query = query.replace("$table_name", table);
@@ -766,7 +766,7 @@ System.out.println("DSDSAS " + data);
         return deletionError;
     }
 
-    public static boolean deletePackage(String pn) throws SQLException {
+    public boolean deletePackage(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -777,7 +777,7 @@ System.out.println("DSDSAS " + data);
         return deletionError;
     }
 
-    public static void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
+    public void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
                 + "packageName = ?, "
@@ -799,7 +799,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
+    public ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -824,7 +824,7 @@ System.out.println("DSDSAS " + data);
         return null;
     }
 
-    public static ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
+    public ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
@@ -850,7 +850,7 @@ System.out.println("DSDSAS " + data);
         return admin;
     }
 
-    public static ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
+    public ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
@@ -876,7 +876,7 @@ System.out.println("DSDSAS " + data);
         return member;
     }
     
-    public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
+    public ObservableList<Schedule> memberViewSchedule() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -892,7 +892,7 @@ System.out.println("DSDSAS " + data);
         return schedule;
     }
     
-    public static int getPackageIdFromPackageName(String packageName) throws SQLException {
+    public int getPackageIdFromPackageName(String packageName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageId FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -905,7 +905,7 @@ System.out.println("DSDSAS " + data);
         return packageId;
     }
     
-    public static Boolean subscribeToPackage(Subscription subscription) throws SQLException {
+    public boolean subscribeToPackage(Subscription subscription) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
                 + " VALUES (?, ?, ?, ?, false)";
@@ -922,7 +922,7 @@ System.out.println("DSDSAS " + data);
         return subscriptionError;
     }
     
-    public static ObservableList<Subscription> memberViewSubscription() throws SQLException {
+    public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
@@ -987,7 +987,7 @@ System.out.println("DSDSAS " + data);
         return subscription;
     }
     
-    public static Boolean cancelSubscription(int subscriptionId) throws SQLException {
+    public Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Subscription SET isCancelled = true WHERE  subscriptionId = ?";
         
@@ -998,7 +998,7 @@ System.out.println("DSDSAS " + data);
         return cancelError;
     }
     
-    public static Boolean checkEmailExistence(String email) throws SQLException {
+    public Boolean checkEmailExistence(String email) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
         PreparedStatement statement = conn.prepareStatement(query);

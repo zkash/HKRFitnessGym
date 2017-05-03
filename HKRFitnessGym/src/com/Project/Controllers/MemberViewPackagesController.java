@@ -53,11 +53,13 @@ public class MemberViewPackagesController implements Initializable {
     
     ObservableList<Package> pack;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            pack = DBHandler.memberViewPackages();
+            pack = dbHandler.memberViewPackages();
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -105,7 +107,7 @@ public class MemberViewPackagesController implements Initializable {
                 String packageName = row.get(0).getPackageName();
                 Date packageStartDate = row.get(0).getStartDate();
                 Date packageEndDate = row.get(0).getEndDate();
-                int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                int packageId = dbHandler.getPackageIdFromPackageName(packageName);
                 System.out.println("pid" + packageId);
                 Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
                 Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
@@ -125,7 +127,7 @@ public class MemberViewPackagesController implements Initializable {
                     subscription.setPackageId(packageId);
                     subscription.setMemberId(memberId);
                     System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
-                    subscriptionError = DBHandler.subscribeToPackage(subscription);
+                    subscriptionError = dbHandler.subscribeToPackage(subscription);
 //                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
 //                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
 //                        (java.sql.Date)  subscriptionEndDate,

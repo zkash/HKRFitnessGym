@@ -56,6 +56,9 @@ public class UpdatePackageInformationPageController implements Initializable {
     private Package updatedPackage;
     
     private String packageNameOld;
+    
+    private DBHandler dbHandler = new DBHandler();
+    
     /**
      * Initializes the controller class.
      */
@@ -188,7 +191,7 @@ public class UpdatePackageInformationPageController implements Initializable {
     }
     
     public void updateInDB(Package pack, int admin_ssn, boolean alreadyExists) throws SQLException {
-        DBHandler.updatePackage(pack, packageNameOld, admin_ssn);
+        dbHandler.updatePackage(pack, packageNameOld, admin_ssn);
         Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();

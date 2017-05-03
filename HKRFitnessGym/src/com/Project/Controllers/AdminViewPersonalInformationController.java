@@ -39,11 +39,13 @@ public class AdminViewPersonalInformationController implements Initializable {
     private int ssn2 = 7890;
     private int adminId = LoginStorage.getInstance().getId();
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            ObservableList<Admin> admin = DBHandler.getAdminPersonalInformation(adminId);
+            ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
             if(admin.size() == 0) {
                 Helper.showDialogBox(true, "There is no such user to view personal details about");
             }

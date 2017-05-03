@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -67,8 +68,9 @@ public class DBHandler {
     }
     
     private Properties loadProperties() {
+        System.out.println(System.getProperty("user.dir"));
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("hkrFitnessGym.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGym.properties")) {
             properties.load(fis);
         }
         catch (Exception e) {
@@ -597,7 +599,6 @@ System.out.println("DSDSAS " + data);
             //System.out.println(rs2);
             while (rs.next()) {
                 if (rs.getString("middleName").equals("")) {
-                    System.out.println("SPP " + rs.getString("Package_packageId"));
                     data.add(new Package(
                             rs.getString("packageName"),
                             rs.getFloat("price"),

@@ -62,6 +62,8 @@ public class LoginPageController implements Initializable {
     private String uName;
     private int ssn;
     
+    
+    
     private DBHandler dbHandler = new DBHandler();
     
     /**
@@ -75,7 +77,7 @@ public class LoginPageController implements Initializable {
 
    private Properties loadProperties() {
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("hkrFitnessGymForgotPassword.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGymForgotPassword.properties")) {
             properties.load(fis);
         }
         catch (Exception e) {
@@ -227,6 +229,7 @@ public class LoginPageController implements Initializable {
                         Boolean emailExists = dbHandler.checkEmailExistence(accountType, email.get());
                         System.out.println("EXISTS " + emailExists);
                         if(emailExists) {
+                           
                             // Set credentials
                             Properties senderProperties = loadProperties();
                             String senderEmail = senderProperties.getProperty("senderEmail");
@@ -235,8 +238,9 @@ public class LoginPageController implements Initializable {
 
                             //Set subject and message
                             String subject = "Reset Password";
+                            String randomCode = getRandomCode();
                             String msg = "Please enter the following code in the program to reset the password for your account\n";
-                            msg = msg +  getRandomCode();
+                            msg = msg + randomCode;
                             System.out.println(msg);
                             // Get properties object    
                             Properties properties = new Properties();    
@@ -255,6 +259,27 @@ public class LoginPageController implements Initializable {
                                 }
                             );    
                             
+                            
+                            //Store in database
+                            ForgotPasswordRequest fp = new ForgotPasswordRequest();
+                            java.sql.Date sqlDate = new java.sql.Date(Helper.getCurrentDate().getTime());
+                            fp.setDate(sqlDate);
+                            System.out.println("HELPER TIME " + Helper.getCurrentTime().toString());
+                            fp.setTime(Helper.getCurrentTime().toString());
+                            System.out.println("hoola");
+                            fp.setCode(randomCode);
+                            
+                            //TODO Change this
+                            fp.setId(1);
+                            dbHandler.storeForgotPasswordRequest(accountType, fp);
+                            
+                            
+//                            dbHandler.storeForgotPasswordRequest(accountType, 
+//                                new ForgotPasswordRequest (
+//                                    
+//                                )
+//                            );
+//                            
                             
                             // Compose message    
                             try {    

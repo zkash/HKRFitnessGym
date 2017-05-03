@@ -7,13 +7,15 @@ package com.Project.Controllers;
 
 import java.sql.Date;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author shameer
  */
-public class ForgotPassword {
+public class ForgotPasswordRequest {
     private Date date;
     private StringProperty time;
     private StringProperty code;
@@ -43,14 +45,15 @@ public class ForgotPassword {
     }
     
     public void setTime(String t) {
-        time.set(t);
+        System.out.println("T " + t);
+        time = new SimpleStringProperty(t);
     }
     
     public void setCode(String c) {
-        code.set(c);
+        code = new SimpleStringProperty(c);
     }
     
     public void setId(int i) {
-        id.set(i);
+        id = new SimpleIntegerProperty(i);
     }
 }

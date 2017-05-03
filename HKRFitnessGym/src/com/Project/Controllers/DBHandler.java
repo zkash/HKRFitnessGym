@@ -1032,5 +1032,25 @@ System.out.println("DSDSAS " + data);
         return emailExists;
     }
     
-
+    public void storeForgotPasswordRequest(String table, ForgotPasswordRequest fp) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(table.equals("Admin")) {
+            query = "INSERT INTO AdminForgotPassword (date, time, code, Admin_adminId)"
+                    + " VALUES (?, ?, ?, ?)";
+        }
+        else if (table.equals("Member")) {
+            query = "INSERT INTO MemberForgotPassword (date, time, code, Member_MemberId)"
+                    + " VALUES (?, ?, ?, ?)";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setDate(1, fp.getDate());
+        statement.setString(2, fp.getTime());
+        statement.setString(3, fp.getCode());
+        statement.setInt(4, fp.getId());
+        statement.execute();
+        conn.close();
+    }
+    
+    
 }

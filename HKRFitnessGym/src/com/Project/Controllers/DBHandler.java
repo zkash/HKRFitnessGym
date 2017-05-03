@@ -999,23 +999,38 @@ System.out.println("DSDSAS " + data);
         return cancelError;
     }
     
-    public Boolean checkEmailExistence(String email) throws SQLException {
+    public Boolean checkEmailExistence(String table, String email) throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, email);
-        ResultSet rs = statement.executeQuery();
-        Boolean emailExists = false;
-        System.out.println("RS " + rs);
-        while(rs.next()) {
-            if(rs.getInt(1) > 0) {
-                emailExists = true;
-            }
-            else {
-            emailExists = false;
-            }
+        String query = "";
+        if(table.equals("Admin")) {
+            query = "SELECT COUNT(*) FROM Admin WHERE email = ? ";
         }
-        System.out.println("Email  exists " + emailExists);
+        
+        else if(table.equals("Member")) {
+            query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
+        }
+        Boolean emailExists = false;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            System.out.println("RS " + rs);
+            while(rs.next()) {
+                System.out.println(rs.getInt(1));
+                if(rs.getInt(1) > 0) {
+                    emailExists = true;
+                }
+                else {
+                emailExists = false;
+                }
+            }
+            System.out.println("Email  exists " + emailExists);
+        }
+        catch(Exception e) {
+            
+        }
         return emailExists;
     }
+    
+
 }

@@ -211,76 +211,86 @@ public class LoginPageController implements Initializable {
     
     @FXML
     private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException, SQLException {
-        TextInputDialog tid = new TextInputDialog();
-        tid.setTitle("Email Verification");
-        tid.setHeaderText("Enter the email address that \nyou have connected with your account");
-        Optional<String> email = tid.showAndWait();
-        if(email.isPresent()) {
-            String emailAddress = email.get();
-            if(!emailAddress.isEmpty()) {
-                String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                if(emailAddress.matches(emailRegex)) {
-                    System.out.println("EMAIL GET " + email.get());
-                    Boolean emailExists = dbHandler.checkEmailExistence(email.get());
-                    System.out.println("EXISTS " + emailExists);
-                    if(emailExists) {
-                        // Set credentials
-                        Properties senderProperties = loadProperties();
-                        String senderEmail = senderProperties.getProperty("senderEmail");
-                        String senderPassword = senderProperties.getProperty("senderPassword");
-                        String recepientEmail = emailAddress;
+        if(!(accountTypeComboBox.getValue()==null)) {
+            
+            TextInputDialog tid = new TextInputDialog();
+            tid.setTitle("Email Verification");
+            tid.setHeaderText("Enter the email address that \nyou have connected with your account");
+            Optional<String> email = tid.showAndWait();
+            if(email.isPresent()) {
+                String emailAddress = email.get();
+                if(!emailAddress.isEmpty()) {
+                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+                    if(emailAddress.matches(emailRegex)) {
+                        String accountType = accountTypeComboBox.getValue().toString(); 
+                        System.out.println("EMAIL GET " + email.get());
+                        Boolean emailExists = dbHandler.checkEmailExistence(accountType, email.get());
+                        System.out.println("EXISTS " + emailExists);
+                        if(emailExists) {
+                            // Set credentials
+                            Properties senderProperties = loadProperties();
+                            String senderEmail = senderProperties.getProperty("senderEmail");
+                            String senderPassword = senderProperties.getProperty("senderPassword");
+                            String recepientEmail = emailAddress;
 
-                        //Set subject and message
-                        String subject = "Reset Password";
-                        String msg = "Please enter the following code in the program to reset the password for your account\n";
-                        msg = msg +  getRandomCode();
-                        System.out.println(msg);
-                        // Get properties object    
-                        Properties properties = new Properties();    
-                        properties.put("mail.smtp.host", "smtp.gmail.com");    
-                        properties.put("mail.smtp.socketFactory.port", "465");    
-                        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
-                        properties.put("mail.smtp.auth", "true");    
-                        properties.put("mail.smtp.port", "465");    
+                            //Set subject and message
+                            String subject = "Reset Password";
+                            String msg = "Please enter the following code in the program to reset the password for your account\n";
+                            msg = msg +  getRandomCode();
+                            System.out.println(msg);
+                            // Get properties object    
+                            Properties properties = new Properties();    
+                            properties.put("mail.smtp.host", "smtp.gmail.com");    
+                            properties.put("mail.smtp.socketFactory.port", "465");    
+                            properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
+                            properties.put("mail.smtp.auth", "true");    
+                            properties.put("mail.smtp.port", "465");    
 
-                        // Get Session   
-                        Session session = Session.getDefaultInstance(properties,    
-                            new javax.mail.Authenticator() {    
-                                protected PasswordAuthentication getPasswordAuthentication() {    
-                                    return new PasswordAuthentication(senderEmail, senderPassword);  
-                                }    
+                            // Get Session   
+                            Session session = Session.getDefaultInstance(properties,    
+                                new javax.mail.Authenticator() {    
+                                    protected PasswordAuthentication getPasswordAuthentication() {    
+                                        return new PasswordAuthentication(senderEmail, senderPassword);  
+                                    }    
+                                }
+                            );    
+                            
+                            
+                            // Compose message    
+                            try {    
+                                MimeMessage message = new MimeMessage(session);
+                                message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
+                                message.setSubject(subject);    
+                                message.setText(msg);    
+
+
+                                // Send message  
+                                //Transport.send(message);    
+                                Helper.showDialogBox(true, "Message Sent");
+                            } 
+                            catch (MessagingException e) {
+                                throw new RuntimeException(e);
                             }
-                        );    
-
-                        // Compose message    
-                        try {    
-                            MimeMessage message = new MimeMessage(session);
-                            message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
-                            message.setSubject(subject);    
-                            message.setText(msg);    
-
-
-                            // Send message  
-                            //Transport.send(message);    
-                            Helper.showDialogBox(true, "Message Sent");
-                        } 
-                        catch (MessagingException e) {
-                            throw new RuntimeException(e);
+                        }
+                        else {
+                            System.out.println("EXISTS " + emailExists);
+                            Helper.showDialogBox(true, "Provided email is not associated with any account");
                         }
                     }
                     else {
-                        System.out.println("EXISTS " + emailExists);
-                        Helper.showDialogBox(true, "Provided email is not associated with any account");
+                        Helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
                     }
                 }
                 else {
-                    Helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
+                    Helper.showDialogBox(true, "No email address provided");
                 }
-            }
-            else {
-                Helper.showDialogBox(true, "No email address provided");
-            }
-        }   
+            }   
+        }
+        else {
+            Helper.showDialogBox(true, "Please select account type");
+        }
+
+        
     }
     
     protected String getRandomCode() {

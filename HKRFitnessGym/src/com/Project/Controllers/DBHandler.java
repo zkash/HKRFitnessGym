@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -32,13 +34,49 @@ public class DBHandler {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private final String dbName = "HKRFitnessGymDB";
-    private final String user = "root";
-    private final String password = "root";
-    private final String connectionURL = "jdbc:mysql://localhost/" + dbName + "?user=" + user + "&password=" + password + "&useSSL=false";
+    private final String databaseName;
+    private final String databaseUsername;
+    private final String databasePassword;
+    private final String connectionURL;
+    
 
-    private static ArrayList<Person> persons;
+    public DBHandler() {
+        Properties properties = loadProperties();
+        databaseName = properties.getProperty("databaseName");
+        databaseUsername = properties.getProperty("databaseUsername");
+        databasePassword = properties.getProperty("databasePassword");
+        connectionURL = "jdbc:mysql://localhost/" + databaseName + "?user=" + databaseUsername + "&password=" + databasePassword + "&useSSL=false";
+    }
+    
+    public Connection establishConnection() {
+        Connection conn;
 
+        //Get connection to database
+        try {
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
+            conn = DriverManager.getConnection(connectionURL);
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, databaseUsername, databasePassword);
+            if (conn != null) {
+                System.out.println("connected to database successfully");
+                return conn;
+            }
+        } catch (Exception ex) {
+            System.out.println("Not connected to database");
+        }
+        return null;
+    }
+    
+    private Properties loadProperties() {
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream("hkrFitnessGym.properties")) {
+            properties.load(fis);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return properties;
+    }
+    
     public static ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -232,21 +270,7 @@ System.out.println("DSDSAS " + data);
         }
     }
 
-    public static Connection establishConnection() {
-        Connection conn;
-
-        //Get connection to database
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
-            if (conn != null) {
-                System.out.println("connected to database successfully");
-                return conn;
-            }
-        } catch (Exception ex) {
-            System.out.println("Not connected to database");
-        }
-        return null;
-    }
+    
 
     public static void getAdminUsername(int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();

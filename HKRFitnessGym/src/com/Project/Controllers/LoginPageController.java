@@ -6,6 +6,7 @@
 package com.Project.Controllers;
 
 //import com.sun.xml.internal.org.jvnet.mimepull.MIMEMessage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -69,6 +70,16 @@ public class LoginPageController implements Initializable {
         accountTypeComboBox.setItems(accountTypeOptions);
     }    
 
+   private Properties loadProperties() {
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream("hkrFitnessGymForgotPassword.properties")) {
+            properties.load(fis);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return properties;
+    }
    
    @FXML
     private void handleLogin(ActionEvent event) throws IOException {
@@ -211,8 +222,9 @@ public class LoginPageController implements Initializable {
                     System.out.println("EXISTS " + emailExists);
                     if(emailExists) {
                         // Set credentials
-                        String senderEmail = "";
-                        String senderPassword = "";
+                        Properties senderProperties = loadProperties();
+                        String senderEmail = senderProperties.getProperty("senderEmail");
+                        String senderPassword = senderProperties.getProperty("senderPassword");
                         String recepientEmail = emailAddress;
 
                         //Set subject and message

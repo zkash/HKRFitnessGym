@@ -78,6 +78,8 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     private List<TextField> fields;
     private List<RadioButton> radioButtons;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         changeFocus(firstName, invalidMsgFirstName);
@@ -93,7 +95,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         //this.login = LoginStatus.getLogin();
         
         try {
-            data = DBHandler.getMemberPersonalInformation(memberId);
+            data = dbHandler.getMemberPersonalInformation(memberId);
             if(data.size() == 0) {
                 Helper.showDialogBox(true, "There is no such user to view personal details about");
             }
@@ -253,7 +255,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
                 Helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
                 member = new Member(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                DBHandler.updateMemberPersonalInformation("Member", member, ssnOld1, ssnOld2);
+                dbHandler.updateMemberPersonalInformation("Member", member, ssnOld1, ssnOld2);
                 Helper.showDialogBox(false, "Member details successfully updated");
             }
             else {

@@ -5,6 +5,8 @@
  */
 package com.Project.Controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -32,14 +35,51 @@ public class DBHandler {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private final String dbName = "HKRFitnessGymDB";
-    private final String user = "root";
-    private final String password = "root";
-    private final String connectionURL = "jdbc:mysql://localhost/" + dbName + "?user=" + user + "&password=" + password + "&useSSL=false";
+    private final String databaseName;
+    private final String databaseUsername;
+    private final String databasePassword;
+    private final String connectionURL;
+    
 
-    private static ArrayList<Person> persons;
+    public DBHandler() {
+        Properties properties = loadProperties();
+        databaseName = properties.getProperty("databaseName");
+        databaseUsername = properties.getProperty("databaseUsername");
+        databasePassword = properties.getProperty("databasePassword");
+        connectionURL = "jdbc:mysql://localhost/" + databaseName + "?user=" + databaseUsername + "&password=" + databasePassword + "&useSSL=false";
+    }
+    
+    public Connection establishConnection() {
+        Connection conn;
 
-    public static ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
+        //Get connection to database
+        try {
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
+            conn = DriverManager.getConnection(connectionURL);
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, databaseUsername, databasePassword);
+            if (conn != null) {
+                System.out.println("connected to database successfully");
+                return conn;
+            }
+        } catch (Exception ex) {
+            System.out.println("Not connected to database");
+        }
+        return null;
+    }
+    
+    private Properties loadProperties() {
+        System.out.println(System.getProperty("user.dir"));
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGym.properties")) {
+            properties.load(fis);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return properties;
+    }
+    
+    public ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -66,7 +106,7 @@ public class DBHandler {
         return null;
     }
 
-    public static ObservableList<Member> adminViewMemberAccounts() throws SQLException {
+    public ObservableList<Member> adminViewMemberAccounts() throws SQLException {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -155,7 +195,7 @@ System.out.println("DSDSAS " + data);
           return null;  
     }
 
-    public static void createAdminAccount(Admin admin) {
+    public void createAdminAccount(Admin admin) {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, gender, "
@@ -205,7 +245,7 @@ System.out.println("DSDSAS " + data);
 //            System.out.println(e.getMessage());
 //        }
 //    }
-    public static void createMemberAccount(Member member, int adminId) throws SQLException {
+    public void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
             String query = "INSERT INTO Member (firstName, middleName, lastName, gender, "
@@ -232,23 +272,9 @@ System.out.println("DSDSAS " + data);
         }
     }
 
-    public static Connection establishConnection() {
-        Connection conn;
+    
 
-        //Get connection to database
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
-            if (conn != null) {
-                System.out.println("connected to database successfully");
-                return conn;
-            }
-        } catch (Exception ex) {
-            System.out.println("Not connected to database");
-        }
-        return null;
-    }
-
-    public static void getAdminUsername(int ssn1, int ssn2) throws SQLException {
+    public void getAdminUsername(int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT username FROM Admin WHERE ssn1 = " + ssn1 + "AND ssn2 = " + ssn2;
         PreparedStatement statement = conn.prepareStatement(query);
@@ -258,7 +284,7 @@ System.out.println("DSDSAS " + data);
         }
     }
 
-    public static ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public ObservableList<Admin> searchInAdminViewAdminAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -301,7 +327,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
+    public ObservableList<Member> searchInAdminViewMemberAccounts(String fn, String mn, String ln, String add, String un, String ead, int pnum, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Member> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + fn + "%\""
@@ -344,7 +370,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
+    public ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
@@ -367,7 +393,7 @@ System.out.println("DSDSAS " + data);
         return searchData;
     }
 
-    public static boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
+    public boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR (ssn1 = ? AND ssn2 = ?)";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -383,7 +409,7 @@ System.out.println("DSDSAS " + data);
         return alreadyExists;
     }
 
-    public static void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -415,7 +441,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE $table_name SET"
                 + " firstName = ?,"
@@ -447,7 +473,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
     
-    public static void createPackage(Package pack, int adminId) throws SQLException {
+    public void createPackage(Package pack, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
                 + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -463,7 +489,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static int checkPackageName(String pn) throws SQLException {
+    public int checkPackageName(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -476,7 +502,7 @@ System.out.println("DSDSAS " + data);
         return count;
     }
 
-    public static ObservableList<Package> adminViewPackages() throws SQLException {
+    public ObservableList<Package> adminViewPackages() throws SQLException {
 //        ObservableList<Package> data = FXCollections.observableArrayList();
 //        Package pack = null;
 //        Connection conn = establishConnection();
@@ -573,7 +599,6 @@ System.out.println("DSDSAS " + data);
             //System.out.println(rs2);
             while (rs.next()) {
                 if (rs.getString("middleName").equals("")) {
-                    //System.out.println("SPP " + rs.getString("Package_packageId"));
                     data.add(new Package(
                             rs.getString("packageName"),
                             rs.getFloat("price"),
@@ -709,7 +734,7 @@ System.out.println("DSDSAS " + data);
 //        return null;
 //    }
     
-    public static ObservableList<Package> memberViewPackages() throws SQLException {
+    public ObservableList<Package> memberViewPackages() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, startDate, endDate, startTime, endTime FROM Package";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -728,7 +753,7 @@ System.out.println("DSDSAS " + data);
         return pack;
     }
     
-    public static boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
+    public boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
         query = query.replace("$table_name", table);
@@ -743,7 +768,7 @@ System.out.println("DSDSAS " + data);
         return deletionError;
     }
 
-    public static boolean deletePackage(String pn) throws SQLException {
+    public boolean deletePackage(String pn) throws SQLException {
         Connection conn = establishConnection();
         String query = "DELETE FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -754,7 +779,7 @@ System.out.println("DSDSAS " + data);
         return deletionError;
     }
 
-    public static void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
+    public void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Package SET "
                 + "packageName = ?, "
@@ -776,7 +801,7 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
 
-    public static ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
+    public ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
         try {
@@ -801,7 +826,7 @@ System.out.println("DSDSAS " + data);
         return null;
     }
 
-    public static ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
+    public ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
@@ -827,7 +852,7 @@ System.out.println("DSDSAS " + data);
         return admin;
     }
 
-    public static ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
+    public ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
                 + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
@@ -853,7 +878,7 @@ System.out.println("DSDSAS " + data);
         return member;
     }
     
-    public static ObservableList<Schedule> memberViewSchedule() throws SQLException {
+    public ObservableList<Schedule> memberViewSchedule() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -869,7 +894,7 @@ System.out.println("DSDSAS " + data);
         return schedule;
     }
     
-    public static int getPackageIdFromPackageName(String packageName) throws SQLException {
+    public int getPackageIdFromPackageName(String packageName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageId FROM Package WHERE packageName = ?";
         PreparedStatement statement = conn.prepareStatement(query);
@@ -882,7 +907,7 @@ System.out.println("DSDSAS " + data);
         return packageId;
     }
     
-    public static Boolean subscribeToPackage(Subscription subscription) throws SQLException {
+    public boolean subscribeToPackage(Subscription subscription) throws SQLException {
         Connection conn = establishConnection();
         System.out.println("\n\n\n\n");
         System.out.println("\t\t\t\t " + subscription.getPackageId());
@@ -903,7 +928,7 @@ System.out.println("DSDSAS " + data);
         return subscriptionError;
     }
     
-    public static ObservableList<Subscription> memberViewSubscription() throws SQLException {
+    public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
@@ -968,7 +993,7 @@ System.out.println("DSDSAS " + data);
         return subscription;
     }
     
-    public static Boolean cancelSubscription(int subscriptionId) throws SQLException {
+    public Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Subscription SET isCancelled = true WHERE subscriptionId = ?";
         
@@ -979,7 +1004,7 @@ System.out.println("DSDSAS " + data);
         return cancelError;
     }
     
-    public static int getId(String uname, String pwd, String accountType) {
+    public int getId(String uname, String pwd, String accountType) {
         Connection conn = establishConnection();
         String query = "";
         if(accountType.equals("Admin")) {
@@ -1006,7 +1031,40 @@ System.out.println("DSDSAS " + data);
         return id;
     }
     
-    public static boolean verifyUsernamePassword(String uname, String pwd, String accountType) {
+    public Boolean checkEmailExistence(String table, String email) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(table.equals("Admin")) {
+            query = "SELECT COUNT(*) FROM Admin WHERE email = ? ";
+        }
+        
+        else if(table.equals("Member")) {
+            query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
+        }
+        Boolean emailExists = false;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            System.out.println("RS " + rs);
+            while(rs.next()) {
+                System.out.println(rs.getInt(1));
+                if(rs.getInt(1) > 0) {
+                    emailExists = true;
+                }
+                else {
+                emailExists = false;
+                }
+            }
+            System.out.println("Email  exists " + emailExists);
+        }
+        catch(Exception e) {
+            
+        }
+        return emailExists;
+    }
+    
+    public boolean verifyUsernamePassword(String uname, String pwd, String accountType) {
         Connection conn = establishConnection();
         String query = "";
         if(accountType.equals("Admin")) {
@@ -1043,5 +1101,66 @@ System.out.println("DSDSAS " + data);
             
         }
         return accountExists;
+    }
+    
+    public int storeForgotPasswordRequestAndGetItsKey(String table, ForgotPasswordRequest fp) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(table.equals("Admin")) {
+            query = "INSERT INTO AdminForgotPassword (date, time, code, Admin_adminId)"
+                    + " VALUES (?, ?, ?, ?)";
+        }
+        else if (table.equals("Member")) {
+            query = "INSERT INTO MemberForgotPassword (date, time, code, Member_MemberId)"
+                    + " VALUES (?, ?, ?, ?)";
+        }
+        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setDate(1, fp.getDate());
+        statement.setString(2, fp.getTime());
+        statement.setString(3, fp.getCode());
+        statement.setInt(4, fp.getId());
+        statement.execute();
+        ResultSet rs = statement.getGeneratedKeys();
+        while(rs.next()) {
+            System.out.println(rs.getInt(1));
+        }
+        conn.close();
+        return 1;
+        
+    }
+    
+    public boolean verifyCode(String accountType, String code, int autoGeneratedId, ForgotPasswordRequest fpr) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT COUNT(*) FROM AdminForgotPassword WHERE "
+                    + "code = ? "
+                    + "AND Admin_adminId = ? "
+                    + "AND date = ? "
+                    + "AND time = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT COUNT(*) FROM MemberForgotPassword WHERE "
+                    + "code = ? "
+                    + "AND Member_memberId = ? "
+                    + "AND date = ? "
+                    + "AND time = ?";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, code);
+        statement.setInt(2, autoGeneratedId);
+        statement.setDate(3, fpr.getDate());
+        statement.setString(4, fpr.getTime());
+        ResultSet rs = statement.executeQuery();
+        boolean codeVerification = false;
+        while(rs.next()) {
+            if(rs.getInt(1) == 1) {
+                codeVerification = true;
+            }
+            else {
+                codeVerification = false;
+            }
+        }
+        return codeVerification;
     }
 }

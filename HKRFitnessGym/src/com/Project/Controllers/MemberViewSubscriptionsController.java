@@ -65,11 +65,13 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     ObservableList<Subscription> subscription;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            subscription = DBHandler.memberViewSubscription();
+            subscription = dbHandler.memberViewSubscription();
             System.out.println(subscription);
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -106,7 +108,7 @@ public class MemberViewSubscriptionsController implements Initializable {
                 int subscriptionId = row.get(0).getSubscriptionId();
                 Optional<ButtonType> result = DialogBoxChoice( "Confirm Cancellation", "Are you sure you want to cancel this subscription?", "/com/Project/FXML/MemberViewSubscriptions");
                 if (result.get().getText().equals("Yes")) {
-                    cancelError = DBHandler.cancelSubscription(subscriptionId);
+                    cancelError = dbHandler.cancelSubscription(subscriptionId);
                     if (cancelError) {
                         Helper.showDialogBox(cancelError, "Cannot cancel subscription");
                     }
@@ -170,10 +172,10 @@ public class MemberViewSubscriptionsController implements Initializable {
                                 subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
                                 subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
                                 String packageName = row.get(0).getPackageName();
-                                int packageId = DBHandler.getPackageIdFromPackageName(packageName);
+                                int packageId = dbHandler.getPackageIdFromPackageName(packageName);
                                 subscription.setPackageId(packageId);
                                 subscription.setMemberId(memberId);
-                                renewError = DBHandler.subscribeToPackage(subscription);
+                                renewError = dbHandler.subscribeToPackage(subscription);
                                 if (renewError) {
                                     Helper.showDialogBox(renewError, "Cannot renew subscription");
                                 }

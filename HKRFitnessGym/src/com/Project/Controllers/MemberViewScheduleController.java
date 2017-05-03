@@ -33,10 +33,12 @@ public class MemberViewScheduleController implements Initializable {
     @FXML private TableColumn<Package, String> closingTimeColumn;
     @FXML private TableColumn<Package, String> isHolidayColumn;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            ObservableList<Schedule> schedule = DBHandler.memberViewSchedule();
+            ObservableList<Schedule> schedule = dbHandler.memberViewSchedule();
             dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
             openingTimeColumn.setCellValueFactory(new PropertyValueFactory<>("openingTime"));
             closingTimeColumn.setCellValueFactory(new PropertyValueFactory<>("closingTime"));

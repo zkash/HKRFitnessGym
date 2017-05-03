@@ -39,11 +39,13 @@ public class MemberViewPersonalInformationController implements Initializable {
     private int ssn2 = 8901;
     private int memberId = LoginStorage.getInstance().getId();
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            ObservableList<Member> member = DBHandler.getMemberPersonalInformation(memberId);
+            ObservableList<Member> member = dbHandler.getMemberPersonalInformation(memberId);
             if(member.size() == 0) {
                 Helper.showDialogBox(true, "There is no such user to view personal details about");
             }

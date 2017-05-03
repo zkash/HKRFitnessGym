@@ -60,13 +60,15 @@ public class AdminViewMemberAccountsController implements Initializable {
     @FXML private CheckBox searchPhoneNumber;
     @FXML private CheckBox searchAddress;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             adminSSN = LoginStatus.getSSN();
             login = LoginStatus.getLogin();
             ArrayList<ArrayList<String>> finalArray;
-            data = DBHandler.adminViewMemberAccounts();
+            data = dbHandler.adminViewMemberAccounts();
             setDataInTable(data);
             
         } catch (SQLException ex) {
@@ -96,7 +98,7 @@ public class AdminViewMemberAccountsController implements Initializable {
                 int ssn1 = Integer.parseInt(fullSSN[0]);
                 int ssn2 = Integer.parseInt(fullSSN[1]);
                 String username = row.get(0).getUsername();
-                deletionError = DBHandler.deleteAccount(ssn1, ssn2, username, "Member");
+                deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Member");
             }
             catch(Exception e) {
                 deletionError = true;
@@ -183,7 +185,7 @@ public class AdminViewMemberAccountsController implements Initializable {
             un = searchQuery;
         }
         
-        searchData = DBHandler.searchInAdminViewMemberAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Member");
+        searchData = dbHandler.searchInAdminViewMemberAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Member");
         
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");
@@ -211,7 +213,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        data = DBHandler.adminViewMemberAccounts();
+        data = dbHandler.adminViewMemberAccounts();
         setDataInTable(data);
     }
     

@@ -94,6 +94,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private int ssnOld1;
     private int ssnOld2;
     
+    private DBHandler dbHandler = new DBHandler();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
@@ -113,7 +115,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         this.login = LoginStatus.getLogin();
         
         try {
-            data = DBHandler.getAdminPersonalInformation(adminId);
+            data = dbHandler.getAdminPersonalInformation(adminId);
             if(data.size() == 0) {
                 Helper.showDialogBox(true, "There is no such user to view personal details about");
             }
@@ -273,7 +275,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 Helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
                 admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                DBHandler.updateAdminPersonalInformation("Admin", admin, ssnOld1, ssnOld2);
+                dbHandler.updateAdminPersonalInformation("Admin", admin, ssnOld1, ssnOld2);
                 Helper.showDialogBox(false, "Admin details successfully updated");
             }
             else {

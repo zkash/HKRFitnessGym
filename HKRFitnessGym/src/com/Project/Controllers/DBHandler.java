@@ -1163,4 +1163,51 @@ System.out.println("DSDSAS " + data);
         }
         return codeVerification;
     }
+    
+    public void updatePassword(String accountType, int id, String pwd) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "UPDATE Admin SET password = ? WHERE adminId = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "UPDATE Member SET password = ? WHERE memberId = ?";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, pwd);
+        statement.setInt(2, id);
+        System.out.println(statement);
+        statement.executeUpdate();
+    }
+    
+    public int getIdForVerification(String accountType, String username, String email) {
+        Connection conn = establishConnection();
+        String query = "";
+        
+        if(accountType.equals("Admin")) {
+            query = "SELECT adminId FROM Admin WHERE username = ? AND email = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT memberId FROM Member WHERE username = ? AND email = ?";
+        }
+        int id = 0;
+        try {
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, email);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(statement);
+            System.out.println(rs);
+            while(rs.next()) {
+                System.out.println("id " + rs.getInt(1));
+                id = rs.getInt(1);
+            }
+            return id;
+        }
+        catch(Exception e) {
+            
+        }
+        return id;
+    }
 }

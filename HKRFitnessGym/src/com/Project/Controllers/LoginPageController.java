@@ -8,6 +8,8 @@ package com.Project.Controllers;
 //import com.sun.xml.internal.org.jvnet.mimepull.MIMEMessage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -25,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.mail.Message;
@@ -193,49 +196,76 @@ public class LoginPageController implements Initializable {
     }
     
     @FXML
-    private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException {
-        // Set credentials
-        String senderEmail = "";
-        String senderPassword = "";
-        String recepientEmail = "";
+    private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException, SQLException {
+        TextInputDialog tid = new TextInputDialog();
+        tid.setTitle("Email Verification");
+        tid.setHeaderText("Enter the email address that \nyou have connected with your account");
+        Optional<String> email = tid.showAndWait();
+        if(email.isPresent()) {
+            String emailAddress = email.get();
+            if(!emailAddress.isEmpty()) {
+                String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+                if(emailAddress.matches(emailRegex)) {
+                    System.out.println("EMAIL GET " + email.get());
+                    Boolean emailExists = DBHandler.checkEmailExistence(email.get());
+                    System.out.println("EXISTS " + emailExists);
+                    if(emailExists) {
+                        // Set credentials
+                        String senderEmail = "";
+                        String senderPassword = "";
+                        String recepientEmail = emailAddress;
 
-        //Set subject and message
-        String subject = "Reset Password";
-        String msg = "Please enter the following code in the program to reset the password for your account\n";
-        msg = msg +  getRandomCode();
-        System.out.println(msg);
-        // Get properties object    
-        Properties properties = new Properties();    
-        properties.put("mail.smtp.host", "smtp.gmail.com");    
-        properties.put("mail.smtp.socketFactory.port", "465");    
-        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
-        properties.put("mail.smtp.auth", "true");    
-        properties.put("mail.smtp.port", "465");    
-        
-        // Get Session   
-        Session session = Session.getDefaultInstance(properties,    
-            new javax.mail.Authenticator() {    
-                protected PasswordAuthentication getPasswordAuthentication() {    
-                    return new PasswordAuthentication(senderEmail, senderPassword);  
-                }    
+                        //Set subject and message
+                        String subject = "Reset Password";
+                        String msg = "Please enter the following code in the program to reset the password for your account\n";
+                        msg = msg +  getRandomCode();
+                        System.out.println(msg);
+                        // Get properties object    
+                        Properties properties = new Properties();    
+                        properties.put("mail.smtp.host", "smtp.gmail.com");    
+                        properties.put("mail.smtp.socketFactory.port", "465");    
+                        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
+                        properties.put("mail.smtp.auth", "true");    
+                        properties.put("mail.smtp.port", "465");    
+
+                        // Get Session   
+                        Session session = Session.getDefaultInstance(properties,    
+                            new javax.mail.Authenticator() {    
+                                protected PasswordAuthentication getPasswordAuthentication() {    
+                                    return new PasswordAuthentication(senderEmail, senderPassword);  
+                                }    
+                            }
+                        );    
+
+                        // Compose message    
+                        try {    
+                            MimeMessage message = new MimeMessage(session);
+                            message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
+                            message.setSubject(subject);    
+                            message.setText(msg);    
+
+
+                            // Send message  
+                            //Transport.send(message);    
+                            Helper.showDialogBox(true, "Message Sent");
+                        } 
+                        catch (MessagingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    else {
+                        System.out.println("EXISTS " + emailExists);
+                        Helper.showDialogBox(true, "Provided email is not associated with any account");
+                    }
+                }
+                else {
+                    Helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
+                }
             }
-        );    
-          
-        // Compose message    
-        try {    
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
-            message.setSubject(subject);    
-            message.setText(msg);    
-           
-            
-            // Send message  
-            //Transport.send(message);    
-            Helper.showDialogBox(true, "Message Sent");
-        } 
-        catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+            else {
+                Helper.showDialogBox(true, "No email address provided");
+            }
+        }   
     }
     
     protected String getRandomCode() {

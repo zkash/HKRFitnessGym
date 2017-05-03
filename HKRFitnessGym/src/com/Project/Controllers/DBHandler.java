@@ -973,4 +973,24 @@ System.out.println("DSDSAS " + data);
         Boolean cancelError = false;
         return cancelError;
     }
+    
+    public static Boolean checkEmailExistence(String email) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet rs = statement.executeQuery();
+        Boolean emailExists = false;
+        System.out.println("RS " + rs);
+        while(rs.next()) {
+            if(rs.getInt(1) > 0) {
+                emailExists = true;
+            }
+            else {
+            emailExists = false;
+            }
+        }
+        System.out.println("Email  exists " + emailExists);
+        return emailExists;
+    }
 }

@@ -71,18 +71,44 @@ public class LoginPageController implements Initializable {
         String pwd = passwordField.getText();
         String accountType = accountTypeComboBox.getValue().toString();
        
-        boolean accountExists = DBHandler.verifyUsernamePassword(uname, pwd, accountType);
-        if(!accountExists) {
-            System.out.println("Account doesnt exist");
+        //boolean accountExists = DBHandler.verifyUsernamePassword(uname, pwd, accountType);
+        int id = DBHandler.getId(uname, pwd, accountType);
+        if(id == 0) {
+            System.out.println("Account doesn't exist");
         }
         else {
             if(accountType.equals("Admin")) {
+                LoginStorage.getInstance().setUsername("ADMIN");
+                LoginStorage.getInstance().setId(id);
+                LoginStorage.getInstance().setAccountType("Admin");
                 visitAdminPage(event);
             }
             else if (accountType.equals("Member")){
+                LoginStorage.getInstance().setUsername("MEMBER");
+                LoginStorage.getInstance().setId(id);
+                LoginStorage.getInstance().setAccountType("Member");
                 visitMemberPage(event);
             }
         }
+        
+//        boolean accountExists = false;
+//        if(!accountExists) {
+//            System.out.println("Account doesnt exist");
+//        }
+//        else {
+//            if(accountType.equals("Admin")) {
+//                LoginStorage.getInstance().setUsername("ADMIN");
+//                LoginStorage.getInstance().setId(1);
+//                LoginStorage.getInstance().setAccountType("Admin");
+//                visitAdminPage(event);
+//            }
+//            else if (accountType.equals("Member")){
+//                LoginStorage.getInstance().setUsername("MEMBER");
+//                LoginStorage.getInstance().setId(1);
+//                LoginStorage.getInstance().setAccountType("Member");
+//                visitMemberPage(event);
+//            }
+//        }
     }
         
 //   @FXML

@@ -884,6 +884,10 @@ System.out.println("DSDSAS " + data);
     
     public static Boolean subscribeToPackage(Subscription subscription) throws SQLException {
         Connection conn = establishConnection();
+        System.out.println("\n\n\n\n");
+        System.out.println("\t\t\t\t " + subscription.getPackageId());
+        System.out.println("\t\t\t\t " + subscription.getMemberId());
+        
         String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
                 + " VALUES (?, ?, ?, ?, false)";
         System.out.println("sssd "  + subscription.getSubscriptionStartDate());
@@ -973,6 +977,33 @@ System.out.println("DSDSAS " + data);
         statement.executeUpdate();
         Boolean cancelError = false;
         return cancelError;
+    }
+    
+    public static int getId(String uname, String pwd, String accountType) {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT adminId FROM Admin WHERE username = ? AND password = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT memberId FROM Member WHERE username = ? AND password = ?";
+        }
+        int id = 0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, uname);
+            statement.setString(2, pwd);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(statement);
+            System.out.println(rs);
+            while(rs.next()) {
+                id = rs.getInt(1);
+            }
+        }
+        catch(Exception e) {
+            
+        }
+        return id;
     }
     
     public static boolean verifyUsernamePassword(String uname, String pwd, String accountType) {

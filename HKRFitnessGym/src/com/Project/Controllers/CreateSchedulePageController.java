@@ -103,14 +103,13 @@ public class CreateSchedulePageController implements Initializable {
     
     
     public void checkBox() throws Exception{
-        setDate();
         checkHoliday();
         
         //choose date part
-        if(schedule.getDate() == null) {
+        if(scheduleDate.getValue() == null) {
             invalidMsgAnnouncement.setText("Pick Up A Date");
         }
-        else if(schedule.getDate().isBefore(currentDate())){
+        else if(scheduleDate.getValue().isBefore(currentDate())){
             invalidMsgAnnouncement.setText("Invalid Date");
         }
         
@@ -185,6 +184,8 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgClosingTime.setText("Invalid Time");
         }
         else{
+            setDate();
+            
             timeFormat();
             schedule.setOpeningTime(ot);
             schedule.setClosingTime(ct);
@@ -196,16 +197,16 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgOpeningTime.setText("");
             
             //insert date to data base.
-            System.out.println(Helper.toSQLDate(schedule.getDate()));
+            //System.out.println(Helper.toSQLDate(schedule.getDate()));
             System.out.println(schedule.getOpeningTime());
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
-            DBHandler.adminCreateSchedule(Helper.toSQLDate(schedule.getDate()),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
+            DBHandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
         }
     }
     
     private void setDate(){
-        schedule.setDate(scheduleDate.getValue());
+        schedule.setDate(Helper.toSQLDate(scheduleDate.getValue()));
     }
     
     private void checkHoliday(){

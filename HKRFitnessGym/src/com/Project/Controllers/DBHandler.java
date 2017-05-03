@@ -974,4 +974,43 @@ System.out.println("DSDSAS " + data);
         Boolean cancelError = false;
         return cancelError;
     }
+    
+    public static boolean verifyUsernamePassword(String uname, String pwd, String accountType) {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT COUNT(*)FROM Admin WHERE username = ? AND password = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT COUNT(*) FROM Member WHERE username = ? AND password = ?";
+        }
+        
+        
+        boolean accountExists = false;
+        //int id = 0;
+      
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, uname);
+            statement.setString(2, pwd);
+            System.out.println("statement " + statement);
+            ResultSet rs = statement.executeQuery();
+            System.out.println("RS " + rs);
+            while(rs.next()) {
+                if(rs.getInt(1) == 1) {
+                   // id = rs.getInt(2);
+                   // System.out.println("ID " + id);
+                    accountExists = true;
+                }
+                else {
+                    accountExists = false;
+                }
+            }
+           
+        }
+        catch (Exception e) {
+            
+        }
+        return accountExists;
+    }
 }

@@ -65,36 +65,55 @@ public class LoginPageController implements Initializable {
         accountTypeComboBox.setItems(accountTypeOptions);
     }    
 
-   
    @FXML
     private void handleLogin(ActionEvent event) throws IOException {
         String uname = userNameField.getText();
         String pwd = passwordField.getText();
-        
-        //Check if username and password belongs to admin or members
-        //TODO remove the hard-coded and change it from the database
-        System.out.println("at " + LoginStorage.getInstance().getAccountType());
-        if(uname.equals("a") && pwd.equals("a")) {
-            int adminSSN = 1234567890; //TODO get from database;
-           // visitAdminPage(event, uname, adminSSN);
-            
-//            LoginStatus ls = new LoginStatus();
-//            //setLogInStatus();
-//            ls.setSSN(adminSSN);, 
-//            ls.setLogin(true);
-            LoginStorage.getInstance().setUsername("ADMIN");
-            LoginStorage.getInstance().setId(1);
-            LoginStorage.getInstance().setAccountType("Admin");
-            visitAdminPage(event);
+        String accountType = accountTypeComboBox.getValue().toString();
+       
+        boolean accountExists = DBHandler.verifyUsernamePassword(uname, pwd, accountType);
+        if(!accountExists) {
+            System.out.println("Account doesnt exist");
         }
         else {
-            LoginStorage.getInstance().setUsername("MEMBER");
-            LoginStorage.getInstance().setId(1);
-            LoginStorage.getInstance().setAccountType("Member");
-            visitMemberPage(event);
+            if(accountType.equals("Admin")) {
+                visitAdminPage(event);
+            }
+            else if (accountType.equals("Member")){
+                visitMemberPage(event);
+            }
         }
-        
     }
+        
+//   @FXML
+//    private void handleLogin(ActionEvent event) throws IOException {
+//        String uname = userNameField.getText();
+//        String pwd = passwordField.getText();
+//        
+//        //Check if username and password belongs to admin or members
+//        //TODO remove the hard-coded and change it from the database
+//        System.out.println("at " + LoginStorage.getInstance().getAccountType());
+//        if(uname.equals("a") && pwd.equals("a")) {
+//            int adminSSN = 1234567890; //TODO get from database;
+//           // visitAdminPage(event, uname, adminSSN);
+//            
+////            LoginStatus ls = new LoginStatus();
+////            //setLogInStatus();
+////            ls.setSSN(adminSSN);, 
+////            ls.setLogin(true);
+//            LoginStorage.getInstance().setUsername("ADMIN");
+//            LoginStorage.getInstance().setId(1);
+//            LoginStorage.getInstance().setAccountType("Admin");
+//            visitAdminPage(event);
+//        }
+//        else {
+//            LoginStorage.getInstance().setUsername("MEMBER");
+//            LoginStorage.getInstance().setId(1);
+//            LoginStorage.getInstance().setAccountType("Member");
+//            visitMemberPage(event);
+//        }
+//        
+//    }
 
     @FXML // Exit the application.
     private void handleExit(ActionEvent event) {

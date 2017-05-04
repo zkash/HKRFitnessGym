@@ -53,7 +53,7 @@ public class DBHandler {
                 System.out.println("connected to database successfully");
                 return conn;
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Not connected to database");
         }
         return null;
@@ -66,7 +66,6 @@ public class DBHandler {
             properties.load(fis);
         }
         catch (Exception e) {
-            e.printStackTrace();
         }
         return properties;
     }
@@ -92,7 +91,7 @@ public class DBHandler {
                 ));
             }
             return data;
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
         }
         return null;
@@ -181,7 +180,7 @@ public class DBHandler {
 System.out.println("DSDSAS " + data);
         return data;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             
         }
           return null;  
@@ -402,83 +401,83 @@ System.out.println("DSDSAS " + data);
     }
 
     public void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "UPDATE $table_name SET"
-                + " firstName = ?,"
-                + " middleName = ?,"
-                + " lastName = ?,"
-                + " gender = ?,"
-                + " dateOfBirth = ?,"
-                + " address = ?,"
-                + " phoneNumber = ?,"
-                + " email = ?, "
-                + " ssn1 = ?,"
-                + " ssn2 = ?"
-                + " WHERE ssn1 = ? AND ssn2 = ?";
-        query = query.replace("$table_name", table);
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, admin.getFirstName());
-        statement.setString(2, admin.getMiddleName());
-        statement.setString(3, admin.getLastName());
-        statement.setString(4, admin.getGender());
-        statement.setDate(5, admin.getDateOfBirth());
-        statement.setString(6, admin.getAddress());
-        statement.setInt(7, admin.getPhoneNumber());
-        statement.setString(8, admin.getEmail());
-        statement.setInt(9, admin.getSSN1());
-        statement.setInt(10, admin.getSSN2());
-        statement.setInt(11, ssnOld1);
-        statement.setInt(12, ssnOld2);
-        statement.executeUpdate();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            String query = "UPDATE $table_name SET"
+                    + " firstName = ?,"
+                    + " middleName = ?,"
+                    + " lastName = ?,"
+                    + " gender = ?,"
+                    + " dateOfBirth = ?,"
+                    + " address = ?,"
+                    + " phoneNumber = ?,"
+                    + " email = ?, "
+                    + " ssn1 = ?,"
+                    + " ssn2 = ?"
+                    + " WHERE ssn1 = ? AND ssn2 = ?";
+            query = query.replace("$table_name", table);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, admin.getFirstName());
+            statement.setString(2, admin.getMiddleName());
+            statement.setString(3, admin.getLastName());
+            statement.setString(4, admin.getGender());
+            statement.setDate(5, admin.getDateOfBirth());
+            statement.setString(6, admin.getAddress());
+            statement.setInt(7, admin.getPhoneNumber());
+            statement.setString(8, admin.getEmail());
+            statement.setInt(9, admin.getSSN1());
+            statement.setInt(10, admin.getSSN2());
+            statement.setInt(11, ssnOld1);
+            statement.setInt(12, ssnOld2);
+            statement.executeUpdate();
+        }
     }
 
     public void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "UPDATE $table_name SET"
-                + " firstName = ?,"
-                + " middleName = ?,"
-                + " lastName = ?,"
-                + " gender = ?,"
-                + " dateOfBirth = ?,"
-                + " address = ?,"
-                + " phoneNumber = ?,"
-                + " email = ?, "
-                + " ssn1 = ?,"
-                + " ssn2 = ?"
-                + " WHERE ssn1 = ? AND ssn2 = ?";
-        query = query.replace("$table_name", table);
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, member.getFirstName());
-        statement.setString(2, member.getMiddleName());
-        statement.setString(3, member.getLastName());
-        statement.setString(4, member.getGender());
-        statement.setDate(5, member.getDateOfBirth());
-        statement.setString(6, member.getAddress());
-        statement.setInt(7, member.getPhoneNumber());
-        statement.setString(8, member.getEmail());
-        statement.setInt(9, member.getSSN1());
-        statement.setInt(10, member.getSSN2());
-        statement.setInt(11, ssnOld1);
-        statement.setInt(12, ssnOld2);
-        statement.executeUpdate();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            String query = "UPDATE $table_name SET"
+                    + " firstName = ?,"
+                    + " middleName = ?,"
+                    + " lastName = ?,"
+                    + " gender = ?,"
+                    + " dateOfBirth = ?,"
+                    + " address = ?,"
+                    + " phoneNumber = ?,"
+                    + " email = ?, "
+                    + " ssn1 = ?,"
+                    + " ssn2 = ?"
+                    + " WHERE ssn1 = ? AND ssn2 = ?";
+            query = query.replace("$table_name", table);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, member.getFirstName());
+            statement.setString(2, member.getMiddleName());
+            statement.setString(3, member.getLastName());
+            statement.setString(4, member.getGender());
+            statement.setDate(5, member.getDateOfBirth());
+            statement.setString(6, member.getAddress());
+            statement.setInt(7, member.getPhoneNumber());
+            statement.setString(8, member.getEmail());
+            statement.setInt(9, member.getSSN1());
+            statement.setInt(10, member.getSSN2());
+            statement.setInt(11, ssnOld1);
+            statement.setInt(12, ssnOld2);
+            statement.executeUpdate();
+        }
     }
     
     public void createPackage(Package pack, int adminId) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
-                + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, pack.getPackageName());
-        statement.setFloat(2, pack.getPrice());
-        statement.setDate(3, pack.getStartDate());
-        statement.setDate(4, pack.getEndDate());
-        statement.setString(5, pack.getStartTime());
-        statement.setString(6, pack.getEndTime());
-        statement.setInt(7, adminId);
-        statement.execute();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
+                    + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, pack.getPackageName());
+            statement.setFloat(2, pack.getPrice());
+            statement.setDate(3, pack.getStartDate());
+            statement.setDate(4, pack.getEndDate());
+            statement.setString(5, pack.getStartTime());
+            statement.setString(6, pack.getEndTime());
+            statement.setInt(7, adminId);
+            statement.execute();
+        }
     }
 
     public int checkPackageName(String pn) throws SQLException {
@@ -650,8 +649,7 @@ System.out.println("DSDSAS " + data);
 //                System.out.println(rs2.getString(2));
 //            }
             return data;
-        } catch (Exception e) {
-                e.printStackTrace();
+        } catch (NumberFormatException | SQLException e) {
         }
         return null;
     }
@@ -746,51 +744,53 @@ System.out.println("DSDSAS " + data);
     }
     
     public boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
-        query = query.replace("$table_name", table);
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, ssn1);
-        statement.setInt(2, ssn2);
-        statement.setString(3, username);
-        System.out.println(statement);
-        statement.execute();
-        boolean deletionError = false;
-        conn.close();
+        boolean deletionError;
+        try (Connection conn = establishConnection()) {
+            String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
+            query = query.replace("$table_name", table);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, ssn1);
+            statement.setInt(2, ssn2);
+            statement.setString(3, username);
+            System.out.println(statement);
+            statement.execute();
+            deletionError = false;
+        }
         return deletionError;
     }
 
     public boolean deletePackage(String pn) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "DELETE FROM Package WHERE packageName = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, pn);
-        statement.execute();
-        boolean deletionError = false;
-        conn.close();
+        boolean deletionError;
+        try (Connection conn = establishConnection()) {
+            String query = "DELETE FROM Package WHERE packageName = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, pn);
+            statement.execute();
+            deletionError = false;
+        }
         return deletionError;
     }
 
     public void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "UPDATE Package SET "
-                + "packageName = ?, "
-                + "price = ?, "
-                + "startDate = ?, "
-                + "endDate = ?, "
-                + "startTime = ?, "
-                + "endTime = ? "
-                + "WHERE packageName = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, pack.getPackageName());
-        statement.setFloat(2, pack.getPrice());
-        statement.setDate(3, pack.getStartDate());
-        statement.setDate(4, pack.getEndDate());
-        statement.setString(5, pack.getStartTime());
-        statement.setString(6, pack.getEndTime());
-        statement.setString(7, packageNameOld);
-        statement.executeUpdate();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            String query = "UPDATE Package SET "
+                    + "packageName = ?, "
+                    + "price = ?, "
+                    + "startDate = ?, "
+                    + "endDate = ?, "
+                    + "startTime = ?, "
+                    + "endTime = ? "
+                    + "WHERE packageName = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, pack.getPackageName());
+            statement.setFloat(2, pack.getPrice());
+            statement.setDate(3, pack.getStartDate());
+            statement.setDate(4, pack.getEndDate());
+            statement.setString(5, pack.getStartTime());
+            statement.setString(6, pack.getEndTime());
+            statement.setString(7, packageNameOld);
+            statement.executeUpdate();
+        }
     }
 
     public ObservableList<Package> getPackageInfoAdmin(String pn) throws SQLException {
@@ -812,7 +812,7 @@ System.out.println("DSDSAS " + data);
                 ));
             }
             return data;
-        } catch (Exception e) {
+        } catch (SQLException e) {
 
         }
         return null;
@@ -900,22 +900,22 @@ System.out.println("DSDSAS " + data);
     }
     
     public boolean subscribeToPackage(Subscription subscription) throws SQLException {
-        Connection conn = establishConnection();
-        System.out.println("\n\n\n\n");
-        System.out.println("\t\t\t\t " + subscription.getPackageId());
-        System.out.println("\t\t\t\t " + subscription.getMemberId());
-        
-        String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
-                + " VALUES (?, ?, ?, ?, false)";
-        System.out.println("sssd "  + subscription.getSubscriptionStartDate());
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setDate(1, subscription.getSubscriptionStartDate());
-        statement.setDate(2, subscription.getSubscriptionEndDate());
-        statement.setInt(3, subscription.getPackageId());
-        statement.setInt(4, subscription.getMemberId());
-        
-        statement.execute();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            System.out.println("\n\n\n\n");
+            System.out.println("\t\t\t\t " + subscription.getPackageId());
+            System.out.println("\t\t\t\t " + subscription.getMemberId());
+            
+            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
+                    + " VALUES (?, ?, ?, ?, false)";
+            System.out.println("sssd "  + subscription.getSubscriptionStartDate());
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setDate(1, subscription.getSubscriptionStartDate());
+            statement.setDate(2, subscription.getSubscriptionEndDate());
+            statement.setInt(3, subscription.getPackageId());
+            statement.setInt(4, subscription.getMemberId());
+            
+            statement.execute();
+        }
         Boolean subscriptionError = false;
         return subscriptionError;
     }
@@ -1017,7 +1017,7 @@ System.out.println("DSDSAS " + data);
                 id = rs.getInt(1);
             }
         }
-        catch(Exception e) {
+        catch(SQLException e) {
             
         }
         return id;
@@ -1041,16 +1041,11 @@ System.out.println("DSDSAS " + data);
             System.out.println("RS " + rs);
             while(rs.next()) {
                 System.out.println(rs.getInt(1));
-                if(rs.getInt(1) > 0) {
-                    emailExists = true;
-                }
-                else {
-                emailExists = false;
-                }
+                emailExists = rs.getInt(1) > 0;
             }
             System.out.println("Email  exists " + emailExists);
         }
-        catch(Exception e) {
+        catch(SQLException e) {
             
         }
         return emailExists;
@@ -1078,45 +1073,39 @@ System.out.println("DSDSAS " + data);
             ResultSet rs = statement.executeQuery();
             System.out.println("RS " + rs);
             while(rs.next()) {
-                if(rs.getInt(1) == 1) {
-                   // id = rs.getInt(2);
-                   // System.out.println("ID " + id);
-                    accountExists = true;
-                }
-                else {
-                    accountExists = false;
-                }
+                accountExists = rs.getInt(1) == 1; 
+                // System.out.println("ID " + id);
             }
            
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             
         }
         return accountExists;
     }
     
     public int storeForgotPasswordRequestAndGetItsKey(String table, ForgotPasswordRequest fp) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
-        if(table.equals("Admin")) {
-            query = "INSERT INTO AdminForgotPassword (date, time, code, Admin_adminId)"
-                    + " VALUES (?, ?, ?, ?)";
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            if(table.equals("Admin")) {
+                query = "INSERT INTO AdminForgotPassword (date, time, code, Admin_adminId)"
+                        + " VALUES (?, ?, ?, ?)";
+            }
+            else if (table.equals("Member")) {
+                query = "INSERT INTO MemberForgotPassword (date, time, code, Member_MemberId)"
+                        + " VALUES (?, ?, ?, ?)";
+            }
+            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, fp.getDate());
+            statement.setString(2, fp.getTime());
+            statement.setString(3, fp.getCode());
+            statement.setInt(4, fp.getId());
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            while(rs.next()) {
+                System.out.println(rs.getInt(1));
+            }
         }
-        else if (table.equals("Member")) {
-            query = "INSERT INTO MemberForgotPassword (date, time, code, Member_MemberId)"
-                    + " VALUES (?, ?, ?, ?)";
-        }
-        PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        statement.setDate(1, fp.getDate());
-        statement.setString(2, fp.getTime());
-        statement.setString(3, fp.getCode());
-        statement.setInt(4, fp.getId());
-        statement.execute();
-        ResultSet rs = statement.getGeneratedKeys();
-        while(rs.next()) {
-            System.out.println(rs.getInt(1));
-        }
-        conn.close();
         return 1;
         
     }
@@ -1146,12 +1135,7 @@ System.out.println("DSDSAS " + data);
         ResultSet rs = statement.executeQuery();
         boolean codeVerification = false;
         while(rs.next()) {
-            if(rs.getInt(1) == 1) {
-                codeVerification = true;
-            }
-            else {
-                codeVerification = false;
-            }
+            codeVerification = rs.getInt(1) == 1;
         }
         return codeVerification;
     }
@@ -1197,33 +1181,34 @@ System.out.println("DSDSAS " + data);
             }
             return id;
         }
-        catch(Exception e) {
+        catch(SQLException e) {
             
         }
         return id;
     }
     
     public String getOldPassword(int id) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT password FROM Member WHERE memberId = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, id);
-        ResultSet rs = statement.executeQuery();
-        String oldPassword = "";
-        while(rs.next()) {
-            oldPassword = rs.getString(1);
+        String oldPassword;
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT password FROM Member WHERE memberId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            oldPassword = "";
+            while(rs.next()) {
+                oldPassword = rs.getString(1);
+            }
         }
-        conn.close();
         return oldPassword;
     }
     
     public void updatePassword(String newPwd, int id) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "UPDATE Member SET password = ? WHERE memberId = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, newPwd);
-        statement.setInt(2, id);
-        statement.executeUpdate();
-        conn.close();
+        try (Connection conn = establishConnection()) {
+            String query = "UPDATE Member SET password = ? WHERE memberId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newPwd);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        }
     }
 }

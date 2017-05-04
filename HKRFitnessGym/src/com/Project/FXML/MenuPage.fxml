@@ -10,11 +10,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuPageController">
    <children>
-      <Button layoutX="420.0" layoutY="260.0" mnemonicParsing="false" onAction="#goToCreateSchedulePage" prefHeight="47.0" prefWidth="187.0" text="Schedule" />
+      <Button layoutX="91.0" layoutY="313.0" mnemonicParsing="false" onAction="#goToCreateSchedulePage" prefHeight="47.0" prefWidth="187.0" text="Schedule" />
       <Button layoutX="91.0" layoutY="260.0" mnemonicParsing="false" onAction="#goToAnnouncementsPage" prefHeight="47.0" prefWidth="187.0" text="Announcements" />
       <Button layoutX="91.0" layoutY="368.0" mnemonicParsing="false" onAction="#goToChatPage" prefHeight="47.0" prefWidth="187.0" text="Chat" />
-      <Button layoutX="420.0" layoutY="313.0" mnemonicParsing="false" onAction="#goToMembersPage" prefHeight="47.0" prefWidth="187.0" text="Members" />
-      <Button layoutX="91.0" layoutY="313.0" mnemonicParsing="false" onAction="#goToCurrentSubscriberPage" prefHeight="47.0" prefWidth="187.0" text="Current Subscriber" />
+      <Button layoutX="420.0" layoutY="313.0" mnemonicParsing="false" onAction="#goToEditAccountInfoPage" prefHeight="47.0" prefWidth="187.0" text="Edit Info" />
+      <Button layoutX="420.0" layoutY="260.0" mnemonicParsing="false" onAction="#goToCurrentSubscriberPage" prefHeight="47.0" prefWidth="187.0" text="Current Subscriber" />
       <Button layoutX="420.0" layoutY="206.0" mnemonicParsing="false" onAction="#goToPackagesPage" prefHeight="47.0" prefWidth="187.0" text="Packages" />
       <Button layoutX="581.0" layoutY="85.0" mnemonicParsing="false" onAction="#goToLoginPage" prefHeight="31.0" prefWidth="72.0" text="Logout" />
       <Label layoutX="34.0" layoutY="161.0" text=" Welcome! You are logged in as : " textFill="#101010">

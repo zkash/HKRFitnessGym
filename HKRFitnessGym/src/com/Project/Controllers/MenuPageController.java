@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import com.Project.JDBC.DAO.DBHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,35 +30,35 @@ public class MenuPageController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        loggedAs.setText(DBHandler.getLoggedUser());
     }    
 
     @FXML
-    private void goToViewSchedulePage(ActionEvent event) throws IOException {
+    private void goToCreateSchedulePage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewSchedulePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateSchedulePage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    private void goToViewAnnouncementsPage(ActionEvent event) throws IOException {
+    private void goToAnnouncementsPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         //Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewAnnouncementsPage.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAnnouncementPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AnnouncementsPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    private void goToVisitChatRoomPage(ActionEvent event) throws IOException {
+    private void goToChatPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/VisitChatRoomPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -74,31 +75,21 @@ public class MenuPageController implements Initializable {
     }
 
     @FXML
-    private void goToViewPackagesPage(ActionEvent event) throws IOException {
+    private void goToPackagesPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         //Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewPackagesPage.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreatePackagePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/PackagePage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    @FXML
-    private void goToViewGalleryPage(ActionEvent event) throws IOException {
+     @FXML
+     private void goToCurrentSubscriberPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewGalleryPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    private void goToViewCurrentSubscriberPage(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ViewCurrentSubscriberPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CurrentSubscriberPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -113,6 +104,23 @@ public class MenuPageController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-        
+     @FXML
+    private void goToSettingsPage(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/SettingsPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }   
+    @FXML
+    private void goToAdminViewAccounts(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewAccounts.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }   
 }
 

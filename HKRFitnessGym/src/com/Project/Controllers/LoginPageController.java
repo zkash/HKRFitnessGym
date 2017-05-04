@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import com.Project.JDBC.DAO.DBHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -35,39 +37,62 @@ public class LoginPageController implements Initializable {
     private TextField userNameField;
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private Label loginPageErrorMessage;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        DBHandler.connect();
 
-    }    
-
-   
+    }       
    @FXML
     private void handleLogin(ActionEvent event) throws IOException {
-        String uname = userNameField.getText();
-        String pwd = passwordField.getText();
+       int memberId = 0;
+       try{
+           memberId = DBHandler.login(userNameField.getText(), passwordField.getText());
+           //It shows that credentials entered are not correct.
+           if(memberId == 0){
+               loginPageErrorMessage.setText("Please enter correct Username or password.");
+         } else if(DBHandler.getLoggedUserPosition().equals("Pending")){
+             loginPageErrorMessage.setText("Please wait! Your account needs an aproval.");
+         }
+           // If username and password is correct go to main manu page.
+         else if(memberId >= 1){
+             goToMenuPage(event);
+         }
+         } catch(Exception e){
+             e.printStackTrace();
+       }
+       
+    }
+
+
+
+        //String uname = userNameField.getText();
+        //String pwd = passwordField.getText();
         
         //Check if username and password belongs to admin or members
         //TODO remove the hard-coded and change it from the database
         
-        if(uname.equals("a") && pwd.equals("a")) {
+       /* if(uname.equals("a") && pwd.equals("a")) {
             visitAdminPage(event);
         }
         else {
             visitMemberPage(event);
         }
         
-    }
+    }*/
 
-    @FXML // Exit the application.
+    // Exit the application.
+    @FXML 
     private void handleExit(ActionEvent event) {
         System.exit(0);
     }
     
-    private void visitAdminPage(ActionEvent event) throws IOException {
+    /*private void visitAdminPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
@@ -83,13 +108,13 @@ public class LoginPageController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
+    }*/
     
     @FXML
-    private void goToCreateUserPage(ActionEvent event) throws IOException {
+    private void goToRegisterPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/RegisterPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -100,7 +125,7 @@ public class LoginPageController implements Initializable {
     private void goToMenuPage(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();      

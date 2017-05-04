@@ -5,6 +5,8 @@
  */
 package com.Project.Controllers;
 
+import com.Project.JDBC.DAO.DBHandler;
+import com.Project.JDBC.DTO.Person;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,13 +40,37 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private void savePassword(ActionEvent event){
-        
+       // if old password is belong to the logged user.
+        String oldPass = "";
+        for (Person person : DBHandler.getMemberList("SELECT * FROM person"
+                + " WHERE idPerson =" + DBHandler.getLoggedUserId())) {
+            oldPass = person.getPassword();
+        }
+        if (oldPassword.getText().equals(oldPass)) {
+            // If password length is correct.
+            if (newPassword.getText().length() < 5 || newPassword.getText().length() >= 10) {
+                errorMessage.setText("New password must be between 6 and 10 characters.");
+            }
+            else if (newPassword.getText().equals(oldPass)) {
+                errorMessage.setText("New password must be different than old password");
+            }
+            // Update password using DBHandler method.
+            else {
+                DBHandler.updatePassword(newPassword.getText());
+                errorMessage.setText("Your password has been changed.");
+            }
+        }
+        // If old password is incorrect error message will occure.
+        else {
+            errorMessage.setText("Old password is incorrect.");
+        }
     }
+  
     @FXML
-    private void goToMemberMainPage(ActionEvent event) throws IOException {
+    private void goToMenuPage(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MenuPage.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();

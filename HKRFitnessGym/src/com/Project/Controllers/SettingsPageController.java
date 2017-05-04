@@ -8,6 +8,7 @@ package com.Project.Controllers;
 //import com.Project.JDBC.DAO.DBHandler;
 //import com.Project.JDBC.DTO.Person;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,21 +34,45 @@ public class SettingsPageController implements Initializable {
     @FXML
     private PasswordField newPassword;
 
+    private DBHandler dbHandler = new DBHandler();
+    private int id =  LoginStorage.getInstance().getId();
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
     }
     
     @FXML
-    private void savePassword(ActionEvent event){
-
+    private void savePassword(ActionEvent event) throws SQLException {
+        String oldPwd = dbHandler.getOldPassword(id);
+        if((oldPassword.getText()).equals(oldPwd)) {
+            if (newPassword.getText().length() < 5 || newPassword.getText().length() >= 10) {
+                errorMessage.setText("New password must be between 6 and 10 characters.");
+            }
+            else if (newPassword.getText().equals(oldPwd)) {
+                errorMessage.setText("New password must be different than old password");
+            }
+//             Update password using DBHandler method.
+            else {
+                dbHandler.updatePassword(newPassword.getText(), id);
+                errorMessage.setText("Your password has been changed.");
+            }
+        }
+        
+        
         
     }
     
     @FXML
     private void goToMemberMainPage(ActionEvent event) throws IOException {
-    
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
+    
 //    @FXML
 //    private void goToMemberMainPage(ActionEvent event) throws IOException {
 //      Node node = (Node) event.getSource();

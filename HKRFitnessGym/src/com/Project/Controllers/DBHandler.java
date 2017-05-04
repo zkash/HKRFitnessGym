@@ -1210,4 +1210,28 @@ System.out.println("DSDSAS " + data);
         }
         return id;
     }
+    
+    public String getOldPassword(int id) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT password FROM Member WHERE memberId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        String oldPassword = "";
+        while(rs.next()) {
+            oldPassword = rs.getString(1);
+        }
+        conn.close();
+        return oldPassword;
+    }
+    
+    public void updatePassword(String newPwd, int id) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "UPDATE Member SET password = ? WHERE memberId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, newPwd);
+        statement.setInt(2, id);
+        statement.executeUpdate();
+        conn.close();
+    }
 }

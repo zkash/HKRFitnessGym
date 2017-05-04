@@ -29,7 +29,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.mail.Message;
 import javax.mail.MessagingException;

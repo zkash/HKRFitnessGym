@@ -7,11 +7,8 @@ package com.Project.Controllers;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.IntStream;
-import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

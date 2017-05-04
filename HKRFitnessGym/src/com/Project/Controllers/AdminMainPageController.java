@@ -57,15 +57,22 @@ public class AdminMainPageController implements Initializable {
     }
     
     public void announcementBtnClick(ActionEvent event) throws IOException {
+    Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminAnnouncementsPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
     }
-    
-    public void setUsername(String uname) {
-        System.out.println("hoohaa");
-        this.loggedUserLbl.setText(uname);
-    }
-    
-    public void setSSN(int ssn) {
-        this.adminSSN = ssn;
-        //this.loggedUserLbl.setText(Integer.toString(ssn));
+   
+
+    @FXML
+    public void goToChatPage(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
     }
 }

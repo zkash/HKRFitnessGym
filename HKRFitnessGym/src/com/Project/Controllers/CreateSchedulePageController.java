@@ -39,7 +39,7 @@ public class CreateSchedulePageController implements Initializable {
     @FXML private Label invalidMsgAllData;
     @FXML Button createScheduleBtn;
     
-    private Helper helper = new Helper();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

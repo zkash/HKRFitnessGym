@@ -30,7 +30,7 @@ public class CreateAnnouncementPageController implements Initializable {
     @FXML private Label invalidMsgAnnouncement;
     @FXML private Label invalidMsgAllData;
     
-    private Helper helper = new Helper();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -64,7 +64,7 @@ public class CreateUserPageController implements Initializable {
     private boolean error;
     private String adminUsername;
   //  private int adminId = 1; //ToDO change this
-    private int adminId = LoginStorage.getInstance().getId();
+    private final int adminId = LoginStorage.getInstance().getId();
     private boolean login;
     
     
@@ -73,8 +73,8 @@ public class CreateUserPageController implements Initializable {
     @FXML
     private Button createUserBtn;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -122,42 +122,39 @@ public class CreateUserPageController implements Initializable {
    
     public void changeFocus(TextField tf, Label lbl) {
         lbl.setText("");
-        tf.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if(!newPropertyValue) {
-                    if (tf == firstName || tf == middleName || tf == lastName) {
-                        setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
-                    }
-                    else if (tf == address) {
-                        String notAddressRegex = "[0-9]+";
-                        setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
-                    }
-                    else if (tf == phoneNumber) {
-                        setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
-                    }
-                    else if (tf == email) {
-                        String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                        String ead = email.getText();
-                        setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
-                    }
-                    else if (tf == ssn) {
-                        String ssnRegex = "[0-9]{6}-[0-9]{4}";
-                        String ssnum = ssn.getText();
-                        setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
-                    }
-                    else if (tf == username) {
-                        String unRegex = "^[A-Za-z][A-za-z0-9]*";
-                        String uname = username.getText();
-                        setTextOnCondition(!helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
-                    }
-                    else if (tf == password) {
-                        String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-                        String pwd = password.getText();
-                        setTextOnCondition(!helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
-                    }
+        tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
+            if(!newPropertyValue) {
+                if (tf == firstName || tf == middleName || tf == lastName) {
+                    setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
                 }
-            }  
+                else if (tf == address) {  
+                    String notAddressRegex = "[0-9]+";
+                    setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
+                }
+                else if (tf == phoneNumber) {
+                    setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
+                }
+                else if (tf == email) {
+                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+                    String ead = email.getText();
+                    setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
+                }
+                else if (tf == ssn) {
+                    String ssnRegex = "[0-9]{6}-[0-9]{4}";
+                    String ssnum = ssn.getText();
+                    setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
+                }
+                else if (tf == username) {
+                    String unRegex = "^[A-Za-z][A-za-z0-9]*";
+                    String uname = username.getText();
+                    setTextOnCondition(!helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
+                }
+                else if (tf == password) {
+                    String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
+                    String pwd = password.getText();
+                    setTextOnCondition(!helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
+                }
+            }
         });
     }
 
@@ -269,8 +266,6 @@ public class CreateUserPageController implements Initializable {
                     } 
             }
         }        
-    }
-    
-    
+    } 
 }
 

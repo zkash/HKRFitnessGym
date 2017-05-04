@@ -57,10 +57,10 @@ public class CreatePackagePageController implements Initializable {
     private BooleanBinding validated;
     private Package pack;
     
-    private int adminId = LoginStorage.getInstance().getId();
+    private final int adminId = LoginStorage.getInstance().getId();
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

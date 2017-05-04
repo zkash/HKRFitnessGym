@@ -132,4 +132,3 @@ public class MenuPageController implements Initializable {
         stage.show();
     }
 }
-

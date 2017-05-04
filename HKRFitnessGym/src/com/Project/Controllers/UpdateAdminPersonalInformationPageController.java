@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,8 +62,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private boolean error;
     private String adminUsername;
     private int adminSSN1 = 123456;
-    private int adminSSN2 = 7890;
-    private int adminId = LoginStorage.getInstance().getId();
+    private final int adminSSN2 = 7890;
+    private final int adminId = LoginStorage.getInstance().getId();
     private boolean login;
     
     private List<TextField> fields;
@@ -85,8 +84,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private int ssnOld1;
     private int ssnOld2;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -108,7 +107,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         
         try {
             data = dbHandler.getAdminPersonalInformation(adminId);
-            if(data.size() == 0) {
+            if(data.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
         } catch (SQLException ex) {
@@ -144,14 +143,18 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         
         String gen = data.get(0).getGender();
 
-        if(gen.equals("Male")) {
-            genderMale.setSelected(true);
-        }
-        else if (gen.equals("Female")) {
-            genderFemale.setSelected(true);
-        }
-        else if (gen.equals("Other")) {
-            genderOther.setSelected(true);
+        switch (gen) {
+            case "Male":
+                genderMale.setSelected(true);
+                break;
+            case "Female":
+                genderFemale.setSelected(true);
+                break;
+            case "Other":
+                genderOther.setSelected(true);
+                break;
+            default:
+                break;
         }
         
         ssnOld1 = data.get(0).getSSN1();
@@ -177,32 +180,29 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
    
     public void changeFocus(TextField tf, Label lbl) {
         lbl.setText("");
-        tf.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if(!newPropertyValue) {
-                    if (tf == firstName || tf == middleName || tf == lastName) {
-                        setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
-                    }
-                    else if (tf == address) {
-                        String notAddressRegex = "[0-9]+";
-                        setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
-                    }
-                    else if (tf == phoneNumber) {
-                        setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
-                    }
-                    else if (tf == email) {
-                        String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                        String ead = email.getText();
-                        setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
-                    }
-                    else if (tf == ssn) {
-                        String ssnRegex = "[0-9]{6}-[0-9]{4}";
-                        String ssnum = ssn.getText();
-                        setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
-                    }
+        tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
+            if(!newPropertyValue) {
+                if (tf == firstName || tf == middleName || tf == lastName) {
+                    setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
                 }
-            }  
+                else if (tf == address) {  
+                    String notAddressRegex = "[0-9]+";
+                    setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
+                }
+                else if (tf == phoneNumber) {
+                    setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
+                }
+                else if (tf == email) {
+                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+                    String ead = email.getText();
+                    setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
+                }
+                else if (tf == ssn) {
+                    String ssnRegex = "[0-9]{6}-[0-9]{4}";
+                    String ssnum = ssn.getText();
+                    setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
+                }
+            }
         });
     }
 
@@ -247,12 +247,12 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         else {
             System.out.println("herefdsdsf");
             String[] ssnParts = ssnum.split("-");
-            System.out.println(ssnParts);
+            System.out.println(Arrays.toString(ssnParts));
             String ssnumberStr = ssnParts[0] + ssnParts[1];
             System.out.println(ssnumberStr);
             //int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
             int ssn1 = Integer.parseInt(ssnParts[0]);
-            int ssn2 = Integer.parseInt(ssnParts[1]);;
+            int ssn2 = Integer.parseInt(ssnParts[1]);
             int pnumber = Integer.parseInt(pnum);
            // System.out.println(ssnumber);
             System.out.println(dob);
@@ -278,16 +278,16 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     
     public void clearTextField() {
         fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
-        for (TextField field : fields) {
+        fields.forEach((field) -> {
             field.clear();
-        }
+        });
     }
     
     public void clearRadioButton() {
         radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
-        for (RadioButton radioButton : radioButtons) {
+        radioButtons.forEach((radioButton) -> {
             radioButton.setSelected(false);
-        }
+        });
     }
     
 //    public void updateBtnClick(ActionEvent event) {
@@ -298,4 +298,3 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
 //        
 //    }
 }
-

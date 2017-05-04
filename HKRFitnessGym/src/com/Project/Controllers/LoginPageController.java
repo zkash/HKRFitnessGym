@@ -63,11 +63,13 @@ public class LoginPageController implements Initializable {
     
     
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,7 +83,6 @@ public class LoginPageController implements Initializable {
             properties.load(fis);
         }
         catch (Exception e) {
-            e.printStackTrace();
         }
         return properties;
     }
@@ -92,7 +93,8 @@ public class LoginPageController implements Initializable {
         String pwd = passwordField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
             String accountType = accountTypeComboBox.getValue().toString();
-            int id = dbHandler.getId(uname, pwd, accountType);
+            int id;
+            id = dbHandler.getId(uname, pwd, accountType);
             if(id == 0) {
                 helper.showDialogBox(true, "Account doesn't exist");
 
@@ -307,6 +309,7 @@ public class LoginPageController implements Initializable {
                             // Get Session   
                             Session session = Session.getDefaultInstance(properties,    
                                 new javax.mail.Authenticator() {    
+                                    @Override
                                     protected PasswordAuthentication getPasswordAuthentication() {    
                                         return new PasswordAuthentication(senderEmail, senderPassword);  
                                     }    

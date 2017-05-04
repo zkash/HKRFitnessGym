@@ -14,7 +14,7 @@ import javafx.event.ActionEvent;
  */
 public class HomeButtonController {
     private final String accountType = LoginStorage.getInstance().getAccountType();
-    private Helper helper = new Helper();
+    private final Helper helper = new Helper();
     
     public void homeBtnClick(ActionEvent event) throws IOException {
         if(accountType.equals("Admin")) {

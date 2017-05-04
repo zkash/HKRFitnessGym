@@ -347,7 +347,5 @@ public class Person {
         this.password = new SimpleStringProperty(pwd);
         this.fullName = null;
         this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
-    
-    
+    } 
 }

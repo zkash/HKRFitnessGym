@@ -16,9 +16,9 @@ import javafx.beans.property.StringProperty;
  */
 public class LoginStorage {
     private static LoginStorage loginStorage;
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty username = new SimpleStringProperty();
-    private StringProperty accountType = new SimpleStringProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty username = new SimpleStringProperty();
+    private final StringProperty accountType = new SimpleStringProperty();
     
     private LoginStorage() {
         

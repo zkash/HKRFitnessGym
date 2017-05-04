@@ -14,8 +14,8 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Schedule {
     private Date date;
-    private SimpleStringProperty openingTime;
-    private SimpleStringProperty closingTime;
+    private final SimpleStringProperty openingTime;
+    private final SimpleStringProperty closingTime;
     private Boolean isHoliday;
     
     Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {

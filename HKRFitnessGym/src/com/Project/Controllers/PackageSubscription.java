@@ -11,8 +11,8 @@ package com.Project.Controllers;
  */
 public class PackageSubscription {
     
-    private Package pack;
-    private String count;
+    private final Package pack;
+    private final String count;
 
     public PackageSubscription(Package p, String c) {
         this.pack = p;

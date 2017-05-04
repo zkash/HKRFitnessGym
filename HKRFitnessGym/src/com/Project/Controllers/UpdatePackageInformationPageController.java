@@ -57,11 +57,13 @@ public class UpdatePackageInformationPageController implements Initializable {
     
     private String packageNameOld;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -174,11 +176,11 @@ public class UpdatePackageInformationPageController implements Initializable {
         packageStartTime.setText(startTime.get(0));     //set time in 12 hour format
         packageEndTime.setText(endTime.get(0));
         
-        if(startTime.get(1) == "PM") {
+        if("PM".equals(startTime.get(1))) {
             packageStartTimeState.setValue("PM");
         }
         
-        if(endTime.get(1) == "PM") {
+        if("PM".equals(endTime.get(1))) {
             packageEndTimeState.setValue("PM");
         }
     }

@@ -27,6 +27,8 @@
             <Label fx:id="errorMessage" layoutX="60.0" layoutY="337.0" prefHeight="31.0" prefWidth="385.0">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
             <PasswordField layoutX="207.0" layoutY="147.0" prefHeight="31.0" prefWidth="217.0" />
             <PasswordField layoutX="207.0" layoutY="192.0" prefHeight="31.0" prefWidth="217.0" />
             <Button layoutX="266.0" layoutY="245.0" mnemonicParsing="false" onAction="#savePassword" prefHeight="39.0" prefWidth="100.0" text="Save">
@@ -46,6 +48,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
+      
          </children>
       </AnchorPane>
    </children>

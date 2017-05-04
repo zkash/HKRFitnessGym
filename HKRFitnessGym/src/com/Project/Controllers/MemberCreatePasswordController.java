@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -54,8 +55,8 @@ public class MemberCreatePasswordController implements Initializable {
     
     private BooleanBinding validated;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,7 +114,7 @@ public class MemberCreatePasswordController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
             }
-            catch (Exception e) {
+            catch (IOException | SQLException e) {
                 helper.showDialogBox(true, "Cannot update password");
             }
         }

@@ -27,6 +27,8 @@ public class MemberMainPageController implements Initializable {
     @FXML Label loggedUserLbl;
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,8 +53,5 @@ public class MemberMainPageController implements Initializable {
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();
-    }
-  
-    
-    
+    }  
 }

@@ -35,19 +35,19 @@ public class MemberViewPersonalInformationController implements Initializable {
     @FXML Label emailLbl;
     @FXML Label ssnLbl;
     
-    private int ssn1 = 234567;
-    private int ssn2 = 8901;
-    private int memberId = LoginStorage.getInstance().getId();
+    private final int ssn1 = 234567;
+    private final int ssn2 = 8901;
+    private final int memberId = LoginStorage.getInstance().getId();
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
             ObservableList<Member> member = dbHandler.getMemberPersonalInformation(memberId);
-            if(member.size() == 0) {
+            if(member.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
             firstNameLbl.setText(member.get(0).getFirstName());

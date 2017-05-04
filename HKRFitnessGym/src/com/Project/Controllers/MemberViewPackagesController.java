@@ -36,7 +36,7 @@ public class MemberViewPackagesController implements Initializable {
     //private  ObservableList<Package> data;
     private  ObservableList<Package> searchData;
     
-    private int memberId = LoginStorage.getInstance().getId();
+    private final int memberId = LoginStorage.getInstance().getId();
     
     @FXML private TableView<Package> memberViewPackagesTable;
     @FXML private TableColumn<Package, String> packageNameColumn;
@@ -51,8 +51,8 @@ public class MemberViewPackagesController implements Initializable {
     
     ObservableList<Package> pack;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

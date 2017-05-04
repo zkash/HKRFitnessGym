@@ -39,7 +39,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     //private  ObservableList<Package> data;
     private  ObservableList<Package> searchData;
     
-    private int memberId = LoginStorage.getInstance().getId();
+    private final int memberId = LoginStorage.getInstance().getId();
     
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
@@ -57,8 +57,8 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     ObservableList<Subscription> subscription;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -161,14 +161,14 @@ public class MemberViewSubscriptionsController implements Initializable {
                                 helper.showDialogBox(renewError, "Subscription start date must be earlier than subscription end date");
                             }
                              else {
-                                Subscription subscription = new Subscription();
-                                subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
-                                subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
+                                Subscription subs = new Subscription();
+                                subs.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
+                                subs.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
                                 String packageName = row.get(0).getPackageName();
                                 int packageId = dbHandler.getPackageIdFromPackageName(packageName);
-                                subscription.setPackageId(packageId);
-                                subscription.setMemberId(memberId);
-                                renewError = dbHandler.subscribeToPackage(subscription);
+                                subs.setPackageId(packageId);
+                                subs.setMemberId(memberId);
+                                renewError = dbHandler.subscribeToPackage(subs);
                                 if (renewError) {
                                     helper.showDialogBox(renewError, "Cannot renew subscription");
                                 }

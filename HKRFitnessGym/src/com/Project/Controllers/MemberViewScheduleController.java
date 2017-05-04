@@ -33,7 +33,7 @@ public class MemberViewScheduleController implements Initializable {
     @FXML private TableColumn<Package, String> closingTimeColumn;
     @FXML private TableColumn<Package, String> isHolidayColumn;
     
-    private DBHandler dbHandler = new DBHandler();
+    private final DBHandler dbHandler = new DBHandler();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,7 +47,5 @@ public class MemberViewScheduleController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(MemberViewScheduleController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }    
-    
 }

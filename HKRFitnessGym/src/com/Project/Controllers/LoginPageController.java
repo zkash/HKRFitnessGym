@@ -90,26 +90,30 @@ public class LoginPageController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         String uname = userNameField.getText();
         String pwd = passwordField.getText();
-        String accountType = accountTypeComboBox.getValue().toString();
-       
-        //boolean accountExists = DBHandler.verifyUsernamePassword(uname, pwd, accountType);
-        int id = dbHandler.getId(uname, pwd, accountType);
-        if(id == 0) {
-            System.out.println("Account doesn't exist");
+        if(!Helper.isEmpty(uname) && !Helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
+            String accountType = accountTypeComboBox.getValue().toString();
+            int id = dbHandler.getId(uname, pwd, accountType);
+            if(id == 0) {
+                Helper.showDialogBox(true, "Account doesn't exist");
+
+            }
+            else {
+                if(accountType.equals("Admin")) {
+                    LoginStorage.getInstance().setUsername(uname);
+                    LoginStorage.getInstance().setId(id);
+                    LoginStorage.getInstance().setAccountType("Admin");
+                    visitAdminPage(event);
+                }
+                else if (accountType.equals("Member")){
+                    LoginStorage.getInstance().setUsername(uname);
+                    LoginStorage.getInstance().setId(id);
+                    LoginStorage.getInstance().setAccountType("Member");
+                    visitMemberPage(event);
+                }
+            }
         }
         else {
-            if(accountType.equals("Admin")) {
-                LoginStorage.getInstance().setUsername("ADMIN");
-                LoginStorage.getInstance().setId(id);
-                LoginStorage.getInstance().setAccountType("Admin");
-                visitAdminPage(event);
-            }
-            else if (accountType.equals("Member")){
-                LoginStorage.getInstance().setUsername("MEMBER");
-                LoginStorage.getInstance().setId(id);
-                LoginStorage.getInstance().setAccountType("Member");
-                visitMemberPage(event);
-            }
+            Helper.showDialogBox(true, "Enter username and password and select an account type before trying to log in");
         }
         
 //        boolean accountExists = false;

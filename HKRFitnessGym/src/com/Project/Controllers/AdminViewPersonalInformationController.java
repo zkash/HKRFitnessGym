@@ -35,19 +35,19 @@ public class AdminViewPersonalInformationController implements Initializable {
     @FXML Label emailLbl;
     @FXML Label ssnLbl;
     
-    private int ssn1 = 123456;
-    private int ssn2 = 7890;
-    private int adminId = LoginStorage.getInstance().getId();
+    private final int ssn1 = 123456;
+    private final int ssn2 = 7890;
+    private final int adminId = LoginStorage.getInstance().getId();
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
             ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
-            if(admin.size() == 0) {
+            if(admin.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
             firstNameLbl.setText(admin.get(0).getFirstName());

@@ -50,12 +50,14 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML UpdatePackageInformationPageController updatePackageInformationPageController;
 
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     ObservableList<Package> pack;
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     
     @Override
@@ -109,7 +111,7 @@ public class AdminViewPackagesController implements Initializable {
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         boolean deletionError = true;
         System.out.println("RORW" + row.size());
-        if (row.size() == 0) {
+        if (row.isEmpty()) {
             helper.showDialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
@@ -119,7 +121,7 @@ public class AdminViewPackagesController implements Initializable {
             try {
                 deletionError = dbHandler.deletePackage(row.get(0).getPackageName());
             }
-            catch(Exception e) {
+            catch(SQLException e) {
                 deletionError = true;
             }
 

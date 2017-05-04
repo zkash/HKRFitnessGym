@@ -60,8 +60,8 @@ public class AdminViewMemberAccountsController implements Initializable {
     @FXML private CheckBox searchPhoneNumber;
     @FXML private CheckBox searchAddress;
     
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,7 +101,7 @@ public class AdminViewMemberAccountsController implements Initializable {
                 String username = row.get(0).getUsername();
                 deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Member");
             }
-            catch(Exception e) {
+            catch(NumberFormatException | SQLException e) {
                 deletionError = true;
             }
 
@@ -149,7 +149,7 @@ public class AdminViewMemberAccountsController implements Initializable {
                     System.out.println("sfjkhdfs");
                     pnum = Integer.parseInt(searchQuery);
                 }
-                catch (Exception e) {
+                catch (NumberFormatException e) {
                     helper.showDialogBox(true, "Cannot search for text in phone number");
                 }
             }

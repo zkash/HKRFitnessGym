@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 public class Helper {
     
     //Check if string is empty
-    public static boolean isEmpty(String str) {
+    public boolean isEmpty(String str) {
         if(str  == null || str.trim().isEmpty()) {
             return true;
         }
@@ -45,7 +45,7 @@ public class Helper {
     }
     
     //Check if a string contains a digit
-    public static boolean hasDigit(String str) {
+    public boolean hasDigit(String str) {
         if(!str.isEmpty()) {
             char[] charArray;
             charArray = str.toCharArray(); //convert string to character array
@@ -59,7 +59,7 @@ public class Helper {
     }
     
     //Check if a string contains a character
-    public static boolean hasChar(String str) {
+    public boolean hasChar(String str) {
         if(!str.isEmpty()) {
             char[] charArray;
             charArray = str.toCharArray();
@@ -73,7 +73,7 @@ public class Helper {
     }
     
     //Convert LocalDate format to SQL Date format 
-    public static String convertDate(LocalDate ld) {
+    public String convertDate(LocalDate ld) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
         String dateStr = ld.format(formatter);
         System.out.println(dateStr);
@@ -81,7 +81,7 @@ public class Helper {
     }
     
     //Dialog box
-    public static void showDialogBox(boolean errorCondition, String message) {
+    public void showDialogBox(boolean errorCondition, String message) {
         if(errorCondition) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -107,24 +107,24 @@ public class Helper {
 //        return stringDate;
 //    }
     
-    public static Date convertLocalDateToSQLDate(LocalDate ld) {
+    public Date convertLocalDateToSQLDate(LocalDate ld) {
         Date date = java.sql.Date.valueOf(ld);
         return date;
     }
     
-    public static void clearTextField(TextField... fields) {
+    public void clearTextField(TextField... fields) {
         for (TextField field : fields) {
             field.clear();
         }
     }
     
-    public static void clearRadioButton(RadioButton... radioButtons) {
+    public void clearRadioButton(RadioButton... radioButtons) {
         for (RadioButton radioButton : radioButtons) {
             radioButton.setSelected(false);
         }
     }
     
-    public static String convertTimeTo24HourFormat(String timeIn12HourFormat) {
+    public String convertTimeTo24HourFormat(String timeIn12HourFormat) {
         String[] timeDivided = timeIn12HourFormat.split(":");
         int hour = Integer.parseInt(timeDivided[0]);
         String minute = timeDivided[1];
@@ -133,7 +133,7 @@ public class Helper {
         return timeIn24HourFormat;
     }
     
-    public static ArrayList<String> convertTimeTo12HourFormat(String timeIn24HourFormat) {
+    public ArrayList<String> convertTimeTo12HourFormat(String timeIn24HourFormat) {
         String[] timeDivided = timeIn24HourFormat.split(":");
         ArrayList<String> time = new ArrayList<>();
         int hour = Integer.parseInt(timeDivided[0]);
@@ -149,13 +149,13 @@ public class Helper {
         return time;
     }
     
-    public static LocalDate convertSQLDateToLocalDate(Date date) {
+    public LocalDate convertSQLDateToLocalDate(Date date) {
        // LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate ld = date.toLocalDate();
         return ld;
     }
     
-    public static String convertDateToString(Date date) {
+    public String convertDateToString(Date date) {
         System.out.println("Date " + date);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = dateFormat.format(date);
@@ -163,7 +163,7 @@ public class Helper {
         return dateInString;
     }
     
-    public static void showDialogBoxChoice(Stage stage, String header, String content, String nextScene) throws IOException {    
+    public void showDialogBoxChoice(Stage stage, String header, String content, String nextScene) throws IOException {    
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setContentText(content);
@@ -181,14 +181,13 @@ public class Helper {
         }
     }
     
-    public static LocalDate convertStringToLocalDate(String date) {
+    public LocalDate convertStringToLocalDate(String date) {
          LocalDate localDate = LocalDate.parse(date);
          return localDate;
     }
     
     
-    public static java.util.Date getCurrentDate() {
-        //
+    public java.util.Date getCurrentDate() {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = new java.util.Date();
         String dateStr = sdf.format(d);
@@ -204,7 +203,7 @@ public class Helper {
         return date;
     }
     
-    public static void navigateScene(ActionEvent event, String nextSceneLocation) throws IOException {
+    public void navigateScene(ActionEvent event, String nextSceneLocation) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         Parent root = FXMLLoader.load(Helper.class.getResource(nextSceneLocation));
@@ -213,7 +212,7 @@ public class Helper {
         stage.show();
     }
     
-    public static LocalTime getCurrentTime() {
+    public LocalTime getCurrentTime() {
         return java.time.LocalTime.now(); 
     }
 }

@@ -56,7 +56,8 @@ public class AdminCreatePasswordController implements Initializable {
     private List<String> validationChecks;
     
     private BooleanBinding validated;
-    DBHandler dbHandler = new DBHandler();
+    private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,7 +107,7 @@ public class AdminCreatePasswordController implements Initializable {
             System.out.println("here");
             try {
                 dbHandler.updatePassword(accountType, id, pwd1);
-                Helper.showDialogBox(false, "Password updated");
+                helper.showDialogBox(false, "Password updated");
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
@@ -115,11 +116,11 @@ public class AdminCreatePasswordController implements Initializable {
                 stage.show();
             }
             catch (Exception e) {
-                Helper.showDialogBox(true, "Cannot update password");
+                helper.showDialogBox(true, "Cannot update password");
             }
         }
         else {
-            Helper.showDialogBox(true, "Both passwords do not match. Please enter new password again");
+            helper.showDialogBox(true, "Both passwords do not match. Please enter new password again");
         }
         
     }

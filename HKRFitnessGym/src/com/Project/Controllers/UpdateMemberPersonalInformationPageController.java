@@ -79,6 +79,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     private List<RadioButton> radioButtons;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,7 +98,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         try {
             data = dbHandler.getMemberPersonalInformation(memberId);
             if(data.size() == 0) {
-                Helper.showDialogBox(true, "There is no such user to view personal details about");
+                helper.showDialogBox(true, "There is no such user to view personal details about");
             }
         } catch (SQLException ex) {
             Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,7 +107,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         firstName.setText(data.get(0).getFirstName());
         middleName.setText(data.get(0).getMiddleName());
         lastName.setText(data.get(0).getLastName());
-        dateOfBirth.setValue(Helper.convertSQLDateToLocalDate(data.get(0).getDateOfBirth())); 
+        dateOfBirth.setValue(helper.convertSQLDateToLocalDate(data.get(0).getDateOfBirth())); 
         address.setText(data.get(0).getAddress());
         phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
         email.setText(data.get(0).getEmail());
@@ -170,24 +171,24 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 if(!newPropertyValue) {
                     if (tf == firstName || tf == middleName || tf == lastName) {
-                        setTextOnCondition(Helper.hasDigit(tf.getText()), lbl);
+                        setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
                     }
                     else if (tf == address) {
                         String notAddressRegex = "[0-9]+";
                         setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
                     }
                     else if (tf == phoneNumber) {
-                        setTextOnCondition(Helper.hasChar(phoneNumber.getText()), lbl);
+                        setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
                     }
                     else if (tf == email) {
                         String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
                         String ead = email.getText();
-                        setTextOnCondition(!Helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
                     }
                     else if (tf == ssn) {
                         String ssnRegex = "[0-9]{6}-[0-9]{4}";
                         String ssnum = ssn.getText();
-                        setTextOnCondition(!Helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
                     }
                 }
             }  
@@ -203,7 +204,7 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         String ln = lastName.getText();
         
         String mn;
-        if(!Helper.isEmpty(middleName.getText())) {
+        if(!helper.isEmpty(middleName.getText())) {
             mn = middleName.getText();
         }
         else {
@@ -227,9 +228,9 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         String ead = email.getText();
         String ssnum = ssn.getText();
         
-        if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
-                Helper.isEmpty(add) || Helper.isEmpty(pnum) || Helper.isEmpty(ead) || 
-                Helper.isEmpty(ssnum)) {
+        if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
+                helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
+                helper.isEmpty(ssnum)) {
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
@@ -246,20 +247,20 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
             System.out.println(dob);
             Date birthDate = Date.valueOf(dob);
                     
-            if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
-                Helper.isEmpty(invalidMsgMiddleName.getText()) &&  
-                Helper.isEmpty(invalidMsgLastName.getText()) &&
-                Helper.isEmpty(invalidMsgAddress.getText()) &&
-                Helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
-                Helper.isEmpty(invalidMsgEmail.getText()) &&
-                Helper.isEmpty(invalidMsgSSN.getText())) {
+            if(helper.isEmpty(invalidMsgFirstName.getText()) &&
+                helper.isEmpty(invalidMsgMiddleName.getText()) &&  
+                helper.isEmpty(invalidMsgLastName.getText()) &&
+                helper.isEmpty(invalidMsgAddress.getText()) &&
+                helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
+                helper.isEmpty(invalidMsgEmail.getText()) &&
+                helper.isEmpty(invalidMsgSSN.getText())) {
                 System.out.println("reached here");
                 member = new Member(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
                 dbHandler.updateMemberPersonalInformation("Member", member, ssnOld1, ssnOld2);
-                Helper.showDialogBox(false, "Member details successfully updated");
+                helper.showDialogBox(false, "Member details successfully updated");
             }
             else {
-                Helper.showDialogBox(true, "Could not update admin details");
+                helper.showDialogBox(true, "Could not update admin details");
             }
         }        
     }

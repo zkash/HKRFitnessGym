@@ -65,6 +65,7 @@ public class LoginPageController implements Initializable {
     
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     /**
      * Initializes the controller class.
@@ -90,11 +91,11 @@ public class LoginPageController implements Initializable {
     private void handleLogin(ActionEvent event) throws IOException {
         String uname = userNameField.getText();
         String pwd = passwordField.getText();
-        if(!Helper.isEmpty(uname) && !Helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
+        if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
             String accountType = accountTypeComboBox.getValue().toString();
             int id = dbHandler.getId(uname, pwd, accountType);
             if(id == 0) {
-                Helper.showDialogBox(true, "Account doesn't exist");
+                helper.showDialogBox(true, "Account doesn't exist");
 
             }
             else {
@@ -113,7 +114,7 @@ public class LoginPageController implements Initializable {
             }
         }
         else {
-            Helper.showDialogBox(true, "Enter username and password and select an account type before trying to log in");
+            helper.showDialogBox(true, "Enter username and password and select an account type before trying to log in");
         }
         
 //        boolean accountExists = false;
@@ -264,7 +265,7 @@ public class LoginPageController implements Initializable {
     @FXML
     private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException, SQLException {
         String username = userNameField.getText();
-        if(!Helper.isEmpty(username) && !(accountTypeComboBox.getValue()==null)) {
+        if(!helper.isEmpty(username) && !(accountTypeComboBox.getValue()==null)) {
             
             TextInputDialog tid = new TextInputDialog();
             tid.setTitle("Email Verification");
@@ -316,10 +317,10 @@ public class LoginPageController implements Initializable {
                             
                             //Store in database
                             ForgotPasswordRequest fp = new ForgotPasswordRequest();
-                            java.sql.Date sqlDate = new java.sql.Date(Helper.getCurrentDate().getTime());
+                            java.sql.Date sqlDate = new java.sql.Date(helper.getCurrentDate().getTime());
                             fp.setDate(sqlDate);
-                            System.out.println("HELPER TIME " + Helper.getCurrentTime().toString());
-                            fp.setTime(Helper.getCurrentTime().toString());
+                            System.out.println("HELPER TIME " + helper.getCurrentTime().toString());
+                            fp.setTime(helper.getCurrentTime().toString());
                             System.out.println("hoola");
                             fp.setCode(randomCode);
                             
@@ -351,7 +352,7 @@ public class LoginPageController implements Initializable {
 
                                 // Send message  
                                 //Transport.send(message);    
-                                Helper.showDialogBox(true, "Message Sent");
+                                helper.showDialogBox(true, "Message Sent");
                                 showInputCodeDialog(event, accountType, autoGenereatedId, fp);
                             } 
                             catch (MessagingException e) {
@@ -360,20 +361,20 @@ public class LoginPageController implements Initializable {
                         }
                         else {
                             System.out.println("EXISTS " + emailExists);
-                            Helper.showDialogBox(true, "Provided email is not associated with any account");
+                            helper.showDialogBox(true, "Provided email is not associated with any account");
                         }
                     }
                     else {
-                        Helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
+                        helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
                     }
                 }
                 else {
-                    Helper.showDialogBox(true, "No email address provided");
+                    helper.showDialogBox(true, "No email address provided");
                 }
             }   
         }
         else {
-            Helper.showDialogBox(true, "Please select account type and enter username");
+            helper.showDialogBox(true, "Please select account type and enter username");
         }
 
         

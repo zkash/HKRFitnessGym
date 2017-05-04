@@ -14,13 +14,14 @@ import javafx.event.ActionEvent;
  */
 public class HomeButtonController {
     private final String accountType = LoginStorage.getInstance().getAccountType();
+    private Helper helper = new Helper();
     
     public void homeBtnClick(ActionEvent event) throws IOException {
         if(accountType.equals("Admin")) {
-            Helper.navigateScene(event, "/com/Project/FXML/AdminMainPage.fxml");
+            helper.navigateScene(event, "/com/Project/FXML/AdminMainPage.fxml");
         }
         else if(accountType.equals("Member")) {
-            Helper.navigateScene(event, "/com/Project/FXML/MemberMainPage.fxml");
+            helper.navigateScene(event, "/com/Project/FXML/MemberMainPage.fxml");
         } 
     }
 }

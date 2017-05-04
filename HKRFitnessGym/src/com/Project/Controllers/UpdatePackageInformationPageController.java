@@ -58,6 +58,7 @@ public class UpdatePackageInformationPageController implements Initializable {
     private String packageNameOld;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     /**
      * Initializes the controller class.
@@ -119,37 +120,37 @@ public class UpdatePackageInformationPageController implements Initializable {
             String pets = (String)packageEndTimeState.getValue();
             
             if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    Helper.showDialogBox(true, "End date cannot be earlier than start date");
+                    helper.showDialogBox(true, "End date cannot be earlier than start date");
             }
                 else {
                 
                     if(psts.equals("PM")) {
-                        pst = Helper.convertTimeTo24HourFormat(pst);
+                        pst = helper.convertTimeTo24HourFormat(pst);
                     }
 
                     if(pets.equals("PM")) {
-                        pet = Helper.convertTimeTo24HourFormat(pet);
+                        pet = helper.convertTimeTo24HourFormat(pet);
                     }
 
                     if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
                         //End time before start time
                         if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            Helper.showDialogBox(true, "Start time cannot be earlier than end time");
-                            Helper.clearTextField(packageStartTime, packageEndTime);
+                            helper.showDialogBox(true, "Start time cannot be earlier than end time");
+                            helper.clearTextField(packageStartTime, packageEndTime);
                         }
                         else {
-                            updatedPackage = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                            updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
                             updateInDB(updatedPackage, admin_ssn, false);
                         }
                     }
                     else if (psts.equals("AM") && pets.equals("PM")) {
-                        updatedPackage = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                        updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
                         updateInDB(updatedPackage, admin_ssn, false);
                     }
                 }
         }
         else {
-            Helper.showDialogBox(true, "Enter all data");
+            helper.showDialogBox(true, "Enter all data");
         }
     }
     
@@ -165,10 +166,10 @@ public class UpdatePackageInformationPageController implements Initializable {
         packageName.setText(pack.get(0).getPackageName());
         packageNameOld = pack.get(0).getPackageName();
         packageCost.setText(Float.toString(pack.get(0).getPrice()));
-        packageStartDate.setValue(Helper.convertSQLDateToLocalDate(pack.get(0).getStartDate())); 
-        packageEndDate.setValue(Helper.convertSQLDateToLocalDate(pack.get(0).getEndDate()));
-        ArrayList<String> startTime = Helper.convertTimeTo12HourFormat(pack.get(0).getStartTime());
-        ArrayList<String> endTime = Helper.convertTimeTo12HourFormat(pack.get(0).getEndTime());
+        packageStartDate.setValue(helper.convertSQLDateToLocalDate(pack.get(0).getStartDate())); 
+        packageEndDate.setValue(helper.convertSQLDateToLocalDate(pack.get(0).getEndDate()));
+        ArrayList<String> startTime = helper.convertTimeTo12HourFormat(pack.get(0).getStartTime());
+        ArrayList<String> endTime = helper.convertTimeTo12HourFormat(pack.get(0).getEndTime());
         
         packageStartTime.setText(startTime.get(0));     //set time in 12 hour format
         packageEndTime.setText(endTime.get(0));
@@ -192,9 +193,9 @@ public class UpdatePackageInformationPageController implements Initializable {
     
     public void updateInDB(Package pack, int admin_ssn, boolean alreadyExists) throws SQLException {
         dbHandler.updatePackage(pack, packageNameOld, admin_ssn);
-        Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
+        helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
-        Helper.showDialogBox(alreadyExists, "Package information successfully updated");
+        helper.showDialogBox(alreadyExists, "Package information successfully updated");
     }
 }

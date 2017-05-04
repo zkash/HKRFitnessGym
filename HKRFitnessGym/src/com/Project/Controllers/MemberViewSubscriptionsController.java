@@ -66,6 +66,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     ObservableList<Subscription> subscription;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,12 +98,12 @@ public class MemberViewSubscriptionsController implements Initializable {
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
         boolean cancelError = true;
         if(row.isEmpty()) {
-            Helper.showDialogBox(cancelError, "Select a subscription first to cancel");
+            helper.showDialogBox(cancelError, "Select a subscription first to cancel");
         }
         else {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Cancelled")) {
-                Helper.showDialogBox(cancelError, "You have already cancelled this subscription or this subscription has already expired");
+                helper.showDialogBox(cancelError, "You have already cancelled this subscription or this subscription has already expired");
             }
             else {
                 int subscriptionId = row.get(0).getSubscriptionId();
@@ -110,10 +111,10 @@ public class MemberViewSubscriptionsController implements Initializable {
                 if (result.get().getText().equals("Yes")) {
                     cancelError = dbHandler.cancelSubscription(subscriptionId);
                     if (cancelError) {
-                        Helper.showDialogBox(cancelError, "Cannot cancel subscription");
+                        helper.showDialogBox(cancelError, "Cannot cancel subscription");
                     }
                     else {
-                        Helper.showDialogBox(cancelError, "Successfully cancelled subscription");
+                        helper.showDialogBox(cancelError, "Successfully cancelled subscription");
                         row.forEach(allRows::remove);
                     }
                 }
@@ -130,42 +131,42 @@ public class MemberViewSubscriptionsController implements Initializable {
         
         
         boolean renewError = true;
-        java.util.Date currentDate = Helper.getCurrentDate();
+        java.util.Date currentDate = helper.getCurrentDate();
         
         System.out.println("ROW " + row);
 
         if(row.isEmpty()) {
-            Helper.showDialogBox(renewError, "Select a subscription first to renew");
+            helper.showDialogBox(renewError, "Select a subscription first to renew");
         }
         else {
             
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Active")) {
-                Helper.showDialogBox(renewError, "Your subscription has not expired yet");
+                helper.showDialogBox(renewError, "Your subscription has not expired yet");
             }
             else {
                 LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();
                 LocalDate subscriptionEndLocalDate = subscriptionEndDatePicker.getValue();
                 if (subscriptionStartLocalDate == null || subscriptionEndLocalDate  == null) {
-                        Helper.showDialogBox(renewError, "Enter subscription start date and end date");
+                        helper.showDialogBox(renewError, "Enter subscription start date and end date");
                 }
                 else {
-                    Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
-                    Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
+                    Date subscriptionStartDate = helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
+                    Date subscriptionEndDate = helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
 
                     if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
-                        Helper.showDialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
+                        helper.showDialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
                     }
                     else {
                         Date packageStartDate = row.get(0).getStartDate();
                         Date packageEndDate = row.get(0).getEndDate();
                         if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
                                 || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-                            Helper.showDialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
+                            helper.showDialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
                         }
                         else {
                             if(subscriptionStartDate.after(subscriptionEndDate)) {
-                                Helper.showDialogBox(renewError, "Subscription start date must be earlier than subscription end date");
+                                helper.showDialogBox(renewError, "Subscription start date must be earlier than subscription end date");
                             }
                              else {
                                 Subscription subscription = new Subscription();
@@ -177,10 +178,10 @@ public class MemberViewSubscriptionsController implements Initializable {
                                 subscription.setMemberId(memberId);
                                 renewError = dbHandler.subscribeToPackage(subscription);
                                 if (renewError) {
-                                    Helper.showDialogBox(renewError, "Cannot renew subscription");
+                                    helper.showDialogBox(renewError, "Cannot renew subscription");
                                 }
                                 else {
-                                    Helper.showDialogBox(renewError, "Successfully renewed subscription");
+                                    helper.showDialogBox(renewError, "Successfully renewed subscription");
                                 }
                             }
                         }

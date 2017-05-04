@@ -37,6 +37,8 @@ public class CreateAnnouncementPageController implements Initializable {
     @FXML private Label invalidMsgAnnouncement;
     @FXML private Label invalidMsgAllData;
     
+    private Helper helper = new Helper();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -48,7 +50,7 @@ public class CreateAnnouncementPageController implements Initializable {
         
         String at = announcementTitle.getText();
         String ab = announcementBody.getText();
-        if(Helper.isEmpty(at) || Helper.isEmpty(ab)) {
+        if(helper.isEmpty(at) || helper.isEmpty(ab)) {
             invalidMsgAllData.setText("Enter All Values");
         }
     }  

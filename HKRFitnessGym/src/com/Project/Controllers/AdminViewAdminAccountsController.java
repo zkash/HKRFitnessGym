@@ -65,6 +65,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     @FXML private CheckBox searchAddress;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,12 +94,12 @@ public class AdminViewAdminAccountsController implements Initializable {
         boolean deletionError = true;
         
         if (row.isEmpty()) {
-            Helper.showDialogBox(deletionError, "Please select an admin account first to delete the account");
+            helper.showDialogBox(deletionError, "Please select an admin account first to delete the account");
         }
         else {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
-            Helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the admin account?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
+            helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the admin account?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
             try {
                 String[] fullSSN = (row.get(0).getFullSSN()).split("-");
                 int ssn1 = Integer.parseInt(fullSSN[0]);
@@ -114,11 +115,11 @@ public class AdminViewAdminAccountsController implements Initializable {
             }
              System.out.println(deletionError);
             if (!deletionError) {
-                Helper.showDialogBox(deletionError, "Admin successfully deleted");
+                helper.showDialogBox(deletionError, "Admin successfully deleted");
                 row.forEach(allRows::remove);
             }
             else {
-                Helper.showDialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
+                helper.showDialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
             }
         }
     }
@@ -155,8 +156,8 @@ public class AdminViewAdminAccountsController implements Initializable {
         }
         
         if(searchPhoneNumber.isSelected()) {
-            if(Helper.hasChar(searchQuery)) {
-                Helper.showDialogBox(true, "Cannot search for text in phone number");
+            if(helper.hasChar(searchQuery)) {
+                helper.showDialogBox(true, "Cannot search for text in phone number");
             }
             else {
                 try {
@@ -164,7 +165,7 @@ public class AdminViewAdminAccountsController implements Initializable {
                     pnum = Integer.parseInt(searchQuery);
                 }
                 catch (Exception e) {
-                    Helper.showDialogBox(true, "Cannot search for text in phone number");
+                    helper.showDialogBox(true, "Cannot search for text in phone number");
                 }
             }
         }
@@ -184,7 +185,7 @@ public class AdminViewAdminAccountsController implements Initializable {
                     }
             }
             else {
-                Helper.showDialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
+                helper.showDialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
             }
         }
         

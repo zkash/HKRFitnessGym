@@ -40,6 +40,7 @@ public class AdminViewPersonalInformationController implements Initializable {
     private int adminId = LoginStorage.getInstance().getId();
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,13 +48,13 @@ public class AdminViewPersonalInformationController implements Initializable {
             // TODO
             ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
             if(admin.size() == 0) {
-                Helper.showDialogBox(true, "There is no such user to view personal details about");
+                helper.showDialogBox(true, "There is no such user to view personal details about");
             }
             firstNameLbl.setText(admin.get(0).getFirstName());
             middleNameLbl.setText(admin.get(0).getMiddleName());
             lastNameLbl.setText(admin.get(0).getLastName());
             genderLbl.setText(admin.get(0).getGender());
-            dobLbl.setText(Helper.convertDateToString(admin.get(0).getDateOfBirth()));
+            dobLbl.setText(helper.convertDateToString(admin.get(0).getDateOfBirth()));
             addressLbl.setText(admin.get(0).getAddress());
             phoneNumberLbl.setText(Integer.toString(admin.get(0).getPhoneNumber()));
             emailLbl.setText(admin.get(0).getEmail());

@@ -57,6 +57,8 @@ public class EditUserAccountInformationPageController implements Initializable {
     @FXML private Label invalidMsgPassword;
     @FXML private Label invalidMsgAllData;
     
+    private Helper helper = new Helper();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -102,23 +104,23 @@ public class EditUserAccountInformationPageController implements Initializable {
         String un = username.getText();
         String pw = password.getText();
     
-        if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
-                Helper.isEmpty(pnum) || Helper.isEmpty(ead) || Helper.isEmpty(ssnum) || 
-                Helper.isEmpty(un) || Helper.isEmpty(pw)) {
+        if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
+                helper.isEmpty(pnum) || helper.isEmpty(ead) || helper.isEmpty(ssnum) || 
+                helper.isEmpty(un) || helper.isEmpty(pw)) {
             invalidMsgAllData.setText("Enter All Data");
         }
         else {
-            if(Helper.hasDigit(fn)) {
+            if(helper.hasDigit(fn)) {
                 invalidMsgFirstName.setText("Invalid Value");
             }
             
-            if(!Helper.isEmpty(mn)) {
-                if(Helper.hasDigit(mn)) {
+            if(!helper.isEmpty(mn)) {
+                if(helper.hasDigit(mn)) {
                     invalidMsgMiddleName.setText("Invalid Value");
                 }
             }
             
-            if(Helper.hasDigit(ln)) {
+            if(helper.hasDigit(ln)) {
                 invalidMsgFirstName.setText("Invalid Value");
             }
             
@@ -127,7 +129,7 @@ public class EditUserAccountInformationPageController implements Initializable {
                 invalidMsgAddress.setText("Invalid Value");
             }
             System.out.println(pnum.length());
-            if(Helper.hasChar(pnum) && pnum.length() < 5) {
+            if(helper.hasChar(pnum) && pnum.length() < 5) {
                 invalidMsgPhoneNumber.setText("Invalid Value");
             }
             

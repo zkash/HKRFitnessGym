@@ -64,6 +64,7 @@ public class CreatePackagePageController implements Initializable {
     private int adminId = LoginStorage.getInstance().getId();
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -138,43 +139,43 @@ public class CreatePackagePageController implements Initializable {
                 System.out.println(pets);
                 
                 if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    Helper.showDialogBox(alreadyExists, "End date cannot be earlier than start date");
+                    helper.showDialogBox(alreadyExists, "End date cannot be earlier than start date");
                 }
                 else {
                 
                     if(psts.equals("PM")) {
-                        pst = Helper.convertTimeTo24HourFormat(pst);
+                        pst = helper.convertTimeTo24HourFormat(pst);
                     }
 
                     if(pets.equals("PM")) {
-                        pet = Helper.convertTimeTo24HourFormat(pet);
+                        pet = helper.convertTimeTo24HourFormat(pet);
                     }
 
                     if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
                         //End time before start time
                         if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            Helper.showDialogBox(alreadyExists, "Start time cannot be earlier than end time");
-                            Helper.clearTextField(packageStartTime, packageEndTime);
+                            helper.showDialogBox(alreadyExists, "Start time cannot be earlier than end time");
+                            helper.clearTextField(packageStartTime, packageEndTime);
                         }
                         else {
-                            pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                            pack = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
                             insertIntoDB(stage, pack, adminId, alreadyExists);
                         }
                     }
                     else if (psts.equals("AM") && pets.equals("PM")) {
-                        pack = new Package(pn, Float.valueOf(pc), Helper.convertLocalDateToSQLDate(psd), Helper.convertLocalDateToSQLDate(ped), pst, pet);
+                        pack = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
                         insertIntoDB(stage, pack, adminId, alreadyExists);
                     }
                 }
             }
             else {
                 alreadyExists = true;
-                Helper.showDialogBox(alreadyExists, "Package with same name already exists");
-                Helper.clearTextField(packageName);
+                helper.showDialogBox(alreadyExists, "Package with same name already exists");
+                helper.clearTextField(packageName);
             }
         }
         else {
-            Helper.showDialogBox(true, "Enter all data");
+            helper.showDialogBox(true, "Enter all data");
         }
     }
     
@@ -188,11 +189,11 @@ public class CreatePackagePageController implements Initializable {
     
     public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists) throws SQLException, IOException {
         dbHandler.createPackage(pack, adminId);
-        Helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
+        helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
         
-        Helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
+        helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
     }
 }
 

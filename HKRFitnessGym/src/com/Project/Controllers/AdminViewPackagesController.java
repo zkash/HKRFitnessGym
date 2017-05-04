@@ -52,6 +52,7 @@ public class AdminViewPackagesController implements Initializable {
     @FXML UpdatePackageInformationPageController updatePackageInformationPageController;
 
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     ObservableList<Package> pack;
     /**
@@ -110,12 +111,12 @@ public class AdminViewPackagesController implements Initializable {
         boolean deletionError = true;
         System.out.println("RORW" + row.size());
         if (row.size() == 0) {
-            Helper.showDialogBox(deletionError, "Please select a package first to delete it");
+            helper.showDialogBox(deletionError, "Please select a package first to delete it");
         }
         else {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
-            Helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the package?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
+            helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the package?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
             try {
                 deletionError = dbHandler.deletePackage(row.get(0).getPackageName());
             }
@@ -124,11 +125,11 @@ public class AdminViewPackagesController implements Initializable {
             }
 
             if (!deletionError) {
-                Helper.showDialogBox(deletionError, "Package successfully deleted");
+                helper.showDialogBox(deletionError, "Package successfully deleted");
                 row.forEach(allRows::remove);
             }
             else {
-                Helper.showDialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
+                helper.showDialogBox(deletionError, "Could not delete package because it is associated with other data in the system. \n\nDelete such data before trying to delete the package");
             }
         }
     }

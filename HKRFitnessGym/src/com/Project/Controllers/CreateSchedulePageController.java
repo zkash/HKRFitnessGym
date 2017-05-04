@@ -39,6 +39,8 @@ public class CreateSchedulePageController implements Initializable {
     @FXML private Label invalidMsgAllData;
     @FXML Button createScheduleBtn;
     
+    private Helper helper = new Helper();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         openingTimeState.getItems().addAll("AM", "PM");
@@ -54,7 +56,7 @@ public class CreateSchedulePageController implements Initializable {
         String ot = openingTime.getText();  
         String ct = closingTime.getText();
         
-        if(Helper.isEmpty(ot) || Helper.isEmpty(ct) || scheduleDate == null) {
+        if(helper.isEmpty(ot) || helper.isEmpty(ct) || scheduleDate == null) {
             invalidMsgAllData.setText("Enter All Values");
         }
         else {

@@ -54,6 +54,8 @@ public class MemberViewPackagesController implements Initializable {
     ObservableList<Package> pack;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -94,13 +96,13 @@ public class MemberViewPackagesController implements Initializable {
         
         
         if (row.isEmpty()) {
-            Helper.showDialogBox(subscriptionError, "Please select a package first to delete subscribe");
+            helper.showDialogBox(subscriptionError, "Please select a package first to delete subscribe");
         }
         else {
             LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
             LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
             if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
-                Helper.showDialogBox(subscriptionError, "Enter subscription start date and end date");
+                helper.showDialogBox(subscriptionError, "Enter subscription start date and end date");
             }
             else {
                 String packageName = row.get(0).getPackageName();
@@ -108,15 +110,15 @@ public class MemberViewPackagesController implements Initializable {
                 Date packageEndDate = row.get(0).getEndDate();
                 int packageId = dbHandler.getPackageIdFromPackageName(packageName);
                 System.out.println("pid" + packageId);
-                Date subscriptionStartDate = Helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
-                Date subscriptionEndDate = Helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
+                Date subscriptionStartDate = helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
+                Date subscriptionEndDate = helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
                 if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
                         || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-                    Helper.showDialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
+                    helper.showDialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
                 }
                 else {
                     if(subscriptionStartDate.after(subscriptionEndDate)) {
-                        Helper.showDialogBox(subscriptionError, "Subscription start date must be earlier than subscription end date");
+                        helper.showDialogBox(subscriptionError, "Subscription start date must be earlier than subscription end date");
                     }
                     else {
                         Subscription subscription = new Subscription();
@@ -138,10 +140,10 @@ public class MemberViewPackagesController implements Initializable {
     //                        memberId
     //                    ));
                         if (subscriptionError) {
-                            Helper.showDialogBox(subscriptionError, "Cannot make a subscription");
+                            helper.showDialogBox(subscriptionError, "Cannot make a subscription");
                         }
                         else {
-                            Helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
+                            helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
                         }
                     }
                 }

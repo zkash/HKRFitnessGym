@@ -83,6 +83,7 @@ public class CreateUserPageController implements Initializable {
     private Button createUserBtn;
     
     private DBHandler dbHandler = new DBHandler();
+    private Helper helper = new Helper();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -135,34 +136,34 @@ public class CreateUserPageController implements Initializable {
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 if(!newPropertyValue) {
                     if (tf == firstName || tf == middleName || tf == lastName) {
-                        setTextOnCondition(Helper.hasDigit(tf.getText()), lbl);
+                        setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
                     }
                     else if (tf == address) {
                         String notAddressRegex = "[0-9]+";
                         setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
                     }
                     else if (tf == phoneNumber) {
-                        setTextOnCondition(Helper.hasChar(phoneNumber.getText()), lbl);
+                        setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
                     }
                     else if (tf == email) {
                         String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
                         String ead = email.getText();
-                        setTextOnCondition(!Helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
                     }
                     else if (tf == ssn) {
                         String ssnRegex = "[0-9]{6}-[0-9]{4}";
                         String ssnum = ssn.getText();
-                        setTextOnCondition(!Helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
                     }
                     else if (tf == username) {
                         String unRegex = "^[A-Za-z][A-za-z0-9]*";
                         String uname = username.getText();
-                        setTextOnCondition(!Helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
                     }
                     else if (tf == password) {
                         String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
                         String pwd = password.getText();
-                        setTextOnCondition(!Helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
+                        setTextOnCondition(!helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
                     }
                 }
             }  
@@ -178,7 +179,7 @@ public class CreateUserPageController implements Initializable {
         String ln = lastName.getText();
         
         String mn;
-        if(!Helper.isEmpty(middleName.getText())) {
+        if(!helper.isEmpty(middleName.getText())) {
             mn = middleName.getText();
         }
         else {
@@ -204,11 +205,11 @@ public class CreateUserPageController implements Initializable {
         String un = username.getText();
         String pw = password.getText();
         
-        if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
-                Helper.isEmpty(add) || Helper.isEmpty(pnum) || Helper.isEmpty(ead) || 
-                Helper.isEmpty(ssnum) || Helper.isEmpty(un) || Helper.isEmpty(pw)) {
+        if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
+                helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
+                helper.isEmpty(ssnum) || helper.isEmpty(un) || helper.isEmpty(pw)) {
             //invalidMsgAllData.setText("Enter All Data");
-            Helper.showDialogBox(true, "Enter all data");
+            helper.showDialogBox(true, "Enter all data");
         }
         else {
             String[] ssnParts = ssnum.split("-");
@@ -231,15 +232,15 @@ public class CreateUserPageController implements Initializable {
             Date birthDate = Date.valueOf(dob);
             System.out.println("DATE D " + birthDate.getClass().getName());
                     
-            if(Helper.isEmpty(invalidMsgFirstName.getText()) &&
-                Helper.isEmpty(invalidMsgMiddleName.getText()) &&  
-                Helper.isEmpty(invalidMsgLastName.getText()) &&
-                Helper.isEmpty(invalidMsgAddress.getText()) &&
-                Helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
-                Helper.isEmpty(invalidMsgEmail.getText()) &&
-                Helper.isEmpty(invalidMsgSSN.getText()) &&
-                Helper.isEmpty(invalidMsgUsername.getText()) &&
-                Helper.isEmpty(invalidMsgPassword.getText())) {
+            if(helper.isEmpty(invalidMsgFirstName.getText()) &&
+                helper.isEmpty(invalidMsgMiddleName.getText()) &&  
+                helper.isEmpty(invalidMsgLastName.getText()) &&
+                helper.isEmpty(invalidMsgAddress.getText()) &&
+                helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
+                helper.isEmpty(invalidMsgEmail.getText()) &&
+                helper.isEmpty(invalidMsgSSN.getText()) &&
+                helper.isEmpty(invalidMsgUsername.getText()) &&
+                helper.isEmpty(invalidMsgPassword.getText())) {
                 System.out.println("reached here");
                 boolean alreadyExists;
                 System.out.println(isAdmin.isSelected());
@@ -253,7 +254,7 @@ public class CreateUserPageController implements Initializable {
                 }
                 
                 if(alreadyExists) {
-                    Helper.showDialogBox(alreadyExists, "User already exists");
+                    helper.showDialogBox(alreadyExists, "User already exists");
                 }
                 else {
                     Node node = (Node) event.getSource();
@@ -262,16 +263,16 @@ public class CreateUserPageController implements Initializable {
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createAdminAccount(admin);
-                        Helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewAdminAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewAdminAccounts.fxml");
                 
                     }
                     else {
                         Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createMemberAccount(member, adminId);
-                        Helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewMemberAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewMemberAccounts.fxml");
                     }
-                    Helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
-                    Helper.clearRadioButton(genderMale, genderFemale, genderOther);
+                    helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
+                    helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     dateOfBirth.getEditor().clear();
                     isAdmin.setSelected(false);
                     } 

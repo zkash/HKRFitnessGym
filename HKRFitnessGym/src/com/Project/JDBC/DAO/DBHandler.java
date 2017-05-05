@@ -8,7 +8,6 @@ package com.Project.JDBC.DAO;
 import com.Project.Controllers.Admin;
 import com.Project.JDBC.DTO.Announcements;
 import com.Project.JDBC.DTO.Chat;
-import com.Project.JDBC.DTO.Person;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -132,28 +131,7 @@ public class DBHandler {
         }
      }    
       
-      // Retrieves information from database
-    public static List<Person> getMemberList(String query) {
-        List<Person> memberList = new LinkedList<>();
-        ResultSet rs;
-        try {
-            Statement st = c.createStatement();
-            rs = st.executeQuery(query);
-            
-            while (rs.next()) {
-                Person member = new Person();
-                member.setIdMember(rs.getInt("idPerson"));     
-                member.setPosition(rs.getString("Position"));     
-                member.setEmail(rs.getString("Email"));
-                member.setUsername(rs.getString("Username"));
-                member.setPassword(rs.getString("Password"));
-                memberList.add(member);
-            }
-        } catch ( Exception e) {
-            e.printStackTrace();
-        }
-        return memberList;
-    }
+    
     
     // Update password for a particular member.
     public static void updatePassword(String password) {

@@ -211,4 +211,18 @@ public class Helper {
     public LocalTime getCurrentTime() {
         return java.time.LocalTime.now(); 
     }
+    
+    public static Date toSQLDate(LocalDate ld){
+        Date date = Date.valueOf(ld);
+        return date;
+    }
+    
+    public static boolean isInteger(String s){
+        try {
+            Integer.parseInt(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

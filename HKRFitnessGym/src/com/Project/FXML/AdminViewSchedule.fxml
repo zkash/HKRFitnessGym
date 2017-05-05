@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -17,12 +17,12 @@
             <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TableView fx:id="adminViewScheduleTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
               <columns>
-                <TableColumn prefWidth="123.0" text="Date" />
-                  <TableColumn prefWidth="110.0" text="Opening Time" />
-                  <TableColumn prefWidth="99.0" text="Closing Time" />
-                  <TableColumn prefWidth="64.0" text="Holiday" />
-                  <TableColumn prefWidth="56.0" text="Edit" />
-                  <TableColumn prefWidth="68.0" text="Delete" />
+                <TableColumn fx:id="dateView" prefWidth="123.0" text="Date" />
+                  <TableColumn fx:id="otView" prefWidth="110.0" text="Opening Time" />
+                  <TableColumn fx:id="ctView" prefWidth="99.0" text="Closing Time" />
+                  <TableColumn fx:id="holidayView" prefWidth="64.0" text="Holiday" />
+                  <TableColumn fx:id="edit" prefWidth="56.0" text="Edit" />
+                  <TableColumn fx:id="delete" prefWidth="68.0" text="Delete" />
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Schedule" AnchorPane.leftAnchor="92.0">

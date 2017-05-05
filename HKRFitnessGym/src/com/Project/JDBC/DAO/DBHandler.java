@@ -9,6 +9,7 @@ import com.Project.Controllers.Admin;
 import com.Project.JDBC.DTO.Announcements;
 import com.Project.JDBC.DTO.Chat;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -129,7 +130,7 @@ public class DBHandler {
         }catch (Exception e){
             e.printStackTrace();
         }
-     }    
+     } 
       
     
     
@@ -200,7 +201,7 @@ public class DBHandler {
 
         //Get connection to database
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "sunday1");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
             if(conn!=null) {
                 System.out.println("connected to database successfully");
                 return conn;
@@ -231,5 +232,41 @@ public class DBHandler {
             e.printStackTrace();
         }
         return messageList;
+    }
+     
+     public static void adminCreateSchedule(Date date, String op, String ct, boolean isHoliday, int adminId) throws SQLException {
+        //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
+        //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
+        try(Connection conn = establishConnection();){
+            String selectStatement = "INSERT INTO schedule ( date, openingTime, closeTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
+            PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
+            prepStmt.setDate(1, date); // remove ++ from here, do it in last
+            prepStmt.setString(2, op);
+            prepStmt.setString(3, ct);
+            prepStmt.setBoolean(4, isHoliday);
+            prepStmt.setInt(5, adminId);
+            prepStmt.executeUpdate();
+            
+            System.out.println("the data has been moved into database.");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static ResultSet adminRitriveSchedule(){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            String statement = "select * frome schedule";
+            conn = establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            rs = prepStmt.executeQuery();
+            
+        } catch (Exception e) {
+            System.out.println("Cannot ritrive schedule.");
+        }
+        return rs;
     }
 }

@@ -5,6 +5,9 @@
  */
 package com.Project.Controllers;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 /**
  *
  * @author shameer
@@ -45,5 +48,28 @@ public class Helper {
             }
         }
         return false;
+    }
+    
+    /*public static String convertDate(LocalDate ld){
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        String dateStr = ld.format(formatter);
+        System.out.println(dateStr);
+        return dateStr;
+    }*/
+    
+    //convert localDate to sql date.
+    public static Date toSQLDate(LocalDate ld){
+        Date date = Date.valueOf(ld);
+        return date;
+    }
+    
+    //check if is a integer
+    public static boolean isInteger(String s){
+        try {
+            Integer.parseInt(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

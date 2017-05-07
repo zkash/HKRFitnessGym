@@ -56,6 +56,11 @@ public class Package {
         this.adminFullName = new SimpleStringProperty(afn);
     }
 
+    //For AdminViewSubscriptions
+    public Package(String pn) {
+        this.packageName = new SimpleStringProperty(pn);
+    }
+    
     // Getters
     public String getPackageName() {
         return packageName.get();

@@ -16,49 +16,33 @@ import javafx.beans.property.StringProperty;
  * @author shameer
  */
 public class SubscriptionRequest extends Subscription {
-    private StringProperty subscriberFullName = null;
-    private StringProperty subscriberUsername = null;
-    private StringProperty requestStatus = null;
-    private StringProperty acceptanceStatus = null;
+    private StringProperty memberFullName = null;
+    private StringProperty memberUsername = null;
+ 
     
     
     public SubscriptionRequest(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date subscriptionStartDate, Date subscriptionEndDate, int subscriptionId) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime, subscriptionStartDate, subscriptionEndDate, subscriptionId);
     }
     
-    public String getSubscriberFullName() {
-        return subscriberFullName.get();
+    public String getMemberFullName() {
+        return memberFullName.get();
     }
     
     public String getSubscriberUsername() {
-        return subscriberUsername.get();
+        return memberUsername.get();
     }
     
-    public String getRequestStatus() {
-        return requestStatus.get();
+
+
+    public void setMemberFullName(String mfn) {
+        memberFullName = new SimpleStringProperty(mfn);
     }
     
-    public String getAcceptanceStatus() {
-        return acceptanceStatus.get();
+    public void setMemberUsername(String mun) {
+        memberUsername = new SimpleStringProperty(mun);
     }
     
- 
-    
-    public void setSubscriberFullName(String sfn) {
-        subscriberFullName = new SimpleStringProperty(sfn);
-    }
-    
-    public void setSubscriberUsername(String sun) {
-        subscriberUsername = new SimpleStringProperty(sun);
-    }
-    
-    public void setRequestStatus(String rs) {
-        requestStatus = new SimpleStringProperty(rs);
-    }
-    
-    public void setAcceptanceStatus(String as) {
-        acceptanceStatus = new SimpleStringProperty(as);
-    }
-    
+
   
 }

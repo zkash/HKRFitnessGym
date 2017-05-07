@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewSubscriptionRequestsController">
     <top>
-        <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">

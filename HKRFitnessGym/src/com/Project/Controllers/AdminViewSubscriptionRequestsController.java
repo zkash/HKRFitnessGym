@@ -51,6 +51,8 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     private final Helper helper = new Helper();
     private int subscriptionId;
     
+    private int adminId = LoginStorage.getInstance().getId();
+    private ObservableList<SubscriptionRequest>  row, allRows;
     /**
      * Initializes the controller class.
      * @param url
@@ -84,7 +86,6 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     public void acceptRequestBtnClick(ActionEvent event) { 
         declineRequestPane.setVisible(false);
-        ObservableList<SubscriptionRequest> row , allRows;
         allRows = adminViewSubscriptionRequestTable.getItems();
         row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems(); 
         boolean cancelError = true;
@@ -104,17 +105,25 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     }
     
     public void acceptSendBtnClick(ActionEvent event) throws SQLException {
+        allRows = adminViewSubscriptionRequestTable.getItems();
+        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
+        subscriptionId = row.get(0).getSubscriptionId();
         String offerPriceText = offerPriceTextField.getText();
         float offerPrice = Float.valueOf(offerPriceText);
-        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice);
+        System.out.println("SIDDD " + subscriptionId);
+        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
         helper.showDialogBox(true, "Request accepted");
         
         
     }
     
     public void declineSendBtnClick(ActionEvent event) throws SQLException {
+        allRows = adminViewSubscriptionRequestTable.getItems();
+        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
+        subscriptionId = row.get(0).getSubscriptionId();
         String declineMessage = declineMessageTextArea.getText();
-        dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage);
+        System.out.println("SID " + subscriptionId);
+        dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage, adminId);
         helper.showDialogBox(true, "Request declined");
     }
 }

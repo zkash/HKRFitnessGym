@@ -61,6 +61,14 @@ public class Package {
         this.packageName = new SimpleStringProperty(pn);
     }
     
+    //For MemberViewSubscriptions
+    public Package(String pn, float price, String st, String et) {
+        this.packageName = new SimpleStringProperty(pn);
+        this.price = new SimpleFloatProperty(price);
+        this.startTime = new SimpleStringProperty(st);
+        this.endTime = new SimpleStringProperty(et);
+    }
+    
     // Getters
     public String getPackageName() {
         return packageName.get();

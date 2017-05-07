@@ -69,6 +69,11 @@ public class Subscription extends Package {
             subscriptionId = new SimpleIntegerProperty(sid);
             declineMessage = new SimpleStringProperty(dm);
         }
+        
+        //For MemberViewSubscription
+        public Subscription(String packageName, Float price, String startTime, String endTime) {
+            super(packageName, price, startTime, endTime);
+        }
     
     public Date getSubscriptionStartDate() {
         return subscriptionStartDate;

@@ -922,8 +922,8 @@ System.out.println("DSDSAS " + data);
     
     public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId FROM Subscription AS sub "
+        String query = "SELECT packageName, price, "
+                + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
                 + "ON pk.packageId = sub.Package_packageId ";
                 //+ "WHERE sub.isCancelled = 0";
@@ -937,23 +937,33 @@ System.out.println("DSDSAS " + data);
             System.out.println(rs.getString("price"));
             System.out.println(rs.getString("startTime"));
             System.out.println(rs.getString("endTime"));
-            System.out.println(rs.getString("pk.startDate"));
-            System.out.println(rs.getString("pk.endDate"));
+            
             System.out.println(rs.getString("sub.startDate"));
             System.out.println(rs.getString("sub.endDate"));
             System.out.println(rs.getString("subscriptionStatus"));
-            sub = new Subscription(
+            System.out.println("OFFFF " + rs.getFloat("offerPrice"));
+            System.out.println("DM  " + rs.getString("declineMessage"));
+            sub = new Subscription( 
                     rs.getString("packageName"),
                     rs.getFloat("price"),
-                    rs.getDate("pk.startDate"),
-                    rs.getDate("pk.endDate"),
                     rs.getString("startTime"),
                     rs.getString("startTime")
             );
+//            sub = new Subscription();
+//            sub.setPackageName(rs.getString("packageName"));
+//            sub.setPrice(rs.getFloat("price"));
+//            sub.setStartTime(rs.getString("startTime"));
+//            sub.setEndTime(rs.getString("endTime"));
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             sub.setSubscriptionId(rs.getInt("subscriptionId"));
             sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setOfferPrice(rs.getFloat("offerPrice"));
+//            if(rs.getString("subscriptionStatus").equals("Active") || rs.getString("subscriptionStatus").equals("Expired") || rs.getString("subscriptionStatus").equals("Cancelled")) {
+//                sub.setOfferPrice(rs.getFloat("offerPrice"));
+//            }
+           
+            sub.setDeclineMessage(rs.getString("declineMessage"));
 //            if(rs.getBoolean("isCancelled") == true) {
 //                sub.setSubscriptionStatus("Cancelled");
 //            }
@@ -978,11 +988,12 @@ System.out.println("DSDSAS " + data);
 //            System.out.println("G");
 //            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             
-            
+            System.out.println("SOUT " + sub.getOfferPrice());
             
 
         }
         System.out.println("sub " + subscription);
+        
         return subscription;
     }
     

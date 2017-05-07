@@ -44,13 +44,13 @@ public class MemberViewSubscriptionsController implements Initializable {
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
     @FXML private TableColumn<Subscription, String> priceColumn; 
-    @FXML private TableColumn<Subscription, String> packageStartDateColumn;
-    @FXML private TableColumn<Subscription, String> packageEndDateColumn;
     @FXML private TableColumn<Subscription, String> startTimeColumn;
     @FXML private TableColumn<Subscription, String> endTimeColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStartDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionEndDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStatusColumn;
+    @FXML private TableColumn<Subscription, String> offeredPriceColumn;
+    @FXML private TableColumn<Subscription, String> messageColumn;
     
     @FXML private DatePicker subscriptionStartDatePicker;
     @FXML private DatePicker subscriptionEndDatePicker;
@@ -68,13 +68,13 @@ public class MemberViewSubscriptionsController implements Initializable {
             System.out.println(subscription);
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            packageStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            packageEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
             startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
             endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
             subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
             subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
+            offeredPriceColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
+            messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
             memberViewSubscriptionsTable.setItems(null);
             memberViewSubscriptionsTable.setItems(subscription);    
             
@@ -96,6 +96,12 @@ public class MemberViewSubscriptionsController implements Initializable {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Cancelled")) {
                 helper.showDialogBox(cancelError, "You have already cancelled this subscription or this subscription has already expired");
+            }
+            else if(subscriptionStatus.equals("Requested")) {
+                helper.showDialogBox(cancelError, "You cannot cancel this subscription. \nYour subscription request is being processed");
+            }
+            else if(subscriptionStatus.equals("Declined")) {
+                helper.showDialogBox(cancelError, "You cannot cancel this subscription. \nYour subscription has been declined. For more information, please contact the gym");
             }
             else {
                 int subscriptionId = row.get(0).getSubscriptionId();
@@ -135,6 +141,12 @@ public class MemberViewSubscriptionsController implements Initializable {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Active")) {
                 helper.showDialogBox(renewError, "Your subscription has not expired yet");
+            }
+            else if(subscriptionStatus.equals("Requested")) {
+                helper.showDialogBox(renewError, "You cannot renew this subscription. \nYour subscription request is being processed.");
+            }
+            else if(subscriptionStatus.equals("Declined")) {
+                helper.showDialogBox(renewError, "You cannot renew this subscription. \nYour subscription has been declined. For more information, please contact the gym.");
             }
             else {
                 LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();

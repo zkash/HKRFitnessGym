@@ -1286,19 +1286,30 @@ System.out.println("DSDSAS " + data);
         conn.close();
     }
     
-     public ObservableList<Subscription> adminViewSubscription() throws SQLException {
+     public ObservableList<Subscription> adminViewSubscription(String filter) throws SQLException {
         Connection conn = establishConnection();
-         String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
-                 + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
-                 + " a.middleName, a.lastName FROM Subscription AS sub "
-                 + " INNER JOIN package AS pk"
-                 + " ON pk.packageId = sub.Package_packageId"
-                 + " INNER JOIN member AS m"
-                 + " ON sub.Member_memberId = m.memberId"
-                 + " INNER JOIN admin AS a"
-                 + " ON sub.Admin_adminId = a.adminId"
-                 + " WHERE NOT subscriptionStatus = 'Requested'";
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId";
+        if(filter.equals("All")) {
+            query = query + " WHERE NOT subscriptionStatus = 'Requested'";
+        }
+        else if(filter.equals("Active")) {
+            query = query + " WHERE subscriptionStatus = 'Active'";
+        }
+        else if(filter.equals("Expired")) {
+            query = query + " WHERE subscriptionStatus = 'Expired'";
+        }
+        else if(filter.equals("Cancelled")) {
+            query = query + " WHERE subscriptionStatus = 'Cancelled'";
+        }
 
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();

@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,6 +46,11 @@ public class AdminViewSubscriptionsController implements Initializable {
     @FXML private CheckBox searchPackageName;
     @FXML private CheckBox searchAdminFullName;
     
+    @FXML private RadioButton subscriptionFilterAll;
+    @FXML private RadioButton subscriptionFilterActive;
+    @FXML private RadioButton subscriptionFilterExpired;
+    @FXML private RadioButton subscriptionFilterCancelled;
+    
     private DBHandler dbHandler = new DBHandler();
     ObservableList<Subscription> subscription;
     
@@ -57,7 +63,8 @@ public class AdminViewSubscriptionsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             
-            subscription = dbHandler.adminViewSubscription();
+            String filter = "All";
+            subscription = dbHandler.adminViewSubscription(filter);
             
             System.out.println("QQQ");
             memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
@@ -152,24 +159,33 @@ public class AdminViewSubscriptionsController implements Initializable {
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        subscription = dbHandler.adminViewSubscription();
+        String filter = "All";
+        subscription = dbHandler.adminViewSubscription(filter);
         setDataInTable(subscription);
     }
     
-    public void subscriptionStateAllChecked(ActionEvent event) {
-        
+    public void subscriptionFilterAllSelected(ActionEvent event) throws SQLException {
+        String filter = "All";
+        subscription = dbHandler.adminViewSubscription(filter);
+        setDataInTable(subscription);
     }
     
-    public void subscriptionStateActiveChecked(ActionEvent event) {
-        
+    public void subscriptionFilterActiveSelected(ActionEvent event) throws SQLException {
+        String filter = "Active";
+        subscription = dbHandler.adminViewSubscription(filter);
+        setDataInTable(subscription);
     }
     
-    public void subscriptionStateExpiredChecked(ActionEvent event) {
-        
+    public void subscriptionFilterExpiredSelected(ActionEvent event) throws SQLException {
+        String filter = "Expired";
+        subscription = dbHandler.adminViewSubscription(filter);
+        setDataInTable(subscription);
     }
     
-    public void subscriptionStateCancelledChecked(ActionEvent event) {
-        
+    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException {
+        String filter = "Cancelled";
+        subscription = dbHandler.adminViewSubscription(filter);
+        setDataInTable(subscription);
     }
     
     public void setDataInTable(ObservableList<Subscription> data) {

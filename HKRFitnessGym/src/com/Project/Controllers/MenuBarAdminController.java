@@ -105,5 +105,9 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("/com/Project/FXML/AdminViewSubscriptions.fxml");
     }
     
+    public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/AdminViewDeclinedSubscriptionRequests.fxml");
+    }
+    
   
 }

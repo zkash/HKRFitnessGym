@@ -33,6 +33,7 @@
         <items>
           <MenuItem fx:id="viewSubscriptionRequestsMenu" mnemonicParsing="false" onAction="#viewSubscriptionRequestsMenuClick" text="View Subscription Requests" />
             <MenuItem fx:id="viewSubscriptionsMenu" mnemonicParsing="false" onAction="#viewSubscriptionsMenuClick" text="View Subscriptions" />
+            <MenuItem fx:id="viewDeclinedSubscriptionRequestsMenu" mnemonicParsing="false" onAction="#viewDeclinedSubscriptionRequestsMenuClick" text="View Declined Subscription Requests" />
         </items>
       </Menu>
             <Menu mnemonicParsing="false" text="Schedule">

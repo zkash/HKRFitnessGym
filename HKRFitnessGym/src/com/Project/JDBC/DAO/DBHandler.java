@@ -23,7 +23,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author shameer
+ * @author KN
  */
 
 public class DBHandler {
@@ -57,7 +57,7 @@ public class DBHandler {
    }
     
        // Checks user credentials if they are correct and returns memberId.
-           public static int login(String userName, String password){
+       /*    public static int login(String userName, String password){
             PreparedStatement stmt;
             ResultSet rs;
             int memberId = 0;
@@ -195,7 +195,7 @@ public class DBHandler {
             conn.close();
         }
 
-    }   
+    }   */
 
     
     public static Connection establishConnection() {
@@ -215,8 +215,8 @@ public class DBHandler {
         return null;
     }
     //To get message list from database.
-     public static List<Announcements> getAnnouncementsList(String query) {
-        List<Announcements> messageList = new LinkedList<>();
+   /*  public static List<Announcement> getAnnouncementsList(String query) {
+        List<Announcement> messageList = new LinkedList<>();
         PreparedStatement stmt;
         ResultSet rs;
         try {
@@ -224,7 +224,7 @@ public class DBHandler {
             rs = stmt.executeQuery();
             
             while (rs.next()) {
-                Announcements announcements = new Announcements();
+                Announcement announcements = new Announcement();
                 announcements.setMessageId(rs.getInt("idAnnouncements"));
                 announcements.setTime(rs.getString("time"));
                 announcements.setMessage(rs.getString("message"));
@@ -234,7 +234,7 @@ public class DBHandler {
             e.printStackTrace();
         }
         return messageList;
-    }
+    }*/
      
      public static void adminCreateSchedule(Date date, String op, String ct, boolean isHoliday, int adminId) throws SQLException {
         //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);

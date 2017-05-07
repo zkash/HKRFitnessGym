@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBHandler;
+import com.Project.Controllers.DBHandler;
 import com.Project.JDBC.DTO.Announcements;
 import java.io.IOException;
 import java.net.URL;

@@ -37,16 +37,27 @@ public class MemberMainPageController implements Initializable {
     }   
     
     @FXML
-    private void goToSettingsPage(ActionEvent event) throws IOException {
+    private void accountBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/SettingsPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdateMemberPersonalInformationPage.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();
-    }
-     @FXML
-    private void goToChatPage(ActionEvent event) throws IOException {
+    }  
+    
+    @FXML
+    private void packageBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }  
+    
+    @FXML
+    private void chatBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
       Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
@@ -54,4 +65,43 @@ public class MemberMainPageController implements Initializable {
       stage.setScene(scene);
       stage.show();
     }  
+    
+    @FXML
+    private void settingsBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/SettingsPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
+    
+    @FXML
+    private void scheduleBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewSchedule.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }  
+    
+    @FXML
+    private void announcementBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewAnnouncement.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    } 
+    @FXML
+    private void subscribeBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewPackages.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    } 
 }

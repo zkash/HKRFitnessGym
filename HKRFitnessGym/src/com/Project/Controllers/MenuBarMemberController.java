@@ -58,11 +58,11 @@ public class MenuBarMemberController implements Initializable {
     }
     
     public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberViewAnnouncements.fxml");
+        setupAndShowStage("/com/Project/FXML/MemberViewAnnouncement.fxml");
     }
     
-    public void visitChatRoomMenuClick(ActionEvent event) {
-        
+    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/ChatPage.fxml");
     }
 
     public void aboutMenuClick(ActionEvent event) {

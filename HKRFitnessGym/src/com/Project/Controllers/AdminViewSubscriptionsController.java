@@ -151,8 +151,9 @@ public class AdminViewSubscriptionsController implements Initializable {
         setDataInTable(searchData);
     }
     
-    public void resetSearchBtnClick(ActionEvent event) {
-        
+    public void resetSearchBtnClick(ActionEvent event) throws SQLException {
+        subscription = dbHandler.adminViewSubscription();
+        setDataInTable(subscription);
     }
     
     public void subscriptionStateAllChecked(ActionEvent event) {

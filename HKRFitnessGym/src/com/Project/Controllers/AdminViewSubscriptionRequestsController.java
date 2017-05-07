@@ -112,6 +112,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
         float offerPrice = Float.valueOf(offerPriceText);
         System.out.println("SIDDD " + subscriptionId);
         dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
+        row.forEach(allRows::remove);
         helper.showDialogBox(true, "Request accepted");
         
         
@@ -124,6 +125,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
         String declineMessage = declineMessageTextArea.getText();
         System.out.println("SID " + subscriptionId);
         dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage, adminId);
+        row.forEach(allRows::remove);
         helper.showDialogBox(true, "Request declined");
     }
 }

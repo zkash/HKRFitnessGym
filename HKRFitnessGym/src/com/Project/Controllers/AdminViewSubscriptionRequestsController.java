@@ -66,7 +66,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
             subscriptionRequest = dbHandler.getSubscriptionRequest();
             System.out.println(subscriptionRequest);
             System.out.println("QQQ");
-            fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberFullName"));
+            fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberUsername"));
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));

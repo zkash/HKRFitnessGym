@@ -922,7 +922,7 @@ System.out.println("DSDSAS " + data);
     
     public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT packageName, price, "
+        String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
                 + "ON pk.packageId = sub.Package_packageId ";
@@ -954,6 +954,8 @@ System.out.println("DSDSAS " + data);
 //            sub.setPrice(rs.getFloat("price"));
 //            sub.setStartTime(rs.getString("startTime"));
 //            sub.setEndTime(rs.getString("endTime"));
+            sub.setStartDate(rs.getDate("pk.startDate"));
+            sub.setEndDate(rs.getDate("pk.endDate"));
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             sub.setSubscriptionId(rs.getInt("subscriptionId"));
@@ -999,7 +1001,7 @@ System.out.println("DSDSAS " + data);
     
     public Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET subscriptionStatus = 'Active' WHERE subscriptionId = ?";
+        String query = "UPDATE Subscription SET subscriptionStatus = 'Cancelled' WHERE subscriptionId = ?";
         
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);
@@ -1255,6 +1257,7 @@ System.out.println("DSDSAS " + data);
                     rs.getInt("subscriptionId")
             );
             if(rs.getString("m.middleName").equals("")) {
+                System.out.println("MIDDLE NAme");
                  subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
             }
             else {

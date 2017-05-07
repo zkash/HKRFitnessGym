@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
@@ -31,6 +32,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -62,6 +64,7 @@ public class CreateSchedulePageController implements Initializable {
     private String closingTimeRegex;
     private SimpleDateFormat sdf;
     private Date d1,d2;
+    private String newD1,newD2;//they are 24 hour format.
     
     private Schedule schedule = new Schedule();
     
@@ -164,6 +167,9 @@ public class CreateSchedulePageController implements Initializable {
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
             }
+            else{
+                saveToDatabase();
+            }
         }
         else if(!isMorning(openingTimeState) && !isMorning(closingTimeState)){
             timeFormat();
@@ -178,6 +184,9 @@ public class CreateSchedulePageController implements Initializable {
                 invalidMsgAnnouncement.setText("");
                 invalidMsgClosingTime.setText("Invalid Time");
             }
+            else{
+                saveToDatabase();
+            }
         }
         else if(isMorning(closingTimeState) && !isMorning(openingTimeState)){
             invalidMsgAllData.setText("");
@@ -185,11 +194,16 @@ public class CreateSchedulePageController implements Initializable {
             invalidMsgClosingTime.setText("Invalid Time");
         }
         else{
-            setDate();
+            saveToDatabase();
+        }
+    }
+    
+    private void saveToDatabase() throws SQLException, ParseException{
+        setDate();
             
             timeFormat();
-            schedule.setOpeningTime(ot);
-            schedule.setClosingTime(ct);
+            schedule.setOpeningTime(newD1);
+            schedule.setClosingTime(newD2);
             
             //clear text
             invalidMsgAllData.setText("");
@@ -203,7 +217,9 @@ public class CreateSchedulePageController implements Initializable {
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
             DBHandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
-        }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("DATA HAS BEEN SAVED.");
+            alert.show();
     }
     
     private void setDate(){
@@ -230,13 +246,17 @@ public class CreateSchedulePageController implements Initializable {
     }
     
     public void timeFormat() throws ParseException{
-        ot = oh + ":" + om;
-        ct = ch + ":" + cm;
-        sdf = new SimpleDateFormat("HH:mm");
+        ot = oh + ":" + om + " " + openingTimeState.getSelectionModel().getSelectedItem();
+        ct = ch + ":" + cm + " " + closingTimeState.getSelectionModel().getSelectedItem();
+        sdf = new SimpleDateFormat("hh:mm a");
         
         d1 = sdf.parse(ot);
         d2 = sdf.parse(ct);
         
+        //HH for hour of the day (0 - 23)
+        DateFormat sdf2 = new SimpleDateFormat("HH:mm");
+        newD1 = sdf2.format(d1);
+        newD2 = sdf2.format(d2);
     }
     
     public boolean isMorning(ComboBox cb){

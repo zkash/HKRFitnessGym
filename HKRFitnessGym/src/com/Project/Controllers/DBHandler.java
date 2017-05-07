@@ -620,7 +620,7 @@ System.out.println("DSDSAS " + data);
                         + " INNER JOIN Subscription as sub"
                         + " ON pk.packageId = sub.Package_packageId"
                         + " WHERE packageName = \"" + name + "\""
-                        + " AND isCancelled = false";
+                        + " AND subscriptionStatus = 'Active'";
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 System.out.println(statement2);
                 ResultSet rs2 = statement2.executeQuery();
@@ -905,8 +905,8 @@ System.out.println("DSDSAS " + data);
             System.out.println("\t\t\t\t " + subscription.getPackageId());
             System.out.println("\t\t\t\t " + subscription.getMemberId());
             
-            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled, isRequested, isAccepted)"
-                    + " VALUES (?, ?, ?, ?, false, true, null)";
+            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, subscriptionStatus)"
+                    + " VALUES (?, ?, ?, ?, 'Requested')";
             System.out.println("sssd "  + subscription.getSubscriptionStartDate());
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setDate(1, subscription.getSubscriptionStartDate());
@@ -923,7 +923,7 @@ System.out.println("DSDSAS " + data);
     public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
+                + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
                 + "ON pk.packageId = sub.Package_packageId ";
                 //+ "WHERE sub.isCancelled = 0";
@@ -941,7 +941,7 @@ System.out.println("DSDSAS " + data);
             System.out.println(rs.getString("pk.endDate"));
             System.out.println(rs.getString("sub.startDate"));
             System.out.println(rs.getString("sub.endDate"));
-            System.out.println(rs.getString("isCancelled"));
+            System.out.println(rs.getString("subscriptionStatus"));
             sub = new Subscription(
                     rs.getString("packageName"),
                     rs.getFloat("price"),
@@ -953,12 +953,13 @@ System.out.println("DSDSAS " + data);
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            if(rs.getBoolean("isCancelled") == true) {
-                sub.setSubscriptionStatus("Cancelled");
-            }
-            else {
-                sub.setSubscriptionStatus("Active");
-            }
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+//            if(rs.getBoolean("isCancelled") == true) {
+//                sub.setSubscriptionStatus("Cancelled");
+//            }
+//            else {
+//                sub.setSubscriptionStatus("Active");
+//            }
             
             subscription.add(sub);
 //            sub.setPackageName(rs.getString("packageName"));
@@ -987,7 +988,7 @@ System.out.println("DSDSAS " + data);
     
     public Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET isCancelled = true WHERE subscriptionId = ?";
+        String query = "UPDATE Subscription SET subscriptionStatus = 'Active' WHERE subscriptionId = ?";
         
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);
@@ -1212,15 +1213,25 @@ System.out.println("DSDSAS " + data);
         }
     }
     
-    public void getSubscriptionRequest() throws SQLException {
+    public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
         Connection conn = establishConnection();
-        String query = "SELECT * FROM Subscription WHERE isRequested = true";
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                + " m.username, packageName, price, pk.startDate, pk.endDate,"
+                + " startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus,"
+                + " subscriptionId FROM Subscription AS sub"
+                + " INNER JOIN package AS pk"
+                + " ON pk.packageId = sub.Package_packageId"
+                + " INNER JOIN member AS m"
+                + " ON sub.Member_memberId = m.memberId"
+                + " WHERE subscriptionStatus = 'Requested'";
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         ObservableList<SubscriptionRequest> subscriptionRequestList = FXCollections.observableArrayList();
        
         while(rs.next()) {
             SubscriptionRequest subscriptionRequest;
+            System.out.println("HHHH");
+            System.out.println("HERE " + rs.getString("packageName"));
             subscriptionRequest = new SubscriptionRequest(
                     rs.getString("packageName"),
                     rs.getFloat("price"),
@@ -1232,8 +1243,42 @@ System.out.println("DSDSAS " + data);
                     rs.getDate("sub.endDate"),
                     rs.getInt("subscriptionId")
             );
+            if(rs.getString("m.middleName").equals("")) {
+                 subscriptionRequest.setSubscriberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                 subscriptionRequest.setSubscriberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("lastName"));
+            }
+            subscriptionRequest.setSubscriberUsername(rs.getString("m.username"));
+            subscriptionRequestList.add(subscriptionRequest);
            
-            
+        
         }
+        conn.close();
+        return subscriptionRequestList;
+    }
+    
+    public void acceptSubscriptionRequest(int subscriptionId, float offerPrice) throws SQLException {
+        Connection conn = establishConnection();
+        String status = "Active";
+        String query = "UPDATE Subscription SET subscriptionStatus =  ?, offerPrice = ? WHERE subscriptionId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, status);
+        statement.setFloat(2, offerPrice);
+        statement.setInt(3, subscriptionId);
+        statement.executeUpdate();
+        conn.close();
+    }
+    
+    public void declineSubscriptionRequest(int subscriptionId, String declineMessage) throws SQLException {
+        Connection conn = establishConnection();
+        String status = "Declined";
+        String query = "UPDATE Subscription SET subscriptionStatus =  ?, declineMessage = ? WHERE subscriptionId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, status);
+        statement.setString(2, declineMessage);
+        statement.setInt(3, subscriptionId);
+        statement.executeUpdate();
+        conn.close();
     }
 }

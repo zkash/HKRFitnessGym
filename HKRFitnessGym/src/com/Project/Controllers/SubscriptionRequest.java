@@ -6,6 +6,8 @@
 package com.Project.Controllers;
 
 import java.sql.Date;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -18,6 +20,7 @@ public class SubscriptionRequest extends Subscription {
     private StringProperty subscriberUsername = null;
     private StringProperty requestStatus = null;
     private StringProperty acceptanceStatus = null;
+    
     
     public SubscriptionRequest(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date subscriptionStartDate, Date subscriptionEndDate, int subscriptionId) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime, subscriptionStartDate, subscriptionEndDate, subscriptionId);
@@ -35,9 +38,11 @@ public class SubscriptionRequest extends Subscription {
         return requestStatus.get();
     }
     
-    public String acceptanceStatus() {
+    public String getAcceptanceStatus() {
         return acceptanceStatus.get();
     }
+    
+ 
     
     public void setSubscriberFullName(String sfn) {
         subscriberFullName = new SimpleStringProperty(sfn);
@@ -54,4 +59,6 @@ public class SubscriptionRequest extends Subscription {
     public void setAcceptanceStatus(String as) {
         acceptanceStatus = new SimpleStringProperty(as);
     }
+    
+  
 }

@@ -6,8 +6,10 @@
 package com.Project.Controllers;
 
 import java.sql.Date;
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,6 +24,8 @@ public class Subscription extends Package {
     private IntegerProperty memberId = null;
     private StringProperty subscriptionStatus = null;
     private IntegerProperty subscriptionId = null;
+    private FloatProperty offerPrice = null;
+    private StringProperty declineMessage = null;
     
     //public Subscription(Date ssd, Date sed, int packageId, int memberId) {
         public Subscription() {
@@ -40,6 +44,23 @@ public class Subscription extends Package {
             subscriptionStartDate = ssd;
             subscriptionEndDate = sed;
             subscriptionId = new SimpleIntegerProperty(sid);
+            
+        }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, float op) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+            offerPrice = new SimpleFloatProperty(op);
+        }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, String dm) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+            declineMessage = new SimpleStringProperty(dm);
         }
     
     public Date getSubscriptionStartDate() {

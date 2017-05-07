@@ -29,6 +29,14 @@
                   <MenuItem fx:id="viewPackageMenu" mnemonicParsing="false" onAction="#viewPackageMenuClick" text="View Package" />
                </items>
             </Menu>
+      <Menu mnemonicParsing="false" text="Subscriptions">
+        <items>
+          <MenuItem fx:id="viewSubscriptionRequestsMenu" mnemonicParsing="false" onAction="#viewSubscriptionRequestsMenuClick" text="View Subscription Requests" />
+            <MenuItem fx:id="viewActiveSubscriptionsMenu" mnemonicParsing="false" onAction="#viewActiveSubscriptionsMenuClick" text="View Active Subscriptions" />
+            <MenuItem fx:id="viewExpiredSubscriptionsMenu" mnemonicParsing="false" onAction="#viewExpiredSubscriptionsMenuClick" text="View Expired Subscriptions" />
+            <MenuItem fx:id="viewCancelledSubscriptionsMenu" mnemonicParsing="false" onAction="#viewCancelledSubscriptionsMenuClick" text="View Cancelled Subscriptions" />
+        </items>
+      </Menu>
             <Menu mnemonicParsing="false" text="Schedule">
                <items>
                   <MenuItem fx:id="addScheduleMenu" mnemonicParsing="false" onAction="#addScheduleMenuClick" text="Add Schedule" />
@@ -46,10 +54,5 @@
                   <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />
                </items>
             </Menu>
-      <Menu mnemonicParsing="false" text="Subscriptions">
-        <items>
-          <MenuItem fx:id="subscriptionsMenu" mnemonicParsing="false" onAction="#subscriptionsMenuClick" text="Action 1" />
-        </items>
-      </Menu>
          </menus>
 </MenuBar>

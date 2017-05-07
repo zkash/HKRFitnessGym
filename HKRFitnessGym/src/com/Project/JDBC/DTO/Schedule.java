@@ -9,7 +9,6 @@ package com.Project.JDBC.DTO;
  *
  * @author Xuantong
  */
-import java.time.LocalDate;
 import java.sql.Date;
 /**
  *
@@ -20,15 +19,10 @@ public class Schedule {
     private String openingTime;
     private String closingTime;
     private Boolean isHoliday;
+    private int id;
     
     public Schedule(){
         
-    }
-    
-    public Schedule(Date date, String openingTime, String closingTime) {
-        this.date = date;
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
     }
     
     public Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {
@@ -68,5 +62,19 @@ public class Schedule {
     
     public void setIsHoliday(Boolean isHoliday) {
         this.isHoliday = isHoliday;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

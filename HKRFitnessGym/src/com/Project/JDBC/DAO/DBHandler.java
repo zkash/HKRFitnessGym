@@ -8,6 +8,7 @@ package com.Project.JDBC.DAO;
 import com.Project.Controllers.Admin;
 import com.Project.JDBC.DTO.Announcements;
 import com.Project.JDBC.DTO.Chat;
+import com.Project.JDBC.DTO.Schedule;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -18,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -259,13 +261,47 @@ public class DBHandler {
         PreparedStatement prepStmt = null;
         ResultSet rs = null;
         try {
-            String statement = "select * frome schedule";
+            String statement = "SELECT date, openingTime, closeTime, isHoliday, scheduleId FROM schedule";
             conn = establishConnection();
             prepStmt = conn.prepareStatement(statement);
             rs = prepStmt.executeQuery();
             
         } catch (Exception e) {
             System.out.println("Cannot ritrive schedule.");
+        }
+        return rs;
+    }
+    
+    public static void deleteSchedule(Date date){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            String statement = "DELETE FROM Schedule WHERE date = ?";
+            conn = establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            prepStmt.setDate(1, date);
+            prepStmt.execute();
+            System.out.println("Success removed");
+            
+        } catch (Exception e) {
+            System.out.println("error. Not delete.");
+        }
+    }
+    
+    public static ResultSet searchSchedule(String date){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            String statement = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
+            conn = establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            rs = prepStmt.executeQuery();
+            System.out.println("Success");
+            
+        } catch (Exception e) {
+            System.out.println("error. Not found.");
         }
         return rs;
     }

@@ -82,6 +82,8 @@ public class CreateSchedulePageController implements Initializable {
     @FXML private Label invalidMsgAllData;
     @FXML private Button createScheduleBtn;
     
+    private final int adminId = LoginStorage.getInstance().getId();
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -216,7 +218,7 @@ public class CreateSchedulePageController implements Initializable {
             System.out.println(schedule.getOpeningTime());
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
-            DBHandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
+            DBHandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(), adminId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("DATA HAS BEEN SAVED.");
             alert.show();

@@ -41,29 +41,47 @@ public class AdminMainPageController implements Initializable {
         login = LoginStatus.getLogin();
         loggedUserLbl.textProperty().bind(LoginStorage.getInstance().usernameProperty());
        
-    }    
-    
-    public void accountBtnClick(ActionEvent event) throws IOException {
-    }
-    
-    public void packageBtnClick(ActionEvent event) throws IOException {
-    }
-    
-    public void scheduleBtnClick(ActionEvent event) throws IOException {
-    }
-    
-    public void announcementBtnClick(ActionEvent event) throws IOException {
-    Node node = (Node) event.getSource();
+ } 
+   @FXML
+   public void accountBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminAnnouncementsPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
+    @FXML
+    public void packageBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreatePackagePage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+        
+    }
+    @FXML
+    public void scheduleBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateSchedulePage.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
+    @FXML
+    public void announcementBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAnnouncementPage.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();
     }
    
-
     @FXML
-    public void goToChatPage(ActionEvent event) throws IOException {
+    public void chatBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
       Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
@@ -71,4 +89,14 @@ public class AdminMainPageController implements Initializable {
       stage.setScene(scene);
       stage.show();
     }
+    @FXML
+    public void subscribeBtnClick(ActionEvent event) throws IOException {
+      Node node = (Node) event.getSource();
+      Stage stage = (Stage) node.getScene().getWindow();
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewMemberAccounts.fxml"));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    }
+    
 }

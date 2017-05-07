@@ -13,22 +13,17 @@
    <left>
       <AnchorPane prefHeight="368.0" prefWidth="602.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="accountBtn" layoutX="147.0" layoutY="38.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="307.0" text="Account">
+            <Button fx:id="accountBtn" layoutX="82.0" layoutY="117.0" mnemonicParsing="false" onAction="#accountBtnClick" prefHeight="39.0" prefWidth="180.0" text="Account">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="announcementBtn" layoutX="148.0" layoutY="116.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="306.0" text="Announcement">
+            <Button fx:id="announcementBtn" layoutX="338.0" layoutY="168.0" mnemonicParsing="false" onAction="#announcementBtnClick" prefHeight="39.0" prefWidth="180.0" text="Announcement">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="packageBtn" layoutX="148.0" layoutY="77.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="306.0" text="Package" AnchorPane.topAnchor="77.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="galleryBtn" layoutX="148.0" layoutY="194.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="306.0" text="Gallery">
+            <Button fx:id="packageBtn" layoutX="83.0" layoutY="168.0" mnemonicParsing="false" onAction="#packageBtnClick" prefHeight="39.0" prefWidth="178.0" text="Package" AnchorPane.topAnchor="168.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -44,17 +39,22 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="scheduleBtn" layoutX="148.0" layoutY="155.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="306.0" text="Schedule">
+            <Button fx:id="scheduleBtn" layoutX="338.0" layoutY="118.0" mnemonicParsing="false" onAction="#scheduleBtnClick" prefHeight="39.0" prefWidth="180.0" text="Schedule">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="147.0" layoutY="272.0" mnemonicParsing="false" onAction="#goToSettingsPage" prefHeight="39.0" prefWidth="306.0" text="Settings">
+            <Button fx:id="settingsBtn" layoutX="211.0" layoutY="275.0" mnemonicParsing="false" onAction="#settingsBtnClick" prefHeight="39.0" prefWidth="179.0" text="Settings">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="chatBtn" layoutX="147.0" layoutY="233.0" mnemonicParsing="false" onAction="#goToChatPage" prefHeight="39.0" prefWidth="307.0" text="Chat">
+            <Button fx:id="chatBtn" layoutX="339.0" layoutY="217.0" mnemonicParsing="false" onAction="#chatBtnClick" prefHeight="39.0" prefWidth="178.0" text="Chat">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="subscribeBtn" layoutX="82.0" layoutY="217.0" mnemonicParsing="false" onAction="#subscribeBtnClick" prefHeight="39.0" prefWidth="180.0" text="Subscribe">
                <font>
                   <Font size="18.0" />
                </font>

@@ -905,8 +905,8 @@ System.out.println("DSDSAS " + data);
             System.out.println("\t\t\t\t " + subscription.getPackageId());
             System.out.println("\t\t\t\t " + subscription.getMemberId());
             
-            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
-                    + " VALUES (?, ?, ?, ?, false)";
+            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled, isRequested, isAccepted)"
+                    + " VALUES (?, ?, ?, ?, false, true, null)";
             System.out.println("sssd "  + subscription.getSubscriptionStartDate());
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setDate(1, subscription.getSubscriptionStartDate());
@@ -1209,6 +1209,31 @@ System.out.println("DSDSAS " + data);
             statement.setString(1, newPwd);
             statement.setInt(2, id);
             statement.executeUpdate();
+        }
+    }
+    
+    public void getSubscriptionRequest() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT * FROM Subscription WHERE isRequested = true";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<SubscriptionRequest> subscriptionRequestList = FXCollections.observableArrayList();
+       
+        while(rs.next()) {
+            SubscriptionRequest subscriptionRequest;
+            subscriptionRequest = new SubscriptionRequest(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("pk.startDate"),
+                    rs.getDate("pk.endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("startTime"),
+                    rs.getDate("sub.startDate"),
+                    rs.getDate("sub.endDate"),
+                    rs.getInt("subscriptionId")
+            );
+           
+            
         }
     }
 }

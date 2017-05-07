@@ -46,5 +46,10 @@
                   <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />
                </items>
             </Menu>
+      <Menu mnemonicParsing="false" text="Subscriptions">
+        <items>
+          <MenuItem fx:id="subscriptionsMenu" mnemonicParsing="false" onAction="#subscriptionsMenuClick" text="Action 1" />
+        </items>
+      </Menu>
          </menus>
 </MenuBar>

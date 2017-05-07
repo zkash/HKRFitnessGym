@@ -40,6 +40,7 @@
             <Label layoutX="50.0" layoutY="356.0" text="When do you want to start?" />
             <Label layoutX="50.0" layoutY="381.0" text="Till to which date will you" />
             <Label layoutX="50.0" layoutY="395.0" text="take part in the package?" />
+            <Button fx:id="sendReqBtn" layoutX="401.0" layoutY="427.0" mnemonicParsing="false" onAction="#sendReqBtnClick" text="Send Req" />
            
          </children>
       </AnchorPane>

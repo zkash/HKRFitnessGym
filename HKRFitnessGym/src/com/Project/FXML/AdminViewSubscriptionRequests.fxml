@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewSubscriptionRequestsController">
+    <top>
+        <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
+    </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <TableView fx:id="memberViewSubscriptionsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
+              <columns>
+                <TableColumn fx:id="fullNameColumn" prefWidth="135.0" text="Subscriber Name" />
+                <TableColumn fx:id="usernameColumn" prefWidth="135.0" text="Subscriber Username" />
+                <TableColumn fx:id="packageNameColumn" prefWidth="135.0" text="Package Name" />
+                  <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="packageStartDateColumn" text="Package Start Date" />
+                  <TableColumn fx:id="packageEndDateColumn" text="Package End Date" />
+                <TableColumn fx:id="startTimeColumn" prefWidth="75.0" text="Start Time" />
+                  <TableColumn fx:id="endTimeColumn" prefWidth="75.0" text="End Time" />
+                  <TableColumn fx:id="subscriptionStartDateColumn" prefWidth="75.0" text="Subscription Start Date" />
+                  <TableColumn fx:id="subscriptionEndDateColumn" prefWidth="75.0" text="Subscription End Date" />
+                  </columns>
+            </TableView>
+            <Label layoutX="92.0" layoutY="33.0" text="Subscription Requests" AnchorPane.leftAnchor="92.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Button fx:id="declineRequestBtn" layoutX="443.0" layoutY="365.0" mnemonicParsing="false" onAction="#declineRequestBtnClick" text="Decline Request" />
+            <Button fx:id="acceptRequestBtn" layoutX="317.0" layoutY="365.0" mnemonicParsing="false" onAction="#acceptRequestBtnClick" text="Accept Request" />
+            <Pane fx:id="acceptRequestPane" layoutX="44.0" layoutY="365.0" prefHeight="80.0" prefWidth="209.0">
+               <children>
+                  <Label layoutX="1.0" text="Offer Price" />
+                  <TextField fx:id="offerPriceTextField" layoutX="1.0" layoutY="17.0" />
+                  <Button fx:id="acceptSendBtn" layoutX="118.0" layoutY="53.0" mnemonicParsing="false" onAction="#acceptSendBtnClick" text="Send" />
+               </children>
+            </Pane>
+            <Pane fx:id="declineRequestPane" layoutX="44.0" layoutY="365.0" prefHeight="120.0" prefWidth="209.0">
+               <children>
+                  <Label layoutX="1.0" text="Decline Message" />
+                  <TextArea fx:id="declineMessageTextArea" layoutX="1.0" layoutY="15.0" prefHeight="70.0" prefWidth="190.0" />
+                  <Button fx:id="declineSendBtn" layoutX="145.0" layoutY="93.0" mnemonicParsing="false" onAction="#declineSendBtnClick" text="Send" />
+               </children>
+            </Pane>
+           
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

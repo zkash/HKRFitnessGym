@@ -34,6 +34,13 @@ public class Subscription extends Package {
         public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
         }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+        }
     
     public Date getSubscriptionStartDate() {
         return subscriptionStartDate;

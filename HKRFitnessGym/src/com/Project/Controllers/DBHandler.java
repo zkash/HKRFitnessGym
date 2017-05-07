@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +24,16 @@ import javafx.collections.ObservableList;
  * @author shameer
  */
 public class DBHandler {
+    private static Connection c;
+    private static String currentUser;
+    private static String position;
+    private static int idMember;
 
     static void createPackage(String pn, String pc, LocalDate psd, LocalDate ped, String pst, String pd, int admin_ssn) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    static Object getIdForVerification() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1216,15 +1226,98 @@ System.out.println("DSDSAS " + data);
         return oldPassword;
     }
     
-    public void updatePassword(String newPwd, int id) throws SQLException {
-        try (Connection conn = establishConnection()) {
-            String query = "UPDATE Member SET password = ? WHERE memberId = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, newPwd);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-        }
-    }
+  
+//     //Returns member id.
+//        public static int getLoggedUserId(){
+//            return idMember;
+//        }
+//        // Returns logged user.
+//        public static String getLoggedUser(){
+//            return currentUser;
+//    }
+//        // Returns positon of user.
+//        public static String getLoggedUserPosition(){
+//            return position;
+//    }
+//        //To get list of messages from database
+//        public static List<Chat> getMessageList(String query) {
+//            List<Chat> messageList = new LinkedList<>();
+//            PreparedStatement stmt;
+//            ResultSet rs;
+//            try{
+//                stmt = c.prepareStatement(query);
+//                rs = stmt.executeQuery();
+//                
+//                while (rs.next()){
+//                    Chat message = new Chat();
+//                    message.setMessageId(rs.getInt("idChat"));
+//                    message.setTime(rs.getString("time"));
+//                    message.setName(rs.getString("name"));
+//                    message.setMessage(rs.getString("message"));
+//                    messageList.add(message);
+//                }
+//                
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return messageList;
+//        
+//    }
+//     // save message into database.
+//    public static void saveMessage(String time, String name, String message) {
+//        PreparedStatement stmt;
+//        
+//        try{
+//            stmt = c.prepareStatement("Insert Into chat" + "(time, message, name)" 
+//                    + "Values (?, ?, ?)");
+//            stmt.setString(1, time);
+//            stmt.setString(2, message);
+//            stmt.setString(3, name);
+//            stmt.execute();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//     } 
+//        
+//    // To save announcements into database.
+//    public static void saveAnnouncement(String time, String message) {
+//        PreparedStatement stmt;
+//        try {
+//            stmt = c.prepareStatement("Insert Into announcements"
+//                    + "(time, message)"
+//                    + "Values (?, ?, ?)");
+//            stmt.setString(1, time);
+//            stmt.setString(2, message);
+//            stmt.execute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    //To get message list from database.
+//     public static List<Announcements> getAnnouncementsList(String query) {
+//        List<Announcements> messageList = new LinkedList<>();
+//        PreparedStatement stmt;
+//        ResultSet rs;
+//        try {
+//            stmt = c.prepareStatement(query);
+//            rs = stmt.executeQuery();
+//            
+//            while (rs.next()) {
+//                Announcements announcements = new Announcements();
+//                announcements.setMessageId(rs.getInt("idAnnouncements"));
+//                announcements.setTime(rs.getString("time"));
+//                announcements.setMessage(rs.getString("message"));
+//                messageList.add(announcements);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return messageList;
+//    }
+//
+//    void updatePassword(String text, int id) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
         Connection conn = establishConnection();

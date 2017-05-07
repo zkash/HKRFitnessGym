@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  *
- * @author shameer
+ * @author KN
  */
 
 public class DBHandler {
@@ -213,7 +213,7 @@ public class DBHandler {
         return null;
     }
     //To get message list from database.
-     public static List<Announcements> getAnnouncementsList(String query) {
+    public static List<Announcements> getAnnouncementsList(String query) {
         List<Announcements> messageList = new LinkedList<>();
         PreparedStatement stmt;
         ResultSet rs;

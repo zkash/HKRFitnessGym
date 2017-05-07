@@ -5,11 +5,15 @@
  */
 package com.Project.Controllers;
 
+import com.Project.JDBC.DAO.DBHandler;
+import com.Project.JDBC.DTO.Schedule;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,25 +31,48 @@ public class MemberViewScheduleController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @FXML private TableView<Schedule> memberViewScheduleTable;
-    @FXML private TableColumn<Package, String> dateColumn;
-    @FXML private TableColumn<Package, String> openingTimeColumn; 
-    @FXML private TableColumn<Package, String> closingTimeColumn;
-    @FXML private TableColumn<Package, String> isHolidayColumn;
+    @FXML private TableView memberViewScheduleTable; 
+    @FXML private TableColumn<Schedule, String> dateView; 
+    @FXML private TableColumn<Schedule, String>otView;
+    @FXML private TableColumn<Schedule, String>ctView;
+    @FXML private TableColumn<Schedule, String>holidayView;
     
-    private final DBHandler dbHandler = new DBHandler();
+    private ObservableList<Schedule> data;
+    private DBHandler jdbc;
+    
+    private Statement stmt;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        jdbc = new DBHandler();
         try {
-            ObservableList<Schedule> schedule = dbHandler.memberViewSchedule();
-            dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-            openingTimeColumn.setCellValueFactory(new PropertyValueFactory<>("openingTime"));
-            closingTimeColumn.setCellValueFactory(new PropertyValueFactory<>("closingTime"));
-            isHolidayColumn.setCellValueFactory(new PropertyValueFactory<>("isHoliday"));
-            memberViewScheduleTable.setItems(schedule);
+            Connection conn = DBHandler.establishConnection();
+            data = FXCollections.observableArrayList();
+            stmt = conn.createStatement();
+            //ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");
+            ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");
+            
+            while(rs.next()){
+                System.out.println(rs.getDate("date"));
+                System.out.println(rs.getTime("openingTime"));
+                System.out.println(rs.getTime("closeTime"));
+                System.out.println(rs.getBoolean("isHoliday"));
+                
+                data.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closeTime"), rs.getBoolean("isHoliday")));
+            }
+            
+            
+            
         } catch (SQLException ex) {
-            Logger.getLogger(MemberViewScheduleController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error "+ ex);
         }
+        
+        dateView.setCellValueFactory(new PropertyValueFactory<Schedule,String>("date"));
+        otView.setCellValueFactory(new PropertyValueFactory<Schedule,String>("openingTime"));
+        ctView.setCellValueFactory(new PropertyValueFactory<Schedule,String>("closingTime"));
+        holidayView.setCellValueFactory(new PropertyValueFactory<Schedule,String>("isHoliday"));
+        
+        memberViewScheduleTable.setItems(data);
     }    
+    
 }

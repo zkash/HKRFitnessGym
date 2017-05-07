@@ -81,7 +81,7 @@ public class MenuBarAdminController implements Initializable {
     }
    
     public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewAnnouncements.fxml");
+        setupAndShowStage("/com/Project/FXML/AdminViewAnnouncement.fxml");
     }
     
     public void aboutMenuClick(ActionEvent event) {

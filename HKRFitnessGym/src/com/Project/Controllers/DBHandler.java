@@ -1020,6 +1020,30 @@ System.out.println("DSDSAS " + data);
         return cancelError;
     }
     
+    public Boolean verifyUsername(String uname, String accountType) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT count(*) FROM Admin WHERE username = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT count(*) FROM Member WHERE username = ?";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, uname);
+        ResultSet rs = statement.executeQuery();
+        int count = 0;
+        while(rs.next()) {
+            count = rs.getInt(1);
+        }
+        if(count==0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+            
+    }
     public int getId(String uname, String pwd, String accountType) {
         Connection conn = establishConnection();
         String query = "";

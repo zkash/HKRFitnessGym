@@ -27,7 +27,7 @@ public class Package {
     private StringProperty endTime = null;
     private IntegerProperty packageId = null;
     private StringProperty adminFullName = null;
-    private IntegerProperty count = new SimpleIntegerProperty();
+    private IntegerProperty numberOfSubscriber = new SimpleIntegerProperty();
     
     public Package() {
         
@@ -102,8 +102,8 @@ public class Package {
         return adminFullName.get();
     }
     
-    public int getCount() {
-        return count.get();
+    public int getNumberOfSubscriber() {
+        return numberOfSubscriber.get();
     }
     
     //Setters
@@ -135,8 +135,8 @@ public class Package {
         adminFullName.set(afn);
     }
     
-    public void setCount(int c) {
-    count.set(c);
+    public void setNumberOfSubscriber(int nos) {
+    numberOfSubscriber.set(nos);
     }
     
     // Property values
@@ -172,7 +172,7 @@ public class Package {
         return adminFullName;
     }
     
-    public IntegerProperty countProperty() {
-        return count;
+    public IntegerProperty numberOfSubscriberProperty() {
+        return numberOfSubscriber;
     }
 }

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<MenuBar fx:id="menuBarAdmin" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuBarAdminController">
+<MenuBar fx:id="menuBarAdmin" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuBarAdminController">
   <menus>
             <Menu mnemonicParsing="false" text="Account">
                <items>
@@ -48,6 +48,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#viewAnnouncementMenuClick" text="View Announcement" />
                </items>
             </Menu>
+      <Menu mnemonicParsing="false" text="Chat">
+        <items>
+          <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#visitChatRoomMenuClick" text="Visit Chat Room" />
+        </items>
+      </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />

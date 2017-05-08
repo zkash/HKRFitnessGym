@@ -109,5 +109,8 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("/com/Project/FXML/AdminViewDeclinedSubscriptionRequests.fxml");
     }
     
+    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/ChatPage.fxml");
+    }
   
 }

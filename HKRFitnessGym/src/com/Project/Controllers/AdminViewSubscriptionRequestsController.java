@@ -7,6 +7,7 @@ package com.Project.Controllers;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -15,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -30,15 +32,12 @@ import javafx.scene.layout.Pane;
  */
 public class AdminViewSubscriptionRequestsController implements Initializable {
 
-    @FXML private Pane acceptRequestPane;
-    @FXML private Pane declineRequestPane;
-    @FXML private TextField offerPriceTextField;
-    @FXML private TextArea declineMessageTextArea;
+   
      ObservableList<SubscriptionRequest> subscriptionRequest;
      
       @FXML private TableView<SubscriptionRequest> adminViewSubscriptionRequestTable;
-      @FXML private TableColumn<SubscriptionRequest, String> fullNameColumn;
-      @FXML private TableColumn<SubscriptionRequest, String> usernameColumn;
+      @FXML private TableColumn<SubscriptionRequest, String> memberFullNameColumn;
+      @FXML private TableColumn<SubscriptionRequest, String> memberUsernameColumn;
     @FXML private TableColumn<SubscriptionRequest, String> packageNameColumn;
     @FXML private TableColumn<SubscriptionRequest, String> priceColumn; 
     @FXML private TableColumn<SubscriptionRequest, String> packageStartDateColumn;
@@ -48,6 +47,12 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     @FXML private TableColumn<SubscriptionRequest, String> subscriptionStartDateColumn;
     @FXML private TableColumn<SubscriptionRequest, String> subscriptionEndDateColumn;
     @FXML private TableColumn<SubscriptionRequest, String> subscriptionStatusColumn;
+    
+    @FXML private TextField searchSubscription;
+    @FXML private CheckBox searchMemberFullName;
+    @FXML private CheckBox searchMemberUsername;
+    @FXML private CheckBox searchPackageName;
+
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
@@ -63,13 +68,12 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            acceptRequestPane.setVisible(false);
-            declineRequestPane.setVisible(false);
+            
             subscriptionRequest = dbHandler.getSubscriptionRequest();
             System.out.println(subscriptionRequest);
             System.out.println("QQQ");
-            fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
-            usernameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberUsername"));
+            memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
+            memberUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberUsername"));
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             packageStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -181,11 +185,95 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
 //    }
     
     public void searchBtnClick(ActionEvent event) throws SQLException {
+        String searchQuery = searchSubscription.getText(); 
+        ArrayList<CheckBox> checkboxes = new ArrayList<>();
+        checkboxes.add(searchMemberFullName);
+        checkboxes.add(searchMemberUsername);
+        checkboxes.add(searchPackageName);
+
+        String memberFirstName = null, memberMiddleName = null, memberLastName = null, memberUsername = null, packageName = null, adminFirstName = null, adminMiddleName = null, adminLastName = null;
         
+        if(searchMemberFullName.isSelected()) {
+            memberFirstName = searchQuery;
+            memberMiddleName = searchQuery;
+            memberLastName = searchQuery;
+        }
+
+        if(searchMemberUsername.isSelected()) {
+            memberUsername = searchQuery;
+        }
+        
+        if(searchPackageName.isSelected()) {
+            packageName = searchQuery;
+        }
+        
+      
+        
+        System.out.println("0");
+        
+        if (!searchMemberFullName.isSelected() 
+                && !searchMemberUsername.isSelected() 
+                && !searchPackageName.isSelected()) {
+            memberFirstName = searchQuery;
+            memberMiddleName = searchQuery;
+            memberLastName = searchQuery;
+            packageName = searchQuery;
+           
+        }
+        System.out.println("1");
+        ObservableList<SubscriptionRequest> searchData;
+        System.out.println("HOOOOOLLALSA");
+        searchData = dbHandler.searchInAdminViewSubscriptionRequests(memberFirstName, memberMiddleName, memberLastName, memberUsername, packageName);
+        System.out.println("SEARCH DATA " + searchData);
+        adminViewSubscriptionRequestTable.getColumns().clear();
+        System.out.println("AFTER SEARCH");
+        memberFullNameColumn = new TableColumn("Member Name");
+        memberUsernameColumn = new TableColumn("Member Username");
+        packageNameColumn = new TableColumn("Package");
+        priceColumn = new TableColumn("Price");
+        packageStartDateColumn = new TableColumn("Package Start Date");
+        packageEndDateColumn = new TableColumn("Package End Date");
+        startTimeColumn = new TableColumn("Start Time");
+        endTimeColumn = new TableColumn("End Time");
+        subscriptionStartDateColumn = new TableColumn("Subscription Start Date");
+        subscriptionEndDateColumn = new TableColumn("Subscription End Date");
+          
+         adminViewSubscriptionRequestTable.getColumns().addAll(memberFullNameColumn, memberUsernameColumn, packageNameColumn, priceColumn, packageStartDateColumn, packageEndDateColumn, startTimeColumn, endTimeColumn, subscriptionStartDateColumn, subscriptionEndDateColumn);
+         memberFullNameColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004)); 
+         memberUsernameColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         packageNameColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         priceColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         packageStartDateColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         packageEndDateColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         startTimeColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         endTimeColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         subscriptionStartDateColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         subscriptionEndDateColumn.prefWidthProperty().bind(adminViewSubscriptionRequestTable.widthProperty().multiply(0.30837004));
+         // 
+//      Set cell value factory to TableView
+        setDataInTable(searchData);
     }
     
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
         
     }
+    
+    public void setDataInTable(ObservableList<SubscriptionRequest> data) {
+        // Set cell value factory to TableView
+        memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
+            memberUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberUsername"));
+            packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+            packageStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+            packageEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+            startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
+            subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
+//            subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
+            adminViewSubscriptionRequestTable.setItems(null);
+            adminViewSubscriptionRequestTable.setItems(data); 
+    }
+
 }
 

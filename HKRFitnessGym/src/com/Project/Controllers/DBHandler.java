@@ -1794,4 +1794,57 @@ System.out.println("DSDSAS " + data);
         System.out.println("sub " + subscription);
         return subscription;
     }
+     
+     public ObservableList<SubscriptionRequest> searchInAdminViewSubscriptionRequests(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName) throws SQLException {
+        Connection conn = establishConnection();
+         
+
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                + " m.username, packageName, price, pk.startDate, pk.endDate,"
+                + " startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus,"
+                + " subscriptionId FROM Subscription AS sub"
+                + " INNER JOIN package AS pk"
+                + " ON pk.packageId = sub.Package_packageId"
+                + " INNER JOIN member AS m"
+                + " ON sub.Member_memberId = m.memberId"
+                + " WHERE (m.firstName LIKE \"%" + memberFirstName + "%\""
+                 + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                 + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                 + " OR m.username LIKE \"%" + memberUsername + "%\""
+                 + " OR packageName LIKE \"%" + packageName + "%\")"
+                 + " AND subscriptionStatus = 'Requested'";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<SubscriptionRequest> subscriptionRequestList = FXCollections.observableArrayList();
+       
+        while(rs.next()) {
+            SubscriptionRequest subscriptionRequest;
+            System.out.println("HHHH");
+            System.out.println("HERE " + rs.getString("packageName"));
+            subscriptionRequest = new SubscriptionRequest(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("pk.startDate"),
+                    rs.getDate("pk.endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("startTime"),
+                    rs.getDate("sub.startDate"),
+                    rs.getDate("sub.endDate"),
+                    rs.getInt("subscriptionId")
+            );
+            if(rs.getString("m.middleName").equals("")) {
+                System.out.println("MIDDLE NAme");
+                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("lastName"));
+            }
+            subscriptionRequest.setMemberUsername(rs.getString("m.username"));
+            subscriptionRequestList.add(subscriptionRequest);
+           
+        
+        }
+        System.out.println("sub " + subscriptionRequestList);
+        return subscriptionRequestList;
+    }
 }

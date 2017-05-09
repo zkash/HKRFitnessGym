@@ -136,10 +136,6 @@ public class AdminViewScheduleController implements Initializable {
         else{
             getSearchedDetial();
         }
-        
-        
-        
-       
     }
     
     @FXML

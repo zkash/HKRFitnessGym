@@ -1126,10 +1126,10 @@ System.out.println("DSDSAS " + data);
         Connection conn = establishConnection();
         String query = "";
         if(accountType.equals("Admin")) {
-            query = "SELECT count(*) FROM Admin WHERE username = ?";
+            query = "SELECT count(*) FROM Admin WHERE BINARY username = ?";
         }
         else if(accountType.equals("Member")) {
-            query = "SELECT count(*) FROM Member WHERE username = ?";
+            query = "SELECT count(*) FROM Member WHERE BINARY username = ?";
         }
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, uname);
@@ -1150,10 +1150,10 @@ System.out.println("DSDSAS " + data);
         Connection conn = establishConnection();
         String query = "";
         if(accountType.equals("Admin")) {
-            query = "SELECT adminId FROM Admin WHERE username = ? AND password = ?";
+            query = "SELECT adminId FROM Admin WHERE BINARY username = ? AND BINARY password = ?";
         }
         else if(accountType.equals("Member")) {
-            query = "SELECT memberId FROM Member WHERE username = ? AND password = ?";
+            query = "SELECT memberId FROM Member WHERE BINARY username = ? AND BINARY password = ?";
         }
         int id = 0;
         try {
@@ -1205,10 +1205,10 @@ System.out.println("DSDSAS " + data);
         Connection conn = establishConnection();
         String query = "";
         if(accountType.equals("Admin")) {
-            query = "SELECT COUNT(*)FROM Admin WHERE username = ? AND password = ?";
+            query = "SELECT COUNT(*)FROM Admin WHERE BINARY username = ? AND BINARY password = ?";
         }
         else if(accountType.equals("Member")) {
-            query = "SELECT COUNT(*) FROM Member WHERE username = ? AND password = ?";
+            query = "SELECT COUNT(*) FROM Member WHERE BINARY username = ? AND BINARY password = ?";
         }
         
         

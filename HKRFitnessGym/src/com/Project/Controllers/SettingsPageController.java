@@ -36,6 +36,7 @@ public class SettingsPageController implements Initializable {
 
     private DBHandler dbHandler = new DBHandler();
     private int id =  LoginStorage.getInstance().getId();
+    private String accountType = LoginStorage.getInstance().getAccountType();
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,7 +55,7 @@ public class SettingsPageController implements Initializable {
             }
 //             Update password using DBHandler method.
             else {
-                dbHandler.updatePassword(newPassword.getText(), id);
+                dbHandler.updatePassword(accountType, id, newPassword.getText());
                 errorMessage.setText("Your password has been changed.");
             }
         }

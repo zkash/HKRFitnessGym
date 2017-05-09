@@ -95,4 +95,22 @@ public class MenuBarAdminController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    
+    
+    public void viewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/AdminViewSubscriptionRequests.fxml");
+    }
+    
+    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/AdminViewSubscriptions.fxml");
+    }
+    
+    public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/AdminViewDeclinedSubscriptionRequests.fxml");
+    }
+    
+    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/ChatPage.fxml");
+    }
+  
 }

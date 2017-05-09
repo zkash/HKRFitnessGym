@@ -160,7 +160,7 @@ public class AdminViewPackagesController implements Initializable {
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("adminFullName"));
-        membersColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
+        membersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSubscriber"));
         adminViewPackagesTable.setItems(null);
         adminViewPackagesTable.setItems(data);
     }

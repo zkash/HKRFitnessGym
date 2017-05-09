@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.Controllers.DBHandler;
+import com.Project.JDBC.DAO.DBHandler;
 import com.Project.JDBC.DTO.Announcements;
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +57,8 @@ public class AnnouncementsPageController implements Initializable {
             }
             // Saves message after fulfill conditions.
             else if(message.getText().length() <= 50 && message.getText().length() > 0){
-                DBHandler.saveAnnouncement(dateformat.format(date), message.getText());
+                DBHandler db = new DBHandler();
+                db.saveAnnouncement(dateformat.format(date), message.getText());
                 message.clear();
                 loadMessage();
             }

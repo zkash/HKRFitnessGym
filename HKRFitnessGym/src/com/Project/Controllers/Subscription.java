@@ -6,8 +6,10 @@
 package com.Project.Controllers;
 
 import java.sql.Date;
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,6 +24,11 @@ public class Subscription extends Package {
     private IntegerProperty memberId = null;
     private StringProperty subscriptionStatus = null;
     private IntegerProperty subscriptionId = null;
+    private FloatProperty offerPrice = null;
+    private StringProperty declineMessage = null;
+    private StringProperty subscriptionAdminFullName = null;
+    private StringProperty memberFullName = null;
+    private StringProperty memberUsername = null;
     
     //public Subscription(Date ssd, Date sed, int packageId, int memberId) {
         public Subscription() {
@@ -33,6 +40,39 @@ public class Subscription extends Package {
         
         public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+        }
+        
+        public Subscription(String packageName) {
+            super(packageName);
+        }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+            
+        }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, float op) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+            offerPrice = new SimpleFloatProperty(op);
+        }
+        
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, String dm) {
+            super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
+            subscriptionStartDate = ssd;
+            subscriptionEndDate = sed;
+            subscriptionId = new SimpleIntegerProperty(sid);
+            declineMessage = new SimpleStringProperty(dm);
+        }
+        
+        //For MemberViewSubscription
+        public Subscription(String packageName, Float price, String startTime, String endTime) {
+            super(packageName, price, startTime, endTime);
         }
     
     public Date getSubscriptionStartDate() {
@@ -58,6 +98,26 @@ public class Subscription extends Package {
     
     public int getSubscriptionId() {
         return subscriptionId.get();
+    }
+    
+    public String getMemberFullName() {
+        return memberFullName.get();
+    }
+    
+    public String getMemberUsername() {
+        return memberUsername.get();
+    }
+    
+    public float getOfferPrice() {
+        return offerPrice.get();
+    }
+    
+    public String getDeclineMessage() {
+        return declineMessage.get();
+    }
+    
+    public String getSubscriptionAdminFullName() {
+        return subscriptionAdminFullName.get();
     }
     
     public void setSubscriptionStartDate(Date ssd) {
@@ -90,5 +150,25 @@ public class Subscription extends Package {
     
     public void setSubscriptionId(int subId) {
         subscriptionId = new SimpleIntegerProperty(subId);
+    }
+    
+    public void setMemberFullName(String mfn) {
+        memberFullName = new SimpleStringProperty(mfn);
+    }
+    
+    public void setMemberUsername(String mun) {
+        memberUsername = new SimpleStringProperty(mun);
+    }
+    
+    public void setOfferPrice(float of) {
+        offerPrice = new SimpleFloatProperty(of);
+    }
+    
+    public void setDeclineMessage(String dm) {
+        declineMessage = new SimpleStringProperty(dm);
+    }
+    
+    public void setSubscriptionAdminFullName(String safn) {
+        subscriptionAdminFullName = new SimpleStringProperty(safn);
     }
 }

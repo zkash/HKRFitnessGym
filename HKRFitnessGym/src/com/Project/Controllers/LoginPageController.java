@@ -88,31 +88,39 @@ public class LoginPageController implements Initializable {
     }
    
    @FXML
-    private void handleLogin(ActionEvent event) throws IOException {
+    private void handleLogin(ActionEvent event) throws IOException, SQLException {
         String uname = userNameField.getText();
         String pwd = passwordField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
             String accountType = accountTypeComboBox.getValue().toString();
             int id;
-            id = dbHandler.getId(uname, pwd, accountType);
-            if(id == 0) {
-                helper.showDialogBox(true, "Account doesn't exist");
-
+            boolean usernameValid = dbHandler.verifyUsername(uname, accountType);
+            if(!usernameValid) {
+                helper.showDialogBox(true, "Account doesn't exists");
             }
             else {
-                if(accountType.equals("Admin")) {
-                    LoginStorage.getInstance().setUsername(uname);
-                    LoginStorage.getInstance().setId(id);
-                    LoginStorage.getInstance().setAccountType("Admin");
-                    visitAdminPage(event);
+            
+                id = dbHandler.getId(uname, pwd, accountType);
+                if(id == 0) {
+                    helper.showDialogBox(true, "Wrong Password");
+
                 }
-                else if (accountType.equals("Member")){
-                    LoginStorage.getInstance().setUsername(uname);
-                    LoginStorage.getInstance().setId(id);
-                    LoginStorage.getInstance().setAccountType("Member");
-                    visitMemberPage(event);
+                else {
+                    if(accountType.equals("Admin")) {
+                        LoginStorage.getInstance().setUsername(uname);
+                        LoginStorage.getInstance().setId(id);
+                        LoginStorage.getInstance().setAccountType("Admin");
+                        visitAdminPage(event);
+                    }
+                    else if (accountType.equals("Member")){
+                        LoginStorage.getInstance().setUsername(uname);
+                        LoginStorage.getInstance().setId(id);
+                        LoginStorage.getInstance().setAccountType("Member");
+                        visitMemberPage(event);
+                    }
                 }
             }
+            
         }
         else {
             helper.showDialogBox(true, "Enter username and password and select an account type before trying to log in");

@@ -376,26 +376,66 @@ System.out.println("DSDSAS " + data);
     public ObservableList<Package> searchInAdminViewPackage(String str) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
-        String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
-        // + "OR adminLIKE '%" + str + "%'";
+        ///String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
+        String query = "SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId AND packageName LIKE '%" + str +  "%'";
+//          
+// + "OR adminLIKE '%" + str + "%'";
         PreparedStatement statement = conn.prepareStatement(query);
         System.out.println(statement);
 
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             System.out.println(rs.getFloat("price"));
-            searchData.add(new Package(
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Package(
                     rs.getString("packageName"),
-                    rs.getFloat("price"),
-                    rs.getDate("startDate"),
-                    rs.getDate("endDate"),
-                    rs.getString("startTime"),
-                    rs.getString("endTime")
-            ));
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                ));
+            }
+            else {
+                searchData.add(new Package(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                ));
+            }
         }
-        return searchData;
+        
+        for (Package pack : searchData) {
+                String name = pack.getPackageName();
+                String query2 = "SELECT COUNT(pk.packageName)"
+                        + " From Package as pk"
+                        + " INNER JOIN Subscription as sub"
+                        + " ON pk.packageId = sub.Package_packageId"
+                        + " WHERE packageName = \"" + name + "\""
+                        + " AND subscriptionStatus = 'Active'";
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                System.out.println(statement2);
+                ResultSet rs2 = statement2.executeQuery();
+                System.out.println("RS2 " + rs2);
+                String count = "";
+                while (rs2.next()) {
+                    System.out.println("CC " + rs2.getString(1));
+                    count = rs2.getString(1);
+                }
+                System.out.println("count  " + count);
+                System.out.println("PACK " + pack);
+                pack.setNumberOfSubscriber(Integer.parseInt(count));
+                System.out.println("here");
     }
-
+    return searchData;
+}
+            
+            
     public boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM " + table + " WHERE username = ? OR (ssn1 = ? AND ssn2 = ?)";
@@ -632,7 +672,7 @@ System.out.println("DSDSAS " + data);
                         + " INNER JOIN Subscription as sub"
                         + " ON pk.packageId = sub.Package_packageId"
                         + " WHERE packageName = \"" + name + "\""
-                        + " AND isCancelled = false";
+                        + " AND subscriptionStatus = 'Active'";
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 System.out.println(statement2);
                 ResultSet rs2 = statement2.executeQuery();
@@ -644,7 +684,7 @@ System.out.println("DSDSAS " + data);
                 }
                 System.out.println("count  " + count);
                 System.out.println("PACK " + pack);
-                pack.setCount(Integer.parseInt(count));
+                pack.setNumberOfSubscriber(Integer.parseInt(count));
                 System.out.println("here");
             }
             System.out.println("DATA " + data);
@@ -917,8 +957,8 @@ System.out.println("DSDSAS " + data);
             System.out.println("\t\t\t\t " + subscription.getPackageId());
             System.out.println("\t\t\t\t " + subscription.getMemberId());
             
-            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, isCancelled)"
-                    + " VALUES (?, ?, ?, ?, false)";
+            String query = "INSERT INTO Subscription (startDate, endDate, Package_packageId, Member_memberId, subscriptionStatus)"
+                    + " VALUES (?, ?, ?, ?, 'Requested')";
             System.out.println("sssd "  + subscription.getSubscriptionStartDate());
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setDate(1, subscription.getSubscriptionStartDate());
@@ -935,7 +975,7 @@ System.out.println("DSDSAS " + data);
     public ObservableList<Subscription> memberViewSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate, isCancelled, subscriptionId FROM Subscription AS sub "
+                + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
                 + "ON pk.packageId = sub.Package_packageId ";
                 //+ "WHERE sub.isCancelled = 0";
@@ -949,28 +989,41 @@ System.out.println("DSDSAS " + data);
             System.out.println(rs.getString("price"));
             System.out.println(rs.getString("startTime"));
             System.out.println(rs.getString("endTime"));
-            System.out.println(rs.getString("pk.startDate"));
-            System.out.println(rs.getString("pk.endDate"));
+            
             System.out.println(rs.getString("sub.startDate"));
             System.out.println(rs.getString("sub.endDate"));
-            System.out.println(rs.getString("isCancelled"));
-            sub = new Subscription(
+            System.out.println(rs.getString("subscriptionStatus"));
+            System.out.println("OFFFF " + rs.getFloat("offerPrice"));
+            System.out.println("DM  " + rs.getString("declineMessage"));
+            sub = new Subscription( 
                     rs.getString("packageName"),
                     rs.getFloat("price"),
-                    rs.getDate("pk.startDate"),
-                    rs.getDate("pk.endDate"),
                     rs.getString("startTime"),
                     rs.getString("startTime")
             );
+//            sub = new Subscription();
+//            sub.setPackageName(rs.getString("packageName"));
+//            sub.setPrice(rs.getFloat("price"));
+//            sub.setStartTime(rs.getString("startTime"));
+//            sub.setEndTime(rs.getString("endTime"));
+            sub.setStartDate(rs.getDate("pk.startDate"));
+            sub.setEndDate(rs.getDate("pk.endDate"));
             sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
             sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            if(rs.getBoolean("isCancelled") == true) {
-                sub.setSubscriptionStatus("Cancelled");
-            }
-            else {
-                sub.setSubscriptionStatus("Active");
-            }
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setOfferPrice(rs.getFloat("offerPrice"));
+//            if(rs.getString("subscriptionStatus").equals("Active") || rs.getString("subscriptionStatus").equals("Expired") || rs.getString("subscriptionStatus").equals("Cancelled")) {
+//                sub.setOfferPrice(rs.getFloat("offerPrice"));
+//            }
+           
+            sub.setDeclineMessage(rs.getString("declineMessage"));
+//            if(rs.getBoolean("isCancelled") == true) {
+//                sub.setSubscriptionStatus("Cancelled");
+//            }
+//            else {
+//                sub.setSubscriptionStatus("Active");
+//            }
             
             subscription.add(sub);
 //            sub.setPackageName(rs.getString("packageName"));
@@ -989,17 +1042,18 @@ System.out.println("DSDSAS " + data);
 //            System.out.println("G");
 //            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
             
-            
+            System.out.println("SOUT " + sub.getOfferPrice());
             
 
         }
         System.out.println("sub " + subscription);
+        
         return subscription;
     }
     
     public Boolean cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET isCancelled = true WHERE subscriptionId = ?";
+        String query = "UPDATE Subscription SET subscriptionStatus = 'Cancelled' WHERE subscriptionId = ?";
         
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);
@@ -1008,6 +1062,30 @@ System.out.println("DSDSAS " + data);
         return cancelError;
     }
     
+    public Boolean verifyUsername(String uname, String accountType) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT count(*) FROM Admin WHERE username = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT count(*) FROM Member WHERE username = ?";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, uname);
+        ResultSet rs = statement.executeQuery();
+        int count = 0;
+        while(rs.next()) {
+            count = rs.getInt(1);
+        }
+        if(count==0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+            
+    }
     public int getId(String uname, String pwd, String accountType) {
         Connection conn = establishConnection();
         String query = "";
@@ -1215,95 +1293,445 @@ System.out.println("DSDSAS " + data);
     }
     
   
-     //Returns member id.
-        public static int getLoggedUserId(){
-            return idMember;
-        }
-        // Returns logged user.
-        public static String getLoggedUser(){
-            return currentUser;
-    }
-        // Returns positon of user.
-        public static String getLoggedUserPosition(){
-            return position;
-    }
-        //To get list of messages from database
-        public static List<Chat> getMessageList(String query) {
-            List<Chat> messageList = new LinkedList<>();
-            PreparedStatement stmt;
-            ResultSet rs;
-            try{
-                stmt = c.prepareStatement(query);
-                rs = stmt.executeQuery();
-                
-                while (rs.next()){
-                    Chat message = new Chat();
-                    message.setMessageId(rs.getInt("idChat"));
-                    message.setTime(rs.getString("time"));
-                    message.setName(rs.getString("name"));
-                    message.setMessage(rs.getString("message"));
-                    messageList.add(message);
-                }
-                
-            } catch (Exception e) {
-                e.printStackTrace();
+//     //Returns member id.
+//        public static int getLoggedUserId(){
+//            return idMember;
+//        }
+//        // Returns logged user.
+//        public static String getLoggedUser(){
+//            return currentUser;
+//    }
+//        // Returns positon of user.
+//        public static String getLoggedUserPosition(){
+//            return position;
+//    }
+//        //To get list of messages from database
+//        public static List<Chat> getMessageList(String query) {
+//            List<Chat> messageList = new LinkedList<>();
+//            PreparedStatement stmt;
+//            ResultSet rs;
+//            try{
+//                stmt = c.prepareStatement(query);
+//                rs = stmt.executeQuery();
+//                
+//                while (rs.next()){
+//                    Chat message = new Chat();
+//                    message.setMessageId(rs.getInt("idChat"));
+//                    message.setTime(rs.getString("time"));
+//                    message.setName(rs.getString("name"));
+//                    message.setMessage(rs.getString("message"));
+//                    messageList.add(message);
+//                }
+//                
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return messageList;
+//        
+//    }
+//     // save message into database.
+//    public static void saveMessage(String time, String name, String message) {
+//        PreparedStatement stmt;
+//        
+//        try{
+//            stmt = c.prepareStatement("Insert Into chat" + "(time, message, name)" 
+//                    + "Values (?, ?, ?)");
+//            stmt.setString(1, time);
+//            stmt.setString(2, message);
+//            stmt.setString(3, name);
+//            stmt.execute();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//     } 
+//        
+//    // To save announcements into database.
+//    public static void saveAnnouncement(String time, String message) {
+//        PreparedStatement stmt;
+//        try {
+//            stmt = c.prepareStatement("Insert Into announcements"
+//                    + "(time, message)"
+//                    + "Values (?, ?, ?)");
+//            stmt.setString(1, time);
+//            stmt.setString(2, message);
+//            stmt.execute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    //To get message list from database.
+//     public static List<Announcements> getAnnouncementsList(String query) {
+//        List<Announcements> messageList = new LinkedList<>();
+//        PreparedStatement stmt;
+//        ResultSet rs;
+//        try {
+//            stmt = c.prepareStatement(query);
+//            rs = stmt.executeQuery();
+//            
+//            while (rs.next()) {
+//                Announcements announcements = new Announcements();
+//                announcements.setMessageId(rs.getInt("idAnnouncements"));
+//                announcements.setTime(rs.getString("time"));
+//                announcements.setMessage(rs.getString("message"));
+//                messageList.add(announcements);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return messageList;
+//    }
+//
+//    void updatePassword(String text, int id) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+    
+    public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                + " m.username, packageName, price, pk.startDate, pk.endDate,"
+                + " startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus,"
+                + " subscriptionId FROM Subscription AS sub"
+                + " INNER JOIN package AS pk"
+                + " ON pk.packageId = sub.Package_packageId"
+                + " INNER JOIN member AS m"
+                + " ON sub.Member_memberId = m.memberId"
+                + " WHERE subscriptionStatus = 'Requested'";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<SubscriptionRequest> subscriptionRequestList = FXCollections.observableArrayList();
+       
+        while(rs.next()) {
+            SubscriptionRequest subscriptionRequest;
+            System.out.println("HHHH");
+            System.out.println("HERE " + rs.getString("packageName"));
+            subscriptionRequest = new SubscriptionRequest(
+                    rs.getString("packageName"),
+                    rs.getFloat("price"),
+                    rs.getDate("pk.startDate"),
+                    rs.getDate("pk.endDate"),
+                    rs.getString("startTime"),
+                    rs.getString("startTime"),
+                    rs.getDate("sub.startDate"),
+                    rs.getDate("sub.endDate"),
+                    rs.getInt("subscriptionId")
+            );
+            if(rs.getString("m.middleName").equals("")) {
+                System.out.println("MIDDLE NAme");
+                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
             }
-            return messageList;
-        
-    }
-     // save message into database.
-    public static void saveMessage(String time, String name, String message) {
-        PreparedStatement stmt;
-        
-        try{
-            stmt = c.prepareStatement("Insert Into chat" + "(time, message, name)" 
-                    + "Values (?, ?, ?)");
-            stmt.setString(1, time);
-            stmt.setString(2, message);
-            stmt.setString(3, name);
-            stmt.execute();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-     } 
-        
-    // To save announcements into database.
-    public static void saveAnnouncement(String time, String message) {
-        PreparedStatement stmt;
-        try {
-            stmt = c.prepareStatement("Insert Into announcements"
-                    + "(time, message)"
-                    + "Values (?, ?, ?)");
-            stmt.setString(1, time);
-            stmt.setString(2, message);
-            stmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    //To get message list from database.
-     public static List<Announcements> getAnnouncementsList(String query) {
-        List<Announcements> messageList = new LinkedList<>();
-        PreparedStatement stmt;
-        ResultSet rs;
-        try {
-            stmt = c.prepareStatement(query);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                Announcements announcements = new Announcements();
-                announcements.setMessageId(rs.getInt("idAnnouncements"));
-                announcements.setTime(rs.getString("time"));
-                announcements.setMessage(rs.getString("message"));
-                messageList.add(announcements);
+            else {
+                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("lastName"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            subscriptionRequest.setMemberUsername(rs.getString("m.username"));
+            subscriptionRequestList.add(subscriptionRequest);
+           
+        
         }
-        return messageList;
+        conn.close();
+        return subscriptionRequestList;
     }
+    
+    public void acceptSubscriptionRequest(int subscriptionId, float offerPrice, int adminId) throws SQLException {
+        Connection conn = establishConnection();
+        String status = "Active";
+        String query = "UPDATE Subscription SET subscriptionStatus =  ?, offerPrice = ?, Admin_adminId = ? WHERE subscriptionId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, status);
+        statement.setFloat(2, offerPrice);
+        statement.setInt(3, adminId);
+        statement.setInt(4, subscriptionId);
+        statement.executeUpdate();
+        conn.close();
+    }
+    
+    public void declineSubscriptionRequest(int subscriptionId, String declineMessage, int adminId) throws SQLException {
+        Connection conn = establishConnection();
+        String status = "Declined";
+        System.out.println("subscriptionID " + subscriptionId);
+        String query = "UPDATE Subscription SET subscriptionStatus =  ?, declineMessage = ?, Admin_adminId = ? WHERE subscriptionId = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, status);
+        statement.setString(2, declineMessage);
+        statement.setInt(3, adminId);
+        statement.setInt(4, subscriptionId);
+        statement.executeUpdate();
+        System.out.println("declined");
+        conn.close();
+    }
+    
+     public ObservableList<Subscription> adminViewSubscription(String filter) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId";
+        if(filter.equals("All")) {
+            query = query + " WHERE NOT subscriptionStatus = 'Requested'";
+        }
+        else if(filter.equals("Active")) {
+            query = query + " WHERE subscriptionStatus = 'Active'";
+        }
+        else if(filter.equals("Expired")) {
+            query = query + " WHERE subscriptionStatus = 'Expired'";
+        }
+        else if(filter.equals("Cancelled")) {
+            query = query + " WHERE subscriptionStatus = 'Cancelled'";
+        }
+        
 
-    void updatePassword(String text, int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
+        Subscription sub;
+        while (rs.next()) {
+
+//            System.out.println(rs.getString("packageName"));
+//            System.out.println(rs.getString("price"));
+//            System.out.println(rs.getString("startTime"));
+//            System.out.println(rs.getString("endTime"));
+//            System.out.println(rs.getString("pk.startDate"));
+//            System.out.println(rs.getString("pk.endDate"));
+//            System.out.println(rs.getString("sub.startDate"));
+//            System.out.println(rs.getString("sub.endDate"));
+//            System.out.println(rs.getString("subscriptionStatus"));
+            sub = new Subscription(rs.getString("packageName"));
+            if(rs.getString("m.middleName").equals("")) {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+            }
+            sub.setMemberUsername(rs.getString("m.username"));
+          
+            
+            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setSubscriptionId(rs.getInt("subscriptionId"));
+            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+            System.out.println("nh");
+            if(rs.getString("a.middleName").equals("")) {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            }
+            else {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+            }
+            
+            System.out.println("nh22");
+            
+            subscription.add(sub);
+        }
+        System.out.println("sub " + subscription);
+        return subscription;
+    }
+     
+     public ObservableList<Subscription> searchInAdminViewSubscription(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName, String adminFirstName, String adminMiddleName, String adminLastName) throws SQLException {
+        Connection conn = establishConnection();
+         String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                 + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                 + " a.middleName, a.lastName FROM Subscription AS sub "
+                 + " INNER JOIN package AS pk"
+                 + " ON pk.packageId = sub.Package_packageId"
+                 + " INNER JOIN member AS m"
+                 + " ON sub.Member_memberId = m.memberId"
+                 + " INNER JOIN admin AS a"
+                 + " ON sub.Admin_adminId = a.adminId"
+                 + " WHERE m.firstName LIKE \"%" + memberFirstName + "%\""
+                 + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                 + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                 + " OR m.username LIKE \"%" + memberUsername + "%\""
+                 + " OR packageName LIKE \"%" + packageName + "%\""
+                 + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
+                 + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
+                 + " OR a.lastname LIKE \"%" + adminLastName + "%\""
+                         + " AND NOT subscriptionStatus = 'Requested'";
+
+       //  LIKE \"%" + mn + "%\""
+         System.out.println(query);
+        PreparedStatement statement = conn.prepareStatement(query);
+//        statement.setString(1, memberFirstName);
+//        statement.setString(2, memberMiddleName);
+//        statement.setString(3, memberLastName);
+//        statement.setString(4, memberUsername);
+         System.out.println(statement);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
+        Subscription sub;
+        while (rs.next()) {
+
+//            System.out.println(rs.getString("packageName"));
+//            System.out.println(rs.getString("price"));
+//            System.out.println(rs.getString("startTime"));
+//            System.out.println(rs.getString("endTime"));
+//            System.out.println(rs.getString("pk.startDate"));
+//            System.out.println(rs.getString("pk.endDate"));
+//            System.out.println(rs.getString("sub.startDate"));
+//            System.out.println(rs.getString("sub.endDate"));
+//            System.out.println(rs.getString("subscriptionStatus"));
+            sub = new Subscription(rs.getString("packageName"));
+            if(rs.getString("m.middleName").equals("")) {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+            }
+            sub.setMemberUsername(rs.getString("m.username"));
+          
+            
+            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setSubscriptionId(rs.getInt("subscriptionId"));
+            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+            System.out.println("nh");
+            if(rs.getString("a.middleName").equals("")) {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            }
+            else {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+            }
+            
+            System.out.println("nh22");
+            
+            subscription.add(sub);
+        }
+        System.out.println("sub " + subscription);
+        return subscription;
+    }
+     
+     public ObservableList<Subscription> adminViewDeclinedSubscription() throws SQLException {
+        Connection conn = establishConnection();
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId"
+                    + " WHERE subscriptionStatus = 'Declined'";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
+        Subscription sub;
+        while (rs.next()) {
+            sub = new Subscription(rs.getString("packageName"));
+            if(rs.getString("m.middleName").equals("")) {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+            }
+            sub.setMemberUsername(rs.getString("m.username"));
+          
+            
+            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setSubscriptionId(rs.getInt("subscriptionId"));
+            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+            System.out.println("nh");
+            if(rs.getString("a.middleName").equals("")) {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            }
+            else {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+            }
+            
+            System.out.println("nh22");
+            
+            subscription.add(sub);
+        }
+        System.out.println("sub " + subscription);
+        return subscription;
+    }
+     
+     public ObservableList<Subscription> searchInAdminViewDeclinedSubscription(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName, String adminFirstName, String adminMiddleName, String adminLastName) throws SQLException {
+        Connection conn = establishConnection();
+         String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                 + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                 + " a.middleName, a.lastName FROM Subscription AS sub "
+                 + " INNER JOIN package AS pk"
+                 + " ON pk.packageId = sub.Package_packageId"
+                 + " INNER JOIN member AS m"
+                 + " ON sub.Member_memberId = m.memberId"
+                 + " INNER JOIN admin AS a"
+                 + " ON sub.Admin_adminId = a.adminId"
+                 + " WHERE subscriptionStatus = 'Declined'"
+                 + " AND (m.firstName LIKE \"%" + memberFirstName + "%\""
+                 + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                 + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                 + " OR m.username LIKE \"%" + memberUsername + "%\""
+                 + " OR packageName LIKE \"%" + packageName + "%\""
+                 + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
+                 + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
+                 + " OR a.lastname LIKE \"%" + adminLastName + "%\")"
+                         + " AND NOT subscriptionStatus = 'Requested'";
+
+       //  LIKE \"%" + mn + "%\""
+         System.out.println(query);
+        PreparedStatement statement = conn.prepareStatement(query);
+//        statement.setString(1, memberFirstName);
+//        statement.setString(2, memberMiddleName);
+//        statement.setString(3, memberLastName);
+//        statement.setString(4, memberUsername);
+         System.out.println(statement);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
+        Subscription sub;
+        while (rs.next()) {
+
+//            System.out.println(rs.getString("packageName"));
+//            System.out.println(rs.getString("price"));
+//            System.out.println(rs.getString("startTime"));
+//            System.out.println(rs.getString("endTime"));
+//            System.out.println(rs.getString("pk.startDate"));
+//            System.out.println(rs.getString("pk.endDate"));
+//            System.out.println(rs.getString("sub.startDate"));
+//            System.out.println(rs.getString("sub.endDate"));
+//            System.out.println(rs.getString("subscriptionStatus"));
+            sub = new Subscription(rs.getString("packageName"));
+            if(rs.getString("m.middleName").equals("")) {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            }
+            else {
+                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+            }
+            sub.setMemberUsername(rs.getString("m.username"));
+          
+            
+            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+            sub.setSubscriptionId(rs.getInt("subscriptionId"));
+            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+            System.out.println("nh");
+            if(rs.getString("a.middleName").equals("")) {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            }
+            else {
+                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+            }
+            
+            System.out.println("nh22");
+            
+            subscription.add(sub);
+        }
+        System.out.println("sub " + subscription);
+        return subscription;
     }
 }

@@ -25,6 +25,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+//import org.apache.pdfbox.pdmodel.PDDocument;
+//import org.apache.pdfbox.pdmodel.PDPage;
+//import org.apache.pdfbox.pdmodel.PDPageContentStream;
+//import org.apache.pdfbox.pdmodel.font.PDType1Font;
 /**
  * FXML Controller class
  *
@@ -44,13 +48,13 @@ public class MemberViewSubscriptionsController implements Initializable {
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
     @FXML private TableColumn<Subscription, String> priceColumn; 
-    @FXML private TableColumn<Subscription, String> packageStartDateColumn;
-    @FXML private TableColumn<Subscription, String> packageEndDateColumn;
     @FXML private TableColumn<Subscription, String> startTimeColumn;
     @FXML private TableColumn<Subscription, String> endTimeColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStartDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionEndDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStatusColumn;
+    @FXML private TableColumn<Subscription, String> offeredPriceColumn;
+    @FXML private TableColumn<Subscription, String> messageColumn;
     
     @FXML private DatePicker subscriptionStartDatePicker;
     @FXML private DatePicker subscriptionEndDatePicker;
@@ -68,13 +72,13 @@ public class MemberViewSubscriptionsController implements Initializable {
             System.out.println(subscription);
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            packageStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            packageEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
             startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
             endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
             subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
             subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
+            offeredPriceColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
+            messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
             memberViewSubscriptionsTable.setItems(null);
             memberViewSubscriptionsTable.setItems(subscription);    
             
@@ -96,6 +100,12 @@ public class MemberViewSubscriptionsController implements Initializable {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             if(subscriptionStatus.equals("Cancelled")) {
                 helper.showDialogBox(cancelError, "You have already cancelled this subscription or this subscription has already expired");
+            }
+            else if(subscriptionStatus.equals("Requested")) {
+                helper.showDialogBox(cancelError, "You cannot cancel this subscription. \nYour subscription request is being processed");
+            }
+            else if(subscriptionStatus.equals("Declined")) {
+                helper.showDialogBox(cancelError, "You cannot cancel this subscription. \nYour subscription has been declined. For more information, please contact the gym");
             }
             else {
                 int subscriptionId = row.get(0).getSubscriptionId();
@@ -136,6 +146,12 @@ public class MemberViewSubscriptionsController implements Initializable {
             if(subscriptionStatus.equals("Active")) {
                 helper.showDialogBox(renewError, "Your subscription has not expired yet");
             }
+            else if(subscriptionStatus.equals("Requested")) {
+                helper.showDialogBox(renewError, "You cannot renew this subscription. \nYour subscription request is being processed.");
+            }
+            else if(subscriptionStatus.equals("Declined")) {
+                helper.showDialogBox(renewError, "You cannot renew this subscription. \nYour subscription has been declined. For more information, please contact the gym.");
+            }
             else {
                 LocalDate subscriptionStartLocalDate = subscriptionStartDatePicker.getValue();
                 LocalDate subscriptionEndLocalDate = subscriptionEndDatePicker.getValue();
@@ -145,13 +161,14 @@ public class MemberViewSubscriptionsController implements Initializable {
                 else {
                     Date subscriptionStartDate = helper.convertLocalDateToSQLDate(subscriptionStartLocalDate);
                     Date subscriptionEndDate = helper.convertLocalDateToSQLDate(subscriptionEndLocalDate);
-
+                    
                     if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
-                        helper.showDialogBox(renewError, "Subscription start date and end date cannot be earlier or later than current date");
+                        helper.showDialogBox(renewError, "Subscription start date and end date cannot be earlier than current date");
                     }
                     else {
                         Date packageStartDate = row.get(0).getStartDate();
                         Date packageEndDate = row.get(0).getEndDate();
+                        System.out.println("ksalfdsdffdsfdssfdfsdsdf " + packageEndDate);
                         if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
                                 || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
                             helper.showDialogBox(renewError, "Subscription start date and end date must be within the range of Package start date and end date");
@@ -194,5 +211,90 @@ public class MemberViewSubscriptionsController implements Initializable {
         
         Optional<ButtonType> result = alert.showAndWait();
         return result;
+    }
+    
+    public void saveInvoiceBtnClick(ActionEvent event) {
+//        ObservableList<Subscription> row , allRows;
+//        allRows = memberViewSubscriptionsTable.getItems();
+//        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
+//
+//        if(row.isEmpty()) {
+//            helper.showDialogBox(true, "Select a subscription first to save invoice");
+//        }
+//        else {
+//            String subscriptionStatus = row.get(0).getSubscriptionStatus();
+//            if(subscriptionStatus.equals("Requested")) {
+//                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request is being processed");
+//            }
+//            else if(subscriptionStatus.equals("Declined")) {
+//                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription has been declined. For more information, please contact the gym");
+//            }
+//            else {
+//                
+//                try {
+//                String fileName = "GymInvoiceSubscription" + row.get(0).getSubscriptionId() + ".pdf";
+//                String fileDestination = System.getProperty("user.dir");
+//                
+//                PDDocument document = new PDDocument();
+//                System.out.println("FIlen " + document);
+//                PDPage page = new PDPage();
+//                System.out.println("FIle2 " + fileName);
+//                document.addPage(page);
+//                System.out.println("FIle " + fileName);
+//                
+////                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+////                System.out.println("A " + fileName);
+////                contentStream.beginText();
+////                String text = "HKR Fitness Gym";
+////                contentStream.showText(text);
+////                
+////                contentStream.setFont(PDType1Font.TIMES_ROMAN, 20);
+////                contentStream.newLineAtOffset(25, 500);
+////                    System.out.println("B" + fileName);
+////               // content.drawString("HKR Fitness Gym");
+////                 System.out.println(System.getProperty("user.dir"));
+//////                 content.addRect(100, 100, 100, 100);
+//////                
+//////                    System.out.println("c");
+////                        contentStream.endText();
+//////                    System.out.println("d");
+////                contentStream.close();
+//    PDPageContentStream contentStream = new PDPageContentStream(document, page);
+//      
+//      //Begin the Content stream 
+//      contentStream.beginText(); 
+//       
+//      //Setting the font to the Content stream  
+//      contentStream.setFont(PDType1Font.TIMES_ROMAN, 20);
+//
+//      //Setting the position for the line 
+//      contentStream.newLineAtOffset(25, 500);
+//
+//      String text = "This is the sample document and we are adding content to it.";
+//
+//      //Adding text in the form of string 
+//      contentStream.showText(text);      
+//
+//      //Ending the content stream
+//      contentStream.endText();
+//
+//      System.out.println("Content added");
+//
+//      //Closing the content stream
+//      contentStream.close();
+//
+//                    System.out.println("e");
+//                document.save(fileDestination + "/" + fileName);
+//                    System.out.println("f");
+//                document.close();
+//                
+//                System.out.println(System.getProperty("user.dir"));
+//                
+//                }
+//                catch(Exception e) {
+//
+//                }
+//            }
+//        }
     }
 }

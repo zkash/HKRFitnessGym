@@ -84,8 +84,8 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("/com/Project/FXML/AdminViewAnnouncement.fxml");
     }
     
-    public void aboutMenuClick(ActionEvent event) {
-        
+    public void changePasswordMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/SettingsPage.fxml");
     }
     
     public void setupAndShowStage(String fxmlFileURL) throws IOException {

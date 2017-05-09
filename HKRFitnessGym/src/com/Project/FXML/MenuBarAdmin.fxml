@@ -53,9 +53,9 @@
           <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#visitChatRoomMenuClick" text="Visit Chat Room" />
         </items>
       </Menu>
-            <Menu mnemonicParsing="false" text="Help">
+            <Menu mnemonicParsing="false" text="Settings">
                <items>
-                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#aboutMenuClick" text="About" />
+                  <MenuItem fx:id="changePasswordMenu" mnemonicParsing="false" onAction="#changePasswordMenuClick" text="Change Password" />
                </items>
             </Menu>
          </menus>

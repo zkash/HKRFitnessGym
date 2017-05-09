@@ -432,6 +432,68 @@ System.out.println("DSDSAS " + data);
     }
     return searchData;
 }
+    
+    public ObservableList<Package> searchInMemberViewPackage(String str) throws SQLException {
+        ObservableList<Package> searchData = FXCollections.observableArrayList();
+        Connection conn = establishConnection();
+        ///String query = "SELECT * FROM Package WHERE packageName LIKE '%" + str + "%'";
+        String query = "SELECT Package.*, Admin.firstName, Admin.middleName, Admin.lastName FROM Package, Admin WHERE Admin.adminId = Package.Admin_adminId AND packageName LIKE '%" + str +  "%'";
+//          
+// + "OR adminLIKE '%" + str + "%'";
+        PreparedStatement statement = conn.prepareStatement(query);
+        System.out.println(statement);
+
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            System.out.println(rs.getFloat("price"));
+            if (rs.getString("middleName").equals("")) {
+                searchData.add(new Package(
+                    rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                ));
+            }
+            else {
+                searchData.add(new Package(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                ));
+            }
+        }
+        
+        for (Package pack : searchData) {
+                String name = pack.getPackageName();
+                String query2 = "SELECT COUNT(pk.packageName)"
+                        + " From Package as pk"
+                        + " INNER JOIN Subscription as sub"
+                        + " ON pk.packageId = sub.Package_packageId"
+                        + " WHERE packageName = \"" + name + "\""
+                        + " AND subscriptionStatus = 'Active'";
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                System.out.println(statement2);
+                ResultSet rs2 = statement2.executeQuery();
+                System.out.println("RS2 " + rs2);
+                String count = "";
+                while (rs2.next()) {
+                    System.out.println("CC " + rs2.getString(1));
+                    count = rs2.getString(1);
+                }
+                System.out.println("count  " + count);
+                System.out.println("PACK " + pack);
+                pack.setNumberOfSubscriber(Integer.parseInt(count));
+                System.out.println("here");
+    }
+    return searchData;
+}
             
             
     public boolean checkUsernameAndSSN(String table, String uname, int ssn1, int ssn2) throws SQLException {

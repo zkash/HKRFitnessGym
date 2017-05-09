@@ -73,8 +73,28 @@ public class MemberViewPackagesController implements Initializable {
         }
     }    
     
-    public void searchBtnClick(ActionEvent event) {
+    public void searchBtnClick(ActionEvent event) throws SQLException {
+        String searchQuery = searchPackage.getText();
+        searchData = dbHandler.searchInMemberViewPackage(searchQuery);
         
+        memberViewPackagesTable.getColumns().clear();
+        packageNameColumn = new TableColumn("Package Name");
+        priceColumn = new TableColumn("Price");
+        startDateColumn = new TableColumn("Start Date");
+        endDateColumn = new TableColumn("End Date");
+        startTimeColumn = new TableColumn("Start Time");
+        endTimeColumn = new TableColumn("End Time");
+        
+          
+         memberViewPackagesTable.getColumns().addAll(packageNameColumn, priceColumn, startDateColumn, endDateColumn, startTimeColumn, endTimeColumn);
+         packageNameColumn.prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.30837004)); 
+         priceColumn.prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.17621146));
+         startDateColumn .prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.17621146));
+         endDateColumn.prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.17621146));
+         startTimeColumn.prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.10572688));
+         endTimeColumn.prefWidthProperty().bind(memberViewPackagesTable.widthProperty().multiply(0.40));
+         
+        setDataInTable(searchData);
     }
     
     public void resetSearchBtnClick(ActionEvent event) {
@@ -224,4 +244,15 @@ public class MemberViewPackagesController implements Initializable {
         }
     }
     
+    public void setDataInTable(ObservableList<Package> data) {
+        // Set cell value factory to TableView
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        memberViewPackagesTable.setItems(null);
+        memberViewPackagesTable.setItems(data);
+    }
 }

@@ -63,15 +63,15 @@ public class AdminViewScheduleController implements Initializable {
             data = FXCollections.observableArrayList();
             stmt = conn.createStatement();
             //ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");
-            ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");
+            ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closingTime, isHoliday FROM schedule");
             
             while(rs.next()){
                 System.out.println(rs.getDate("date"));
                 System.out.println(rs.getTime("openingTime"));
-                System.out.println(rs.getTime("closeTime"));
+                System.out.println(rs.getTime("closingTime"));
                 System.out.println(rs.getBoolean("isHoliday"));
                 
-                data.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closeTime"), rs.getBoolean("isHoliday")));
+                data.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closingTime"), rs.getBoolean("isHoliday")));
             }
             
             

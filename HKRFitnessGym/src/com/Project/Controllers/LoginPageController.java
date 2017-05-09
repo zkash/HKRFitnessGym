@@ -361,7 +361,7 @@ public class LoginPageController implements Initializable {
 
 
                                 // Send message  
-                                //Transport.send(message);    
+                                Transport.send(message);    
                                 helper.showDialogBox(true, "Message Sent");
                                 showInputCodeDialog(event, accountType, autoGenereatedId, fp);
                             } 

@@ -7,6 +7,7 @@ package com.Project.Controllers;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 
@@ -84,48 +86,106 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
         }
     }    
     
-    public void acceptRequestBtnClick(ActionEvent event) { 
-        declineRequestPane.setVisible(false);
+    public void acceptRequestBtnClick(ActionEvent event) throws SQLException { 
         allRows = adminViewSubscriptionRequestTable.getItems();
         row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems(); 
-        boolean cancelError = true;
         if(row.isEmpty()) {
-            helper.showDialogBox(cancelError, "Select a subscription reqeust to accept");
+            helper.showDialogBox(true, "Select a subscription reqeust to accept");
         }
         else {
-            acceptRequestPane.setVisible(true);
             subscriptionId = row.get(0).getSubscriptionId();
+            
+            TextInputDialog tid = new TextInputDialog();
+            tid.setTitle("Offer Price");
+            tid.setHeaderText("Enter the price that you want to  \noffer the member for this subscription");
+            Optional<String> offerPriceTextField = tid.showAndWait();
+            if(offerPriceTextField.isPresent()) {
+                String offerPriceString = offerPriceTextField.get();
+                if(!offerPriceString.isEmpty()) {
+                    String offerPriceRegex = "^[0-9]*|[0-9]*.[0-9]{1,2}$";
+                    if(offerPriceString.matches(offerPriceRegex)) {
+                        float offerPrice = Float.valueOf(offerPriceString);
+                        System.out.println("SIDDD " + subscriptionId);
+                        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
+                        row.forEach(allRows::remove);
+                        helper.showDialogBox(true, "Request accepted");
+                    }
+                    else {
+                        helper.showDialogBox(true, "The value provided is not a a valid price");
+                    }
+                }
+                else {
+                    helper.showDialogBox(true, "Provide offer price to accept subscription reqeust");
+                }
+            }
+            
+                    
         }
         
     }
     
-    public void declineRequestBtnClick(ActionEvent event) {
-        acceptRequestPane.setVisible(false);
-        declineRequestPane.setVisible(true);
+    public void declineRequestBtnClick(ActionEvent event) throws SQLException {
+        allRows = adminViewSubscriptionRequestTable.getItems();
+        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems(); 
+        if(row.isEmpty()) {
+            helper.showDialogBox(true, "Select a subscription reqeust to decline");
+        }
+        else {
+            subscriptionId = row.get(0).getSubscriptionId();
+            
+            TextInputDialog tid = new TextInputDialog();
+            tid.setTitle("Offer Price");
+            tid.setHeaderText("Enter the reason why you  \nare declining this subscription request");
+            Optional<String> declineMessageTextField = tid.showAndWait();
+            if(declineMessageTextField.isPresent()) {
+                String declineMessage = declineMessageTextField.get();
+                if(!declineMessage.isEmpty()) {
+                    System.out.println("SIDDD " + subscriptionId);
+                    dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage, adminId);
+                    row.forEach(allRows::remove);
+                     helper.showDialogBox(true, "Request declined");
+                }
+                else {
+                    helper.showDialogBox(true, "Please provide decline message to decline subscription reqeust");
+                }
+            }
+            
+                    
+        }
+        
     }
     
-    public void acceptSendBtnClick(ActionEvent event) throws SQLException {
-        allRows = adminViewSubscriptionRequestTable.getItems();
-        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
-        subscriptionId = row.get(0).getSubscriptionId();
-        String offerPriceText = offerPriceTextField.getText();
-        float offerPrice = Float.valueOf(offerPriceText);
-        System.out.println("SIDDD " + subscriptionId);
-        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
-        row.forEach(allRows::remove);
-        helper.showDialogBox(true, "Request accepted");
-        
+//    public void acceptSendBtnClick(ActionEvent event) throws SQLException {
+////        allRows = adminViewSubscriptionRequestTable.getItems();
+////        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
+////        subscriptionId = row.get(0).getSubscriptionId();
+////        String offerPriceText = offerPriceTextField.getText();
+////        float offerPrice = Float.valueOf(offerPriceText);
+////        System.out.println("SIDDD " + subscriptionId);
+////        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
+////        row.forEach(allRows::remove);
+////        helper.showDialogBox(true, "Request accepted");
+//        
+//        
+//    }
+//    
+//    public void declineSendBtnClick(ActionEvent event) throws SQLException {
+//        allRows = adminViewSubscriptionRequestTable.getItems();
+//        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
+//        subscriptionId = row.get(0).getSubscriptionId();
+//        String declineMessage = declineMessageTextArea.getText();
+//        System.out.println("SID " + subscriptionId);
+//        dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage, adminId);
+//        row.forEach(allRows::remove);
+//        helper.showDialogBox(true, "Request declined");
+//    }
+    
+    public void searchBtnClick(ActionEvent event) throws SQLException {
         
     }
     
-    public void declineSendBtnClick(ActionEvent event) throws SQLException {
-        allRows = adminViewSubscriptionRequestTable.getItems();
-        row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems();
-        subscriptionId = row.get(0).getSubscriptionId();
-        String declineMessage = declineMessageTextArea.getText();
-        System.out.println("SID " + subscriptionId);
-        dbHandler.declineSubscriptionRequest(subscriptionId, declineMessage, adminId);
-        row.forEach(allRows::remove);
-        helper.showDialogBox(true, "Request declined");
+    public void resetSearchBtnClick(ActionEvent event) throws SQLException {
+        
     }
 }
+

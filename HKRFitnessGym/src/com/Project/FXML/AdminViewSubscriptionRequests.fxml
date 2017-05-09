@@ -35,22 +35,31 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="declineRequestBtn" layoutX="443.0" layoutY="365.0" mnemonicParsing="false" onAction="#declineRequestBtnClick" text="Decline Request" />
-            <Button fx:id="acceptRequestBtn" layoutX="317.0" layoutY="365.0" mnemonicParsing="false" onAction="#acceptRequestBtnClick" text="Accept Request" />
-            <Pane fx:id="acceptRequestPane" layoutX="44.0" layoutY="365.0" prefHeight="80.0" prefWidth="209.0">
-               <children>
-                  <Label layoutX="1.0" text="Offer Price" />
-                  <TextField fx:id="offerPriceTextField" layoutX="1.0" layoutY="17.0" />
-                  <Button fx:id="acceptSendBtn" layoutX="118.0" layoutY="53.0" mnemonicParsing="false" onAction="#acceptSendBtnClick" text="Send" />
-               </children>
-            </Pane>
-            <Pane fx:id="declineRequestPane" layoutX="44.0" layoutY="365.0" prefHeight="120.0" prefWidth="209.0">
-               <children>
-                  <Label layoutX="1.0" text="Decline Message" />
-                  <TextArea fx:id="declineMessageTextArea" layoutX="1.0" layoutY="15.0" prefHeight="70.0" prefWidth="190.0" />
-                  <Button fx:id="declineSendBtn" layoutX="145.0" layoutY="93.0" mnemonicParsing="false" onAction="#declineSendBtnClick" text="Send" />
-               </children>
-            </Pane>
+            <CheckBox fx:id="searchAdminFullName" layoutX="185.0" layoutY="419.0" mnemonicParsing="false" text="Admin Name">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="searchPackageName" layoutX="185.0" layoutY="394.0" mnemonicParsing="false" text="Package Name">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="searchMemberUsername" layoutX="44.0" layoutY="419.0" mnemonicParsing="false" text="Member Username">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </CheckBox>
+            <TextField fx:id="searchSubscription" layoutX="44.0" layoutY="358.0" />
+            <Button fx:id="searchBtn" layoutX="222.0" layoutY="358.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" />
+            <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="358.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
+            <CheckBox fx:id="searchMemberFullName" layoutX="44.0" layoutY="394.0" mnemonicParsing="false" text="Member Name">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </CheckBox>
+            <Button fx:id="acceptRequestBtn" layoutX="425.0" layoutY="358.0" mnemonicParsing="false" onAction="#acceptRequestBtnClick" text="Accept" />
+            <Button fx:id="declineRequestBtn" layoutX="497.0" layoutY="358.0" mnemonicParsing="false" onAction="#declineRequestBtnClick" text="Decline" />
            
          </children>
       </AnchorPane>

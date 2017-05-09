@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 //import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,9 +52,9 @@ public class LoginPageController implements Initializable {
     @FXML
     private Button exit;
     @FXML
-    private TextField userNameField;
+    private TextField usernameTextField;
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordTextField;
     @FXML
     private ComboBox accountTypeComboBox;
 
@@ -75,6 +76,12 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> accountTypeOptions = FXCollections.observableArrayList("Admin", "Member");
         accountTypeComboBox.setItems(accountTypeOptions);
+        Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+            usernameTextField.requestFocus();
+        }
+    });
     }    
 
    private Properties loadProperties() {
@@ -89,8 +96,8 @@ public class LoginPageController implements Initializable {
    
    @FXML
     private void handleLogin(ActionEvent event) throws IOException, SQLException {
-        String uname = userNameField.getText();
-        String pwd = passwordField.getText();
+        String uname = usernameTextField.getText();
+        String pwd = passwordTextField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
             String accountType = accountTypeComboBox.getValue().toString();
             int id;
@@ -148,8 +155,8 @@ public class LoginPageController implements Initializable {
         
 //   @FXML
 //    private void handleLogin(ActionEvent event) throws IOException {
-//        String uname = userNameField.getText();
-//        String pwd = passwordField.getText();
+//        String uname = usernameTextField.getText();
+//        String pwd = passwordTextField.getText();
 //        
 //        //Check if username and password belongs to admin or members
 //        //TODO remove the hard-coded and change it from the database
@@ -273,7 +280,7 @@ public class LoginPageController implements Initializable {
     
     @FXML
     private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException, SQLException {
-        String username = userNameField.getText();
+        String username = usernameTextField.getText();
         if(!helper.isEmpty(username) && !(accountTypeComboBox.getValue()==null)) {
             
             TextInputDialog tid = new TextInputDialog();

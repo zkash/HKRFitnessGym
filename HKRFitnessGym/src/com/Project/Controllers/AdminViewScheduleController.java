@@ -158,7 +158,7 @@ public class AdminViewScheduleController implements Initializable {
         else{
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Confirm Deletion");
-            alert.setContentText("Are you sure you want to delete the package?");
+            alert.setContentText("Are you sure you want to delete the schedule?");
             
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.io.IOException;
@@ -10,13 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -25,6 +15,8 @@ import javafx.stage.Stage;
  */
 public class MemberMainPageController implements Initializable {
     @FXML Label loggedUserLbl;
+    Helper helper = new Helper();
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -36,72 +28,69 @@ public class MemberMainPageController implements Initializable {
         
     }   
     
+    
+    /**
+     * Navigate to Update Personal Information page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void accountBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdateMemberPersonalInformationPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+    private void updatePersonalInfoBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "UpdateMemberPersonalInformationPage.fxml");
     }  
     
+    
+    /**
+     * Navigate to View Subscriptions page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void packageBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdatePackageInformationPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+    private void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "MemberViewSubscriptions.fxml");
     }  
     
+    
+    /**
+     * Navigate to Chat page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void chatBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+        helper.navigateScene(event, "ChatPage.fxml");
     }  
     
+
+    /**
+     * Navigate to View Schedule page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void settingsBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/SettingsPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
-    
-    @FXML
-    private void scheduleBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewSchedule.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+    private void viewScheduleBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "MemberViewSchedule.fxml");
     }  
     
+    
+    /**
+     * Navigate to View Announcement page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void announcementBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewAnnouncement.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+    private void viewAnnouncementBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "MemberViewAnnouncement.fxml");
     } 
+    
+    
+    /**
+     * Navigate to View Packages page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void subscribeBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberViewPackages.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+    private void subscribeToPackageBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "MemberViewPackages.fxml");
     } 
 }

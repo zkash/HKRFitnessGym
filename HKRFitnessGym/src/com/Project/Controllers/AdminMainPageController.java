@@ -34,7 +34,7 @@ public class AdminMainPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void accountBtnClick(ActionEvent event) throws IOException {
+    public void createAccountBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateUserPage.fxml");
     }
     
@@ -45,7 +45,7 @@ public class AdminMainPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void packageBtnClick(ActionEvent event) throws IOException {
+    public void createPackageBtnClick(ActionEvent event) throws IOException {
       helper.navigateScene(event, "CreatePackagePage.fxml");   
     }
     
@@ -56,7 +56,7 @@ public class AdminMainPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void scheduleBtnClick(ActionEvent event) throws IOException {
+    public void createScheduleBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateSchedulePage.fxml");   
     }
     
@@ -67,7 +67,7 @@ public class AdminMainPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void announcementBtnClick(ActionEvent event) throws IOException {
+    public void createAnnouncementBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateAnnouncementPage.fxml");   
     }
    
@@ -89,7 +89,7 @@ public class AdminMainPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void subscribeBtnClick(ActionEvent event) throws IOException {
+    public void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
     } 
 }

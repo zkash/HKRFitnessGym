@@ -59,6 +59,7 @@ public class UpdatePackageInformationPageController implements Initializable {
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
+    private final PackageHelper packageHelper = new PackageHelper();
     
     /**
      * Initializes the controller class.
@@ -71,34 +72,8 @@ public class UpdatePackageInformationPageController implements Initializable {
         labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
         validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][0-2]):[0-5][0-9]", "([1-9]|[1][0-2]):[0-5][0-9]");
     
-        //Add listeners to the textfields
-        IntStream.range(0, textfields.size()).forEach(i -> {
-            textfields.get(i).focusedProperty().addListener((observable, oldProperty, newProperty) -> {
-                if(!textfields.get(i).getText().isEmpty() && !textfields.get(i).getText().matches(validationChecks.get(i))) {
-                    labels.get(i).setText("Invalid Value");
-                }
-                else {
-                    labels.get(i).setText("");
-                }
-            });
-        });
-        
-        //Boolean binding true when textfields are filled and labels are empty
-        validated = new BooleanBinding() {
-            
-            //Bind TextProperty of labels and textfields to the boolean binding
-            {
-                super.bind(labels.stream().map(label -> label.textProperty()).toArray(Observable[]::new));
-                super.bind(textfields.stream().map(textField -> textField.textProperty()).toArray(Observable[]::new));
-            }
-            
-            @Override
-            protected boolean computeValue() {
-                //Get the value to return by checking textfields and labels
-                return textfields.stream().allMatch(textField -> !textField.getText().isEmpty()) && labels.stream().allMatch(label -> label.getText().isEmpty());
-          }
-        };
-    }    
+        validated = packageHelper.addListenerBindTextFieldsAndLabels(textfields, labels, validationChecks);
+    }
     
     public void updateBtnClick(ActionEvent event) throws SQLException {
         //Clear error messages

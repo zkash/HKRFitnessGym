@@ -13,11 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
-import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 
 /**
@@ -44,7 +42,6 @@ public class CreatePackagePageController implements Initializable {
     private List<String> validationChecks;
     
     private BooleanBinding validated;
-    private Package pack;
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
@@ -76,20 +73,9 @@ public class CreatePackagePageController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void createPackageBtnClick(ActionEvent event) throws SQLException, IOException {
-        //Clear error messages
-        invalidMsgPackageName.setText("");
-        invalidMsgPackageCost.setText("");
-        invalidMsgPackageStartTime.setText("");
-        invalidMsgPackageEndTime.setText("");
-        
+    public void createPackageBtnClick(ActionEvent event) throws SQLException, IOException {   
         String pn = packageName.getText();
-        String pc = packageCost.getText();
-        String pst = packageStartTime.getText();
-        String pet = packageEndTime.getText();
-        LocalDate psd = packageStartDate.getValue();
-        LocalDate ped = packageEndDate.getValue();
-       
+
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
                     
@@ -100,52 +86,20 @@ public class CreatePackagePageController implements Initializable {
             if (count == 0) {
                 alreadyExists = false;
                 
-                //Get AM/PM text
-                String psts = (String)packageStartTimeState.getValue();
-                String pets = (String)packageEndTimeState.getValue();
+                ArrayList<TextField> textFieldList = new ArrayList<>();
+                textFieldList.add(packageCost);
+                textFieldList.add(packageStartTime);
+                textFieldList.add(packageEndTime);
                 
-                if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    helper.showDialogBox(alreadyExists, "End date cannot be earlier than start date");
-                }
-                else {
-                    if(psts.equals("PM")) {
-                        pst = helper.convertTimeTo24HourFormat(pst);
-                    }
-
-                    if(pets.equals("PM")) {
-                        pet = helper.convertTimeTo24HourFormat(pet);
-                    }
-
-                    if((psts.equals("AM") && pets.equals("AM")) || 
-                            (psts.equals("PM") && pets.equals("PM")) || 
-                            (psts.equals("PM") && pets.equals("AM"))) {
-                        //End time before start time
-                        if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            helper.showDialogBox(alreadyExists, "Start time cannot be earlier than end time");
-                            helper.clearTextField(packageStartTime, packageEndTime);
-                        }
-                        else {
-                            pack = new Package(
-                                    pn, 
-                                    Float.valueOf(pc), 
-                                    helper.convertLocalDateToSQLDate(psd), 
-                                    helper.convertLocalDateToSQLDate(ped), 
-                                    pst, 
-                                    pet);
-                            insertIntoDB(stage, pack, adminId, alreadyExists);
-                        }
-                    }
-                    else if (psts.equals("AM") && pets.equals("PM")) {
-                        pack = new Package(
-                                pn, 
-                                Float.valueOf(pc), 
-                                helper.convertLocalDateToSQLDate(psd), 
-                                helper.convertLocalDateToSQLDate(ped), 
-                                pst, 
-                                pet);
-                        insertIntoDB(stage, pack, adminId, alreadyExists);
-                    }
-                }
+                ArrayList<DatePicker> datePickerList = new ArrayList<>();
+                datePickerList.add(packageStartDate);
+                datePickerList.add(packageEndDate);
+                
+                ArrayList<ComboBox> comboBoxList = new ArrayList<>();
+                comboBoxList.add(packageStartTimeState);
+                comboBoxList.add(packageEndTimeState);
+                
+                packageHelper.btnClick(pn, textFieldList, datePickerList, comboBoxList, stage, adminId, alreadyExists);
             }
             else {
                 alreadyExists = true;
@@ -156,37 +110,5 @@ public class CreatePackagePageController implements Initializable {
         else {
             helper.showDialogBox(true, "Enter all data");
         }
-    }
-    
-    
-    /**
-     * Converts given time to number of minutes since midnight
-     * @param time Time to convert into number of minutes
-     * @return 
-     */
-    public int convertTimeToMinuteSinceMidnight(String time) {
-        String[] timeDivided = time.split(":");
-        int hour = Integer.parseInt(timeDivided[0]);
-        int minute = Integer.parseInt(timeDivided[1]);
-        int minutesSinceMidnight = (hour * 60) + minute;
-        return minutesSinceMidnight;
-    }
-    
-    
-    /**
-     * Sends the package object to handler to store in database
-     * @param stage
-     * @param pack
-     * @param adminId
-     * @param alreadyExists
-     * @throws SQLException
-     * @throws IOException 
-     */
-    public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists) throws SQLException, IOException {
-        dbHandler.createPackage(pack, adminId);
-        helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
-        packageStartDate.getEditor().clear();
-        packageEndDate.getEditor().clear();
-        helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
     }
 }

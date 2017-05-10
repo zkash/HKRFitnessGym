@@ -34,9 +34,9 @@ public class AccountHelper {
     
     
     /**
-     * Handles the change of focus in text fields
+     * Handles the change of focus in text fields in Create User page
      * @param tf Text Field
-     * @param textFieldList
+     * @param textFieldList List of text fields to handle focus on
      * @param lbl Label
      */
     public void changeFocusInCreateUser(TextField tf, ArrayList<TextField> textFieldList, Label lbl) {
@@ -88,9 +88,9 @@ public class AccountHelper {
     
     
     /**
-     * Handles the change of focus in text fields
+     * Handles the change of focus in text fields in Update Personal Information pages
      * @param tf Text Field
-     * @param textFieldList
+     * @param textFieldList List of text fields to handle focus on
      * @param lbl Label
      */
     public void changeFocusInUpdateInfo(TextField tf, ArrayList<TextField> textFieldList, Label lbl) {
@@ -127,23 +127,21 @@ public class AccountHelper {
             }
         });
     }
+
     
-//    public void clearTextField() {
-//        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
-//        fields.forEach((field) -> {
-//            field.clear();
-//        });
-//    }
-//    
-//    public void clearRadioButton() {
-//        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
-//        radioButtons.forEach((radioButton) -> {
-//            radioButton.setSelected(false);
-//        });
-//    }
-    
-    
-     public void updateBtnClick(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int adminId, int ssnOld1, int ssnOld2) throws SQLException {
+    /**
+     * Handles the update button click
+     * @param accountType Type of account - Admin or Member
+     * @param textFieldList List of text fields to handle focus on
+     * @param radioButtonList List of radio buttons 
+     * @param labelList List of invalid message labels
+     * @param dateOfBirth Date value from DatePicker
+     * @param id Id of Admin or Member
+     * @param ssnOld1 First part of old or current social security number 
+     * @param ssnOld2 Second part of old or current social security number
+     * @throws SQLException 
+     */
+     public void updateBtnClick(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
         //Clear error messages
         Label invalidMsgAllData = labelList.get(0);
         Label invalidMsgFirstName = labelList.get(1);
@@ -219,12 +217,12 @@ public class AccountHelper {
                 if(accountType.equals("Admin")) {
                     Admin admin;
                     admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                    dbHandler.updateAdminPersonalInformation("Admin", admin, adminId, ssnOld1, ssnOld2);
+                    dbHandler.updateAdminPersonalInformation("Admin", admin, id, ssnOld1, ssnOld2);
                 }
                 else if(accountType.equals("Member")) {
                     Member member;
                     member = new Member(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                    dbHandler.updateMemberPersonalInformation("Member", member, adminId, ssnOld1, ssnOld2);   
+                    dbHandler.updateMemberPersonalInformation("Member", member, id, ssnOld1, ssnOld2);   
                 }
                 helper.showDialogBox(false, "Member details successfully updated");
             }

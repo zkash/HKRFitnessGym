@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.io.IOException;
@@ -31,11 +26,6 @@ import javafx.beans.binding.BooleanBinding;
  * @author shameer
  */
 public class CreatePackagePageController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    
     @FXML private Label invalidMsgPackageName;
     @FXML private Label invalidMsgPackageCost;
     @FXML private Label invalidMsgPackageStartTime;
@@ -48,7 +38,6 @@ public class CreatePackagePageController implements Initializable {
     @FXML private ComboBox packageStartTimeState;
     @FXML private ComboBox packageEndTimeState;
     @FXML private TextField packageEndTime;
-    @FXML private Label invalidMsgAllData;
    
     private List<TextField> textfields;
     private List<Label> labels;
@@ -57,15 +46,18 @@ public class CreatePackagePageController implements Initializable {
     private BooleanBinding validated;
     private Package pack;
     
-    private final int adminId = LoginStorage.getInstance().getId();
-    
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
+    private final int adminId = LoginStorage.getInstance().getId();
+
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //ObservableList<String> timeList = FXCollections.observableArrayList("AM", "PM");
-        //packageStartTimeState.getItems().addAll(timeList);
         packageStartTimeState.getItems().addAll("AM", "PM");
         packageEndTimeState.getItems().addAll("AM", "PM");
         
@@ -102,6 +94,13 @@ public class CreatePackagePageController implements Initializable {
         };
     }    
     
+    
+    /**
+     * Handles create package button click
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     public void createPackageBtnClick(ActionEvent event) throws SQLException, IOException {
         //Clear error messages
         invalidMsgPackageName.setText("");
@@ -116,14 +115,13 @@ public class CreatePackagePageController implements Initializable {
         LocalDate psd = packageStartDate.getValue();
         LocalDate ped = packageEndDate.getValue();
        
-      
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
                     
         if (validated.get()) {
             int count = dbHandler.checkPackageName(pn);
             boolean alreadyExists;
-            System.out.println(count);
+            
             if (count == 0) {
                 alreadyExists = false;
                 
@@ -131,14 +129,10 @@ public class CreatePackagePageController implements Initializable {
                 String psts = (String)packageStartTimeState.getValue();
                 String pets = (String)packageEndTimeState.getValue();
                 
-                System.out.println(psts);
-                System.out.println(pets);
-                
                 if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
                     helper.showDialogBox(alreadyExists, "End date cannot be earlier than start date");
                 }
                 else {
-                
                     if(psts.equals("PM")) {
                         pst = helper.convertTimeTo24HourFormat(pst);
                     }
@@ -147,19 +141,33 @@ public class CreatePackagePageController implements Initializable {
                         pet = helper.convertTimeTo24HourFormat(pet);
                     }
 
-                    if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
+                    if((psts.equals("AM") && pets.equals("AM")) || 
+                            (psts.equals("PM") && pets.equals("PM")) || 
+                            (psts.equals("PM") && pets.equals("AM"))) {
                         //End time before start time
                         if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
                             helper.showDialogBox(alreadyExists, "Start time cannot be earlier than end time");
                             helper.clearTextField(packageStartTime, packageEndTime);
                         }
                         else {
-                            pack = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
+                            pack = new Package(
+                                    pn, 
+                                    Float.valueOf(pc), 
+                                    helper.convertLocalDateToSQLDate(psd), 
+                                    helper.convertLocalDateToSQLDate(ped), 
+                                    pst, 
+                                    pet);
                             insertIntoDB(stage, pack, adminId, alreadyExists);
                         }
                     }
                     else if (psts.equals("AM") && pets.equals("PM")) {
-                        pack = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
+                        pack = new Package(
+                                pn, 
+                                Float.valueOf(pc), 
+                                helper.convertLocalDateToSQLDate(psd), 
+                                helper.convertLocalDateToSQLDate(ped), 
+                                pst, 
+                                pet);
                         insertIntoDB(stage, pack, adminId, alreadyExists);
                     }
                 }
@@ -175,6 +183,12 @@ public class CreatePackagePageController implements Initializable {
         }
     }
     
+    
+    /**
+     * Converts given time to number of minutes since midnight
+     * @param time Time to convert into number of minutes
+     * @return 
+     */
     public int convertTimeToMinuteSinceMidnight(String time) {
         String[] timeDivided = time.split(":");
         int hour = Integer.parseInt(timeDivided[0]);
@@ -183,41 +197,21 @@ public class CreatePackagePageController implements Initializable {
         return minutesSinceMidnight;
     }
     
+    
+    /**
+     * Sends the package object to handler to store in database
+     * @param stage
+     * @param pack
+     * @param adminId
+     * @param alreadyExists
+     * @throws SQLException
+     * @throws IOException 
+     */
     public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists) throws SQLException, IOException {
         dbHandler.createPackage(pack, adminId);
         helper.clearTextField(packageName, packageCost, packageStartTime, packageEndTime);
         packageStartDate.getEditor().clear();
         packageEndDate.getEditor().clear();
-        
         helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
     }
 }
-
-        //MY CODE
-//        if(!Helper.isEmpty(pn) && !Helper.isEmpty(pc) && !Helper.isEmpty(pst) && !Helper.isEmpty(pd)) {
-//            if(Helper.hasChar(pc)) {
-//                invalidMsgPackageCost.setText("Invalid Value");
-//            }
-//            else {
-//                String costRegex = "^[0-9]*.[0-9]{1,2}$";
-//                if(!pc.matches(costRegex)) {
-//                    invalidMsgPackageCost.setText("Invalid Value");
-//                }
-//                else {
-//                    //price less than 0
-//                    float pcInt = Float.parseFloat(pc);
-//                    if(pcInt < 0) {    
-//                        invalidMsgPackageCost.setText("Invalid Value");
-//                    }
-//                }
-//            }
-//            
-//            String startTimeRegex = "^(([1-9]{1})|([1][1-2])):[0-5]{1}[0-9]{1}$";
-//            if(!pst.matches(startTimeRegex)) {
-//                invalidMsgPackageStartTime.setText("Invalid Value");
-//            }
-//        }
-//        else {
-//            invalidMsgAllData.setText("Enter All Data");
-//        }  
- 

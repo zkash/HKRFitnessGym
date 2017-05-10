@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<Button fx:id="signOutBtn" mnemonicParsing="false" onAction="#signOutBtnClick" text="Sign Out" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.SignOutBtnController">
+<Button fx:id="signOutBtn" mnemonicParsing="false" onAction="#signOutBtnClick" text="Sign Out" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.SignOutButtonController">
    <font>
       <Font size="11.0" />
    </font>

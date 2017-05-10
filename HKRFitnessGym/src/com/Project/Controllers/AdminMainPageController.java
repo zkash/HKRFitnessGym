@@ -84,12 +84,12 @@ public class AdminMainPageController implements Initializable {
     
     
     /**
-     * Navigate to View Member Accounts page
+     * Navigate to View Subscriptions page
      * @param event
      * @throws IOException 
      */
     @FXML
     public void subscribeBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "AdminViewMemberAccounts.fxml");   
+        helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
     } 
 }

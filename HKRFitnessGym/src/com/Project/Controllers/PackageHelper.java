@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
+import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -20,15 +20,16 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class PackageHelper {
-        String packageName;
-        String packageCost;
-        String packageStartTime;
-        String packageEndTime;
-        LocalDate packageStartDate;
-        LocalDate packageEndDate;
-    
-        private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    String packageNameOld;
+    String packageName;
+    String packageCost;
+    String packageStartTime;
+    String packageEndTime;
+    LocalDate packageStartDate;
+    LocalDate packageEndDate;
+
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
     private BooleanBinding validated;
     public BooleanBinding addListenerBindTextFieldsAndLabels(List<TextField> textfields, List<Label> labels, List<String> validationChecks) {
@@ -63,12 +64,27 @@ public class PackageHelper {
         return validated;
     }
     
-    public void btnClick(String packName, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList, ArrayList<ComboBox> comboBoxList, Stage stage, int adminId, boolean alreadyExists) throws SQLException, IOException {
+    
+    /**
+     * Handles the button click - Create Package Button click or Update Package Button click
+     * @param todo Task to do - Create Package or Update Package
+     * @param packName Old package name in case of Update Package, copy of package name in case of Create Package
+     * @param event Button click ActionEvent
+     * @param textFieldList An array of text fields in the scene
+     * @param datePickerList An array of date pickers in the scene
+     * @param comboBoxList An array of combo boxes in the scene
+     * @param stage Current stage
+     * @param adminId Admin's Id from LoginStorage
+     * @throws SQLException
+     * @throws IOException 
+     */
+    public void btnClick(String todo, String packName, ActionEvent event, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList, ArrayList<ComboBox> comboBoxList, Stage stage, int adminId) throws SQLException, IOException {
         Package pack;
-        packageName = packName;
-        packageCost = textFieldList.get(0).getText();
-        packageStartTime = textFieldList.get(1).getText();
-        packageEndTime = textFieldList.get(2).getText();
+        packageNameOld = packName;
+        packageName = textFieldList.get(0).getText();
+        packageCost = textFieldList.get(1).getText();
+        packageStartTime = textFieldList.get(2).getText();
+        packageEndTime = textFieldList.get(3).getText();
         packageStartDate = datePickerList.get(0).getValue();
         packageEndDate = datePickerList.get(1).getValue();
         
@@ -104,7 +120,7 @@ public class PackageHelper {
                             helper.convertLocalDateToSQLDate(packageEndDate), 
                             packageStartTime, 
                             packageEndTime);
-                    insertIntoDB(stage, pack, adminId, alreadyExists, textFieldList, datePickerList);
+                    handleTask(todo, packageNameOld, event, stage, pack, adminId, textFieldList, datePickerList);
                 }
             }
             else if (packageStartTimeState.equals("AM") && packageEndTimeState.equals("PM")) {
@@ -115,10 +131,59 @@ public class PackageHelper {
                             helper.convertLocalDateToSQLDate(packageEndDate), 
                             packageStartTime, 
                             packageEndTime);
-                insertIntoDB(stage, pack, adminId, alreadyExists, textFieldList, datePickerList);
+                handleTask(todo, packageNameOld, event, stage, pack, adminId, textFieldList, datePickerList);
             }
         }
     }
+    
+    
+    /**
+     * Sends the package object to handler to store in database
+     * @param todo Task to do - Create Package or Update Package
+     * @param packageNameOld Old package name in case of Update Package,  copy of package name in case of Create Package
+     * @param event Button click ActionEvent
+     * @param stage Current stage
+     * @param pack Package class object
+     * @param adminId Admin's Id from LoginStorage
+     * @param textFieldList An array of text fields in the scene
+     * @param datePickerList An array of date pickers in the scene
+     * @throws SQLException
+     * @throws IOException 
+     */
+    public void handleTask(String todo, String packageNameOld, ActionEvent event, Stage stage, Package pack, int adminId, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList) throws SQLException, IOException {
+        if(todo.equals("Create")) {
+            dbHandler.createPackage(pack, adminId);
+            
+            //Clear text fields 
+            textFieldList.forEach((textField) -> {
+                helper.clearTextField(textField);
+            });
+
+            //Clear date pickers 
+            datePickerList.forEach((datePicker) -> {
+                datePicker.getEditor().clear();
+            });
+        
+            helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
+        }
+        else if(todo.equals("Update")) {
+            dbHandler.updatePackage(pack, packageNameOld, adminId);
+            
+            //Clear text fields 
+            textFieldList.forEach((textField) -> {
+                helper.clearTextField(textField);
+            });
+
+            //Clear date pickers 
+            datePickerList.forEach((datePicker) -> {
+                datePicker.getEditor().clear();
+            });
+            
+            helper.showDialogBox(true, "Package information successfully updated");
+            helper.navigateScene(event, "/com/Project/FXML/AdminViewPackages.fxml");
+        } 
+    }
+    
     
     /**
      * Converts given time to number of minutes since midnight
@@ -132,27 +197,4 @@ public class PackageHelper {
         int minutesSinceMidnight = (hour * 60) + minute;
         return minutesSinceMidnight;
     }
-    
-     /**
-     * Sends the package object to handler to store in database
-     * @param stage
-     * @param pack
-     * @param adminId
-     * @param alreadyExists
-     * @throws SQLException
-     * @throws IOException 
-     */
-    public void insertIntoDB(Stage stage, Package pack, int adminId, boolean alreadyExists, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList) throws SQLException, IOException {
-        dbHandler.createPackage(pack, adminId);
-        for(TextField textField : textFieldList) {
-            helper.clearTextField(textField);
-        }
-        
-        for(DatePicker datePicker : datePickerList) {
-            datePicker.getEditor().clear();
-        }
-        
-        helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
-    }
-   
 }

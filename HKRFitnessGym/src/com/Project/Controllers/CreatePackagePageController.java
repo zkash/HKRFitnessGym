@@ -87,6 +87,7 @@ public class CreatePackagePageController implements Initializable {
                 alreadyExists = false;
                 
                 ArrayList<TextField> textFieldList = new ArrayList<>();
+                textFieldList.add(packageName);
                 textFieldList.add(packageCost);
                 textFieldList.add(packageStartTime);
                 textFieldList.add(packageEndTime);
@@ -99,7 +100,8 @@ public class CreatePackagePageController implements Initializable {
                 comboBoxList.add(packageStartTimeState);
                 comboBoxList.add(packageEndTimeState);
                 
-                packageHelper.btnClick(pn, textFieldList, datePickerList, comboBoxList, stage, adminId, alreadyExists);
+                String todo = "Create";
+                packageHelper.btnClick(todo, pn, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
             }
             else {
                 alreadyExists = true;

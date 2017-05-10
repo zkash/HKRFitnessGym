@@ -5,6 +5,7 @@
  */
 package com.Project.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -19,10 +20,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -61,6 +64,8 @@ public class UpdatePackageInformationPageController implements Initializable {
     private final Helper helper = new Helper();
     private final PackageHelper packageHelper = new PackageHelper();
     
+    private final int adminId = LoginStorage.getInstance().getId();
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -68,6 +73,8 @@ public class UpdatePackageInformationPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        packageNameOld = packageName.getText();
+        
         textfields = Arrays.asList(packageName, packageCost, packageStartTime, packageEndTime);
         labels = Arrays.asList(invalidMsgPackageName, invalidMsgPackageCost, invalidMsgPackageStartTime, invalidMsgPackageEndTime);
         validationChecks = Arrays.asList("[a-zA-Z0-9]*", "[0-9]*|([0-9]*\\.[0-9]{1,2})", "([1-9]|[1][0-2]):[0-5][0-9]", "([1-9]|[1][0-2]):[0-5][0-9]");
@@ -75,12 +82,8 @@ public class UpdatePackageInformationPageController implements Initializable {
         validated = packageHelper.addListenerBindTextFieldsAndLabels(textfields, labels, validationChecks);
     }
     
-    public void updateBtnClick(ActionEvent event) throws SQLException {
-        //Clear error messages
-        invalidMsgPackageName.setText("");
-        invalidMsgPackageCost.setText("");
-        invalidMsgPackageStartTime.setText("");
-        invalidMsgPackageEndTime.setText("");
+    public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
+       
         
         String pn = packageName.getText();
         String pc = packageCost.getText();
@@ -90,45 +93,65 @@ public class UpdatePackageInformationPageController implements Initializable {
         LocalDate ped = packageEndDate.getValue();
        
         int admin_ssn = 1234567890;
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
         
         if (validated.get()) {
-            //Get AM/PM text
-            String psts = (String)packageStartTimeState.getValue();
-            String pets = (String)packageEndTimeState.getValue();
-            
-            if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
-                    helper.showDialogBox(true, "End date cannot be earlier than start date");
-            }
-                else {
+            ArrayList<TextField> textFieldList = new ArrayList<>();
+                textFieldList.add(packageName);
+                textFieldList.add(packageCost);
+                textFieldList.add(packageStartTime);
+                textFieldList.add(packageEndTime);
                 
-                    if(psts.equals("PM")) {
-                        pst = helper.convertTimeTo24HourFormat(pst);
-                    }
-
-                    if(pets.equals("PM")) {
-                        pet = helper.convertTimeTo24HourFormat(pet);
-                    }
-
-                    if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
-                        //End time before start time
-                        if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
-                            helper.showDialogBox(true, "Start time cannot be earlier than end time");
-                            helper.clearTextField(packageStartTime, packageEndTime);
-                        }
-                        else {
-                            updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
-                            updateInDB(updatedPackage, admin_ssn, false);
-                        }
-                    }
-                    else if (psts.equals("AM") && pets.equals("PM")) {
-                        updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
-                        updateInDB(updatedPackage, admin_ssn, false);
-                    }
-                }
+                ArrayList<DatePicker> datePickerList = new ArrayList<>();
+                datePickerList.add(packageStartDate);
+                datePickerList.add(packageEndDate);
+                
+                ArrayList<ComboBox> comboBoxList = new ArrayList<>();
+                comboBoxList.add(packageStartTimeState);
+                comboBoxList.add(packageEndTimeState);
+                
+                String todo = "Update";
+                packageHelper.btnClick(todo, packageNameOld, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
         }
-        else {
-            helper.showDialogBox(true, "Enter all data");
-        }
+//            //Get AM/PM text
+//            String psts = (String)packageStartTimeState.getValue();
+//            String pets = (String)packageEndTimeState.getValue();
+//            
+//            if (psd.compareTo(ped) > 0) {   //Start date is earlier than end date
+//                    helper.showDialogBox(true, "End date cannot be earlier than start date");
+//            }
+//                else {
+//                
+//                    if(psts.equals("PM")) {
+//                        pst = helper.convertTimeTo24HourFormat(pst);
+//                    }
+//
+//                    if(pets.equals("PM")) {
+//                        pet = helper.convertTimeTo24HourFormat(pet);
+//                    }
+//
+//                    if((psts.equals("AM") && pets.equals("AM")) || (psts.equals("PM") && pets.equals("PM")) || (psts.equals("PM") && pets.equals("AM"))) {
+//                        //End time before start time
+//                        if (convertTimeToMinuteSinceMidnight(pst) > convertTimeToMinuteSinceMidnight(pet)) {
+//                            helper.showDialogBox(true, "Start time cannot be earlier than end time");
+//                            helper.clearTextField(packageStartTime, packageEndTime);
+//                        }
+//                        else {
+//                            updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
+//                            updateInDB(updatedPackage, admin_ssn, false);
+//                        }
+//                    }
+//                    else if (psts.equals("AM") && pets.equals("PM")) {
+//                        updatedPackage = new Package(pn, Float.valueOf(pc), helper.convertLocalDateToSQLDate(psd), helper.convertLocalDateToSQLDate(ped), pst, pet);
+//                        updateInDB(updatedPackage, admin_ssn, false);
+//                    }
+//                }
+//        }
+//        else {
+//            helper.showDialogBox(true, "Enter all data");
+//        }
+//    }
     }
     
     public void setFields(ObservableList<Package> pack) {

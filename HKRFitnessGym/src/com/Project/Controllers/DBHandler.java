@@ -1265,14 +1265,14 @@ System.out.println("DSDSAS " + data);
         String query = "";
         if(accountType.equals("Admin")) {
             query = "SELECT COUNT(*) FROM AdminForgotPassword WHERE "
-                    + "code = ? "
+                    + "BINARY code = ? "
                     + "AND Admin_adminId = ? "
                     + "AND date = ? "
                     + "AND time = ?";
         }
         else if(accountType.equals("Member")) {
             query = "SELECT COUNT(*) FROM MemberForgotPassword WHERE "
-                    + "code = ? "
+                    + "BINARY code = ? "
                     + "AND Member_memberId = ? "
                     + "AND date = ? "
                     + "AND time = ?";

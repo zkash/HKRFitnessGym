@@ -263,7 +263,7 @@ public class LoginPageController implements Initializable {
             }
             
             if(codeVerification) {
-                helper.navigateScene(event, "/com/Project/FXML/AdminCreatePassword.fxml");
+                helper.navigateScene(event, "/com/Project/FXML/CreatePassword.fxml");
             }
         }
     }

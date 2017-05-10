@@ -204,7 +204,7 @@ public class Helper {
     public void navigateScene(ActionEvent event, String nextSceneLocation) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(Helper.class.getResource(nextSceneLocation));
+        Parent root = FXMLLoader.load(Helper.class.getResource("/com/Project/FXML/" + nextSceneLocation));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

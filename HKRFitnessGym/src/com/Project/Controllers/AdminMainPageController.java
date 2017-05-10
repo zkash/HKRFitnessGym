@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.io.IOException;
@@ -24,26 +19,21 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class AdminMainPageController implements Initializable {
-
+    @FXML Label loggedUserLbl;
+    Helper helper = new Helper();
+    
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
-    
-    
-    @FXML Label loggedUserLbl;
-    
-    private int adminSSN;
-    private boolean login;
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        adminSSN = LoginStatus.getSSN();
-        login = LoginStatus.getLogin();
         loggedUserLbl.textProperty().bind(LoginStorage.getInstance().usernameProperty());
-       
- } 
-   @FXML
-   public void accountBtnClick(ActionEvent event) throws IOException {
+    } 
+    
+    @FXML
+    public void accountBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
       Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));

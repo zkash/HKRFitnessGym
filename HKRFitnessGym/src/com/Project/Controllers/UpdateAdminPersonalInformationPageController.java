@@ -1,8 +1,6 @@
 package com.Project.Controllers;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -44,7 +42,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private Label invalidMsgSSN;
     @FXML private Label invalidMsgAllData;
     
-    ArrayList<TextField> textFieldList;
+    private ArrayList<TextField> textFieldList;
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
@@ -145,4 +143,3 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, adminId, ssnOld1, ssnOld2);
     }
 }
-

@@ -1,16 +1,9 @@
 package com.Project.Controllers;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,29 +42,25 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     @FXML private Label invalidMsgSSN;
     @FXML private Label invalidMsgAllData;
     
+    private ArrayList<TextField> textFieldList;
+    
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     private final AccountHelper accountHelper = new AccountHelper();
     
     private int ssnOld1, ssnOld2;
-    
-    
+
     private final int memberId = LoginStorage.getInstance().getId();
-    
-    Member member;
-    
-    
-    private List<TextField> fields;
-    private List<RadioButton> radioButtons;
-    
-    
-    
+    private final String accountType = LoginStorage.getInstance().getAccountType();
+
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList = new ArrayList<>();
         textFieldList.add(firstName);
         textFieldList.add(middleName);
         textFieldList.add(lastName);
@@ -128,179 +117,28 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         }
     }     
    
-
+    /**
+     * Handles update button click
+     * @param event
+     * @throws SQLException 
+     */
     @FXML
     public void updateBtnClick(ActionEvent event) throws SQLException {
-        //Clear error messages
-        invalidMsgAllData.setText("");
+        ArrayList<RadioButton> radioButtonList = new ArrayList<>();
+        radioButtonList.add(genderMale);
+        radioButtonList.add(genderFemale);
+        radioButtonList.add(genderOther);
 
-        String fn = firstName.getText();
-        String ln = lastName.getText();
+        ArrayList<Label> labelList = new ArrayList<>();
+        labelList.add(invalidMsgAllData);
+        labelList.add(invalidMsgFirstName);
+        labelList.add(invalidMsgMiddleName);
+        labelList.add(invalidMsgLastName);
+        labelList.add(invalidMsgAddress);
+        labelList.add(invalidMsgPhoneNumber);
+        labelList.add(invalidMsgEmail);
+        labelList.add(invalidMsgSSN);
         
-        String mn;
-        if(!helper.isEmpty(middleName.getText())) {
-            mn = middleName.getText();
-        }
-        else {
-            mn = "";
-        }
-        
-        String gen = "";
-        if(genderMale.isSelected()) {
-            gen = genderMale.getText();
-        }
-        if(genderFemale.isSelected()) {
-            gen = genderFemale.getText();
-        }
-        if(genderOther.isSelected()) {
-            gen = genderOther.getText();
-        }
-        
-        LocalDate dob = dateOfBirth.getValue();
-        String add = address.getText();
-        String pnum = phoneNumber.getText();
-        String ead = email.getText();
-        String ssnum = ssn.getText();
-        
-        if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
-                helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
-                helper.isEmpty(ssnum)) {
-            invalidMsgAllData.setText("Enter All Data");
-        }
-        else {
-            System.out.println("herefdsdsf");
-            String[] ssnParts = ssnum.split("-");
-            System.out.println(Arrays.toString(ssnParts));
-            String ssnumberStr = ssnParts[0] + ssnParts[1];
-            System.out.println(ssnumberStr);
-            //int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
-            int ssn1 = Integer.parseInt(ssnParts[0]);
-            int ssn2 = Integer.parseInt(ssnParts[1]);
-            int pnumber = Integer.parseInt(pnum);
-           // System.out.println(ssnumber);
-            System.out.println(dob);
-            Date birthDate = Date.valueOf(dob);
-                    
-            if(helper.isEmpty(invalidMsgFirstName.getText()) &&
-                helper.isEmpty(invalidMsgMiddleName.getText()) &&  
-                helper.isEmpty(invalidMsgLastName.getText()) &&
-                helper.isEmpty(invalidMsgAddress.getText()) &&
-                helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
-                helper.isEmpty(invalidMsgEmail.getText()) &&
-                helper.isEmpty(invalidMsgSSN.getText())) {
-                System.out.println("reached here");
-                member = new Member(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                dbHandler.updateMemberPersonalInformation("Member", member, ssnOld1, ssnOld2);
-                helper.showDialogBox(false, "Member details successfully updated");
-            }
-            else {
-                helper.showDialogBox(true, "Could not update admin details");
-            }
-        }        
+        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
     }
-    
-    public void clearTextField() {
-        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
-        fields.forEach((field) -> {
-            field.clear();
-        });
-    }
-    
-    public void clearRadioButton() {
-        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
-        radioButtons.forEach((radioButton) -> {
-            radioButton.setSelected(false);
-        });
-    }
-}      
-    
-//    public void updateUserInfoBtnClick(ActionEvent event) {
-//        //Clear error messages
-//        invalidMsgFirstName.setText("");
-//        invalidMsgMiddleName.setText("");
-//        invalidMsgLastName.setText("");
-//        invalidMsgAddress.setText("");
-//        invalidMsgPhoneNumber.setText("");
-//        invalidMsgEmail.setText("");
-//        invalidMsgSSN.setText("");
-//        invalidMsgUsername.setText("");
-//        invalidMsgPassword.setText("");
-//        
-//        String fn = firstName.getText();
-//        
-//        String mn, gen = "";
-//        if(middleName.getText() == null || middleName.getText().trim().isEmpty()) {
-//            mn = "";
-//        }
-//        else {
-//            mn = middleName.getText(); 
-//        }
-//        
-//        String ln = lastName.getText();
-//        if(genderMale.isSelected()) {
-//            gen = genderMale.getText();
-//        }
-//        if(genderFemale.isSelected()) {
-//            gen = genderFemale.getText();
-//        }
-//        if(genderOther.isSelected()) {
-//            gen = genderOther.getText();
-//        }
-//        LocalDate dob = dateOfBirth.getValue();
-//        String add = address.getText();
-//        String pnum = phoneNumber.getText();
-//        String ead = email.getText();
-//        String ssnum = ssn.getText();
-//        String un = username.getText();
-//        String pw = password.getText();
-//    
-//        if(Helper.isEmpty(fn) || Helper.isEmpty(ln) || Helper.isEmpty(gen) || dob == null || 
-//                Helper.isEmpty(pnum) || Helper.isEmpty(ead) || Helper.isEmpty(ssnum) || 
-//                Helper.isEmpty(un) || Helper.isEmpty(pw)) {
-//            invalidMsgAllData.setText("Enter All Data");
-//        }
-//        else {
-//            if(Helper.hasDigit(fn)) {
-//                invalidMsgFirstName.setText("Invalid Value");
-//            }
-//            
-//            if(!Helper.isEmpty(mn)) {
-//                if(Helper.hasDigit(mn)) {
-//                    invalidMsgMiddleName.setText("Invalid Value");
-//                }
-//            }
-//            
-//            if(Helper.hasDigit(ln)) {
-//                invalidMsgFirstName.setText("Invalid Value");
-//            }
-//            
-//            String notAddRegex = "[0-9]+";
-//            if(add.matches(notAddRegex)) {
-//                invalidMsgAddress.setText("Invalid Value");
-//            }
-//            System.out.println(pnum.length());
-//            if(Helper.hasChar(pnum) && pnum.length() < 5) {
-//                invalidMsgPhoneNumber.setText("Invalid Value");
-//            }
-//            
-//           String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(.+[a-zA-Z0-9-.]+)+$";
-//            if(!ead.matches(emailRegex)) {
-//                invalidMsgEmail.setText("Invalid Value");
-//            }
-//            
-//            String ssnRegex = "[0-9]{6}-[0-9]{4}";
-//            if(!ssnum.matches(ssnRegex)) {
-//                invalidMsgSSN.setText("Invalid Value");
-//            }
-//            
-//            String unRegex = "^[A-Za-z][A-za-z0-9]*";
-//            if(!un.matches(unRegex)) {
-//                invalidMsgUsername.setText("Invalid Value");
-//            }
-//            
-//            String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-//            if(!pw.matches(pwRegex)) {
-//                invalidMsgPassword.setText("Invalid Value");
-//            }
-//        }
-//    }}
+}

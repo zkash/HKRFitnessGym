@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.sql.Date;
@@ -21,38 +16,74 @@ public class ForgotPasswordRequest {
     private StringProperty code;
     private IntegerProperty id;
     
-    // Getters
+    /**
+     * Gets the date of password request
+     * @return The date of password request
+     */
     public Date getDate() {
         return date;
     }
     
+    
+    /**
+     * Gets the time of password request
+     * @return The time of password request
+     */
     public String getTime() {
         return time.get();
     }
     
+    
+    /**
+     * Gets the randomly generated code
+     * @return The randomly generated code
+     */
     public String getCode() {
         return code.get();
     }
     
+    
+    /**
+     * Gets the id of the user requests the password
+     * @return The id of the user requests the password
+     */
     public int getId() {
         return id.get();
     }
     
-    //Setters
     
+    /**
+     * Sets the date of password request
+     * @param d The date of password request
+     */
     public void setDate(Date d) {
         date = d;
     }
     
+    
+    /**
+     * Sets the time of password request
+     * @param t The time of password request
+     */
     public void setTime(String t) {
         System.out.println("T " + t);
         time = new SimpleStringProperty(t);
     }
     
+    
+    /**
+     * Sets the randomly generated code
+     * @param c The randomly generated code
+     */
     public void setCode(String c) {
         code = new SimpleStringProperty(c);
     }
     
+    
+    /**
+     * Sets the id of the user requests the password
+     * @param i The id of the user requests the password
+     */
     public void setId(int i) {
         id = new SimpleIntegerProperty(i);
     }

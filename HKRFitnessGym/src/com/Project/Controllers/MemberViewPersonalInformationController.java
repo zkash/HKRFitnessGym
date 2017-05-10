@@ -62,7 +62,5 @@ public class MemberViewPersonalInformationController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(AdminViewPersonalInformationController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }    
-    
+    }       
 }

@@ -512,8 +512,9 @@ System.out.println("DSDSAS " + data);
         return alreadyExists;
     }
 
-    public void updateAdminPersonalInformation(String table, Admin admin, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateAdminPersonalInformation(String table, Admin admin, int adminId, int ssnOld1, int ssnOld2) throws SQLException {
         try (Connection conn = establishConnection()) {
+            System.out.println("HOOLALA " + admin.getMiddleName());
             String query = "UPDATE $table_name SET"
                     + " firstName = ?,"
                     + " middleName = ?,"
@@ -525,7 +526,7 @@ System.out.println("DSDSAS " + data);
                     + " email = ?, "
                     + " ssn1 = ?,"
                     + " ssn2 = ?"
-                    + " WHERE ssn1 = ? AND ssn2 = ?";
+                    + " WHERE adminId = ? AND ssn1 = ? AND ssn2 = ?";
             query = query.replace("$table_name", table);
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, admin.getFirstName());
@@ -538,14 +539,17 @@ System.out.println("DSDSAS " + data);
             statement.setString(8, admin.getEmail());
             statement.setInt(9, admin.getSSN1());
             statement.setInt(10, admin.getSSN2());
-            statement.setInt(11, ssnOld1);
-            statement.setInt(12, ssnOld2);
+            statement.setInt(11, adminId);
+            statement.setInt(12, ssnOld1);
+            statement.setInt(13, ssnOld2);
+            System.out.println("STATEMENT " + statement);
             statement.executeUpdate();
         }
     }
 
-    public void updateMemberPersonalInformation(String table, Member member, int ssnOld1, int ssnOld2) throws SQLException {
+    public void updateMemberPersonalInformation(String table, Member member, int memberId, int ssnOld1, int ssnOld2) throws SQLException {
         try (Connection conn = establishConnection()) {
+            System.out.println("MOLALA");
             String query = "UPDATE $table_name SET"
                     + " firstName = ?,"
                     + " middleName = ?,"
@@ -557,7 +561,7 @@ System.out.println("DSDSAS " + data);
                     + " email = ?, "
                     + " ssn1 = ?,"
                     + " ssn2 = ?"
-                    + " WHERE ssn1 = ? AND ssn2 = ?";
+                    + " WHERE memberId = ? AND ssn1 = ? AND ssn2 = ?";
             query = query.replace("$table_name", table);
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, member.getFirstName());
@@ -570,8 +574,9 @@ System.out.println("DSDSAS " + data);
             statement.setString(8, member.getEmail());
             statement.setInt(9, member.getSSN1());
             statement.setInt(10, member.getSSN2());
-            statement.setInt(11, ssnOld1);
-            statement.setInt(12, ssnOld2);
+            statement.setInt(11, memberId);
+            statement.setInt(12, ssnOld1);
+            statement.setInt(13, ssnOld2);
             statement.executeUpdate();
         }
     }

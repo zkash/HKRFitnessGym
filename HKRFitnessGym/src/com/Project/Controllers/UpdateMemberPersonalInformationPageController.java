@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,16 +19,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
  * @author shameer
  */
 public class UpdateMemberPersonalInformationPageController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;
@@ -41,11 +33,11 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     @FXML private TextField phoneNumber;
     @FXML private TextField email;
     @FXML private TextField ssn;
-    @FXML private TextField username;
-    @FXML private TextField password;
+    
     @FXML private RadioButton genderMale;
     @FXML private RadioButton genderFemale;
     @FXML private RadioButton genderOther;
+    
     @FXML private DatePicker dateOfBirth;
    
     @FXML private Label invalidMsgFirstName;
@@ -55,48 +47,59 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
     @FXML private Label invalidMsgPhoneNumber;
     @FXML private Label invalidMsgEmail;
     @FXML private Label invalidMsgSSN;
-    @FXML private Label invalidMsgUsername;
-    @FXML private Label invalidMsgPassword;
     @FXML private Label invalidMsgAllData;
     
-    private final int memberSSN1 = 234567;
-    private final int memberSSN2 = 8901;
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
+    private final AccountHelper accountHelper = new AccountHelper();
+    
+    private int ssnOld1, ssnOld2;
+    
+    
     private final int memberId = LoginStorage.getInstance().getId();
-    ObservableList<Member> data;
+    
     Member member;
     
-    private int ssnOld1;
-    private int ssnOld2;
     
     private List<TextField> fields;
     private List<RadioButton> radioButtons;
     
-    private final DBHandler dbHandler = new DBHandler();
-    private final Helper helper = new Helper();
     
+    
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        changeFocus(firstName, invalidMsgFirstName);
-        changeFocus(middleName, invalidMsgMiddleName);
-        changeFocus(lastName, invalidMsgLastName);
-        changeFocus(address, invalidMsgAddress);
-        changeFocus(phoneNumber, invalidMsgPhoneNumber);
-        changeFocus(email, invalidMsgEmail);
-        changeFocus(ssn, invalidMsgSSN);
+        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList.add(firstName);
+        textFieldList.add(middleName);
+        textFieldList.add(lastName);
+        textFieldList.add(address);
+        textFieldList.add(phoneNumber);
+        textFieldList.add(email);
+        textFieldList.add(ssn);
         
+        accountHelper.changeFocusInUpdateInfo(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocusInUpdateInfo(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocusInUpdateInfo(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocusInUpdateInfo(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocusInUpdateInfo(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocusInUpdateInfo(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocusInUpdateInfo(ssn, textFieldList, invalidMsgSSN);
         
-        //this.adminSSN = LoginStatus.getSSN();
-        //this.login = LoginStatus.getLogin();
-        
+        ObservableList<Member> data = null;
+
         try {
             data = dbHandler.getMemberPersonalInformation(memberId);
             if(data.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateAdminPersonalInformationPageController.class.getName()).log(Level.SEVERE, null, ex);
+            helper.showDialogBox(true, "There is problem with SQL database");
         }
-        System.out.println(data.get(0).getFirstName());
+        
+        //Set values in text fields
         firstName.setText(data.get(0).getFirstName());
         middleName.setText(data.get(0).getMiddleName());
         lastName.setText(data.get(0).getLastName());
@@ -104,28 +107,12 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
         address.setText(data.get(0).getAddress());
         phoneNumber.setText(Integer.toString(data.get(0).getPhoneNumber()));
         email.setText(data.get(0).getEmail());
-        int ssnumber1 = data.get(0).getSSN1();
-        int ssnumber2 = data.get(0).getSSN2();
-//        int lastFourDigitsOfSSN = 0;
-//        int firstSixDigitsOfSSN = 0;
-//        int multiplier = 1;
-//        for (int i = 0; i < 4; i++) {
-//            lastFourDigitsOfSSN = lastFourDigitsOfSSN + (ssnumber % 10) * multiplier;
-//            multiplier *= 10;
-//            ssnumber = ssnumber/10;
-//        }
-//        multiplier = 1;
-//        for (int i = 0; i < 6; i++) {
-//            firstSixDigitsOfSSN = firstSixDigitsOfSSN + (ssnumber % 10) * multiplier;
-//            multiplier *= 10;
-//            ssnumber = ssnumber/10;
-//        }
         
-        //ssn.setText(Integer.toString(firstSixDigitsOfSSN) + "-" + Integer.toString(lastFourDigitsOfSSN));
-        ssn.setText(Integer.toString(ssnumber1) + "-" + Integer.toString(ssnumber2));
+        ssnOld1 = data.get(0).getSSN1();
+        ssnOld2 = data.get(0).getSSN2();
+        ssn.setText(Integer.toString(ssnOld1) + "-" + Integer.toString(ssnOld2));
         
         String gen = data.get(0).getGender();
-
         switch (gen) {
             case "Male":
                 genderMale.setSelected(true);
@@ -139,55 +126,8 @@ public class UpdateMemberPersonalInformationPageController implements Initializa
             default:
                 break;
         }
-        
-        ssnOld1 = data.get(0).getSSN1();
-        ssnOld2 = data.get(0).getSSN2();
     }     
-    
-//    public void setAdminUsername(String uname) {
-//        this.adminUsername = uname;
-//    }
-//    
-//    public void setAdminSSN(int ssn) {
-//        this.adminSSN1 = ssn;
-//    }
-    
-    public void setTextOnCondition(boolean condition, Label lbl) {
-        if(condition) {
-            lbl.setText("Invalid Value"); 
-        }
-        else {
-            lbl.setText("");
-        }
-    }
    
-    public void changeFocus(TextField tf, Label lbl) {
-        lbl.setText("");
-        tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
-            if(!newPropertyValue) {
-                if (tf == firstName || tf == middleName || tf == lastName) {
-                    setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
-                }
-                else if (tf == address) {  
-                    String notAddressRegex = "[0-9]+";
-                    setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
-                }
-                else if (tf == phoneNumber) {
-                    setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
-                }
-                else if (tf == email) {
-                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                    String ead = email.getText();
-                    setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
-                }
-                else if (tf == ssn) {
-                    String ssnRegex = "[0-9]{6}-[0-9]{4}";
-                    String ssnum = ssn.getText();
-                    setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
-                }
-            }
-        });
-    }
 
     @FXML
     public void updateBtnClick(ActionEvent event) throws SQLException {

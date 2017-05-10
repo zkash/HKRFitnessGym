@@ -44,6 +44,8 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private Label invalidMsgSSN;
     @FXML private Label invalidMsgAllData;
     
+    ArrayList<TextField> textFieldList;
+    
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     private final AccountHelper accountHelper = new AccountHelper();
@@ -51,6 +53,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private int ssnOld1, ssnOld2;
     
     private final int adminId = LoginStorage.getInstance().getId();
+    private final String accountType = LoginStorage.getInstance().getAccountType();
     
     /**
      * Initializes the controller class.
@@ -59,7 +62,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList = new ArrayList<>();
         textFieldList.add(firstName);
         textFieldList.add(middleName);
         textFieldList.add(lastName);
@@ -68,13 +71,13 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         textFieldList.add(email);
         textFieldList.add(ssn);
         
-        accountHelper.changeFocus(firstName, textFieldList, invalidMsgFirstName);
-        accountHelper.changeFocus(middleName, textFieldList, invalidMsgMiddleName);
-        accountHelper.changeFocus(lastName, textFieldList, invalidMsgLastName);
-        accountHelper.changeFocus(address, textFieldList, invalidMsgAddress);
-        accountHelper.changeFocus(phoneNumber, textFieldList, invalidMsgPhoneNumber);
-        accountHelper.changeFocus(email, textFieldList, invalidMsgEmail);
-        accountHelper.changeFocus(ssn, textFieldList, invalidMsgSSN);
+        accountHelper.changeFocusInUpdateInfo(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocusInUpdateInfo(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocusInUpdateInfo(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocusInUpdateInfo(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocusInUpdateInfo(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocusInUpdateInfo(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocusInUpdateInfo(ssn, textFieldList, invalidMsgSSN);
         
         ObservableList<Admin> data = null;
 
@@ -102,7 +105,6 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         ssn.setText(Integer.toString(ssnOld1) + "-" + Integer.toString(ssnOld2));
         
         String gen = data.get(0).getGender();
-
         switch (gen) {
             case "Male":
                 genderMale.setSelected(true);
@@ -126,66 +128,21 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
      */
     @FXML
     public void updateBtnClick(ActionEvent event) throws SQLException {
-        //Clear error messages
-        invalidMsgAllData.setText("");
-
-        String fn = firstName.getText();
-        String ln = lastName.getText();
+        ArrayList<RadioButton> radioButtonList = new ArrayList<>();
+        radioButtonList.add(genderMale);
+        radioButtonList.add(genderFemale);
+        radioButtonList.add(genderOther);
         
-        String mn;
-        if(!helper.isEmpty(middleName.getText())) {
-            mn = middleName.getText();
-        }
-        else {
-            mn = "";
-        }
-        
-        String gen = "";
-        if(genderMale.isSelected()) {
-            gen = genderMale.getText();
-        }
-        
-        if(genderFemale.isSelected()) {
-            gen = genderFemale.getText();
-        }
-        
-        if(genderOther.isSelected()) {
-            gen = genderOther.getText();
-        }
-        
-        LocalDate dob = dateOfBirth.getValue();
-        String add = address.getText();
-        String pnum = phoneNumber.getText();
-        String ead = email.getText();
-        String ssnum = ssn.getText();
-        
-        if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
-                helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
-                helper.isEmpty(ssnum)) {
-            invalidMsgAllData.setText("Enter All Data");
-        }
-        else {
-            String[] ssnParts = ssnum.split("-");
-            int ssn1 = Integer.parseInt(ssnParts[0]);
-            int ssn2 = Integer.parseInt(ssnParts[1]);
-            int pnumber = Integer.parseInt(pnum);
-            Date birthDate = Date.valueOf(dob);
-                    
-            if(helper.isEmpty(invalidMsgFirstName.getText()) &&
-                    helper.isEmpty(invalidMsgMiddleName.getText()) &&  
-                    helper.isEmpty(invalidMsgLastName.getText()) &&
-                    helper.isEmpty(invalidMsgAddress.getText()) &&
-                    helper.isEmpty(invalidMsgPhoneNumber.getText()) &&
-                    helper.isEmpty(invalidMsgEmail.getText()) &&
-                    helper.isEmpty(invalidMsgSSN.getText())) {
-                Admin admin;
-                admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
-                dbHandler.updateAdminPersonalInformation("Admin", admin, ssnOld1, ssnOld2);
-                helper.showDialogBox(false, "Admin details successfully updated");
-            }
-            else {
-                helper.showDialogBox(true, "Could not update admin details");
-            }
-        }        
+        ArrayList<Label> labelList = new ArrayList<>();
+        labelList.add(invalidMsgAllData);
+        labelList.add(invalidMsgFirstName);
+        labelList.add(invalidMsgMiddleName);
+        labelList.add(invalidMsgLastName);
+        labelList.add(invalidMsgAddress);
+        labelList.add(invalidMsgPhoneNumber);
+        labelList.add(invalidMsgEmail);
+        labelList.add(invalidMsgSSN);
+        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, adminId, ssnOld1, ssnOld2);
     }
 }
+

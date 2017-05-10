@@ -78,15 +78,15 @@ public class CreateUserPageController implements Initializable {
         textFieldList.add(username);
         textFieldList.add(password);
         
-        accountHelper.changeFocus(firstName, textFieldList, invalidMsgFirstName);
-        accountHelper.changeFocus(middleName, textFieldList, invalidMsgMiddleName);
-        accountHelper.changeFocus(lastName, textFieldList, invalidMsgLastName);
-        accountHelper.changeFocus(address, textFieldList, invalidMsgAddress);
-        accountHelper.changeFocus(phoneNumber, textFieldList, invalidMsgPhoneNumber);
-        accountHelper.changeFocus(email, textFieldList, invalidMsgEmail);
-        accountHelper.changeFocus(ssn, textFieldList, invalidMsgSSN);
-        accountHelper.changeFocus(username, textFieldList, invalidMsgUsername);
-        accountHelper.changeFocus(password, textFieldList, invalidMsgPassword);
+        accountHelper.changeFocusInCreateUser(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocusInCreateUser(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocusInCreateUser(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocusInCreateUser(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocusInCreateUser(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocusInCreateUser(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocusInCreateUser(ssn, textFieldList, invalidMsgSSN);
+        accountHelper.changeFocusInCreateUser(username, textFieldList, invalidMsgUsername);
+        accountHelper.changeFocusInCreateUser(password, textFieldList, invalidMsgPassword);
     }     
 
     

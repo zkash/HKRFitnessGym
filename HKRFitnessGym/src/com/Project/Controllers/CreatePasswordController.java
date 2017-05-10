@@ -3,20 +3,11 @@ package com.Project.Controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -39,6 +30,11 @@ public class CreatePasswordController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }    
     
+    /**
+     * Handles create password button click
+     * @param event
+     * @throws SQLException 
+     */
     public void createBtnClick(ActionEvent event) throws SQLException {
         String pwd1 = password1.getText();
         String pwd2 = password2.getText();
@@ -47,7 +43,7 @@ public class CreatePasswordController implements Initializable {
         String accountType = LoginStorage.getInstance().getAccountType();
         int id = LoginStorage.getInstance().getId();
         
-        String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
+        String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$";   //minimum 1 alphabet, 1 number, 5 characters
         
         if(pwd1.matches(pwRegex) && pwd2.matches(pwRegex))
         {            

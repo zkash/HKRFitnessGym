@@ -4,12 +4,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,9 +28,11 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private TextField phoneNumber;
     @FXML private TextField email;
     @FXML private TextField ssn;
+    
     @FXML private RadioButton genderMale;
     @FXML private RadioButton genderFemale;
     @FXML private RadioButton genderOther;
+    
     @FXML private DatePicker dateOfBirth;
    
     @FXML private Label invalidMsgFirstName;
@@ -45,12 +43,10 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     @FXML private Label invalidMsgEmail;
     @FXML private Label invalidMsgSSN;
     @FXML private Label invalidMsgAllData;
-
-    private List<TextField> fields;
-    private List<RadioButton> radioButtons;
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
+    private final AccountHelper accountHelper = new AccountHelper();
     
     private int ssnOld1, ssnOld2;
     
@@ -63,13 +59,22 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        changeFocus(firstName, invalidMsgFirstName);
-//        changeFocus(middleName, invalidMsgMiddleName);
-//        changeFocus(lastName, invalidMsgLastName);
-//        changeFocus(address, invalidMsgAddress);
-//        changeFocus(phoneNumber, invalidMsgPhoneNumber);
-//        changeFocus(email, invalidMsgEmail);
-//        changeFocus(ssn, invalidMsgSSN);
+        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList.add(firstName);
+        textFieldList.add(middleName);
+        textFieldList.add(lastName);
+        textFieldList.add(address);
+        textFieldList.add(phoneNumber);
+        textFieldList.add(email);
+        textFieldList.add(ssn);
+        
+        accountHelper.changeFocus(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocus(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocus(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocus(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocus(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocus(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocus(ssn, textFieldList, invalidMsgSSN);
         
         ObservableList<Admin> data = null;
 
@@ -112,19 +117,13 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 break;
         }
     }     
-    
-    
-    public void setTextOnCondition(boolean condition, Label lbl) {
-        if(condition) {
-            lbl.setText("Invalid Value"); 
-        }
-        else {
-            lbl.setText("");
-        }
-    }
-   
-    
 
+    
+    /**
+     * Handles update button click
+     * @param event
+     * @throws SQLException 
+     */
     @FXML
     public void updateBtnClick(ActionEvent event) throws SQLException {
         //Clear error messages
@@ -189,26 +188,4 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
             }
         }        
     }
-    
-    public void clearTextField() {
-        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
-        fields.forEach((field) -> {
-            field.clear();
-        });
-    }
-    
-    public void clearRadioButton() {
-        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
-        radioButtons.forEach((radioButton) -> {
-            radioButton.setSelected(false);
-        });
-    }
-    
-//    public void updateBtnClick(ActionEvent event) {
-//        
-//    }
-//    
-//    public void deleteBtnClick(ActionEvent event) {
-//        
-//    }
 }

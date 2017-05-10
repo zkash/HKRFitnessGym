@@ -1,6 +1,7 @@
 package com.Project.Controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -79,4 +80,18 @@ public class AccountHelper {
             }
         });
     }
+    
+//    public void clearTextField() {
+//        fields = Arrays.asList(firstName, middleName, lastName, address, phoneNumber, email, ssn);
+//        fields.forEach((field) -> {
+//            field.clear();
+//        });
+//    }
+//    
+//    public void clearRadioButton() {
+//        radioButtons = Arrays.asList(genderMale, genderFemale, genderOther);
+//        radioButtons.forEach((radioButton) -> {
+//            radioButton.setSelected(false);
+//        });
+//    }
 }

@@ -57,6 +57,7 @@ public class CreateUserPageController implements Initializable {
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     private final AccountHelper accountHelper = new AccountHelper();
+    
     private final int adminId = LoginStorage.getInstance().getId();
     
     /**
@@ -66,7 +67,6 @@ public class CreateUserPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
         ArrayList<TextField> textFieldList = new ArrayList<>();
         textFieldList.add(firstName);
         textFieldList.add(middleName);

@@ -16,9 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.sql.SQLException;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
@@ -80,6 +78,11 @@ public class CreateUserPageController implements Initializable {
     }     
    
     
+    /**
+     * Sets text on label when given condition is true
+     * @param condition Condition in which the text is set on label
+     * @param lbl Label
+     */
     public void setTextOnCondition(boolean condition, Label lbl) {
         if(condition) {
             lbl.setText("Invalid Value"); 
@@ -89,6 +92,12 @@ public class CreateUserPageController implements Initializable {
         }
     }
    
+    
+    /**
+     * Handles the change of focus in text fields
+     * @param tf Text Field
+     * @param lbl Label
+     */
     public void changeFocus(TextField tf, Label lbl) {
         lbl.setText("");
         tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
@@ -127,6 +136,13 @@ public class CreateUserPageController implements Initializable {
         });
     }
 
+    
+    /**
+     * Handles the create user button click
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     @FXML
     public void createUserBtnClick(ActionEvent event) throws SQLException, IOException {
         //Clear error messages

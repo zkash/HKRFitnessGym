@@ -51,7 +51,7 @@ public class CreatePasswordController implements Initializable {
                 try {
                     dbHandler.updatePassword(accountType, id, pwd1);
                     helper.showDialogBox(false, "Password updated");
-                    helper.navigateScene(event, "/com/Project/FXML/LoginPage.fxml");
+                    helper.navigateScene(event, "LoginPage.fxml");
                 }
                 catch (IOException | SQLException e) {
                     helper.showDialogBox(true, "Cannot update password");

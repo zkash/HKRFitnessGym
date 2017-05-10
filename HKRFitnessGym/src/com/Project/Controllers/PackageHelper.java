@@ -180,7 +180,7 @@ public class PackageHelper {
             });
             
             helper.showDialogBox(true, "Package information successfully updated");
-            helper.navigateScene(event, "/com/Project/FXML/AdminViewPackages.fxml");
+            helper.navigateScene(event, "AdminViewPackages.fxml");
         } 
     }
     

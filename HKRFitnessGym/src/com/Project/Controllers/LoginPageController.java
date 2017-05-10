@@ -135,7 +135,7 @@ public class LoginPageController implements Initializable {
      * @throws IOException 
      */
     private void visitAdminPage(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "/com/Project/FXML/AdminMainPage.fxml");
+        helper.navigateScene(event, "AdminMainPage.fxml");
     }
     
     
@@ -145,7 +145,7 @@ public class LoginPageController implements Initializable {
      * @throws IOException 
      */
     private void visitMemberPage(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "/com/Project/FXML/MemberMainPage.fxml");
+        helper.navigateScene(event, "MemberMainPage.fxml");
     }
 
     
@@ -263,7 +263,7 @@ public class LoginPageController implements Initializable {
             }
             
             if(codeVerification) {
-                helper.navigateScene(event, "/com/Project/FXML/CreatePassword.fxml");
+                helper.navigateScene(event, "CreatePassword.fxml");
             }
         }
     }

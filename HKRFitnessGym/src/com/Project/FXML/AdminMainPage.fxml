@@ -17,22 +17,22 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="accountBtn" layoutX="78.0" layoutY="117.0" mnemonicParsing="false" onAction="#accountBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Account">
+            <Button fx:id="createAccountBtn" layoutX="78.0" layoutY="117.0" mnemonicParsing="false" onAction="#createAccountBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Account">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="scheduleBtn" layoutX="328.0" layoutY="117.0" mnemonicParsing="false" onAction="#scheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Schedule">
+            <Button fx:id="createScheduleBtn" layoutX="328.0" layoutY="117.0" mnemonicParsing="false" onAction="#createScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Schedule">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="announcementBtn" layoutX="328.0" layoutY="165.0" mnemonicParsing="false" onAction="#announcementBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Announcement">
+            <Button fx:id="createAnnouncementBtn" layoutX="328.0" layoutY="165.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Announcement">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="packageBtn" layoutX="78.0" layoutY="165.0" mnemonicParsing="false" onAction="#packageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Package" AnchorPane.topAnchor="165.0">
+            <Button fx:id="createPackageBtn" layoutX="78.0" layoutY="165.0" mnemonicParsing="false" onAction="#createPackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Package" AnchorPane.topAnchor="165.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="subscribeBtn" layoutX="78.0" layoutY="214.0" mnemonicParsing="false" onAction="#subscribeBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
+            <Button fx:id="viewSubscriptionsBtn" layoutX="78.0" layoutY="214.0" mnemonicParsing="false" onAction="#viewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
                <font>
                   <Font size="16.0" />
                </font></Button>

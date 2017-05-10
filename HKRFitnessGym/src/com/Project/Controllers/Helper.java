@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 /**
@@ -224,5 +225,13 @@ public class Helper {
             return false;
         }
         return true;
+    }
+    
+    public Optional<String> showTextInputDialog(String title, String header) {
+        TextInputDialog tid = new TextInputDialog();
+        tid.setTitle(title);
+        tid.setHeaderText(header);
+        Optional<String> textField = tid.showAndWait();
+        return textField;
     }
 }

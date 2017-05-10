@@ -15,7 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.sql.SQLException;
-import javafx.beans.value.ObservableValue;
+import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
 
 /**
@@ -56,7 +56,7 @@ public class CreateUserPageController implements Initializable {
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
-    
+    private final AccountHelper accountHelper = new AccountHelper();
     private final int adminId = LoginStorage.getInstance().getId();
     
     /**
@@ -66,75 +66,28 @@ public class CreateUserPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        changeFocus(firstName, invalidMsgFirstName);
-        changeFocus(middleName, invalidMsgMiddleName);
-        changeFocus(lastName, invalidMsgLastName);
-        changeFocus(address, invalidMsgAddress);
-        changeFocus(phoneNumber, invalidMsgPhoneNumber);
-        changeFocus(email, invalidMsgEmail);
-        changeFocus(ssn, invalidMsgSSN);
-        changeFocus(username, invalidMsgUsername);
-        changeFocus(password, invalidMsgPassword);
+      
+        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList.add(firstName);
+        textFieldList.add(middleName);
+        textFieldList.add(lastName);
+        textFieldList.add(address);
+        textFieldList.add(phoneNumber);
+        textFieldList.add(email);
+        textFieldList.add(ssn);
+        textFieldList.add(username);
+        textFieldList.add(password);
+        
+        accountHelper.changeFocus(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocus(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocus(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocus(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocus(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocus(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocus(ssn, textFieldList, invalidMsgSSN);
+        accountHelper.changeFocus(username, textFieldList, invalidMsgUsername);
+        accountHelper.changeFocus(password, textFieldList, invalidMsgPassword);
     }     
-   
-    
-    /**
-     * Sets text on label when given condition is true
-     * @param condition Condition in which the text is set on label
-     * @param lbl Label
-     */
-    public void setTextOnCondition(boolean condition, Label lbl) {
-        if(condition) {
-            lbl.setText("Invalid Value"); 
-        }
-        else {
-            lbl.setText("");
-        }
-    }
-   
-    
-    /**
-     * Handles the change of focus in text fields
-     * @param tf Text Field
-     * @param lbl Label
-     */
-    public void changeFocus(TextField tf, Label lbl) {
-        lbl.setText("");
-        tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
-            if(!newPropertyValue) {
-                if (tf == firstName || tf == middleName || tf == lastName) {
-                    setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
-                }
-                else if (tf == address) {  
-                    String notAddressRegex = "[0-9]+";
-                    setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
-                }
-                else if (tf == phoneNumber) {
-                    setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
-                }
-                else if (tf == email) {
-                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                    String ead = email.getText();
-                    setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
-                }
-                else if (tf == ssn) {
-                    String ssnRegex = "[0-9]{6}-[0-9]{4}";
-                    String ssnum = ssn.getText();
-                    setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
-                }
-                else if (tf == username) {
-                    String unRegex = "^[A-Za-z][A-za-z0-9]*";
-                    String uname = username.getText();
-                    setTextOnCondition(!helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
-                }
-                else if (tf == password) {
-                    String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-                    String pwd = password.getText();
-                    setTextOnCondition(!helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
-                }
-            }
-        });
-    }
 
     
     /**

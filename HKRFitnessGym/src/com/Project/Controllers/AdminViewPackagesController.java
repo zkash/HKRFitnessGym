@@ -63,8 +63,7 @@ public class AdminViewPackagesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            adminSSN = LoginStatus.getSSN();
-            login = LoginStatus.getLogin();
+            
             data = dbHandler.adminViewPackages();
             setDataInTable(data);
            

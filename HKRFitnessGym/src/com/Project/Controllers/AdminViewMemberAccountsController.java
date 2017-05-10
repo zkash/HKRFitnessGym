@@ -66,8 +66,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            adminSSN = LoginStatus.getSSN();
-            login = LoginStatus.getLogin();
+            
             ArrayList<ArrayList<String>> finalArray;
             data = dbHandler.adminViewMemberAccounts();
             setDataInTable(data);

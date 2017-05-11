@@ -42,7 +42,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <Button fx:id="viewScheduleBtn" layoutX="328.0" layoutY="121.0" mnemonicParsing="false" onAction="#viewScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Schedule">
                <font>
                   <Font size="16.0" />

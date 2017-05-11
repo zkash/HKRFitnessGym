@@ -27,8 +27,8 @@
                </font>
             </Label>
             <Label fx:id="invalidMsgAnnouncement" layoutX="493.0" layoutY="85.0" prefHeight="17.0" prefWidth="100.0" textFill="RED" />
-            <fx:include fx:id="backButtonAdmin" source="BackButtonAdmin.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <DatePicker fx:id="scheduleDate" layoutX="250.0" layoutY="79.0" prefHeight="27.0" prefWidth="237.0" />
             <Label layoutX="125.0" layoutY="124.0" text="Opening Time*" />
             <Label layoutX="125.0" layoutY="165.0" text="Closing Time*" />

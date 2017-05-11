@@ -58,6 +58,8 @@ public class Member extends Person {
     public void setAdminFullName(String afn) {
         adminFullName.set(afn);
     }
+
+   
 }
 
 

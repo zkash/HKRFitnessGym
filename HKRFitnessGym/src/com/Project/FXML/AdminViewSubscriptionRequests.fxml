@@ -34,7 +34,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <CheckBox fx:id="searchPackageName" layoutX="43.0" layoutY="443.0" mnemonicParsing="false" text="Package Name">
                <font>
                   <Font size="11.0" />

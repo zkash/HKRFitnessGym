@@ -83,7 +83,6 @@ public class Subscription extends Package {
         return subscriptionEndDate;
     }
     
-    @Override
     public int getPackageId() {
         return packageId.get();
     }

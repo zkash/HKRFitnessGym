@@ -25,9 +25,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 //import org.apache.pdfbox.pdmodel.PDDocument;
 //import org.apache.pdfbox.pdmodel.PDPage;
-//import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 //import org.apache.pdfbox.pdmodel.font.PDType1Font;
 /**
  * FXML Controller class
@@ -213,7 +216,7 @@ public class MemberViewSubscriptionsController implements Initializable {
         return result;
     }
     
-    public void saveInvoiceBtnClick(ActionEvent event) {
+    public void saveInvoiceBtnClick(ActionEvent event) throws IOException {
 //        ObservableList<Subscription> row , allRows;
 //        allRows = memberViewSubscriptionsTable.getItems();
 //        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
@@ -235,11 +238,11 @@ public class MemberViewSubscriptionsController implements Initializable {
 //                String fileName = "GymInvoiceSubscription" + row.get(0).getSubscriptionId() + ".pdf";
 //                String fileDestination = System.getProperty("user.dir");
 //                
-//                PDDocument document = new PDDocument();
+                PDDocument document = new PDDocument();
 //                System.out.println("FIlen " + document);
-//                PDPage page = new PDPage();
+                PDPage page = new PDPage();
 //                System.out.println("FIle2 " + fileName);
-//                document.addPage(page);
+                document.addPage(page);
 //                System.out.println("FIle " + fileName);
 //                
 ////                PDPageContentStream contentStream = new PDPageContentStream(document, page);
@@ -259,6 +262,11 @@ public class MemberViewSubscriptionsController implements Initializable {
 ////                        contentStream.endText();
 //////                    System.out.println("d");
 ////                contentStream.close();
+
+
+
+
+
 //    PDPageContentStream contentStream = new PDPageContentStream(document, page);
 //      
 //      //Begin the Content stream 
@@ -282,6 +290,13 @@ public class MemberViewSubscriptionsController implements Initializable {
 //
 //      //Closing the content stream
 //      contentStream.close();
+//      document.save("Hello.pdf");
+//   
+
+
+
+
+
 //
 //                    System.out.println("e");
 //                document.save(fileDestination + "/" + fileName);

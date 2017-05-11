@@ -5,8 +5,11 @@
  */
 package com.Project.Models;
 
+import com.sun.javafx.scene.control.skin.TableViewSkin;
 import java.awt.Color;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,6 +28,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
@@ -283,4 +288,24 @@ public class Helper {
         contentStream.lineTo(endX, endY);
         contentStream.closeAndStroke();
     }
+    
+    private static Method columnToFitMethod;
+
+        static 
+        {
+            try 
+            {
+                columnToFitMethod = TableViewSkin.class.getDeclaredMethod("resizeColumnToFitContent", TableColumn.class, int.class);
+                columnToFitMethod.setAccessible(true);
+            } 
+            catch (NoSuchMethodException e) {e.printStackTrace();}
+        }
+
+        public static void fitColumns(TableView tableView) throws IllegalArgumentException, InvocationTargetException {
+            for (Object column : tableView.getColumns()) 
+            {
+                try {  columnToFitMethod.invoke(tableView.getSkin(), column, -1); } 
+                catch (IllegalAccessException | InvocationTargetException e) { e.printStackTrace(); }
+            }
+        }
 }

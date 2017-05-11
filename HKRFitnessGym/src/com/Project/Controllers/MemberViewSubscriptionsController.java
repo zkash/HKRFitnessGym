@@ -79,7 +79,8 @@ public class MemberViewSubscriptionsController implements Initializable {
             messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
             
             memberViewSubscriptionsTable.setItems(subscription);    
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException e) {
             helper.showDialogBox(true, "Could not fetch data from database and show in table because of an error");
         }
     }    

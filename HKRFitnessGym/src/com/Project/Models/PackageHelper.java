@@ -1,4 +1,4 @@
-package com.Project.Controllers;
+package com.Project.Models;
 
 import java.io.IOException;
 import java.sql.SQLException;

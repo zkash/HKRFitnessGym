@@ -1,4 +1,4 @@
-package com.Project.Controllers;
+package com.Project.Models;
 
 import java.sql.Date;
 import javafx.beans.property.IntegerProperty;

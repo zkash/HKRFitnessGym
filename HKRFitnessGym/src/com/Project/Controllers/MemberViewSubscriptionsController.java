@@ -226,7 +226,7 @@ public class MemberViewSubscriptionsController implements Initializable {
         return result;
     }
     
-    public void saveInvoiceBtnClick(ActionEvent event) throws IOException {
+    public void saveDetailsBtnClick(ActionEvent event) throws IOException {
         ObservableList<Subscription> row , allRows;
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 

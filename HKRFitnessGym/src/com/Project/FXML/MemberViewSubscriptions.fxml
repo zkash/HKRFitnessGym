@@ -41,7 +41,7 @@
             <Label layoutX="44.0" layoutY="430.0" text="Till to which date will you" />
             <Label layoutX="44.0" layoutY="451.0" text="take part in the package?" />
             <Button fx:id="renewBtn" layoutX="274.0" layoutY="470.0" mnemonicParsing="false" onAction="#renewBtnClick" text="Renew Subscription" />
-            <Button fx:id="saveInvoiceBtn" layoutX="316.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveInvoiceBtnClick" text="Save Invoice" />
+            <Button fx:id="saveDetailsBtn" layoutX="316.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveDetailsBtnClick" text="Save Details" />
            
          </children>
       </AnchorPane>

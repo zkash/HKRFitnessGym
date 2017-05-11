@@ -301,7 +301,7 @@ public class Helper {
             catch (NoSuchMethodException e) {e.printStackTrace();}
         }
 
-        public static void fitColumns(TableView tableView) throws IllegalArgumentException, InvocationTargetException {
+        public void fitColumns(TableView tableView) throws IllegalArgumentException, InvocationTargetException {
             for (Object column : tableView.getColumns()) 
             {
                 try {  columnToFitMethod.invoke(tableView.getSkin(), column, -1); } 

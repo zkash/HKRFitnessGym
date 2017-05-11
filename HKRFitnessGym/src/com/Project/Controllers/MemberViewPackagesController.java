@@ -75,7 +75,7 @@ public class MemberViewPackagesController implements Initializable {
         String searchQuery = searchPackage.getText();
         data = dbHandler.searchInMemberViewPackage(searchQuery);
         setDataInTable(data);
-        Helper.fitColumns(memberViewPackagesTable);
+        helper.fitColumns(memberViewPackagesTable);
     }
     
     
@@ -89,7 +89,7 @@ public class MemberViewPackagesController implements Initializable {
     public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.memberViewPackages();
         setDataInTable(data);
-        Helper.fitColumns(memberViewPackagesTable);
+        helper.fitColumns(memberViewPackagesTable);
     }
 
     

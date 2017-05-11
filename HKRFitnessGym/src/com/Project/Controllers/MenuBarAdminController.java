@@ -64,7 +64,7 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to Edit Personal Information page
+     * Navigates to Update Personal Information page
      * @param event
      * @throws IOException 
      */

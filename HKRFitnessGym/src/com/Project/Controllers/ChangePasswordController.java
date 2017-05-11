@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author KN
  */
-public class SettingsPageController implements Initializable {
+public class ChangePasswordController implements Initializable {
     @FXML
     private Label errorMessage;
     @FXML

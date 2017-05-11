@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.io.IOException;
@@ -23,94 +18,187 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class MenuBarAdminController implements Initializable {
-
+    @FXML MenuBar menuBarAdmin;
+    
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
-    
-    @FXML MenuBar menuBarAdmin;
-    private int adminSSN;
-    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize(URL url, ResourceBundle rb) {   
     }    
     
-    public void setSSN(int ssn) {
-        this.adminSSN = ssn;
-    }
-    
-    public void createAccountMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/CreateUserPage.fxml");
-    }
-    
-    public void viewPersonalInformationMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewPersonalInformation.fxml");
-    }
-    
-    public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/UpdateAdminPersonalInformationPage.fxml");
-    }
-    
-    public void viewAdminAccountsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewAdminAccounts.fxml");
-    }
-    
-    public void viewMemberAccountsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewMemberAccounts.fxml");
-    }
-    
-    public void createPackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/CreatePackagePage.fxml");
-    }
-
-    public void viewPackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewPackages.fxml");
-    }
-    
-    public void addScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/CreateSchedulePage.fxml");
-    }
-    
-    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewSchedule.fxml");
-    }
-    
-    public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/CreateAnnouncementPage.fxml");
-    }
-   
-    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewAnnouncement.fxml");
-    }
-    
-    public void changePasswordMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/SettingsPage.fxml");
-    }
-    
-    public void setupAndShowStage(String fxmlFileURL) throws IOException {
+    /**
+     * Sets up the stage, parent, and scene and displays it
+     * @param fxmlFile The name of the FXML file
+     * @throws IOException 
+     */
+    public void setupAndShowStage(String fxmlFile) throws IOException {
         Stage stage = (Stage) menuBarAdmin.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlFileURL));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/Views/" + fxmlFile));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
     
     
+    /**
+     * Navigates to Create User page
+     * @param event
+     * @throws IOException 
+     */
+    public void createAccountMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreateUserPage.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Personal Information page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewPersonalInformationMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewPersonalInformation.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Edit Personal Information page
+     * @param event
+     * @throws IOException 
+     */
+    public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("UpdateAdminPersonalInformationPage.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Admin Accounts page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewAdminAccountsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewAdminAccounts.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Member Accounts page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewMemberAccountsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewMemberAccounts.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Create Package page
+     * @param event
+     * @throws IOException 
+     */
+    public void createPackageMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreatePackagePage.fxml");
+    }
+
+    
+    /**
+     * Navigates to View Package page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewPackageMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewPackages.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Create Schedule page
+     * @param event
+     * @throws IOException 
+     */
+    public void addScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreateSchedulePage.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Schedule page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewSchedule.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Create Announcement page
+     * @param event
+     * @throws IOException 
+     */
+    public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreateAnnouncementPage.fxml");
+    }
+   
+    
+    /**
+     * Navigates to View Announcement page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewAnnouncement.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Change Password page
+     * @param event
+     * @throws IOException 
+     */
+    public void changePasswordMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("ChangePassword.fxml");
+    }
+
+    
+    /**
+     * Navigates to View Subscription Requests page
+     * @param event
+     * @throws IOException 
+     */
     public void viewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewSubscriptionRequests.fxml");
+        setupAndShowStage("AdminViewSubscriptionRequests.fxml");
     }
     
+    
+    /**
+     * Navigates to View Subscriptions page
+     * @param event
+     * @throws IOException 
+     */
     public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewSubscriptions.fxml");
+        setupAndShowStage("AdminViewSubscriptions.fxml");
     }
     
+    
+    /**
+     * Navigates to View Declined Subsription Requests page
+     * @param event
+     * @throws IOException 
+     */
     public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminViewDeclinedSubscriptionRequests.fxml");
+        setupAndShowStage("AdminViewDeclinedSubscriptionRequests.fxml");
     }
     
+    
+    /**
+     * Navigates to Chat page
+     * @param event
+     * @throws IOException 
+     */
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/ChatPage.fxml");
+        setupAndShowStage("ChatPage.fxml");
     }
-  
 }

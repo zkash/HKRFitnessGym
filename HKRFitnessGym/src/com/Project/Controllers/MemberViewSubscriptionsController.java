@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import com.Project.Models.DBHandler;
@@ -36,28 +31,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-//import org.apache.pdfbox.pdmodel.PDDocument;
-//import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-//import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
 /**
  * FXML Controller class
  *
  * @author shameer
  */
 public class MemberViewSubscriptionsController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    @FXML private TextField searchPackage;
-    //private  ObservableList<Package> data;
-    private  ObservableList<Package> searchData;
-    
-    private final int memberId = LoginStorage.getInstance().getId();
-    private final String username = LoginStorage.getInstance().getUsername();
-    
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
     @FXML private TableColumn<Subscription, String> priceColumn; 
@@ -71,18 +52,25 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     @FXML private DatePicker subscriptionStartDatePicker;
     @FXML private DatePicker subscriptionEndDatePicker;
-    
-    ObservableList<Subscription> subscription;
-    
+   
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
+    private final int memberId = LoginStorage.getInstance().getId();
+    private final String username = LoginStorage.getInstance().getUsername();
+    
+    ObservableList<Subscription> subscription;
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // TODO
             subscription = dbHandler.memberViewSubscription();
-            System.out.println(subscription);
+            
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
             startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));

@@ -229,7 +229,7 @@ public class MemberViewPackagesController implements Initializable {
                             subscription.setPackageId(packageId);
                             subscription.setMemberId(memberId);
                             System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
-                            subscriptionError = dbHandler.subscribeToPackage(subscription);
+                            dbHandler.subscribeToPackage(subscription);
         //                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
         //                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
         //                        (java.sql.Date)  subscriptionEndDate,

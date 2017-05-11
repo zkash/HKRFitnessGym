@@ -1096,7 +1096,7 @@ System.out.println("DSDSAS " + data);
         return packageId;
     }
     
-    public boolean subscribeToPackage(Subscription subscription) throws SQLException {
+    public void subscribeToPackage(Subscription subscription) throws SQLException {
         try (Connection conn = establishConnection()) {
             System.out.println("\n\n\n\n");
             System.out.println("\t\t\t\t " + subscription.getPackageId());
@@ -1113,8 +1113,7 @@ System.out.println("DSDSAS " + data);
             
             statement.execute();
         }
-        Boolean subscriptionError = false;
-        return subscriptionError;
+        
     }
     
     public ObservableList<Subscription> memberViewSubscription() throws SQLException {
@@ -1196,15 +1195,13 @@ System.out.println("DSDSAS " + data);
         return subscription;
     }
     
-    public Boolean cancelSubscription(int subscriptionId) throws SQLException {
+    public void cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Subscription SET subscriptionStatus = 'Cancelled' WHERE subscriptionId = ?";
         
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);
         statement.executeUpdate();
-        Boolean cancelError = false;
-        return cancelError;
     }
     
     public Boolean verifyUsername(String uname, String accountType) throws SQLException {

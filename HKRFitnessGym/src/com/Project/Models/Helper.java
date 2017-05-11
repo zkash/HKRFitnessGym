@@ -5,6 +5,7 @@
  */
 package com.Project.Models;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -257,5 +258,29 @@ public class Helper {
 
                         //Ending the content stream
                         contentStream.endText();
+    }
+    
+    public void drawRectangleInPdf(PDPageContentStream contentStream, float tx, float ty, float width, float height, Color color, String drawType) throws IOException {
+        //Setting the non stroking color
+        contentStream.setNonStrokingColor(color);
+        
+        //Drawing a rectangle
+        contentStream.addRect(tx, ty, width, height);
+        
+        //Drawing a rectangle
+        if(drawType.equals("Stroke")) {
+            contentStream.stroke();
+        }
+        else if(drawType.equals("Fill")) {
+            contentStream.fill();
+        }
+    }
+    
+    public void drawLineInPdf(PDPageContentStream contentStream, float startX, float startY, float endX, float endY, Color color, float lineWidth) throws IOException {
+        contentStream.setLineWidth (lineWidth);
+        contentStream.setStrokingColor(color);
+        contentStream.moveTo(startX, startY);
+        contentStream.lineTo(endX, endY);
+        contentStream.closeAndStroke();
     }
 }

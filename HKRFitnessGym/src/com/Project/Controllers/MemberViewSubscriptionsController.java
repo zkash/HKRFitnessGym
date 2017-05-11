@@ -9,6 +9,7 @@ import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import com.Project.Models.Subscription;
+import java.io.File;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,6 +31,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 //import org.apache.pdfbox.pdmodel.PDDocument;
@@ -221,21 +225,70 @@ public class MemberViewSubscriptionsController implements Initializable {
     }
     
     public void saveInvoiceBtnClick(ActionEvent event) throws IOException {
-//        ObservableList<Subscription> row , allRows;
-//        allRows = memberViewSubscriptionsTable.getItems();
-//        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
-//
-//        if(row.isEmpty()) {
-//            helper.showDialogBox(true, "Select a subscription first to save invoice");
-//        }
-//        else {
-//            String subscriptionStatus = row.get(0).getSubscriptionStatus();
-//            if(subscriptionStatus.equals("Requested")) {
-//                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request is being processed");
-//            }
-//            else if(subscriptionStatus.equals("Declined")) {
-//                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription has been declined. For more information, please contact the gym");
-//            }
+        ObservableList<Subscription> row , allRows;
+        allRows = memberViewSubscriptionsTable.getItems();
+        row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
+
+        if(row.isEmpty()) {
+            helper.showDialogBox(true, "Select a subscription first to save invoice");
+        }
+        else {
+            String subscriptionStatus = row.get(0).getSubscriptionStatus();
+            if(subscriptionStatus.equals("Requested") || subscriptionStatus.equals("Declined")) {
+                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request is being processed");
+            }
+            else {
+                String fileName = "HKRFitnessGym_Subscription_Invoice_" + row.get(0).getSubscriptionId() + ".pdf";
+                
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Invoice");
+                fileChooser.setInitialFileName(fileName);
+                fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+                File file = fileChooser.showSaveDialog(stage);
+                String filePath = file.getAbsolutePath();
+               // System.out.println("PATH " + path);
+                //String path = fileChooser.
+                
+                if(file != null) {
+                    try {
+                        PDDocument document = new PDDocument();
+                        PDPage page = new PDPage();
+                        document.addPage(page);
+                        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+  
+                        //Begin the Content stream 
+                        contentStream.beginText(); 
+       
+                        //Setting the font to the Content stream  
+                        contentStream.setFont(PDType1Font.TIMES_ROMAN, 20);
+
+                        //Setting the position for the line 
+                        contentStream.newLineAtOffset(25, 500);
+
+                        String text = "This is the sample document and we are adding content to it.";
+
+                        //Adding text in the form of string 
+                        contentStream.showText(text);      
+
+                        //Ending the content stream
+                        contentStream.endText();
+
+                        System.out.println("Content added");
+
+                        //Closing the content stream
+                        contentStream.close();
+                        document.save(filePath);
+
+}
+                    catch(IOException e) {
+                        helper.showDialogBox(true, "File could be saved because of an error");
+                    }
+                }
+            }
+        }
 //            else {
 //                
 //                try {
@@ -316,4 +369,4 @@ public class MemberViewSubscriptionsController implements Initializable {
 //            }
 //        }
     }
-}
+    }

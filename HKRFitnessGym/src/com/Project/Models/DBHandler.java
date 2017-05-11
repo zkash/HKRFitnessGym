@@ -368,6 +368,35 @@ System.out.println("DSDSAS " + data);
                 ));
             }
         }
+        
+        for(Member member : searchData) {
+                System.out.println("HERHEHE");
+                String query2 = "SELECT a.firstName, a.middleName, a.lastName"
+                        + " From Admin as a"
+                        + " INNER JOIN Member as m"
+                        + " ON a.adminId = m.Admin_adminId";
+                       // + " WHERE m.ssn1 = " + member.getSSN1() + "AND m.ssn2 = " + member.getSSN2();
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                System.out.println(statement2);
+                ResultSet rs2 = statement2.executeQuery();
+                System.out.println("RS2 " + rs2);
+                String count = "";
+                while(rs2.next()) {
+                    if (rs2.getString(2).equals("")) {       //middle name empty or not
+                        System.out.println("sfsf " + rs2.getString(1));
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(3)); //firstName + lastName
+                    }
+                    else {
+                        System.out.println("sfsffdfd " + rs2.getString(1));
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+                    }
+                    
+                }
+            
+                
+                System.out.println(member.getDateOfBirth());
+            
+            }
         return searchData;
     }
 
@@ -860,8 +889,8 @@ System.out.println("DSDSAS " + data);
         return pack;
     }
     
-    public boolean deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
-        boolean deletionError;
+    public void deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
+        //boolean deletionError;
         try (Connection conn = establishConnection()) {
             String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
             query = query.replace("$table_name", table);
@@ -871,9 +900,9 @@ System.out.println("DSDSAS " + data);
             statement.setString(3, username);
             System.out.println(statement);
             statement.execute();
-            deletionError = false;
+            //deletionError = false;
         }
-        return deletionError;
+        //return deletionError;
     }
 
     public boolean deletePackage(String pn) throws SQLException {

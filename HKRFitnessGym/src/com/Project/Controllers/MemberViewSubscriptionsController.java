@@ -242,11 +242,11 @@ public class MemberViewSubscriptionsController implements Initializable {
 //                String fileName = "GymInvoiceSubscription" + row.get(0).getSubscriptionId() + ".pdf";
 //                String fileDestination = System.getProperty("user.dir");
 //                
-                PDDocument document = new PDDocument();
-//                System.out.println("FIlen " + document);
-                PDPage page = new PDPage();
-//                System.out.println("FIle2 " + fileName);
-                document.addPage(page);
+//                PDDocument document = new PDDocument();
+////                System.out.println("FIlen " + document);
+//                PDPage page = new PDPage();
+////                System.out.println("FIle2 " + fileName);
+//                document.addPage(page);
 //                System.out.println("FIle " + fileName);
 //                
 ////                PDPageContentStream contentStream = new PDPageContentStream(document, page);

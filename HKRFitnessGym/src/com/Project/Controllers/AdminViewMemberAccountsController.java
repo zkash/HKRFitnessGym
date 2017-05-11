@@ -101,9 +101,9 @@ public class AdminViewMemberAccountsController implements Initializable {
                 int ssn1 = Integer.parseInt(fullSSN[0]);
                 int ssn2 = Integer.parseInt(fullSSN[1]);
                 String username = row.get(0).getUsername();
-                deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Member");
+                //deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Member");
             }
-            catch(NumberFormatException | SQLException e) {
+            catch(NumberFormatException e) {
                 deletionError = true;
             }
 
@@ -199,9 +199,9 @@ public class AdminViewMemberAccountsController implements Initializable {
         addressColumn = new TableColumn("Address");
         emailColumn = new TableColumn("Email");
         phoneNumberColumn = new TableColumn("Phone");
-        adminFullNameColumn = new TableColumn("Phone");
+        adminFullNameColumn = new TableColumn("Admin");
           
-        adminViewAccountsTable.getColumns().addAll(fullNameColumn, usernameColumn, ssnColumn, genderColumn, dobColumn, addressColumn, emailColumn, phoneNumberColumn);
+        adminViewAccountsTable.getColumns().addAll(fullNameColumn, usernameColumn, ssnColumn, genderColumn, dobColumn, addressColumn, emailColumn, phoneNumberColumn, adminFullNameColumn);
         fullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.30837004)); 
         usernameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
         ssnColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));

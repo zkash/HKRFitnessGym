@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import com.Project.Models.Admin;
@@ -14,8 +9,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-//import com.Project.Controllers.DBHandler;
 
 /**
  * FXML Controller class
@@ -34,13 +26,6 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class AdminViewAdminAccountsController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    private int adminSSN;
-    private boolean login;
-    
     @FXML private TableView<Admin> adminViewAccountsTable;
     @FXML private TableColumn<Admin, String> fullNameColumn;
     @FXML private TableColumn<Admin, String> usernameColumn;
@@ -50,9 +35,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     @FXML private TableColumn<Admin, String> genderColumn;
     @FXML private TableColumn<Admin, String> emailColumn;
     @FXML private TableColumn<Admin, String> phoneNumberColumn;
-    
-    private  ObservableList<Admin> data;
-    private  ObservableList<Admin> searchData;
+
     @FXML private TextField searchAdmin;
     
     @FXML private CheckBox searchFullName;
@@ -65,58 +48,68 @@ public class AdminViewAdminAccountsController implements Initializable {
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
+    private  ObservableList<Admin> data;
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            
             data = dbHandler.adminViewAdminAccounts();
             setDataInTable(data);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminViewAdminAccountsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            helper.showDialogBox(true, "Data could not be fetched from database and set in table");
+        }  
     }
     
+    
+    /**
+     * Resets the table view with initial data
+     * @param event
+     * @throws SQLException 
+     */
     public void resetSearchBtnClick(ActionEvent event) throws SQLException {
         data = dbHandler.adminViewAdminAccounts();
         setDataInTable(data);
     }
     
     
+    /**
+     * Deletes an admin account
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
-        System.out.println("gooo");
         ObservableList<Admin> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
-        
-        boolean deletionError = true;
-        
+ 
         if (row.isEmpty()) {
-            helper.showDialogBox(deletionError, "Please select an admin account first to delete the account");
+            helper.showDialogBox(true, "Please select an admin account first to delete the account");
         }
         else {
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
+            
             helper.showDialogBoxChoice(stage, "Confirm Deletion", "Are you sure you want to delete the admin account?", "com/Project/FXML/AdminViewAdminAccounts.fxml");
+            
             try {
                 String[] fullSSN = (row.get(0).getFullSSN()).split("-");
                 int ssn1 = Integer.parseInt(fullSSN[0]);
                 int ssn2 = Integer.parseInt(fullSSN[1]);
                 String username = row.get(0).getUsername();
-                deletionError = dbHandler.deleteAccount(ssn1, ssn2, username, "Admin");
-           
-            System.out.println("de " + deletionError);//
-            }
-            
-            catch(NumberFormatException | SQLException e) {
-                deletionError = true;
-            }
-             System.out.println(deletionError);
-            if (!deletionError) {
-                helper.showDialogBox(deletionError, "Admin successfully deleted");
+                
+                dbHandler.deleteAccount(ssn1, ssn2, username, "Admin");
+                helper.showDialogBox(false, "Admin successfully deleted");
                 row.forEach(allRows::remove);
             }
-            else {
-                helper.showDialogBox(deletionError, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
+            catch(NumberFormatException | SQLException e) {
+                helper.showDialogBox(true, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
+            
             }
         }
     }
@@ -198,7 +191,7 @@ public class AdminViewAdminAccountsController implements Initializable {
             un = searchQuery;
         }
         
-        searchData = dbHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
+        data= dbHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
         adminViewAccountsTable.getColumns().clear();
         fullNameColumn = new TableColumn("Full Name");
         usernameColumn = new TableColumn("Username");
@@ -220,7 +213,7 @@ public class AdminViewAdminAccountsController implements Initializable {
          phoneNumberColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
  
 //      Set cell value factory to TableView
-        setDataInTable(searchData);
+        setDataInTable(data);
         
     }
     

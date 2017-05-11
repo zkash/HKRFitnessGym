@@ -27,6 +27,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
  *
@@ -236,5 +238,24 @@ public class Helper {
         return textField;
     }
     
-    
+    public void putTextInPdf(PDPageContentStream contentStream, float fontSize, float tx, float ty, String text) throws IOException {
+        //Begin the Content stream 
+                        contentStream.beginText(); 
+       
+                        //Setting the font to the Content stream  
+                        
+                        contentStream.setFont(PDType1Font.TIMES_ROMAN, fontSize);
+
+                        //Setting the position for the line 
+             
+                        contentStream.newLineAtOffset(tx, ty);
+
+                        
+
+                        //Adding text in the form of string 
+                        contentStream.showText(text);      
+
+                        //Ending the content stream
+                        contentStream.endText();
+    }
 }

@@ -9,6 +9,7 @@ import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import com.Project.Models.Subscription;
+import java.awt.Color;
 import java.io.File;
 import java.net.URL;
 import java.sql.Date;
@@ -55,6 +56,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     private  ObservableList<Package> searchData;
     
     private final int memberId = LoginStorage.getInstance().getId();
+    private final String username = LoginStorage.getInstance().getUsername();
     
     @FXML private TableView<Subscription> memberViewSubscriptionsTable;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
@@ -258,24 +260,73 @@ public class MemberViewSubscriptionsController implements Initializable {
                         PDPage page = new PDPage();
                         document.addPage(page);
                         PDPageContentStream contentStream = new PDPageContentStream(document, page);
-  
-                        //Begin the Content stream 
-                        contentStream.beginText(); 
-       
-                        //Setting the font to the Content stream  
-                        contentStream.setFont(PDType1Font.TIMES_ROMAN, 20);
+                        //System.out.println("PAGE MD " + page.getMetadata().getLength());
+//                        //Begin the Content stream 
+//                        contentStream.beginText(); 
+//       
+//                        //Setting the font to the Content stream  
+//                        contentStream.setFont(PDType1Font.TIMES_ROMAN, 20);
+//
+//                        //Setting the position for the line 
+//                        contentStream.newLineAtOffset(10, 400);
+//
+//                        String text = "Member Name";
+//
+//                        //Adding text in the form of string 
+//                        contentStream.showText(text);      
+//
+//                        //Ending the content stream
+//                        contentStream.endText();
+                        
+    helper.putTextInPdf(contentStream, 30, 210, 700, "HKRFitnessGym");
+        helper.putTextInPdf(contentStream, 20, 230, 670, "Subscription Details");
+        
+           helper.putTextInPdf(contentStream, 15, 100, 630, "Username: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 630, username);
+           helper.putTextInPdf(contentStream, 15, 100, 580, "Subscription ID: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 580, Integer.toString(row.get(0).getSubscriptionId()));
+           helper.putTextInPdf(contentStream, 15, 100, 530, "Subscription Status: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 530, row.get(0).getSubscriptionStatus());
+           helper.putTextInPdf(contentStream, 15, 100, 480, "Package Name: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 480, row.get(0).getPackageName());
+           helper.putTextInPdf(contentStream, 15, 100, 430, "Package Cost: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 430, Float.toString(row.get(0).getPrice()));
+           helper.putTextInPdf(contentStream, 15, 100, 380, "Package Start Date: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 380, helper.convertDateToString(row.get(0).getStartDate()));
+           helper.putTextInPdf(contentStream, 15, 100, 330, "Package End Date: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 330, helper.convertDateToString(row.get(0).getEndDate()));
+           helper.putTextInPdf(contentStream, 15, 100, 280, "Start Time: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 280, row.get(0).getStartTime());
+            helper.putTextInPdf(contentStream, 15, 100, 230, "Start Time: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 230, row.get(0).getEndTime());
+           helper.putTextInPdf(contentStream, 15, 100, 180, "Subscription Start Date: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 180, helper.convertDateToString(row.get(0).getSubscriptionStartDate()));
+           helper.putTextInPdf(contentStream, 15, 100, 130, "Subscription End Date: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 130, helper.convertDateToString(row.get(0).getSubscriptionEndDate()));
+           helper.putTextInPdf(contentStream, 15, 100, 80, "Offered Price: ");          
+           helper.putTextInPdf(contentStream, 20, 400, 80, Float.toString(row.get(0).getOfferPrice()));
+           
+//Setting the non stroking color
+                        contentStream.setNonStrokingColor(Color.yellow);
+      
 
-                        //Setting the position for the line 
-                        contentStream.newLineAtOffset(25, 500);
+      //Drawing a rectangle 
+      contentStream.addRect(55, 40, 500, 700);
 
-                        String text = "This is the sample document and we are adding content to it.";
+      //Drawing a rectangle
+      contentStream.stroke();
+      contentStream.setLineWidth(1f);
+      contentStream.setStrokingColor(Color.BLACK);
+contentStream.moveTo(40f, 30f);
+contentStream.lineTo(570f, 30f);
+contentStream.closeAndStroke();
 
-                        //Adding text in the form of string 
-                        contentStream.showText(text);      
-
-                        //Ending the content stream
-                        contentStream.endText();
-
+contentStream.stroke();
+      contentStream.setLineWidth(1f);
+      contentStream.setStrokingColor(Color.BLACK);
+contentStream.moveTo(55, 660);
+contentStream.lineTo(555, 660);
+contentStream.closeAndStroke();
                         System.out.println("Content added");
 
                         //Closing the content stream

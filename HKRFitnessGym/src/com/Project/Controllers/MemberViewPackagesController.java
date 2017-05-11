@@ -235,7 +235,7 @@ public class MemberViewPackagesController implements Initializable {
                                 helper.showDialogBox(subscriptionError, "Cannot make a subscription");
                             }
                             else {
-                                helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
+                                helper.showDialogBox(subscriptionError, "Successfully made a request to subscribe to a package");
                             }
                         }
                     }

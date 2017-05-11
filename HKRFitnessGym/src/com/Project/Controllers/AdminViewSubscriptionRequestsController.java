@@ -108,11 +108,17 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
                 if(!offerPriceString.isEmpty()) {
                     String offerPriceRegex = "^[0-9]*|[0-9]*.[0-9]{1,2}$";
                     if(offerPriceString.matches(offerPriceRegex)) {
+                        float packageCost = row.get(0).getPrice();
                         float offerPrice = Float.valueOf(offerPriceString);
-                        System.out.println("SIDDD " + subscriptionId);
-                        dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
-                        row.forEach(allRows::remove);
-                        helper.showDialogBox(true, "Request accepted");
+                        if((offerPrice > packageCost) && (offerPrice < 0)) {
+                            helper.showDialogBox(true, "Offer price cannot be more than package price or less than 0.\nIt should be less than or equal to the package price.");
+                        }
+                        else {
+                            System.out.println("SIDDD " + subscriptionId);
+                            dbHandler.acceptSubscriptionRequest(subscriptionId, offerPrice, adminId);
+                            row.forEach(allRows::remove);
+                            helper.showDialogBox(true, "Request accepted");
+                        }
                     }
                     else {
                         helper.showDialogBox(true, "The value provided is not a a valid price");

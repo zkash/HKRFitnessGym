@@ -5,7 +5,7 @@
  */
 package com.Project.JDBC.DAO;
 
-import com.Project.Controllers.Admin;
+import com.Project.Models.Admin;
 import com.Project.JDBC.DTO.Announcements;
 import com.Project.JDBC.DTO.Chat;
 import java.sql.Connection;

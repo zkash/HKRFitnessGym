@@ -72,7 +72,7 @@ public class DBHandler {
     private Properties loadProperties() {
         System.out.println(System.getProperty("user.dir"));
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGym.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Properties/hkrFitnessGym.properties")) {
             properties.load(fis);
         }
         catch (Exception e) {

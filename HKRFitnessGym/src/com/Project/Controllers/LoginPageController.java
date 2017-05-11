@@ -70,7 +70,7 @@ public class LoginPageController implements Initializable {
      */
     private Properties loadProperties() {
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGymForgotPassword.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Properties/hkrFitnessGymForgotPassword.properties")) {
             properties.load(fis);
         }
         catch (Exception e) {

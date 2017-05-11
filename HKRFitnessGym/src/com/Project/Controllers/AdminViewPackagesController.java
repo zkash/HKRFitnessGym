@@ -63,6 +63,14 @@ public class AdminViewPackagesController implements Initializable {
         }
     }    
     
+    
+    /**
+     * Searches for data as per user's query and filters
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
     public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchPackage.getText();
         data = dbHandler.searchInAdminViewPackage(searchQuery);
@@ -70,12 +78,27 @@ public class AdminViewPackagesController implements Initializable {
         helper.fitColumns(adminViewPackagesTable);  
     }
     
+    
+    /**
+     * Resets the table with initial data
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
     public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewPackages();
         setDataInTable(data);
         helper.fitColumns(adminViewPackagesTable); 
     }
     
+    
+    /**
+     * Deletes a package from database and removes the row from the table view
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row , allRows;
         allRows = adminViewPackagesTable.getItems();
@@ -100,6 +123,13 @@ public class AdminViewPackagesController implements Initializable {
         }
     }
     
+    
+    /**
+     * Navigates to Update Package Information page
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         String packageName = row.get(0).getPackageName();
@@ -118,6 +148,13 @@ public class AdminViewPackagesController implements Initializable {
         stage.show();
     }
     
+    
+    /**
+     * Sets data in table view
+     * @param data
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
     public void setDataInTable(ObservableList<Package> data) throws IllegalArgumentException, InvocationTargetException {
         // Set cell value factory to TableView
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));

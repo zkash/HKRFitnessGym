@@ -7,8 +7,6 @@ import com.Project.Models.Person;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,6 +33,7 @@ public class AdminViewPersonalInformationController implements Initializable {
     
     private final int adminId = LoginStorage.getInstance().getId();
     private final String accountType = LoginStorage.getInstance().getAccountType();
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -43,7 +42,6 @@ public class AdminViewPersonalInformationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-           // ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
            ObservableList<Person> admin = dbHandler.getPersonalInformation(accountType, adminId);
             
             if(admin.isEmpty()) {
@@ -61,7 +59,7 @@ public class AdminViewPersonalInformationController implements Initializable {
             ssnLbl.setText(Integer.toString(admin.get(0).getSSN1()) + "-" + Integer.toString(admin.get(0).getSSN2()));
         } 
         catch (SQLException ex) {
-            Logger.getLogger(AdminViewPersonalInformationController.class.getName()).log(Level.SEVERE, null, ex);
+            helper.showDialogBox(true, "Could not fetch data from database because of an error");
         }
     }    
 }

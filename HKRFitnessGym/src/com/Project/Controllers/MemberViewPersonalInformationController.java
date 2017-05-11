@@ -38,7 +38,7 @@ public class MemberViewPersonalInformationController implements Initializable {
     private final int ssn1 = 234567;
     private final int ssn2 = 8901;
     private final int memberId = LoginStorage.getInstance().getId();
-    
+    private final String accountType = LoginStorage.getInstance().getAccountType();
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
@@ -46,7 +46,8 @@ public class MemberViewPersonalInformationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            ObservableList<Member> member = dbHandler.getMemberPersonalInformation(memberId);
+            // ObservableList<Member> member = dbHandler.getMemberPersonalInformation(memberId);
+            ObservableList<Person> member = dbHandler.getPersonalInformation(accountType, memberId);
             if(member.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
@@ -60,7 +61,7 @@ public class MemberViewPersonalInformationController implements Initializable {
             emailLbl.setText(member.get(0).getEmail());
             ssnLbl.setText(Integer.toString(member.get(0).getSSN1()) + "-" + Integer.toString(member.get(0).getSSN2()));
         } catch (SQLException ex) {
-            Logger.getLogger(AdminViewPersonalInformationController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MemberViewPersonalInformationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }       
 }

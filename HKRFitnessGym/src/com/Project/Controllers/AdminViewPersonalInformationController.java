@@ -30,7 +30,7 @@ public class AdminViewPersonalInformationController implements Initializable {
     private final Helper helper = new Helper();
     
     private final int adminId = LoginStorage.getInstance().getId();
-    
+    private final String accountType = LoginStorage.getInstance().getAccountType();
     /**
      * Initializes the controller class.
      * @param url
@@ -39,7 +39,8 @@ public class AdminViewPersonalInformationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
+           // ObservableList<Admin> admin = dbHandler.getAdminPersonalInformation(adminId);
+           ObservableList<Person> admin = dbHandler.getPersonalInformation(accountType, adminId);
             
             if(admin.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details of");

@@ -961,6 +961,7 @@ System.out.println("DSDSAS " + data);
         return admin;
     }
 
+    
     public ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
@@ -985,6 +986,56 @@ System.out.println("DSDSAS " + data);
         }
         System.out.println(member);
         return member;
+    }
+    
+     public ObservableList<Person> getPersonalInformation(String accountType, int id) throws SQLException {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT firstName, middleName, lastName,"
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                + " FROM Admin WHERE adminId = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT firstName, middleName, lastName,"
+                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                + " FROM Member WHERE memberId = ?";
+        }
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        ObservableList<Person> person = FXCollections.observableArrayList();
+        if(accountType.equals("Admin")) {
+            while (rs.next()) {
+                person.add(new Admin(rs.getString("firstName"),
+                        rs.getString("middleName"),
+                        rs.getString("lastName"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        rs.getString("gender"),
+                        rs.getInt("ssn1"),
+                        rs.getInt("ssn2")
+                ));
+            }
+        }
+        else if(accountType.equals("Member")) {
+            while (rs.next()) {
+                person.add(new Member(rs.getString("firstName"),
+                        rs.getString("middleName"),
+                        rs.getString("lastName"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        rs.getString("gender"),
+                        rs.getInt("ssn1"),
+                        rs.getInt("ssn2")
+                ));
+            }
+        }
+        return person;
     }
     
     public ObservableList<Schedule> memberViewSchedule() throws SQLException {

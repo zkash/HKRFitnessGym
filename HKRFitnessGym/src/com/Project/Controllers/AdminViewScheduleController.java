@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import com.Project.JDBC.DAO.DBHandler;
 import com.Project.JDBC.DTO.Schedule;
 import com.sun.javafx.collections.ElementObservableListDecorator;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.Date;
@@ -31,13 +32,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -109,8 +115,6 @@ public class AdminViewScheduleController implements Initializable {
                 searchData.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closeTime"), rs.getBoolean("isHoliday")));
             }
             
-            
-            
         } catch (SQLException ex) {
             System.out.println("Error "+ ex);
         }
@@ -167,4 +171,13 @@ public class AdminViewScheduleController implements Initializable {
         }
     }
     
+    @FXML
+    public void logoutButton(ActionEvent event) throws IOException{
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

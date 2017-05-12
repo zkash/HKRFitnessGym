@@ -36,6 +36,7 @@
             </TextField>
             <Button layoutX="313.0" layoutY="285.0" mnemonicParsing="false" onAction="#search" style="-fx-background-radius: 10;" text="SEARCH" />
             <Button layoutX="426.0" layoutY="285.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-radius: 10;" text="DELETE" />
+            <Button layoutX="436.0" layoutY="27.0" mnemonicParsing="false" onAction="#logoutButton" text="Sgin Out" />
          </children>
       </AnchorPane>
    </bottom>

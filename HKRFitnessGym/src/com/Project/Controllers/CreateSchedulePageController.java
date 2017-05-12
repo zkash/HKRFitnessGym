@@ -218,7 +218,8 @@ public class CreateSchedulePageController implements Initializable {
             System.out.println(schedule.getOpeningTime());
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
-            DBHandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(), adminId);
+            
+            DBHandler.adminCreateSchedule(schedule, adminId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("DATA HAS BEEN SAVED.");
             alert.show();

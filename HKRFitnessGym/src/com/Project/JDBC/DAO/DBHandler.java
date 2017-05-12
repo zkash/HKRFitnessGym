@@ -236,16 +236,16 @@ public class DBHandler {
         return messageList;
     }
      
-     public static void adminCreateSchedule(Date date, String op, String ct, boolean isHoliday, int adminId) throws SQLException {
+     public static void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
         //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
         //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
         try(Connection conn = establishConnection();){
             String selectStatement = "INSERT INTO schedule ( date, openingTime, closeTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
             PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
-            prepStmt.setDate(1, date); // remove ++ from here, do it in last
-            prepStmt.setString(2, op);
-            prepStmt.setString(3, ct);
-            prepStmt.setBoolean(4, isHoliday);
+            prepStmt.setDate(1, s.getDate()); // remove ++ from here, do it in last
+            prepStmt.setString(2, s.getOpeningTime());
+            prepStmt.setString(3, s.getClosingTime());
+            prepStmt.setBoolean(4, s.getIsHoliday());
             prepStmt.setInt(5, adminId);
             prepStmt.executeUpdate();
             

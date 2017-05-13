@@ -229,7 +229,7 @@ public class CreateSchedulePageController implements Initializable {
         }
         else{
             saveToDatabase();
-        }
+        } 
     }
     
     private void saveToDatabase() throws SQLException, ParseException{

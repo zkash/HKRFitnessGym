@@ -261,7 +261,7 @@ public class DBHandler {
         PreparedStatement prepStmt = null;
         ResultSet rs = null;
         try {
-            String statement = "SELECT date, openingTime, closeTime, isHoliday, scheduleId FROM schedule";
+            String statement = "SELECT date, openingTime, closingTime, isHoliday, scheduleId FROM schedule";
             conn = establishConnection();
             prepStmt = conn.prepareStatement(statement);
             rs = prepStmt.executeQuery();

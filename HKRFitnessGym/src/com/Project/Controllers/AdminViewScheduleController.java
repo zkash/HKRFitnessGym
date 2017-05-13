@@ -57,17 +57,20 @@ public class AdminViewScheduleController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @FXML private TextField search;
+    private TextField search;
     
     @FXML private TableView adminViewScheduleTable; 
     @FXML private TableColumn<Schedule, String> dateView; 
     @FXML private TableColumn<Schedule, String>otView;
     @FXML private TableColumn<Schedule, String>ctView;
     @FXML private TableColumn<Schedule, String>holidayView;
-    @FXML private TableColumn<Schedule, String>idView;
     
     private ObservableList<Schedule> data;
     private ObservableList<Schedule> searchData;
+    @FXML
+    private TableColumn<?, ?> edit;
+    @FXML
+    private TableColumn<?, ?> delete;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -127,12 +130,11 @@ public class AdminViewScheduleController implements Initializable {
         adminViewScheduleTable.setItems(searchData);
     }
     
-    @FXML
     public void update(ActionEvent event){
         
     }
     
-    @FXML
+    /*@FXML
     public void search() throws ParseException{
         if(search.getText().isEmpty()){
             getScheduleDetial();
@@ -140,9 +142,9 @@ public class AdminViewScheduleController implements Initializable {
         else{
             getSearchedDetial();
         }
-    }
+    }*/
     
-    @FXML
+    /*@FXML
     public void delete(ActionEvent event){
         ObservableList<Schedule> scheduleSelect, allSchedule;
         allSchedule = adminViewScheduleTable.getItems();
@@ -169,9 +171,9 @@ public class AdminViewScheduleController implements Initializable {
                 alert.close();
             }
         }
-    }
+    }*/
     
-    @FXML
+    /*@FXML
     public void logoutButton(ActionEvent event) throws IOException{
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
@@ -179,5 +181,5 @@ public class AdminViewScheduleController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
+    }*/
 }

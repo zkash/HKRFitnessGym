@@ -5,9 +5,11 @@
  */
 package com.Project.Models;
 
+import static com.Project.JDBC.DAO.DBhandler.establishConnection;
 import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1987,4 +1989,177 @@ System.out.println("DSDSAS " + data);
             e.printStackTrace();
         }
     }
+     
+     
+     
+     
+     public static Iterable<com.Project.JDBC.DTO.Announcement> getAnnouncementList(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+        //Returns User id.
+      public int getId(String accountType) {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT adminId FROM Admin = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT memberId FROM Member = ?";
+        }
+        int id = 0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, accountType);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(statement);
+            System.out.println(rs);
+            while(rs.next()) {
+                id = rs.getInt(1);
+            }
+        }
+        catch(SQLException e) {
+            
+        }
+        return id;
+    }
+     
+      public static int getLoggedUserId(){
+          return idMember;
+     }
+        // Returns logged user.
+        public static String getLoggedUser(){
+            return currentUser;
+    }
+        // Returns positon of user.
+        public static String getLoggedUserPosition(){
+            return position;
+    }        
+   
+     // Saves message into database.
+    public static void saveMessage(String time, String name, String message){
+        try {  
+            PreparedStatement newMessage = c.prepareStatement("INSERT INTO message"
+                    + "(time, name, message)"
+                    + "VALUES (?, ?, ?)");
+            newMessage.setString(1, time);
+            newMessage.setString(2, name);
+            newMessage.setString(3, message);
+            newMessage.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Gets list of messages from database.
+    public ObservableList<com.Project.JDBC.DTO.Chat> getMessageList() throws SQLException {
+       ObservableList<com.Project.JDBC.DTO.Chat> messageList = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT * FROM message");
+            PreparedStatement check = c.prepareStatement(query);
+            ResultSet rs = check.executeQuery();
+            
+            while (rs.next()) {
+                com.Project.JDBC.DTO.Chat message = new com.Project.JDBC.DTO.Chat();
+                message.setMessageId(rs.getInt("messageId"));
+                message.setTime(rs.getString("time"));
+                message.setName(rs.getString("name"));
+                message.setMessage(rs.getString("message"));
+                messageList.add(message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messageList;
+    }
+        
+   // Update password for a particular member.
+    public static void updatePassword(String password) {
+        PreparedStatement stmt;
+        try {
+            stmt = c.prepareStatement("UPDATE person"
+                    + " SET Password = ?"
+                    + " WHERE idPerson = ?");
+            stmt.setString(1, password);
+            stmt.setInt(2, getLoggedUserId());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // To save announcements into database.
+    public static void saveAnnouncement(String time, String message) {
+        PreparedStatement stmt;
+        try {
+            stmt = c.prepareStatement("Insert Into announcement"
+                    + "(time, message)"
+                    + "Values (?, ?, ?)");
+            stmt.setString(1, time);
+            stmt.setString(2, message);
+            stmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }   
+ /*  
+    public static void adminViewAccounts() throws SQLException {
+        Connection conn = establishConnection();
+        ResultSet rs = null;
+        ArrayList<ArrayList<String>> finalArray = new ArrayList<>();
+        
+        List<Admin> admins = new ArrayList<>();
+        
+        if (conn != null) {
+            
+            
+            //TODO change this to member table
+            try ( //Create a statement
+                    Statement statement = conn.createStatement()) {
+                //Execute SQL query
+                //TODO change this to member table
+                String sql = "select adminFirstName, username from Admin";
+                rs = statement.executeQuery(sql);
+                ArrayList<String> array = new ArrayList<>();
+                System.out.println(rs);
+
+                System.out.println("All records have been selected");
+                //finalArray.add(array);  
+            }
+            System.out.println("Statement closed");
+            
+            System.out.println("connection closed");
+            conn.close();
+        }
+
+    }   
+
+   
+    //To get message list from database.
+    public ObservableList<Announcement> getAnnouncementList() throws SQLException {
+       ObservableList<Announcement> messageList = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT * FROM announcement");
+            PreparedStatement check = c.prepareStatement(query);
+            ResultSet rs = check.executeQuery();
+            
+            while (rs.next()) {
+                Announcement announcements = new Announcement();
+                announcements.setMessageId(rs.getInt("announcementId"));
+                announcements.setTime(rs.getString("time"));
+                announcements.setMessage(rs.getString("message"));
+                messageList.add(announcements);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messageList;
+    }*/
+     
+    
+    
+  
 }

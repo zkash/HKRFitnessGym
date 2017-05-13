@@ -3,22 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.Project.Models;
-
-import java.sql.Date;
-import javafx.beans.property.SimpleStringProperty;
+package com.Project.JDBC.DTO;
 
 /**
  *
- * @author shameer
+ * @author Xuantong
+ */
+import java.sql.Date;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+/**
+ *
+ * @author Xuantong
  */
 public class Schedule {
     private Date date;
-    private final SimpleStringProperty openingTime;
-    private final SimpleStringProperty closingTime;
-    private Boolean isHoliday;
+    private SimpleStringProperty openingTime;
+    private SimpleStringProperty closingTime;
+    private boolean isHoliday;
+    private SimpleIntegerProperty id;
     
-    Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {
+    public Schedule(){
+        this.date = null;
+        this.openingTime = new SimpleStringProperty("");
+        this.closingTime = new SimpleStringProperty("");
+        this.isHoliday = isHoliday;
+    }
+    
+    public Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {
         this.date = date;
         this.openingTime = new SimpleStringProperty(openingTime);
         this.closingTime = new SimpleStringProperty(closingTime);
@@ -55,5 +67,32 @@ public class Schedule {
     
     public void setIsHoliday(Boolean isHoliday) {
         this.isHoliday = isHoliday;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id.get();
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id.set(id);
+    }
+    
+    //property value
+    public SimpleStringProperty openingTimeProperty(){
+        return openingTime;
+    }
+    
+    public SimpleStringProperty closingTimeProperty(){
+        return closingTime;
+    }
+    
+    public SimpleIntegerProperty idProperty(){
+        return id;
     }
 }

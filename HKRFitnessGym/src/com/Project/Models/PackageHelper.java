@@ -164,7 +164,7 @@ public class PackageHelper {
                 datePicker.getEditor().clear();
             });
         
-            helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
+            helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "AdminViewPackages.fxml");
         }
         else if(todo.equals("Update")) {
             dbHandler.updatePackage(pack, packageNameOld, adminId);

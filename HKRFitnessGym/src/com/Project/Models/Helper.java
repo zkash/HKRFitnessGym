@@ -201,7 +201,7 @@ public class Helper {
         
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == noBtn) {
-            Parent root = FXMLLoader.load(Helper.class.getResource(nextScene));
+            Parent root = FXMLLoader.load(Helper.class.getResource("/com/Project/Views/" + nextScene));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();    
@@ -417,6 +417,14 @@ public class Helper {
         }
         return changedPassword;
         }
+        
+        public int convertTimeToMinuteSinceMidnight(String time) {
+        String[] timeDivided = time.split(":");
+        int hour = Integer.parseInt(timeDivided[0]);
+        int minute = Integer.parseInt(timeDivided[1]);
+        int minutesSinceMidnight = (hour * 60) + minute;
+        return minutesSinceMidnight;
+    }
     }
     
     

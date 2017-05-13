@@ -25,6 +25,7 @@ import javafx.scene.control.PasswordField;
  * @author shameer
  */
 public class AdminChangePasswordController implements Initializable {
+
     @FXML
     private Label errorMessage;
     @FXML
@@ -32,34 +33,31 @@ public class AdminChangePasswordController implements Initializable {
     @FXML
     private PasswordField newPassword;
 
-    
-    private int id =  LoginStorage.getInstance().getId();
+    private int id = LoginStorage.getInstance().getId();
     private String accountType = LoginStorage.getInstance().getAccountType();
     private DBHandler dbHandler = new DBHandler();
     private Helper helper = new Helper();
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
     }
-    
+
     @FXML
     private void savePassword(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
         System.out.println("heresave");
         String enteredOldPassword = oldPassword.getText();
         String hashedEnteredOldPassword = helper.hash(enteredOldPassword);
-        if(hashedEnteredOldPassword.equals(oldPasswordFromDB)) {
+        if (hashedEnteredOldPassword.equals(oldPasswordFromDB)) {
             String enteredNewPassword = newPassword.getText();
             String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-                   
+
             if (!enteredNewPassword.matches(pwRegex)) {
                 errorMessage.setText("New password must be at least 5 characters, a digit is required");
-            }
-            else if (newPassword.getText().equals(enteredOldPassword)) {
+            } else if (newPassword.getText().equals(enteredOldPassword)) {
                 errorMessage.setText("New password must be different than old password");
-            }
-           //  Update password using DBHandler method.
+            } //  Update password using DBHandler method.
             else {
                 String hashedNewPassword = helper.hash(enteredNewPassword);
                 System.out.println("has " + hashedNewPassword);
@@ -67,12 +65,9 @@ public class AdminChangePasswordController implements Initializable {
                 errorMessage.setText("Your password has been changed.");
             }
         }
-        
-        
-        
+
     }
-   
-    
+
 //    @FXML
 //    private void goToMemberMainPage(ActionEvent event) throws IOException {
 //      Node node = (Node) event.getSource();
@@ -104,5 +99,4 @@ public class AdminChangePasswordController implements Initializable {
 //            errorMessage.setText("Old password is incorrect.");
 //        }
 //    }
-  
 }

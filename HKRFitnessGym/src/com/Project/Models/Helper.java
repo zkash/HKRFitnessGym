@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
  * @author shameer
  */
 public class Helper {
-    
+    private DBHandler dbHandler = new DBHandler();
     /**
      * Loads the properties file that has system email and password to handle forgot password
      * @return 
@@ -386,6 +387,36 @@ public class Helper {
 //        
 //        }
 //        return date;
+        
+        public boolean checkOldPasswordAndChangePassword(int id, String accountType, String enteredOldPassword, String enteredNewPassword) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+            String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
+        System.out.println("heresave " + oldPasswordFromDB);
+        
+        String hashedEnteredOldPassword = hash(enteredOldPassword);
+            System.out.println("fdsad " + hashedEnteredOldPassword);
+            boolean changedPassword = false;
+        if (hashedEnteredOldPassword.equals(oldPasswordFromDB)) {
+            
+            String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
+            
+            if (!enteredNewPassword.matches(pwRegex)) {
+                showDialogBox(true, "New password must be at least 5 characters, a digit is required");
+            } else if (enteredNewPassword.equals(enteredOldPassword)) {
+                showDialogBox(true, "New password must be different than old password");
+            } //  Update password using DBHandler method.
+            else {
+                String hashedNewPassword = hash(enteredNewPassword);
+                System.out.println("has " + hashedNewPassword);
+                dbHandler.updatePassword(accountType, id, hashedNewPassword);
+                changedPassword = true;
+                showDialogBox(false, "Your password has been changed.");
+            }
+        }
+        else {
+            showDialogBox(true, "Entered old password is not the correct old password");
+        }
+        return changedPassword;
+        }
     }
     
     

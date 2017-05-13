@@ -8,6 +8,7 @@ package com.Project.Controllers;
 import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -42,26 +43,12 @@ public class MemberChangePasswordController implements Initializable {
     }
     
     @FXML
-    private void savePassword(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
-        System.out.println("heresave");
+    private void savePassword(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, IOException {
         String enteredOldPassword = oldPassword.getText();
-        String hashedEnteredOldPassword = helper.hash(enteredOldPassword);
-        if (hashedEnteredOldPassword.equals(oldPasswordFromDB)) {
-            String enteredNewPassword = newPassword.getText();
-            String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-
-            if (!enteredNewPassword.matches(pwRegex)) {
-                errorMessage.setText("New password must be at least 5 characters, a digit is required");
-            } else if (newPassword.getText().equals(enteredOldPassword)) {
-                errorMessage.setText("New password must be different than old password");
-            } //  Update password using DBHandler method.
-            else {
-                String hashedNewPassword = helper.hash(enteredNewPassword);
-                System.out.println("has " + hashedNewPassword);
-                dbHandler.updatePassword(accountType, id, hashedNewPassword);
-                errorMessage.setText("Your password has been changed.");
-            }
+        String enteredNewPassword = newPassword.getText();
+        boolean changedPassword = helper.checkOldPasswordAndChangePassword(id, accountType, enteredOldPassword, enteredNewPassword);
+        if(changedPassword) {
+            helper.navigateScene(event, "MemberMainPage.fxml");
         }
 
     }

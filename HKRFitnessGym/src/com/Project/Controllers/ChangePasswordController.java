@@ -45,36 +45,36 @@ public class ChangePasswordController implements Initializable {
         
     }
     
-    @FXML
-    private void savePassword(ActionEvent event) throws SQLException {
-        String oldPwd = dbHandler.getOldPassword(id);
-        if((oldPassword.getText()).equals(oldPwd)) {
-            if (newPassword.getText().length() < 5 || newPassword.getText().length() >= 10) {
-                errorMessage.setText("New password must be between 6 and 10 characters.");
-            }
-            else if (newPassword.getText().equals(oldPwd)) {
-                errorMessage.setText("New password must be different than old password");
-            }
-//             Update password using DBHandler method.
-            else {
-                dbHandler.updatePassword(accountType, id, newPassword.getText());
-                errorMessage.setText("Your password has been changed.");
-            }
-        }
+//    @FXML
+//    private void savePassword(ActionEvent event) throws SQLException {
+//        String oldPwd = dbHandler.getOldPassword(id, a);
+//        if((oldPassword.getText()).equals(oldPwd)) {
+//            if (newPassword.getText().length() < 5 || newPassword.getText().length() >= 10) {
+//                errorMessage.setText("New password must be between 6 and 10 characters.");
+//            }
+//            else if (newPassword.getText().equals(oldPwd)) {
+//                errorMessage.setText("New password must be different than old password");
+//            }
+////             Update password using DBHandler method.
+//            else {
+//                dbHandler.updatePassword(accountType, id, newPassword.getText());
+//                errorMessage.setText("Your password has been changed.");
+//            }
+//        }
         
         
         
-    }
-    
-    @FXML
-    private void goToMemberMainPage(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+//    }
+//    
+//    @FXML
+//    private void goToMemberMainPage(ActionEvent event) throws IOException {
+//        Node node = (Node) event.getSource();
+//        Stage stage = (Stage) node.getScene().getWindow();
+//        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
     
 //    @FXML
 //    private void goToMemberMainPage(ActionEvent event) throws IOException {

@@ -1419,10 +1419,41 @@ System.out.println("DSDSAS " + data);
         return id;
     }
     
-    public String getOldPassword(int id) throws SQLException {
+    
+    public String getPassword(int id, String accountType) throws SQLException {
         String oldPassword;
+        System.out.println("ggg");
         try (Connection conn = establishConnection()) {
-            String query = "SELECT password FROM Member WHERE memberId = ?";
+            String query = "";
+            if(accountType.equals("Admin")) {
+                query = "SELECT password FROM Admin WHERE adminId = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT password FROM Member WHERE memberId = ?";
+            }
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            oldPassword = "";
+            while(rs.next()) {
+                oldPassword = rs.getString(1);
+            }
+        }
+        return oldPassword;
+    }
+    
+    
+    public String getOldPassword(int id, String accountType) throws SQLException {
+        String oldPassword;
+        System.out.println("ggg");
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            if(accountType.equals("Admin")) {
+                query = "SELECT password FROM Admin WHERE adminId = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT password FROM Member WHERE memberId = ?";
+            }
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();

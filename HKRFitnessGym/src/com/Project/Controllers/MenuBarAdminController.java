@@ -159,7 +159,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void changePasswordMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("ChangePassword.fxml");
+        setupAndShowStage("AdminChangePassword.fxml");
     }
 
     

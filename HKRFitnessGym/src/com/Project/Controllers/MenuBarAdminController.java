@@ -199,6 +199,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("ChatPage.fxml");
+        setupAndShowStage("/com/Project/FXML/AdminChatPage.fxml");
+        
     }
 }

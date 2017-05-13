@@ -5,8 +5,8 @@
  */
 package com.Project.JDBC.DAO;
 
+import com.Project.JDBC.DTO.Announcement;
 import com.Project.Models.Admin;
-import com.Project.JDBC.DTO.Announcements;
 import com.Project.JDBC.DTO.Chat;
 import com.Project.JDBC.DTO.Schedule;
 import java.sql.Connection;
@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -26,7 +27,7 @@ import javafx.collections.ObservableList;
  * @author KN
  */
 
-public class DBHandler {
+public class DBhandler {
     private static Connection c;
     private static String currentUser;
     private static String position;
@@ -55,36 +56,60 @@ public class DBHandler {
             catch (SQLException ex){
         }
    }
-    
-       // Checks user credentials if they are correct and returns memberId.
-           public static int login(String userName, String password){
-            PreparedStatement stmt;
-            ResultSet rs;
-            int memberId = 0;
-            try{
-                stmt = c.prepareStatement("SELECT * FROM person WHERE Username = ?");
-                stmt.setString(1, userName);
-                rs = stmt.executeQuery();
-                
-                while(rs.next()){
-                    if(userName.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))){
-                    memberId = rs.getInt("idPerson");
-                    currentUser = userName;
-                    position = rs.getString("Position");
-                    idMember = rs.getInt("idPerson");
-                    
-                }
-              }
-            } catch (Exception e){
-                e.printStackTrace();
+        
+         
+    public static Connection establishConnection() {
+        Connection conn;
+
+        //Get connection to database
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "sunday1");
+            if(conn!=null) {
+                System.out.println("connected to database successfully");
+                return conn;
             }
-            return memberId;
-         }
-      
-        //Returns member id.
-        public static int getLoggedUserId(){
-            return idMember;
         }
+        catch (Exception ex) {
+            System.out.println("Not connected to database");
+        }
+        return null;
+    }
+
+    public static Iterable<Announcement> getAnnouncementList(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+        //Returns User id.
+      public int getId(String accountType) {
+        Connection conn = establishConnection();
+        String query = "";
+        if(accountType.equals("Admin")) {
+            query = "SELECT adminId FROM Admin = ?";
+        }
+        else if(accountType.equals("Member")) {
+            query = "SELECT memberId FROM Member = ?";
+        }
+        int id = 0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, accountType);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(statement);
+            System.out.println(rs);
+            while(rs.next()) {
+                id = rs.getInt(1);
+            }
+        }
+        catch(SQLException e) {
+            
+        }
+        return id;
+    }
+     
+      public static int getLoggedUserId(){
+          return idMember;
+     }
         // Returns logged user.
         public static String getLoggedUser(){
             return currentUser;
@@ -93,50 +118,46 @@ public class DBHandler {
         public static String getLoggedUserPosition(){
             return position;
     }        
-        
-        //To get list of messages from database
-        public static List<Chat> getMessageList(String query) {
-            List<Chat> messageList = new LinkedList<>();
-            PreparedStatement stmt;
-            ResultSet rs;
-            try{
-                stmt = c.prepareStatement(query);
-                rs = stmt.executeQuery();
-                
-                while (rs.next()){
-                    Chat message = new Chat();
-                    message.setMessageId(rs.getInt("idChat"));
-                    message.setTime(rs.getString("time"));
-                    message.setName(rs.getString("name"));
-                    message.setMessage(rs.getString("message"));
-                    messageList.add(message);
-                }
-                
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return messageList;
-        
-    }
-         // save message into database.
-    public static void saveMessage(String time, String name, String message) {
-        PreparedStatement stmt;
-        
-        try{
-            stmt = c.prepareStatement("Insert Into chat" + "(time, message, name)" 
-                    + "Values (?, ?, ?)");
-            stmt.setString(1, time);
-            stmt.setString(2, message);
-            stmt.setString(3, name);
-            stmt.execute();
-        }catch (Exception e){
+   
+     // Saves message into database.
+    public static void saveMessage(String time, String name, String message){
+        try {  
+            PreparedStatement newMessage = c.prepareStatement("INSERT INTO message"
+                    + "(time, name, message)"
+                    + "VALUES (?, ?, ?)");
+            newMessage.setString(1, time);
+            newMessage.setString(2, name);
+            newMessage.setString(3, message);
+            newMessage.execute();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-     } 
-      
+    }
     
-    
-    // Update password for a particular member.
+    // Gets list of messages from database.
+    public ObservableList<Chat> getMessageList() throws SQLException {
+       ObservableList<Chat> messageList = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT * FROM message");
+            PreparedStatement check = c.prepareStatement(query);
+            ResultSet rs = check.executeQuery();
+            
+            while (rs.next()) {
+                Chat message = new Chat();
+                message.setMessageId(rs.getInt("messageId"));
+                message.setTime(rs.getString("time"));
+                message.setName(rs.getString("name"));
+                message.setMessage(rs.getString("message"));
+                messageList.add(message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messageList;
+    }
+        
+   // Update password for a particular member.
     public static void updatePassword(String password) {
         PreparedStatement stmt;
         try {
@@ -155,7 +176,7 @@ public class DBHandler {
     public static void saveAnnouncement(String time, String message) {
         PreparedStatement stmt;
         try {
-            stmt = c.prepareStatement("Insert Into announcements"
+            stmt = c.prepareStatement("Insert Into announcement"
                     + "(time, message)"
                     + "Values (?, ?, ?)");
             stmt.setString(1, time);
@@ -197,35 +218,19 @@ public class DBHandler {
 
     }   
 
-    
-    public static Connection establishConnection() {
-        Connection conn;
-
-        //Get connection to database
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HKRFitnessGymDB", "root", "root");
-            if(conn!=null) {
-                System.out.println("connected to database successfully");
-                return conn;
-            }
-        }
-        catch (Exception ex) {
-            System.out.println("Not connected to database");
-        }
-        return null;
-    }
+   
     //To get message list from database.
-    public static List<Announcements> getAnnouncementsList(String query) {
-        List<Announcements> messageList = new LinkedList<>();
-        PreparedStatement stmt;
-        ResultSet rs;
+    public ObservableList<Announcement> getAnnouncementList() throws SQLException {
+       ObservableList<Announcement> messageList = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
         try {
-            stmt = c.prepareStatement(query);
-            rs = stmt.executeQuery();
+            String query = String.format("SELECT * FROM announcement");
+            PreparedStatement check = c.prepareStatement(query);
+            ResultSet rs = check.executeQuery();
             
             while (rs.next()) {
-                Announcements announcements = new Announcements();
-                announcements.setMessageId(rs.getInt("idAnnouncements"));
+                Announcement announcements = new Announcement();
+                announcements.setMessageId(rs.getInt("announcementId"));
                 announcements.setTime(rs.getString("time"));
                 announcements.setMessage(rs.getString("message"));
                 messageList.add(announcements);
@@ -240,7 +245,7 @@ public class DBHandler {
         //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
         //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
         try(Connection conn = establishConnection();){
-            String selectStatement = "INSERT INTO schedule ( date, openingTime, closingTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
+            String selectStatement = "INSERT INTO schedule ( date, openingTime, closeTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
             PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
             prepStmt.setDate(1, s.getDate()); // remove ++ from here, do it in last
             prepStmt.setString(2, s.getOpeningTime());
@@ -261,7 +266,7 @@ public class DBHandler {
         PreparedStatement prepStmt = null;
         ResultSet rs = null;
         try {
-            String statement = "SELECT date, openingTime, closingTime, isHoliday, scheduleId FROM schedule";
+            String statement = "select * frome schedule";
             conn = establishConnection();
             prepStmt = conn.prepareStatement(statement);
             rs = prepStmt.executeQuery();
@@ -270,23 +275,6 @@ public class DBHandler {
             System.out.println("Cannot ritrive schedule.");
         }
         return rs;
-    }
-    
-    public static void deleteSchedule(Date date){
-        Connection conn = null;
-        PreparedStatement prepStmt = null;
-        ResultSet rs = null;
-        try {
-            String statement = "DELETE FROM Schedule WHERE date = ?";
-            conn = establishConnection();
-            prepStmt = conn.prepareStatement(statement);
-            prepStmt.setDate(1, date);
-            prepStmt.execute();
-            System.out.println("Success removed");
-            
-        } catch (Exception e) {
-            System.out.println("error. Not delete.");
-        }
     }
     
     public static ResultSet searchSchedule(String date){

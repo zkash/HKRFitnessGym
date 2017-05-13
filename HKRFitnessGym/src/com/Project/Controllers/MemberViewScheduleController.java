@@ -5,8 +5,8 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBHandler;
 import com.Project.JDBC.DTO.Schedule;
+import com.Project.Models.DBHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -53,7 +53,7 @@ public class MemberViewScheduleController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         jdbc = new DBHandler();
         try {
-            Connection conn = DBHandler.establishConnection();
+            Connection conn = jdbc.establishConnection();
             data = FXCollections.observableArrayList();
             stmt = conn.createStatement();
             //ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");

@@ -9,8 +9,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
-import com.Project.JDBC.DAO.DBHandler;
+
 import com.Project.JDBC.DTO.Schedule;
+import com.Project.Models.DBHandler;
 import com.sun.javafx.collections.ElementObservableListDecorator;
 import java.io.IOException;
 import java.net.URL;
@@ -79,8 +80,9 @@ public class AdminViewScheduleController implements Initializable {
 
     private void getScheduleDetial() {
         try {
+            DBHandler db = new DBHandler();
             data = FXCollections.observableArrayList();
-            ResultSet rs = DBHandler.adminRitriveSchedule();
+            ResultSet rs = db.adminRitriveSchedule();
             
             while(rs.next()){
                 System.out.println(rs.getDate("date"));
@@ -106,13 +108,14 @@ public class AdminViewScheduleController implements Initializable {
     
     private void getSearchedDetial(){
         try {
+            DBHandler db = new DBHandler();
             dateView.getColumns().clear();
             otView.getColumns().clear();
             ctView.getColumns().clear();
             holidayView.getColumns().clear();
             
             searchData = FXCollections.observableArrayList();
-            ResultSet rs = DBHandler.searchSchedule(search.getText());
+            ResultSet rs = db.searchSchedule(search.getText());
             
             while(rs.next()){
                 searchData.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closeTime"), rs.getBoolean("isHoliday")));
@@ -134,19 +137,19 @@ public class AdminViewScheduleController implements Initializable {
         
     }
     
-    /*@FXML
+    @FXML
     public void search() throws ParseException{
-        if(search.getText().isEmpty()){
+        /*if(search.getText().isEmpty()){
             getScheduleDetial();
         }
         else{
             getSearchedDetial();
-        }
-    }*/
+        }*/
+    }
     
-    /*@FXML
+    @FXML
     public void delete(ActionEvent event){
-        ObservableList<Schedule> scheduleSelect, allSchedule;
+        /*ObservableList<Schedule> scheduleSelect, allSchedule;
         allSchedule = adminViewScheduleTable.getItems();
         scheduleSelect = adminViewScheduleTable.getSelectionModel().getSelectedItems();
         
@@ -170,8 +173,8 @@ public class AdminViewScheduleController implements Initializable {
             else{
                 alert.close();
             }
-        }
-    }*/
+        }*/
+    }
     
     /*@FXML
     public void logoutButton(ActionEvent event) throws IOException{

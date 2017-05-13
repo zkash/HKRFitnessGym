@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author shameer
  */
-public class MemberViewAnnouncementsController implements Initializable {
+public class MemberViewAnnouncementController implements Initializable {
 
     /**
      * Initializes the controller class.

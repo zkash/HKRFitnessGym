@@ -30,11 +30,36 @@ public class MenuBarMemberController implements Initializable {
     }    
     
     
-    /**
-     * Sets up the stage, parent, and scene and displays it
-     * @param fxmlFile The name of the FXML file
-     * @throws IOException 
-     */
+    public void viewAccountMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("/com/Project/FXML/MemberViewPersonalInformation.fxml");
+    }
+    
+    
+    public void subscribePackageMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewPackages.fxml");
+    }
+    
+    public void viewSubscriptionMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewSubscriptions.fxml");
+    }
+    
+    
+    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewSchedule.fxml");
+    }
+    
+    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberViewAnnouncement.fxml");
+    }
+    
+    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("/com/Project/FXML/MemberChatPage.fxml");
+    }
+
+    public void aboutMenuClick(ActionEvent event) {
+        
+    }
+    
     public void setupAndShowStage(String fxmlFile) throws IOException {
         Stage stage = (Stage) menuBarMember.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/com/Project/Views/" + fxmlFile));
@@ -53,73 +78,4 @@ public class MenuBarMemberController implements Initializable {
        setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
     }
     
-    
-    /**
-     * Navigates to View Personal Information page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewAccountMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("MemberViewPersonalInformation.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Package page
-     * @param event
-     * @throws IOException 
-     */
-    public void subscribePackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberViewPackages.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Subscription page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewSubscriptionMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberViewSubscriptions.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Schedule page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberViewSchedule.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Announcement page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberViewAnnouncement.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Chat page
-     * @param event
-     * @throws IOException 
-     */
-    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("ChatPage.fxml");
-    }
-
-    
-    /**
-     * Navigates to Change Password page
-     * @param event
-     * @throws IOException 
-     */
-    public void changePasswordMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("ChangePassword.fxml");
-    }  
 }

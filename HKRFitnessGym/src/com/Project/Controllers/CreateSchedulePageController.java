@@ -5,8 +5,8 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBHandler;
 import com.Project.JDBC.DTO.Schedule;
+import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import java.net.URL;
@@ -16,6 +16,35 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;;
 import java.text.SimpleDateFormat;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,6 +97,7 @@ public class CreateSchedulePageController implements Initializable {
     private Date d1,d2;
     private String newD1,newD2;//they are 24 hour format.
     
+    DBHandler db = new DBHandler();
     private Schedule schedule = new Schedule();
     
     @FXML private DatePicker scheduleDate;
@@ -221,7 +251,7 @@ public class CreateSchedulePageController implements Initializable {
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
             
-            DBHandler.adminCreateSchedule(schedule, adminId);
+            db.adminCreateSchedule(schedule, adminId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("DATA HAS BEEN SAVED.");
             alert.show();

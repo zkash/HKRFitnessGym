@@ -14,10 +14,17 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Chat {
     
-    private final SimpleIntegerProperty messageId = new SimpleIntegerProperty();
-    private final SimpleStringProperty time = new SimpleStringProperty();
-    private final SimpleStringProperty name = new SimpleStringProperty();
-    private final SimpleStringProperty message = new SimpleStringProperty();
+    private SimpleIntegerProperty messageId;
+    private SimpleStringProperty time;
+    private SimpleStringProperty name;
+    private SimpleStringProperty message;
+    
+    public Chat(){
+        this.messageId = new SimpleIntegerProperty();
+        this.time = new SimpleStringProperty();
+        this.name = new SimpleStringProperty();
+        this.message = new SimpleStringProperty();
+    }
         
     public Integer getMessageId(){
         return messageId.get();
@@ -31,17 +38,17 @@ public class Chat {
     public String getMessage(){
         return message.get();
     }
-    public void setMessageId(Integer msgId){
-        messageId.set(msgId);
+    public void setMessageId(Integer messageId){
+        this.messageId.set(messageId);
     }
-    public void setTime(String format){
-        time.set(format);
+    public void setTime(String time){
+        this.time.set(time);
     }
-    public void setName(String text){
-        name.set(text);
+    public void setName(String name){
+        this.name.set(name);
     }
-    public void setMessage(String text){
-        message.set(text);
+    public void setMessage(String message){
+        this.message.set(message);
     }
-    
+
 }

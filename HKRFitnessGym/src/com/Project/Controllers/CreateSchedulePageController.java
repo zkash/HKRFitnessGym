@@ -5,9 +5,10 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBhandler;
 import com.Project.JDBC.DTO.Schedule;
+import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.util.Date;
 import java.sql.SQLException;
@@ -96,6 +97,7 @@ public class CreateSchedulePageController implements Initializable {
     private Date d1,d2;
     private String newD1,newD2;//they are 24 hour format.
     
+    DBHandler db = new DBHandler();
     private Schedule schedule = new Schedule();
     
     @FXML private DatePicker scheduleDate;
@@ -111,6 +113,8 @@ public class CreateSchedulePageController implements Initializable {
     @FXML private Label invalidMsgAnnouncement;
     @FXML private Label invalidMsgAllData;
     @FXML private Button createScheduleBtn;
+    
+    private final int adminId = LoginStorage.getInstance().getId();
     
     
     @Override
@@ -246,7 +250,8 @@ public class CreateSchedulePageController implements Initializable {
             System.out.println(schedule.getOpeningTime());
             System.out.println(schedule.getClosingTime());
             System.out.println(schedule.getIsHoliday());
-            DBhandler.adminCreateSchedule(schedule.getDate(),schedule.getOpeningTime(), schedule.getClosingTime(), schedule.getIsHoliday(),1);
+            
+            db.adminCreateSchedule(schedule, adminId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("DATA HAS BEEN SAVED.");
             alert.show();

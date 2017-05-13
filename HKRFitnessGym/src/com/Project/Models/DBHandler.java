@@ -5,6 +5,7 @@
  */
 package com.Project.Models;
 
+import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -1928,5 +1929,62 @@ System.out.println("DSDSAS " + data);
         }
         System.out.println("sub " + subscriptionRequestList);
         return subscriptionRequestList;
+    }
+     
+     public ResultSet searchSchedule(String date){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            DBHandler db = new DBHandler();
+            String statement = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
+            conn = db.establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            rs = prepStmt.executeQuery();
+            System.out.println("Success");
+            
+        } catch (Exception e) {
+            System.out.println("error. Not found.");
+        }
+        return rs;
+    }
+     
+     public ResultSet adminRitriveSchedule(){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            DBHandler db = new DBHandler();
+            String statement = "select * frome schedule";
+            conn = db.establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            rs = prepStmt.executeQuery();
+            
+        } catch (Exception e) {
+            System.out.println("Cannot ritrive schedule.");
+        }
+        return rs;
+    }
+     
+     public static void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
+        //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
+        //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
+        try{
+            DBHandler db = new DBHandler();
+            Connection conn = db.establishConnection();
+            String selectStatement = "INSERT INTO schedule ( date, openingTime, closeTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
+            PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
+            prepStmt.setDate(1, s.getDate()); // remove ++ from here, do it in last
+            prepStmt.setString(2, s.getOpeningTime());
+            prepStmt.setString(3, s.getClosingTime());
+            prepStmt.setBoolean(4, s.getIsHoliday());
+            prepStmt.setInt(5, adminId);
+            prepStmt.executeUpdate();
+            
+            System.out.println("the data has been moved into database.");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -9,32 +9,31 @@ package com.Project.JDBC.DTO;
  *
  * @author Xuantong
  */
-import java.time.LocalDate;
 import java.sql.Date;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 /**
  *
  * @author Xuantong
  */
 public class Schedule {
     private Date date;
-    private String openingTime;
-    private String closingTime;
-    private Boolean isHoliday;
+    private SimpleStringProperty openingTime;
+    private SimpleStringProperty closingTime;
+    private boolean isHoliday;
+    private SimpleIntegerProperty id;
     
     public Schedule(){
-        
-    }
-    
-    public Schedule(Date date, String openingTime, String closingTime) {
-        this.date = date;
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
+        this.date = null;
+        this.openingTime = new SimpleStringProperty("");
+        this.closingTime = new SimpleStringProperty("");
+        this.isHoliday = isHoliday;
     }
     
     public Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {
         this.date = date;
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
+        this.openingTime = new SimpleStringProperty(openingTime);
+        this.closingTime = new SimpleStringProperty(closingTime);
         this.isHoliday = isHoliday;
     }
     
@@ -43,11 +42,11 @@ public class Schedule {
     }
     
     public String getOpeningTime() {
-        return openingTime;
+        return openingTime.get();
     }
     
     public String getClosingTime() {
-        return closingTime;
+        return closingTime.get();
     } 
     
     public Boolean getIsHoliday() {
@@ -59,14 +58,41 @@ public class Schedule {
     }
     
     public void setOpeningTime(String ot) {
-        openingTime = ot;
+        openingTime.set(ot);
     }
     
     public void setClosingTime(String ct) {
-        closingTime = ct;
+        closingTime.set(ct);
     }
     
     public void setIsHoliday(Boolean isHoliday) {
         this.isHoliday = isHoliday;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id.get();
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id.set(id);
+    }
+    
+    //property value
+    public SimpleStringProperty openingTimeProperty(){
+        return openingTime;
+    }
+    
+    public SimpleStringProperty closingTimeProperty(){
+        return closingTime;
+    }
+    
+    public SimpleIntegerProperty idProperty(){
+        return id;
     }
 }

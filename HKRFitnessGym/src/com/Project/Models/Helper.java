@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
 import javafx.event.ActionEvent;
@@ -361,4 +362,30 @@ public class Helper {
             return output.toString();
         }
         
+        public java.sql.Date convertUtilDateToSqlDate(java.util.Date utilDate) {
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+            return sqlDate;
+        }
+        
+        public java.sql.Date getCurrentDateInSqlDate() {
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            return date;
+        }
+        
+//         public java.util.Date getCurrentTime() {
+//        DateFormat sdf = new SimpleDateFormat("H:mm");
+//        java.util.Date d = new java.util.Date();
+//        String dateStr = sdf.format(d);
+//        java.util.Date date = null;
+//        try {
+//           date = sdf.parse(dateStr);
+//            System.out.println("Date " + date);
+//        }
+//        catch(ParseException e)
+//        {
+//        
+//        }
+//        return date;
     }
+    
+    

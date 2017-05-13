@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.Project.JDBC.DTO;
+package com.Project.Models;
 
+import java.sql.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -14,15 +15,18 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Announcement {
     private SimpleIntegerProperty announcementId;
+    private Date date;
     private SimpleStringProperty time;
-    private SimpleStringProperty message;
-    private SimpleStringProperty type;
+    private SimpleStringProperty title;
+    private SimpleStringProperty body;
+    private SimpleIntegerProperty adminId;
     
     public Announcement(){
         this.announcementId = new SimpleIntegerProperty();
-        this.message = new SimpleStringProperty();
+        this.title = new SimpleStringProperty();
+        this.body = new SimpleStringProperty();
         this.time = new SimpleStringProperty();
-        this.type = new SimpleStringProperty();
+        this.adminId = new SimpleIntegerProperty();
     }
         
     public Integer getMessageId() {
@@ -33,26 +37,41 @@ public class Announcement {
         return time.get();
     }
     
-    public String getMessage() {
-        return message.get();
+    public Date getDate() {
+        return date;
     }
-    public String getPosition() {
-        return type.get();
+    
+    public String getBody() {
+        return body.get();
     }
+    public String getTitle() {
+        return title.get();
+    }
+    public Integer getAdminId() {
+        return adminId.get();
+    }
+    
     
     public void setTime(String time) {
         this.time.set(time);
     }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-    public void setMessage(String message) {
-        this.message.set(message);
+    public void setBody(String message) {
+        this.body.set(message);
     }  
     
-    public void setMessageId(Integer announcementId) {
-        this.announcementId.set(announcementId);
-    }
-    public void setUsername(String type) {
-        this.type.set(type);
-    }
+    public void setTitle(String message) {
+        this.title.set(message);
+    } 
+    
+     public void setAdminId(Integer adminId) {
+        this.adminId.set(adminId);
+    } 
+    
+     
+   
     
 }

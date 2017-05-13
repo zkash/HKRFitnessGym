@@ -31,9 +31,7 @@ public class DBHandler {
     private static String position;
     private static int idMember;
 
-    static void createPackage(String pn, String pc, LocalDate psd, LocalDate ped, String pst, String pd, int admin_ssn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     static Object getIdForVerification() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -1999,7 +1997,7 @@ System.out.println("DSDSAS " + data);
      
      
      
-     public static Iterable<com.Project.JDBC.DTO.Announcement> getAnnouncementList(String string) {
+     public static Iterable<Announcement> getAnnouncementList(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -2059,8 +2057,8 @@ System.out.println("DSDSAS " + data);
     }
     
     // Gets list of messages from database.
-    public ObservableList<com.Project.JDBC.DTO.Chat> getMessageList() throws SQLException {
-       ObservableList<com.Project.JDBC.DTO.Chat> messageList = FXCollections.observableArrayList();
+    public ObservableList<Chat> getMessageList() throws SQLException {
+       ObservableList<Chat> messageList = FXCollections.observableArrayList();
        Connection conn = establishConnection();
         try {
             String query = String.format("SELECT * FROM message");
@@ -2068,7 +2066,7 @@ System.out.println("DSDSAS " + data);
             ResultSet rs = check.executeQuery();
             
             while (rs.next()) {
-                com.Project.JDBC.DTO.Chat message = new com.Project.JDBC.DTO.Chat();
+                Chat message = new Chat();
                 message.setMessageId(rs.getInt("messageId"));
                 message.setTime(rs.getString("time"));
                 message.setName(rs.getString("name"));
@@ -2097,19 +2095,36 @@ System.out.println("DSDSAS " + data);
     }
     
     // To save announcements into database.
-    public static void saveAnnouncement(String time, String message) {
-        PreparedStatement stmt;
-        try {
-            stmt = c.prepareStatement("Insert Into announcement"
-                    + "(time, message)"
-                    + "Values (?, ?, ?)");
-            stmt.setString(1, time);
-            stmt.setString(2, message);
-            stmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void saveAnnouncement(Announcement announcement) throws SQLException {
+        try (Connection conn = establishConnection()) {
+        String query = "Insert Into accouncement"
+                    + "(date, time, title, body, numberOfViews, Admin_adminId)"
+                    + "Values (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setDate(1, announcement.getDate());
+        stmt.setString(2, announcement.getTime());
+        stmt.setString(3, announcement.getTitle());
+        stmt.setString(4, announcement.getBody());
+        stmt.setInt(5, 1);
+        stmt.setInt(6, announcement.getAdminId());
+        stmt.execute();
+        
         }
-    }   
+//        }
+//        PreparedStatement stmt;
+//        try {
+//            stmt = c.prepareStatement("Insert Into announcement"
+//                    + "(time, message)"
+//                    + "Values (?, ?, ?)");
+//            stmt.setString(1, time);
+//            stmt.setString(2, message);
+//            stmt.execute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    
+    
+   
  /*  
     public static void adminViewAccounts() throws SQLException {
         Connection conn = establishConnection();
@@ -2167,5 +2182,5 @@ System.out.println("DSDSAS " + data);
      
     
     
-  
-}
+    }
+    }

@@ -334,15 +334,11 @@ public class Helper {
                 Properties senderProperties = loadProperties();
                 System.out.println("1");
                 String algorithm = senderProperties.getProperty("hashingAlgorithm");
-                String saltCode = senderProperties.getProperty("salt");
-                //MessageDigest hashingAlgorithm = MessageDigest.getInstance(algorithm);
-                MessageDigest hashingAlgorithm = MessageDigest.getInstance("SHA-256");
-                
+                String salt = senderProperties.getProperty("salt");
+                System.out.println("ALGORITHM " + algorithm );
+                MessageDigest hashingAlgorithm = MessageDigest.getInstance(algorithm);
                 System.out.println("2");
-                //String salt = senderProperties.getProperty(saltCode);
-                String salt = senderProperties.getProperty("rushhoureight");
-              
-               System.out.println("3");
+                System.out.println("3");
                 String passwordAndSalt = salt + password;
                 System.out.println("HASHED " + passwordAndSalt);
                         hashingAlgorithm.update(passwordAndSalt.getBytes());

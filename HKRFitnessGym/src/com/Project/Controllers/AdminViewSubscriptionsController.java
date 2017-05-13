@@ -1,24 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import com.Project.Models.DBHandler;
+import com.Project.Models.Helper;
 import com.Project.Models.Subscription;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,17 +23,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author shameer
  */
 public class AdminViewSubscriptionsController implements Initializable {
-
     @FXML private TableView<Subscription> adminViewSubscriptionsTable;
-      @FXML private TableColumn<Subscription, String> memberFullNameColumn;
-      @FXML private TableColumn<Subscription, String> memberUsernameColumn;
+    @FXML private TableColumn<Subscription, String> memberFullNameColumn;
+    @FXML private TableColumn<Subscription, String> memberUsernameColumn;
     @FXML private TableColumn<Subscription, String> packageNameColumn;
     @FXML private TableColumn<Subscription, String> pricePaidColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStartDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionEndDateColumn;
     @FXML private TableColumn<Subscription, String> subscriptionStatusColumn;
     @FXML private TableColumn<Subscription, String> adminFullNameColumn;
-  
     
     @FXML private TextField searchSubscription;
     @FXML private CheckBox searchMemberFullName;
@@ -48,13 +39,10 @@ public class AdminViewSubscriptionsController implements Initializable {
     @FXML private CheckBox searchPackageName;
     @FXML private CheckBox searchAdminFullName;
     
-    @FXML private RadioButton subscriptionFilterAll;
-    @FXML private RadioButton subscriptionFilterActive;
-    @FXML private RadioButton subscriptionFilterExpired;
-    @FXML private RadioButton subscriptionFilterCancelled;
+    private final DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
     
-    private DBHandler dbHandler = new DBHandler();
-    ObservableList<Subscription> subscription;
+    ObservableList<Subscription> data;
     
     /**
      * Initializes the controller class.
@@ -64,37 +52,24 @@ public class AdminViewSubscriptionsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            
             String filter = "All";
-            subscription = dbHandler.adminViewSubscription(filter);
-            
-            System.out.println("QQQ");
-            memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
-            memberUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("memberUsername"));
-            packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-            pricePaidColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
-            subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
-            subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
-            subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
-          
-            adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionAdminFullName"));
-            
-            adminViewSubscriptionsTable.setItems(null);
-            adminViewSubscriptionsTable.setItems(subscription);    
+            data = dbHandler.adminViewSubscription(filter);
+            setDataInTable(data);
         } catch (SQLException ex) {
-            Logger.getLogger(AdminViewSubscriptionRequestsController.class.getName()).log(Level.SEVERE, null, ex);
+            helper.showDialogBox(true, "Could not fetch data from subscriptions and show in table because of an error");
         }
     }    
     
-    public void searchBtnClick(ActionEvent event) throws SQLException {
-        
+    
+    /**
+     * Searches for data as per user's query and filters
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchSubscription.getText(); 
-        ArrayList<CheckBox> checkboxes = new ArrayList<>();
-        checkboxes.add(searchMemberFullName);
-        checkboxes.add(searchMemberUsername);
-        checkboxes.add(searchPackageName);
-        checkboxes.add(searchAdminFullName);
-        
         String memberFirstName = null, memberMiddleName = null, memberLastName = null, memberUsername = null, packageName = null, adminFirstName = null, adminMiddleName = null, adminLastName = null;
         
         if(searchMemberFullName.isSelected()) {
@@ -116,9 +91,7 @@ public class AdminViewSubscriptionsController implements Initializable {
             adminMiddleName = searchQuery;
             adminLastName = searchQuery;
         }
-        
-        System.out.println("0");
-        
+
         if (!searchMemberFullName.isSelected() 
                 && !searchMemberUsername.isSelected() 
                 && !searchPackageName.isSelected()
@@ -131,64 +104,84 @@ public class AdminViewSubscriptionsController implements Initializable {
             adminMiddleName = searchQuery;
             adminLastName = searchQuery;
         }
-        System.out.println("1");
-        ObservableList<Subscription> searchData;
-        System.out.println("HOOOOOLLALSA");
-        searchData = dbHandler.searchInAdminViewSubscription(memberFirstName, memberMiddleName, memberLastName, memberUsername, packageName, adminFirstName, adminMiddleName, adminLastName);
-        adminViewSubscriptionsTable.getColumns().clear();
-        memberFullNameColumn = new TableColumn("Member Name");
-        memberUsernameColumn = new TableColumn("Member Username");
-        packageNameColumn = new TableColumn("Package");
-        pricePaidColumn = new TableColumn("Price Paid");
-        subscriptionStartDateColumn = new TableColumn("Subscription Start Date");
-        subscriptionEndDateColumn = new TableColumn("Subscription End Date");
-        adminFullNameColumn = new TableColumn("Admin Name");
-          
-         adminViewSubscriptionsTable.getColumns().addAll(memberFullNameColumn, memberUsernameColumn, packageNameColumn, pricePaidColumn, subscriptionStartDateColumn, subscriptionEndDateColumn, adminFullNameColumn);
-         memberFullNameColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004)); 
-         memberUsernameColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         packageNameColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         pricePaidColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         subscriptionStartDateColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         subscriptionEndDateColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         adminFullNameColumn.prefWidthProperty().bind(adminViewSubscriptionsTable.widthProperty().multiply(0.30837004));
-         // 
-//      Set cell value factory to TableView
-        setDataInTable(searchData);
+        
+        data = dbHandler.searchInAdminViewSubscription(memberFirstName, memberMiddleName, memberLastName, memberUsername, packageName, adminFirstName, adminMiddleName, adminLastName);
+        setDataInTable(data);
+        helper.fitColumns(adminViewSubscriptionsTable); 
     }
     
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException {
+    
+    /**
+     * Resets the table with initial data
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "All";
-        subscription = dbHandler.adminViewSubscription(filter);
-        setDataInTable(subscription);
+        setDataInTableByFilter(filter);
+        
     }
     
-    public void subscriptionFilterAllSelected(ActionEvent event) throws SQLException {
+    
+    /**
+     * Handles radio box with label 'All' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterAllSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "All";
-        subscription = dbHandler.adminViewSubscription(filter);
-        setDataInTable(subscription);
+        setDataInTableByFilter(filter);
     }
     
-    public void subscriptionFilterActiveSelected(ActionEvent event) throws SQLException {
+    
+    /**
+     * Handles radio box with label 'Active' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterActiveSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "Active";
-        subscription = dbHandler.adminViewSubscription(filter);
-        setDataInTable(subscription);
+        setDataInTableByFilter(filter);
     }
     
-    public void subscriptionFilterExpiredSelected(ActionEvent event) throws SQLException {
+    
+    /**
+     * Handles radio box with label 'Expired' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterExpiredSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "Expired";
-        subscription = dbHandler.adminViewSubscription(filter);
-        setDataInTable(subscription);
+        setDataInTableByFilter(filter);
     }
     
-    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException {
+    
+    /**
+     * Handles radio box with label 'Cancelled' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "Cancelled";
-        subscription = dbHandler.adminViewSubscription(filter);
-        setDataInTable(subscription);
+        setDataInTableByFilter(filter);
     }
     
+    
+    /**
+     * Sets data in table view
+     * @param data 
+     */
     public void setDataInTable(ObservableList<Subscription> data) {
-        // Set cell value factory to TableView
         memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
         memberUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("memberUsername"));
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
@@ -196,10 +189,21 @@ public class AdminViewSubscriptionsController implements Initializable {
         subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
         subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
         subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
-        
         adminFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionAdminFullName"));
-
-        adminViewSubscriptionsTable.setItems(null);
         adminViewSubscriptionsTable.setItems(data);   
+    }
+    
+    
+    /**
+     * Gets the data from database, sets in in table, and fixes the width of the columns
+     * @param filter
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void setDataInTableByFilter(String filter) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        data = dbHandler.adminViewSubscription(filter);
+        setDataInTable(data);
+        helper.fitColumns(adminViewSubscriptionsTable); 
     }
 }

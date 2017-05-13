@@ -51,7 +51,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     private int subscriptionId;
     
-    private int adminId = LoginStorage.getInstance().getId();
+    private final int adminId = LoginStorage.getInstance().getId();
     
     /**
      * Initializes the controller class.
@@ -167,11 +167,6 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
      */
     public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchSubscription.getText(); 
-        ArrayList<CheckBox> checkboxes = new ArrayList<>();
-        checkboxes.add(searchMemberFullName);
-        checkboxes.add(searchMemberUsername);
-        checkboxes.add(searchPackageName);
-
         String memberFirstName = null, memberMiddleName = null, memberLastName = null, memberUsername = null, packageName = null;
         
         if(searchMemberFullName.isSelected()) {

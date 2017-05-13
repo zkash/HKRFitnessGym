@@ -7,7 +7,6 @@ package com.Project.Controllers;
 
 import com.Project.Models.DBHandler;
 
-import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +22,7 @@ import javafx.scene.control.TextArea;
  *
  * @author KN
  */
-public class AdminChatPageController implements Initializable {
+public class MemberChatController implements Initializable {
     @FXML
     private TextArea messageArea;
     @FXML
@@ -33,13 +32,13 @@ public class AdminChatPageController implements Initializable {
     @FXML
     private Button enter;
     
-    private DBHandler dbHandler = new DBHandler();
-    private int id =  LoginStorage.getInstance().getId();
-    private String accountType = LoginStorage.getInstance().getAccountType();
-    
+    //private int id =  LoginStorage.getInstance().getId();
+    //private String accountType = LoginStorage.getInstance().getAccountType();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-  }
+        
+    }
     @FXML
     private void saveMessage(ActionEvent event) {
         Date date = new Date();
@@ -58,7 +57,8 @@ public class AdminChatPageController implements Initializable {
             else if (message.getText().length() <= 100 && message.getText().length() > 0) {
                 DBHandler.saveMessage(datef.format(date), DBHandler.getLoggedUser(), message.getText());
                 message.clear();
-           }
+               
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

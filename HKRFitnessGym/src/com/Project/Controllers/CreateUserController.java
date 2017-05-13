@@ -31,7 +31,7 @@ import javafx.scene.control.CheckBox;
  * @author shameer
  */
 
-public class CreateUserPageController implements Initializable {
+public class CreateUserController implements Initializable {
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;

@@ -40,7 +40,7 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML private TextField searchPackage;
     
-    @FXML private UpdatePackageInformationPageController updatePackageInformationPageController;
+    @FXML private UpdatePackageInformationController updatePackageInformationPageController;
 
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();

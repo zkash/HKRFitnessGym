@@ -141,7 +141,7 @@ public class LoginPageController implements Initializable {
      * @throws IOException 
      */
     private void visitAdminPage(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "AdminMainPage.fxml");
+        helper.navigateScene(event, "AdminMainMenu.fxml");
     }
     
     
@@ -151,7 +151,7 @@ public class LoginPageController implements Initializable {
      * @throws IOException 
      */
     private void visitMemberPage(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "MemberMainPage.fxml");
+        helper.navigateScene(event, "MemberMainMenu.fxml");
     }
 
     

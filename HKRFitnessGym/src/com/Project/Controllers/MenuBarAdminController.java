@@ -49,7 +49,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void createAccountMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateUserPage.fxml");
+        setupAndShowStage("CreateUser.fxml");
     }
     
     
@@ -69,7 +69,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("UpdateAdminPersonalInformationPage.fxml");
+        setupAndShowStage("UpdateAdminPersonalInformation.fxml");
     }
     
     
@@ -99,7 +99,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void createPackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreatePackagePage.fxml");
+        setupAndShowStage("CreatePackage.fxml");
     }
 
     
@@ -119,7 +119,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void addScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateSchedulePage.fxml");
+        setupAndShowStage("CreateSchedule.fxml");
     }
     
     
@@ -139,7 +139,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateAnnouncementPage.fxml");
+        setupAndShowStage("CreateAnnouncement.fxml");
     }
    
     
@@ -184,7 +184,7 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to View Declined Subsription Requests page
+     * Navigates to View Declined Subscription Requests page
      * @param event
      * @throws IOException 
      */
@@ -199,7 +199,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminChatPage.fxml");
+        setupAndShowStage("AdminChat.fxml");
         
     }
 }

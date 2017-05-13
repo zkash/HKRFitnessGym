@@ -80,7 +80,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author shameer
  */
-public class CreateSchedulePageController implements Initializable {
+public class CreateScheduleController implements Initializable {
 
     /**
      * Initializes the controller class.

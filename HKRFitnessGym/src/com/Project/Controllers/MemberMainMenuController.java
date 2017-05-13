@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
  *
  * @author shameer
  */
-public class MemberMainPageController implements Initializable {
+public class MemberMainMenuController implements Initializable {
     @FXML Label loggedUserLbl;
     Helper helper = new Helper();
     
@@ -37,7 +37,7 @@ public class MemberMainPageController implements Initializable {
      */
     @FXML
     private void updatePersonalInfoBtnClick(ActionEvent event) throws IOException {
-      helper.navigateScene(event, "UpdateMemberPersonalInformationPage.fxml");
+      helper.navigateScene(event, "UpdateMemberPersonalInformation.fxml");
     }  
     
     
@@ -92,6 +92,6 @@ public class MemberMainPageController implements Initializable {
      */
     @FXML
     private void chatBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "MemberChatPage.fxml");
+        helper.navigateScene(event, "MemberChat.fxml");
     }    
 }

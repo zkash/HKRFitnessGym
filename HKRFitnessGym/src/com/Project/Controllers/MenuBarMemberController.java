@@ -53,7 +53,7 @@ public class MenuBarMemberController implements Initializable {
     }
     
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberChatPage.fxml");
+        setupAndShowStage("MemberChat.fxml");
     }
 
     
@@ -73,7 +73,7 @@ public class MenuBarMemberController implements Initializable {
      * @throws IOException 
      */
     public void updatePersonalInfoMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
+       setupAndShowStage("UpdateMemberPersonalInformation.fxml");
     }
     
     public void changePasswordMenuClick(ActionEvent event) throws IOException {

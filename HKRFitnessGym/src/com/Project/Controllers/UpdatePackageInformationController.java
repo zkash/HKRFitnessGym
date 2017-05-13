@@ -37,7 +37,7 @@ import javafx.stage.Stage;
  *
  * @author shameer
  */
-public class UpdatePackageInformationPageController implements Initializable {
+public class UpdatePackageInformationController implements Initializable {
 
     private AdminViewPackagesController adminViewPackagesController;
     private ObservableList<Package> pack;

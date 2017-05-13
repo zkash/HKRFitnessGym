@@ -28,7 +28,7 @@ import javafx.scene.control.TextField;
  *
  * @author shameer
  */
-public class CreateAnnouncementPageController implements Initializable {
+public class CreateAnnouncementController implements Initializable {
     @FXML
         private TextArea messageArea, message;
         @FXML

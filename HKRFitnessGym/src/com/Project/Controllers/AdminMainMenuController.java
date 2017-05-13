@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
  *
  * @author shameer
  */
-public class AdminMainPageController implements Initializable {
+public class AdminMainMenuController implements Initializable {
     @FXML Label loggedUserLbl;
     Helper helper = new Helper();
     
@@ -37,7 +37,7 @@ public class AdminMainPageController implements Initializable {
      */
     @FXML
     public void createAccountBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "CreateUserPage.fxml");
+        helper.navigateScene(event, "CreateUser.fxml");
     }
     
     
@@ -48,7 +48,7 @@ public class AdminMainPageController implements Initializable {
      */
     @FXML
     public void createPackageBtnClick(ActionEvent event) throws IOException {
-      helper.navigateScene(event, "CreatePackagePage.fxml");   
+      helper.navigateScene(event, "CreatePackage.fxml");   
     }
     
     
@@ -70,7 +70,7 @@ public class AdminMainPageController implements Initializable {
      */
     @FXML
     public void createScheduleBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "CreateSchedulePage.fxml");   
+        helper.navigateScene(event, "CreateSchedule.fxml");   
     }
     
     
@@ -81,7 +81,7 @@ public class AdminMainPageController implements Initializable {
      */
     @FXML
     public void createAnnouncementBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "CreateAnnouncementPage.fxml");   
+        helper.navigateScene(event, "CreateAnnouncement.fxml");   
     }
     
     
@@ -92,6 +92,6 @@ public class AdminMainPageController implements Initializable {
      */
     @FXML
     public void chatBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "AdminChatPage.fxml");   
+        helper.navigateScene(event, "AdminChat.fxml");   
     }
 }

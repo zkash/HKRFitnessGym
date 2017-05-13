@@ -10,14 +10,18 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
 /**
+ * FXML Controller class
  *
- * @author KN
+ * @author shameer
  */
 public class AdminViewAnnouncementController implements Initializable {
 
+    /**
+     * Initializes the controller class.
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
     
 }

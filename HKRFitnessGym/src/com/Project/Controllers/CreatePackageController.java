@@ -27,7 +27,7 @@ import javafx.beans.binding.BooleanBinding;
  *
  * @author shameer
  */
-public class CreatePackagePageController implements Initializable {
+public class CreatePackageController implements Initializable {
     @FXML private Label invalidMsgPackageName;
     @FXML private Label invalidMsgPackageCost;
     @FXML private Label invalidMsgPackageStartTime;

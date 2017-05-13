@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
 import java.io.IOException;
@@ -23,21 +18,17 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class MenuBarMemberController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    
     @FXML MenuBar menuBarMember;
     
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) { 
     }    
     
-    public void editAccountMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("/com/Project/FXML/UpdateMemberPersonalInformationPage.fxml");
-    }
     
     public void viewAccountMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("/com/Project/FXML/MemberViewPersonalInformation.fxml");
@@ -69,11 +60,22 @@ public class MenuBarMemberController implements Initializable {
         
     }
     
-    public void setupAndShowStage(String fxmlFileURL) throws IOException {
+    public void setupAndShowStage(String fxmlFile) throws IOException {
         Stage stage = (Stage) menuBarMember.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlFileURL));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/Views/" + fxmlFile));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+    
+    
+    /**
+     * Navigates to Update Personal Information page
+     * @param event
+     * @throws IOException 
+     */
+    public void editAccountMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
+    }
+    
 }

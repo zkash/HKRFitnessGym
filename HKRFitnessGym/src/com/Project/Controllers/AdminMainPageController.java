@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
+import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,33 +21,25 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class AdminMainPageController implements Initializable {
-
+    @FXML Label loggedUserLbl;
+    Helper helper = new Helper();
+    
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
-    
-    
-    @FXML Label loggedUserLbl;
-    
-    private int adminSSN;
-    private boolean login;
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        adminSSN = LoginStatus.getSSN();
-        login = LoginStatus.getLogin();
         loggedUserLbl.textProperty().bind(LoginStorage.getInstance().usernameProperty());
-       
- } 
-   @FXML
-   public void accountBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateUserPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
+    } 
+    
+    
+    /**
+     * Navigate to Create User page
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     public void packageBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
@@ -98,6 +87,9 @@ public class AdminMainPageController implements Initializable {
       stage.setScene(scene);
       stage.show();
     }
+    public void createAccountBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "CreateUserPage.fxml");
+    }
     @FXML
     public void settingsBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
@@ -108,4 +100,46 @@ public class AdminMainPageController implements Initializable {
       stage.show();
     }
     
+    
+    /**
+     * Navigate to Create Package page
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    public void createPackageBtnClick(ActionEvent event) throws IOException {
+      helper.navigateScene(event, "CreatePackagePage.fxml");   
+    }
+    
+    
+    /**
+     * Navigate to Create Schedule page
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    public void createScheduleBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "CreateSchedulePage.fxml");   
+    }
+    
+    
+    /**
+     * Navigate to Create Announcement page
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    public void createAnnouncementBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "CreateAnnouncementPage.fxml");   
+    }
+    
+    /**
+     * Navigate to View Subscriptions page
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    public void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
+    } 
 }

@@ -1,35 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
-//import com.sun.xml.internal.org.jvnet.mimepull.MIMEMessage;
+import com.Project.Models.DBHandler;
+import com.Project.Models.ForgotPasswordRequest;
+import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
-//import java.util.Properties;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.stage.Stage;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -41,28 +33,14 @@ import javax.mail.internet.MimeMessage;
 
 /**
  *
- * @author KN
+ * @author shameer
  */
-public class LoginPageController implements Initializable {
-    @FXML
-    private Button register;
-    @FXML
-    private Button login;
-    @FXML
-    private Button exit;
-    @FXML
-    private TextField userNameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private ComboBox accountTypeComboBox;
 
-    private boolean isLoggedIn;
-    private String uName;
-    private int ssn;
-    
-    
-    
+public class LoginPageController implements Initializable {
+    @FXML private TextField usernameTextField;
+    @FXML private PasswordField passwordTextField;
+    @FXML private ComboBox accountTypeComboBox;
+
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
@@ -73,13 +51,27 @@ public class LoginPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Implement new Runnable() by overriding run() method to set focus on first textfield
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                usernameTextField.requestFocus();
+            }
+        });
+        
+        //Set account type values in combobox
         ObservableList<String> accountTypeOptions = FXCollections.observableArrayList("Admin", "Member");
-        accountTypeComboBox.setItems(accountTypeOptions);
+        accountTypeComboBox.setItems(accountTypeOptions);   
     }    
 
-   private Properties loadProperties() {
+    
+    /**
+     * Loads the properties file that has system email and password to handle forgot password
+     * @return 
+     */
+    private Properties loadProperties() {
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/com/Project/Models/hkrFitnessGymForgotPassword.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Properties/hkrFitnessGymForgotPassword.properties")) {
             properties.load(fis);
         }
         catch (Exception e) {
@@ -87,10 +79,17 @@ public class LoginPageController implements Initializable {
         return properties;
     }
    
-   @FXML
-    private void handleLogin(ActionEvent event) throws IOException, SQLException {
-        String uname = userNameField.getText();
-        String pwd = passwordField.getText();
+    
+    /**
+     * Handles login button click
+     * @param event
+     * @throws IOException
+     * @throws SQLException 
+     */
+    @FXML
+    private void loginBtnClick(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException {
+        String uname = usernameTextField.getText();
+        String pwd = passwordTextField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
             String accountType = accountTypeComboBox.getValue().toString();
             int id;
@@ -99,11 +98,11 @@ public class LoginPageController implements Initializable {
                 helper.showDialogBox(true, "Account doesn't exists");
             }
             else {
-            
-                id = dbHandler.getId(uname, pwd, accountType);
+                String hashedPassword = helper.hash(pwd);
+                System.out.println("HASHING " + hashedPassword);
+                id = dbHandler.getId(uname, hashedPassword, accountType);
                 if(id == 0) {
                     helper.showDialogBox(true, "Wrong Password");
-
                 }
                 else {
                     if(accountType.equals("Admin")) {
@@ -119,277 +118,122 @@ public class LoginPageController implements Initializable {
                         visitMemberPage(event);
                     }
                 }
-            }
-            
+            }    
         }
         else {
             helper.showDialogBox(true, "Enter username and password and select an account type before trying to log in");
         }
-        
-//        boolean accountExists = false;
-//        if(!accountExists) {
-//            System.out.println("Account doesnt exist");
-//        }
-//        else {
-//            if(accountType.equals("Admin")) {
-//                LoginStorage.getInstance().setUsername("ADMIN");
-//                LoginStorage.getInstance().setId(1);
-//                LoginStorage.getInstance().setAccountType("Admin");
-//                visitAdminPage(event);
-//            }
-//            else if (accountType.equals("Member")){
-//                LoginStorage.getInstance().setUsername("MEMBER");
-//                LoginStorage.getInstance().setId(1);
-//                LoginStorage.getInstance().setAccountType("Member");
-//                visitMemberPage(event);
-//            }
-//        }
     }
-        
-//   @FXML
-//    private void handleLogin(ActionEvent event) throws IOException {
-//        String uname = userNameField.getText();
-//        String pwd = passwordField.getText();
-//        
-//        //Check if username and password belongs to admin or members
-//        //TODO remove the hard-coded and change it from the database
-//        System.out.println("at " + LoginStorage.getInstance().getAccountType());
-//        if(uname.equals("a") && pwd.equals("a")) {
-//            int adminSSN = 1234567890; //TODO get from database;
-//           // visitAdminPage(event, uname, adminSSN);
-//            
-////            LoginStatus ls = new LoginStatus();
-////            //setLogInStatus();
-////            ls.setSSN(adminSSN);, 
-////            ls.setLogin(true);
-//            LoginStorage.getInstance().setUsername("ADMIN");
-//            LoginStorage.getInstance().setId(1);
-//            LoginStorage.getInstance().setAccountType("Admin");
-//            visitAdminPage(event);
-//        }
-//        else {
-//            LoginStorage.getInstance().setUsername("MEMBER");
-//            LoginStorage.getInstance().setId(1);
-//            LoginStorage.getInstance().setAccountType("Member");
-//            visitMemberPage(event);
-//        }
-//        
-//    }
 
-    @FXML // Exit the application.
-    private void handleExit(ActionEvent event) {
+    
+    /**
+     * Exits the application
+     * @param event 
+     */
+    @FXML 
+    private void exitBtnClick(ActionEvent event) {
         System.exit(0);
     }
     
-    private void setLogInStatus() {
-        isLoggedIn = true;
-        uName = "a"; //TODO change this
-    }
     
-    private String getUsername() {
-        return this.uName;
-    }
-    
-    private int getSSN() {
-        return this.ssn;
-    }
-    
-//    private void visitAdminPage(ActionEvent event, String userName, int adminSSN) throws IOException {
-//        Node node = (Node) event.getSource();
-//        Stage stage = (Stage) node.getScene().getWindow();
-//        FXMLLoader loader = new FXMLLoader();
-//        Parent root = loader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
-//        AdminMainPageController adminMainPageController = loader.<AdminMainPageController>getController();
-//        adminMainPageController.setSSN(adminSSN);
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-        
-//        AdminMainPageController adminMainPageController = (AdminMainPageController)loader.getController();
-//        System.out.println(adminMainPageController);
-//        adminMainPageController.setUsername(userName);
-//        AdminMainPageController ampc = (AdminMainPageController)loader.getController();
-//        ampc.setSSN(adminSSN);
-     //   adminMainPageController.initSession(userName);
-        
-//        stage.show();
-//
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
-//        try {
-//            loader.load();
-//        }
-//        catch(IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        
-//       AdminMainPageController ampc = loader.getController();
-//       //MenuBarAdminController mbac = loader.getController();
-//       // CreateUserPageController cupc = loader.<CreateUserPageController>getController();
-//       // System.out.println("hoooo");
-//        //ampc.setUsername(userName);
-//        //ampc.setSSN(adminSSN);
-//       // mbac.setSSN(adminSSN);
-//       // cupc.setAdminUsername(userName);
-//        //cupc.setAdminSSN(adminSSN);
-//        System.out.println("hoo");
-//        //AdminMainPageController ampc = new AdminMainPageController();
-//        ampc.setSSN(adminSSN);
-//        
-//        Pane root = loader.getRoot();
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
-    
+    /**
+     * Redirects to Admin Main Page
+     * @param event
+     * @throws IOException 
+     */
     private void visitAdminPage(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminMainPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        helper.navigateScene(event, "AdminMainPage.fxml");
     }
     
+    
+    /**
+     * Redirects to Member Main Page
+     * @param event
+     * @throws IOException 
+     */
     private void visitMemberPage(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberMainPage.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        helper.navigateScene(event, "MemberMainPage.fxml");
     }
+
     
-    
-    @FXML
-    // Change scene to menu page.
-    private void goToMenuPage(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/BasicTemplate.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();      
-    }
-    
+    /**
+     * Handles the forget password hyperlink click
+     * @param event
+     * @throws IOException
+     * @throws AddressException
+     * @throws MessagingException
+     * @throws SQLException 
+     */
     @FXML
     private void forgotPasswordLinkClick(ActionEvent event) throws IOException, AddressException, MessagingException, SQLException {
-        String username = userNameField.getText();
+        String username = usernameTextField.getText();
         if(!helper.isEmpty(username) && !(accountTypeComboBox.getValue()==null)) {
+            String accountType = accountTypeComboBox.getValue().toString();
             
-            TextInputDialog tid = new TextInputDialog();
-            tid.setTitle("Email Verification");
-            tid.setHeaderText("Enter the email address that \nyou have connected with your account");
-            Optional<String> email = tid.showAndWait();
-            if(email.isPresent()) {
-                String emailAddress = email.get();
-                
-                if(!emailAddress.isEmpty()) {
-                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                    if(emailAddress.matches(emailRegex)) {
-                        String accountType = accountTypeComboBox.getValue().toString(); 
-                        LoginStorage.getInstance().setAccountType(accountType);
-                        
-                        System.out.println("EMAIL GET " + email.get());
-                        Boolean emailExists = dbHandler.checkEmailExistence(accountType, email.get());
-                        System.out.println("EXISTS " + emailExists);
-                        if(emailExists) {
-                           
-                            // Set credentials
-                            Properties senderProperties = loadProperties();
-                            String senderEmail = senderProperties.getProperty("senderEmail");
-                            String senderPassword = senderProperties.getProperty("senderPassword");
-                            String recepientEmail = emailAddress;
+            //Set in LoginStorage
+            LoginStorage.getInstance().setAccountType(accountType);
+            
+            boolean usernameValid = dbHandler.verifyUsername(username, accountType);
+            
+            if(!usernameValid) {
+                helper.showDialogBox(true, "Account doesn't exists");
+            }
+            else {
+                String title = "Email Verification";
+                String header = "Enter the email address that \nyou have connected with your account";
+                Optional<String> email = helper.showTextInputDialog(title, header);
 
-                            //Set subject and message
-                            String subject = "Reset Password";
-                            String randomCode = getRandomCode();
-                            String msg = "Please enter the following code in the program to reset the password for your account\n";
-                            msg = msg + randomCode;
-                            System.out.println(msg);
-                            // Get properties object    
-                            Properties properties = new Properties();    
-                            properties.put("mail.smtp.host", "smtp.gmail.com");    
-                            properties.put("mail.smtp.socketFactory.port", "465");    
-                            properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
-                            properties.put("mail.smtp.auth", "true");    
-                            properties.put("mail.smtp.port", "465");    
+                if(email.isPresent()) {
+                    String emailAddress = email.get();
 
-                            // Get Session   
-                            Session session = Session.getDefaultInstance(properties,    
-                                new javax.mail.Authenticator() {    
-                                    @Override
-                                    protected PasswordAuthentication getPasswordAuthentication() {    
-                                        return new PasswordAuthentication(senderEmail, senderPassword);  
-                                    }    
-                                }
-                            );    
-                            
-                            
-                            //Store in database
-                            ForgotPasswordRequest fp = new ForgotPasswordRequest();
-                            java.sql.Date sqlDate = new java.sql.Date(helper.getCurrentDate().getTime());
-                            fp.setDate(sqlDate);
-                            System.out.println("HELPER TIME " + helper.getCurrentTime().toString());
-                            fp.setTime(helper.getCurrentTime().toString());
-                            System.out.println("hoola");
-                            fp.setCode(randomCode);
-                            
-                            //TODO Change this
-                            int id = dbHandler.getIdForVerification(accountType, username, emailAddress);
-                            LoginStorage.getInstance().setId(id);
-                            fp.setId(id);
-                            System.out.println("IDDD " + id);
-                            System.out.println("ATTTTT " + accountType);
-                            System.out.println("USER " + username);
-                            System.out.println("EMAIL "+ emailAddress);
-                            int autoGenereatedId = dbHandler.storeForgotPasswordRequestAndGetItsKey(accountType, fp);
-                            
-                            
-//                            dbHandler.storeForgotPasswordRequest(accountType, 
-//                                new ForgotPasswordRequest (
-//                                    
-//                                )
-//                            );
-//                            
-                            
-                            // Compose message    
-                            try {    
-                                MimeMessage message = new MimeMessage(session);
-                                message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
-                                message.setSubject(subject);    
-                                message.setText(msg);    
+                    if(!emailAddress.isEmpty()) {
+                        String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
+                        if(emailAddress.matches(emailRegex)) {
+                            
 
-                                // Send message  
-                                //Transport.send(message);    
+                            Boolean emailExists = dbHandler.checkEmailExistence(accountType, email.get());
+
+                            if(emailExists) {
+                                //Generate random code
+                                String randomCode = getRandomCode();
+
+                                //Send email
+                                sendEmail(emailAddress, randomCode);  
+
+                                //Store random code in database
+                                ForgotPasswordRequest fp = new ForgotPasswordRequest();
+                                int autoGeneratedId = storeRandomCodeInDatabaseAndGetItsId(fp, randomCode, accountType, username, emailAddress);
+
                                 helper.showDialogBox(true, "Message Sent");
-                                showInputCodeDialog(event, accountType, autoGenereatedId, fp);
-                            } 
-                            catch (MessagingException e) {
-                                throw new RuntimeException(e);
+
+                                //Show random code entry dialog
+                                showCodeDialogAndRedirect(event, accountType, autoGeneratedId, fp);  
+                            }
+                            else {
+                                helper.showDialogBox(true, "Provided email is not associated with any account");
                             }
                         }
                         else {
-                            System.out.println("EXISTS " + emailExists);
-                            helper.showDialogBox(true, "Provided email is not associated with any account");
+                            helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
                         }
                     }
                     else {
-                        helper.showDialogBox(true, "Provided value doesn't confirm with email address pattern");
+                        helper.showDialogBox(true, "No email address provided");
                     }
-                }
-                else {
-                    helper.showDialogBox(true, "No email address provided");
-                }
-            }   
+                }  
+            }
         }
         else {
             helper.showDialogBox(true, "Please select account type and enter username");
-        }
-
-        
+        }     
     }
     
+    
+    /**
+     * Generates a random code
+     * @return 
+     */
     protected String getRandomCode() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$&";
         int lengthOfCode = 8;
@@ -399,35 +243,112 @@ public class LoginPageController implements Initializable {
         while(counter < lengthOfCode) {
             //int index = (int) (random.nextFloat() * characters.length());
             int index = (int) (random.nextFloat() * random.nextInt(characters.length()-1) + 1);
-            //System.out.println("index " + index);
             code = code + characters.charAt(index);
-            //System.out.println("code " + code);
             counter++;
         }
         return code;
     }
     
-    public void showInputCodeDialog(ActionEvent event, String accountType, int autoGeneratedId, ForgotPasswordRequest fpr) throws SQLException, IOException {
+    
+    /**
+     * Shows the dialog box where the user can enter the random code and redirect to change password 
+     * @param event
+     * @param accountType Account type - Admin or Member
+     * @param autoGeneratedId Automatically generated Id in the table that stores the request
+     * @param fpr ForgotPasswordRequest class object
+     * @throws SQLException
+     * @throws IOException 
+     */
+    public void showCodeDialogAndRedirect(ActionEvent event, String accountType, int autoGeneratedId, ForgotPasswordRequest fpr) throws SQLException, IOException {
         boolean codeVerification = false;
         while(codeVerification == false) {
-            TextInputDialog tid = new TextInputDialog();
-            tid.setTitle("Enter verification code");
-            tid.setHeaderText("Enter the verification code you received in your email");
-            Optional<String> codeTextField = tid.showAndWait();
+            Optional<String> codeTextField = helper.showTextInputDialog("Enter verification code", "Enter the verification code you received in your email");
+            
             if(codeTextField.isPresent()) {
                 String code = codeTextField.get();
                 codeVerification = dbHandler.verifyCode(accountType, code, autoGeneratedId, fpr);
-                System.out.println("CV " + codeVerification);
             }
             
             if(codeVerification) {
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminCreatePassword.fxml"));
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+                helper.navigateScene(event, "CreatePassword.fxml");
             }
         }
+    }
+    
+    
+    /**
+     * Sets the credentials, gets properties and sessions, composes message, and sends the email
+     * @param emailAddress Email address stored in the database in which to send email
+     * @param randomCode Randomly generated code
+     */
+    public void sendEmail(String emailAddress, String randomCode) {
+        //Set credentials
+        Properties senderProperties = loadProperties();
+        String senderEmail = senderProperties.getProperty("senderEmail");
+        String senderPassword = senderProperties.getProperty("senderPassword");
+        String recepientEmail = emailAddress;
+
+        //Set subject and message
+        String subject = "Reset Password";
+        String msg = "Please enter the following code in the program to reset the password for your account\n";
+        msg = msg + randomCode;
+        
+        //Get properties object    
+        Properties properties = new Properties();    
+        properties.put("mail.smtp.host", "smtp.gmail.com");    
+        properties.put("mail.smtp.socketFactory.port", "465");    
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");    
+        properties.put("mail.smtp.auth", "true");    
+        properties.put("mail.smtp.port", "465");    
+
+        //Get Session   
+        Session session = Session.getDefaultInstance(properties,    
+            new javax.mail.Authenticator() {    
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {    
+                    return new PasswordAuthentication(senderEmail, senderPassword);  
+                }    
+            }
+        );   
+        
+        //Compose message    
+        try {    
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(recepientEmail));    
+            message.setSubject(subject);    
+            message.setText(msg);    
+
+            //Send message  
+            Transport.send(message);    
+        } 
+        catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
+    /**
+     * Stores the random code in database and get its primary key id
+     * @param fpr ForgotPasswordRequest class object
+     * @param randomCode Randomly generated code
+     * @param accountType Account type - Admin or Member
+     * @param username Username of the user attempting to receive the email
+     * @param emailAddress Email address of the user attempting to receive the email
+     * @return
+     * @throws SQLException 
+     */
+    public int storeRandomCodeInDatabaseAndGetItsId(ForgotPasswordRequest fpr, String randomCode, String accountType, String username, String emailAddress) throws SQLException {
+        java.sql.Date sqlDate = new java.sql.Date(helper.getCurrentDate().getTime());
+        fpr.setDate(sqlDate);
+        fpr.setTime(helper.getCurrentTime().toString());
+        fpr.setCode(randomCode);
+        int id = dbHandler.getIdForVerification(accountType, username, emailAddress);
+        
+        //Set in LoginStorage
+        LoginStorage.getInstance().setId(id);
+        
+        fpr.setId(id);
+        int autoGeneratedId = dbHandler.storeForgotPasswordRequestAndGetItsKey(accountType, fpr);
+        return autoGeneratedId;                    
     }
 }

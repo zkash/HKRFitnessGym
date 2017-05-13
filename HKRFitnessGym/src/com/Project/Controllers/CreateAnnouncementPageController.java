@@ -7,6 +7,7 @@ package com.Project.Controllers;
 
 import com.Project.JDBC.DAO.DBhandler;
 import com.Project.JDBC.DTO.Announcement;
+import com.Project.Models.Helper;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,9 +38,9 @@ public class CreateAnnouncementPageController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    private DBHandler dbHandler = new DBHandler();
-    private int id =  LoginStorage.getInstance().getId();
-    private String accountType = LoginStorage.getInstance().getAccountType();
+  
+    //private int id =  LoginStorage.getInstance().getId();
+    //private String accountType = LoginStorage.getInstance().getAccountType();
         
     private final Helper helper = new Helper();
     

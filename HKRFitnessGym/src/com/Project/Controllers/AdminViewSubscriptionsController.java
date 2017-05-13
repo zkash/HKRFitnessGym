@@ -5,6 +5,8 @@
  */
 package com.Project.Controllers;
 
+import com.Project.Models.DBHandler;
+import com.Project.Models.Subscription;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,17 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
+import com.Project.Models.DBHandler;
+import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
+import com.Project.Models.Package;
+import com.Project.Models.Subscription;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,16 +27,6 @@ import javafx.scene.control.DatePicker;
  * @author shameer
  */
 public class MemberViewPackagesController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    @FXML private TextField searchPackage;
-    //private  ObservableList<Package> data;
-    private  ObservableList<Package> searchData;
-    
-    private final int memberId = LoginStorage.getInstance().getId();
-    
     @FXML private TableView<Package> memberViewPackagesTable;
     @FXML private TableColumn<Package, String> packageNameColumn;
     @FXML private TableColumn<Package, String> priceColumn; 
@@ -49,173 +38,121 @@ public class MemberViewPackagesController implements Initializable {
     @FXML private DatePicker subscriptionStartDatePicker;
     @FXML private DatePicker subscriptionEndDatePicker;
     
-    ObservableList<Package> pack;
+    @FXML private TextField searchPackage;
     
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
+    private final int memberId = LoginStorage.getInstance().getId();
+    
+    ObservableList<Package> data;
+
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // TODO
-            pack = dbHandler.memberViewPackages();
-            packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-            startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-            endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-            memberViewPackagesTable.setItems(null);
-            memberViewPackagesTable.setItems(pack);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(MemberViewPackagesController.class.getName()).log(Level.SEVERE, null, ex);
+            data = dbHandler.memberViewPackages();
+            setDataInTable(data);    
+        } 
+        catch (SQLException | IllegalArgumentException | InvocationTargetException ex) {
+            helper.showDialogBox(true, "Could not fetch data from database and show in table because of an error");
         }
     }    
     
-    public void searchBtnClick(ActionEvent event) {
-        
+    
+    /**
+     * Searches for data as per user's query and filters
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String searchQuery = searchPackage.getText();
+        data = dbHandler.searchInMemberViewPackage(searchQuery);
+        setDataInTable(data);
+        helper.fitColumns(memberViewPackagesTable);
     }
     
-    public void resetSearchBtnClick(ActionEvent event) {
-        
+    
+    /**
+     * Resets the table with initial data
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        data = dbHandler.memberViewPackages();
+        setDataInTable(data);
+        helper.fitColumns(memberViewPackagesTable);
     }
+
     
-    public void deleteBtnClick(ActionEvent event) {
-        
-    }
-    
-//    public void subscribeBtnClick(ActionEvent event) throws SQLException {
-//        ObservableList<Package> row , allRows;
-//        allRows = memberViewPackagesTable.getItems();
-//        row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
-//        boolean subscriptionError = true;
-//        
-//        
-//        
-//        if (row.isEmpty()) {
-//            helper.showDialogBox(subscriptionError, "Please select a package first to delete subscribe");
-//        }
-//        else {
-//            LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
-//            LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
-//            if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
-//                helper.showDialogBox(subscriptionError, "Enter subscription start date and end date");
-//            }
-//            else {
-//                String packageName = row.get(0).getPackageName();
-//                Date packageStartDate = row.get(0).getStartDate();
-//                Date packageEndDate = row.get(0).getEndDate();
-//                int packageId = dbHandler.getPackageIdFromPackageName(packageName);
-//                System.out.println("pid" + packageId);
-//                Date subscriptionStartDate = helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
-//                Date subscriptionEndDate = helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
-//                if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
-//                        || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-//                    helper.showDialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
-//                }
-//                else {
-//                    if(subscriptionStartDate.after(subscriptionEndDate)) {
-//                        helper.showDialogBox(subscriptionError, "Subscription start date must be earlier than subscription end date");
-//                    }
-//                    else {
-//                        Subscription subscription = new Subscription();
-//                        System.out.println("fskdljfdlskjkldsjf");
-//                        subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
-//                        subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
-//                        subscription.setPackageId(packageId);
-//                         System.out.println("wrreerw "  + subscription.getPackageId());
-//
-//
-//                        subscription.setPackageId(packageId);
-//                        subscription.setMemberId(memberId);
-//                        System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
-//                        subscriptionError = dbHandler.subscribeToPackage(subscription);
-//    //                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
-//    //                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
-//    //                        (java.sql.Date)  subscriptionEndDate,
-//    //                        packageId,
-//    //                        memberId
-//    //                    ));
-//                        if (subscriptionError) {
-//                            helper.showDialogBox(subscriptionError, "Cannot make a subscription");
-//                        }
-//                        else {
-//                            helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
-//                        }
-//                    }
-//                }
-//            } 
-//        }
-//    }
- 
-    
-    
-    
-    
-    
-    
+    /**
+     * Sends a subscription request to admin
+     * @param event
+     * @throws SQLException 
+     */
     public void sendSubscriptionRequestBtnClick(ActionEvent event) throws SQLException {
         ObservableList<Package> row , allRows;
         allRows = memberViewPackagesTable.getItems();
         row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
-        boolean subscriptionError = true;
+        
         java.util.Date currentDate = helper.getCurrentDate();
-        
-        
+
         if (row.isEmpty()) {
-            helper.showDialogBox(subscriptionError, "Please select a package first to delete subscribe");
+            helper.showDialogBox(true, "Please select a package first to delete subscribe");
         }
         else {
             LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();
             LocalDate subsriptionEndLocalDate = subscriptionEndDatePicker.getValue();
+            
             if (subsriptionStartLocalDate == null || subsriptionEndLocalDate  == null) {
-                helper.showDialogBox(subscriptionError, "Enter subscription start date and end date");
+                helper.showDialogBox(true, "Enter subscription start date and end date");
             }
             else {
                 String packageName = row.get(0).getPackageName();
                 Date packageStartDate = row.get(0).getStartDate();
                 Date packageEndDate = row.get(0).getEndDate();
-                int packageId = dbHandler.getPackageIdFromPackageName(packageName);
-                System.out.println("pid" + packageId);
+                
                 Date subscriptionStartDate = helper.convertLocalDateToSQLDate(subsriptionStartLocalDate);
                 Date subscriptionEndDate = helper.convertLocalDateToSQLDate(subsriptionEndLocalDate);
+               
+                int packageId = dbHandler.getPackageIdFromPackageName(packageName);
+                
                 if(subscriptionStartDate.before(currentDate) || subscriptionEndDate.before(currentDate)) {
-                        helper.showDialogBox(subscriptionError, "Subscription start date and end date cannot be earlier than current date");
+                        helper.showDialogBox(true, "Subscription start date and end date cannot be earlier than current date");
                 }
                 else {
-                    if((subscriptionStartDate.before(packageStartDate) || subscriptionStartDate.after(packageEndDate))
-                        || (subscriptionEndDate.before(packageStartDate) || subscriptionEndDate.after(packageEndDate))) {
-                    helper.showDialogBox(subscriptionError, "Subscription start date and end date must be within the range of Package start date and end date");
+                    if(subscriptionStartDate.before(packageStartDate) || 
+                            subscriptionStartDate.after(packageEndDate) || 
+                            subscriptionEndDate.before(packageStartDate) ||
+                            subscriptionEndDate.after(packageEndDate)) {
+                    helper.showDialogBox(true, "Subscription start date and end date must be within the range of Package start date and end date");
                     }
                     else {
                         if(subscriptionStartDate.after(subscriptionEndDate)) {
-                            helper.showDialogBox(subscriptionError, "Subscription start date must be earlier than subscription end date");
+                            helper.showDialogBox(true, "Subscription start date must be earlier than subscription end date");
                         }
                         else {
                             Subscription subscription = new Subscription();
-                            System.out.println("fskdljfdlskjkldsjf");
+                            
                             subscription.setSubscriptionStartDate((java.sql.Date)subscriptionStartDate);
                             subscription.setSubscriptionEndDate((java.sql.Date)subscriptionEndDate);
                             subscription.setPackageId(packageId);
-                             System.out.println("wrreerw "  + subscription.getPackageId());
-
-
-                            subscription.setPackageId(packageId);
                             subscription.setMemberId(memberId);
-                            System.out.println("sssfsdfdsd "  + subscription.getSubscriptionStartDate());
-                            subscriptionError = dbHandler.subscribeToPackage(subscription);
-        //                    subscriptionError = DBHandler.subscribeToPackage(new Subscription(
-        //                        (java.sql.Date) subscriptionStartDate,  //cast Java util date to SQL date
-        //                        (java.sql.Date)  subscriptionEndDate,
-        //                        packageId,
-        //                        memberId
-        //                    ));
-                            if (subscriptionError) {
-                                helper.showDialogBox(subscriptionError, "Cannot make a subscription");
+                            
+                            try {
+                                dbHandler.subscribeToPackage(subscription);
+                                helper.showDialogBox(false, "Successfully made a request to subscribe to a package");
                             }
-                            else {
-                                helper.showDialogBox(subscriptionError, "Successfully subscribe to a package");
+                            catch(SQLException ex) {
+                                helper.showDialogBox(true, "Cannot make a subscription");
                             }
                         }
                     }
@@ -224,4 +161,21 @@ public class MemberViewPackagesController implements Initializable {
         }
     }
     
+    
+    /**
+     * Sets data in table view
+     * @param data
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void setDataInTable(ObservableList<Package> data) throws IllegalArgumentException, InvocationTargetException {
+        // Set cell value factory to TableView
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        memberViewPackagesTable.setItems(data); 
+    }
 }

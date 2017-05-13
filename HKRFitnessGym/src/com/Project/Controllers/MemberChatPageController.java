@@ -32,9 +32,8 @@ public class MemberChatPageController implements Initializable {
     @FXML
     private Button enter;
     
-    private DBHandler dbHandler = new DBHandler();
-    private int id =  LoginStorage.getInstance().getId();
-    private String accountType = LoginStorage.getInstance().getAccountType();
+    //private int id =  LoginStorage.getInstance().getId();
+    //private String accountType = LoginStorage.getInstance().getAccountType();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

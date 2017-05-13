@@ -6,7 +6,9 @@
 package com.Project.Controllers;
 
 import com.Project.JDBC.DAO.DBhandler;
+import com.Project.JDBC.DAO.DBhandler;
 import com.Project.JDBC.DTO.Chat;
+import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +34,7 @@ public class AdminChatPageController implements Initializable {
     @FXML
     private Button enter;
     
-    private DBHandler dbHandler = new DBHandler();
+    private DBhandler dbHandler = new DBhandler();
     private int id =  LoginStorage.getInstance().getId();
     private String accountType = LoginStorage.getInstance().getAccountType();
     

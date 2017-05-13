@@ -68,7 +68,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
+    public void updatePersonalInformationMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("UpdateAdminPersonalInformation.fxml");
     }
     
@@ -114,6 +114,36 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
+     * Navigates to View Subscription Requests page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewSubscriptionRequests.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Subscriptions page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewSubscriptions.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Declined Subscription Requests page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewDeclinedSubscriptionRequests.fxml");
+    }
+    
+    
+    /**
      * Navigates to Create Schedule page
      * @param event
      * @throws IOException 
@@ -154,52 +184,21 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
+     * Navigates to Chat page
+     * @param event
+     * @throws IOException 
+     */
+    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminChat.fxml");   
+    }
+    
+    
+    /**
      * Navigates to Change Password page
      * @param event
      * @throws IOException 
      */
     public void changePasswordMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminChangePassword.fxml");
-    }
-
-    
-    /**
-     * Navigates to View Subscription Requests page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminViewSubscriptionRequests.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Subscriptions page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminViewSubscriptions.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Declined Subscription Requests page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminViewDeclinedSubscriptionRequests.fxml");
-    }
-    
-    
-    /**
-     * Navigates to Chat page
-     * @param event
-     * @throws IOException 
-     */
-    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminChat.fxml");
-        
-    }
+    }  
 }

@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
-import com.Project.JDBC.DAO.DBHandler;
+import com.Project.JDBC.DAO.DBhandler;
 import com.Project.JDBC.DTO.Schedule;
 import com.sun.javafx.collections.ElementObservableListDecorator;
 import java.net.URL;
@@ -51,15 +51,15 @@ public class AdminViewScheduleController implements Initializable {
     @FXML private TableColumn<Schedule, String>holidayView;
     
     private ObservableList<Schedule> data;
-    private DBHandler jdbc;
+    private DBhandler jdbc;
     
     private Statement stmt;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        jdbc = new DBHandler();
+        jdbc = new DBhandler();
         try {
-            Connection conn = DBHandler.establishConnection();
+            Connection conn = DBhandler.establishConnection();
             data = FXCollections.observableArrayList();
             stmt = conn.createStatement();
             //ResultSet rs = stmt.executeQuery("SELECT date, openingTime, closeTime, isHoliday FROM schedule");

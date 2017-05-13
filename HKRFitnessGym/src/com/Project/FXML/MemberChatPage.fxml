@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberChatPageController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0">
+          <top>
+        <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
+    </top>
+         <center>
+            <AnchorPane prefHeight="410.0" prefWidth="610.0" BorderPane.alignment="CENTER">
+               <children>
+                   <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+                   <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+                  <TextArea fx:id="messageArea" layoutX="14.0" layoutY="101.0" prefHeight="144.0" prefWidth="575.0" />
+                  <TextArea fx:id="message" layoutX="14.0" layoutY="251.0" prefHeight="56.0" prefWidth="462.0" />
+                  <Button fx:id="enter" layoutX="483.0" layoutY="251.0" mnemonicParsing="false" onAction="#saveMessage" prefHeight="54.0" prefWidth="105.0" text="Send">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="errorMessage" layoutX="67.0" layoutY="315.0" prefHeight="61.0" prefWidth="460.0" textFill="RED" />
+                  <Label layoutX="117.0" layoutY="36.0" text="Chat room">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

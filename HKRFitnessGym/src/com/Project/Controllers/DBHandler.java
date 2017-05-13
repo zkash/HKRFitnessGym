@@ -24,10 +24,10 @@ import javafx.collections.ObservableList;
  * @author shameer
  */
 public class DBHandler {
-    private static Connection c;
-    private static String currentUser;
-    private static String position;
-    private static int idMember;
+    //private static Connection c;
+    //private static String currentUser;
+    //private static String position;
+    //private static int idMember;
 
     static void createPackage(String pn, String pc, LocalDate psd, LocalDate ped, String pst, String pd, int admin_ssn) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -1303,29 +1303,29 @@ System.out.println("DSDSAS " + data);
 //        public static String getLoggedUserPosition(){
 //            return position;
 //    }
-//        //To get list of messages from database
-//        public static List<Chat> getMessageList(String query) {
-//            List<Chat> messageList = new LinkedList<>();
-//            PreparedStatement stmt;
-//            ResultSet rs;
-//            try{
-//                stmt = c.prepareStatement(query);
-//                rs = stmt.executeQuery();
-//                
-//                while (rs.next()){
-//                    Chat message = new Chat();
-//                    message.setMessageId(rs.getInt("idChat"));
-//                    message.setTime(rs.getString("time"));
-//                    message.setName(rs.getString("name"));
-//                    message.setMessage(rs.getString("message"));
-//                    messageList.add(message);
-//                }
-//                
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return messageList;
-//        
+        //To get list of messages from database
+ /*       public static List<Chat> getMessageList(String query) {
+            List<Chat> messageList = new LinkedList<>();
+            PreparedStatement stmt;
+            ResultSet rs;
+            try{
+                stmt = c.prepareStatement(query);
+                rs = stmt.executeQuery();
+                
+                while (rs.next()){
+                    Chat message = new Chat();
+                    message.setMessageId(rs.getInt("idChat"));
+                    message.setTime(rs.getString("time"));
+                    message.setName(rs.getString("name"));
+                    message.setMessage(rs.getString("message"));
+                    messageList.add(message);
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return messageList;*/
+        
 //    }
 //     // save message into database.
 //    public static void saveMessage(String time, String name, String message) {
@@ -1382,7 +1382,7 @@ System.out.println("DSDSAS " + data);
 //    void updatePassword(String text, int id) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
+        
     public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT m.firstName, m.middleName, m.lastName,"

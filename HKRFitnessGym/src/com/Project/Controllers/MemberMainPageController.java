@@ -60,7 +60,7 @@ public class MemberMainPageController implements Initializable {
     private void chatBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/ChatPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberChatPage.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();
@@ -70,7 +70,7 @@ public class MemberMainPageController implements Initializable {
     private void settingsBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/SettingsPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/MemberSettingsPage.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();

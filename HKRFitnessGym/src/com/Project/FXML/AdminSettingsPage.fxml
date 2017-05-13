@@ -11,19 +11,19 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
           <top>
-        <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
          <center>
             <AnchorPane prefHeight="475.0" prefWidth="675.0" BorderPane.alignment="CENTER">
                <children>
                    <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
                   <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-                   <PasswordField fx:id="oldPassword" layoutX="250.0" layoutY="226.0" prefHeight="31.0" prefWidth="217.0" />
-                  <PasswordField fx:id="newPassword" layoutX="250.0" layoutY="271.0" prefHeight="31.0" prefWidth="217.0" />
-                  <Button layoutX="309.0" layoutY="315.0" mnemonicParsing="false" onAction="#savePassword" prefHeight="39.0" prefWidth="100.0" text="Save" />
-                  <Label layoutX="145.0" layoutY="231.0" text="Old password" />
-                  <Label layoutX="142.0" layoutY="276.0" text="New password" />
-                  <Label fx:id="errorMessage" layoutX="145.0" layoutY="402.0" prefHeight="31.0" prefWidth="416.0" textFill="RED">
+                   <PasswordField fx:id="oldPassword" layoutX="245.0" layoutY="186.0" prefHeight="31.0" prefWidth="217.0" />
+                  <PasswordField fx:id="newPassword" layoutX="245.0" layoutY="228.0" prefHeight="31.0" prefWidth="217.0" />
+                  <Button layoutX="304.0" layoutY="284.0" mnemonicParsing="false" onAction="#savePassword" prefHeight="39.0" prefWidth="100.0" text="Save" />
+                  <Label layoutX="145.0" layoutY="191.0" text="Old password" />
+                  <Label layoutX="139.0" layoutY="233.0" text="New password" />
+                  <Label fx:id="errorMessage" layoutX="132.0" layoutY="326.0" prefHeight="72.0" prefWidth="427.0" textFill="RED">
                      <font>
                         <Font size="14.0" />
                      </font>

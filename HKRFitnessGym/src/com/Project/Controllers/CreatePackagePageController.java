@@ -88,8 +88,6 @@ public class CreatePackagePageController implements Initializable {
             boolean alreadyExists;
             
             if (count == 0) {
-                alreadyExists = false;
-                
                 ArrayList<TextField> textFieldList = new ArrayList<>();
                 textFieldList.add(packageName);
                 textFieldList.add(packageCost);
@@ -107,9 +105,8 @@ public class CreatePackagePageController implements Initializable {
                 String todo = "Create";
                 packageHelper.btnClick(todo, pn, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
             }
-            else {
-                alreadyExists = true;
-                helper.showDialogBox(alreadyExists, "Package with same name already exists");
+            else {              
+                helper.showDialogBox(true, "Package with same name already exists");
                 helper.clearTextField(packageName);
             }
         }

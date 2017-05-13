@@ -7,6 +7,7 @@ import com.Project.Models.LoginStorage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
@@ -86,7 +87,7 @@ public class LoginPageController implements Initializable {
      * @throws SQLException 
      */
     @FXML
-    private void loginBtnClick(ActionEvent event) throws IOException, SQLException {
+    private void loginBtnClick(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException {
         String uname = usernameTextField.getText();
         String pwd = passwordTextField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {
@@ -97,7 +98,9 @@ public class LoginPageController implements Initializable {
                 helper.showDialogBox(true, "Account doesn't exists");
             }
             else {
-                id = dbHandler.getId(uname, pwd, accountType);
+                String hashedPassword = helper.hash(pwd);
+                System.out.println("HASHING " + hashedPassword);
+                id = dbHandler.getId(uname, hashedPassword, accountType);
                 if(id == 0) {
                     helper.showDialogBox(true, "Wrong Password");
                 }

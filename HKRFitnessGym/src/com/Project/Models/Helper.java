@@ -313,14 +313,14 @@ public class Helper {
         }
         
         public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-            String generatedPassword = "";
+            String generatedPassword;
             try {
                 MessageDigest hashingAlgorithm = MessageDigest.getInstance("");
                 String salt = "";
                 String passwordAndSalt = salt + password;
                 hashingAlgorithm.update(passwordAndSalt.getBytes());
-                String generatedpassword = bytesToString(hashingAlgorithm.digest());
-                System.out.println("gen " + generatedpassword);
+                generatedPassword = bytesToString(hashingAlgorithm.digest());
+                System.out.println("gen " + generatedPassword);
                 return generatedPassword;
             }
             catch(NoSuchAlgorithmException ex) {

@@ -94,7 +94,7 @@ public class AdminMainPageController implements Initializable {
     public void settingsBtnClick(ActionEvent event) throws IOException {
       Node node = (Node) event.getSource();
       Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminSettingsPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminChangePassword.fxml"));
       Scene scene = new Scene(root);
       stage.setScene(scene);
       stage.show();

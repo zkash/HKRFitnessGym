@@ -36,73 +36,18 @@ public class AdminMainPageController implements Initializable {
     
     
     /**
-     * Navigate to Create User page
+     * Navigates to Create User page
      * @param event
      * @throws IOException 
      */
     @FXML
-    public void packageBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreatePackagePage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-        
-    }
-    @FXML
-    public void scheduleBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateSchedulePage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
-    @FXML
-    public void announcementBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/CreateAnnouncementPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
-   
-    @FXML
-    public void chatBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminChatPage.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
-    @FXML
-    public void subscribeBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminViewMemberAccounts.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
-    }
     public void createAccountBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateUserPage.fxml");
-    }
-    @FXML
-    public void settingsBtnClick(ActionEvent event) throws IOException {
-      Node node = (Node) event.getSource();
-      Stage stage = (Stage) node.getScene().getWindow();
-      Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/AdminChangePassword.fxml"));
-      Scene scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
     }
     
     
     /**
-     * Navigate to Create Package page
+     * Navigates to Create Package page
      * @param event
      * @throws IOException 
      */
@@ -113,7 +58,18 @@ public class AdminMainPageController implements Initializable {
     
     
     /**
-     * Navigate to Create Schedule page
+     * Navigates to View Subscriptions page
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    public void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
+    } 
+    
+    
+    /**
+     * Navigates to Create Schedule page
      * @param event
      * @throws IOException 
      */
@@ -124,7 +80,7 @@ public class AdminMainPageController implements Initializable {
     
     
     /**
-     * Navigate to Create Announcement page
+     * Navigates to Create Announcement page
      * @param event
      * @throws IOException 
      */
@@ -133,13 +89,16 @@ public class AdminMainPageController implements Initializable {
         helper.navigateScene(event, "CreateAnnouncementPage.fxml");   
     }
     
+    
     /**
-     * Navigate to View Subscriptions page
+     * Navigates to Chat page
      * @param event
      * @throws IOException 
      */
     @FXML
-    public void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
-    } 
+    public void chatBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "AdminChatPage.fxml");   
+    }
+    
+    
 }

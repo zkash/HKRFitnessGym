@@ -1647,17 +1647,18 @@ System.out.println("DSDSAS " + data);
                     + " ON sub.Member_memberId = m.memberId"
                     + " INNER JOIN admin AS a"
                     + " ON sub.Admin_adminId = a.adminId";
+                   // + " WHERE NOT subscriptionStatus = 'Declined'";
         if(filter.equals("All")) {
-            query = query + " WHERE NOT subscriptionStatus = 'Requested'";
+            query = query + "  WHERE NOT subscriptionStatus = 'Requested' AND NOT subscriptionStatus = 'Declined'";
         }
         else if(filter.equals("Active")) {
-            query = query + " WHERE subscriptionStatus = 'Active'";
+            query = query + "  WHERE subscriptionStatus = 'Active'";
         }
         else if(filter.equals("Expired")) {
-            query = query + " WHERE subscriptionStatus = 'Expired'";
+            query = query + "  WHERE subscriptionStatus = 'Expired'";
         }
         else if(filter.equals("Cancelled")) {
-            query = query + " WHERE subscriptionStatus = 'Cancelled'";
+            query = query + "  WHERE subscriptionStatus = 'Cancelled'";
         }
         
 

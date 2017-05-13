@@ -85,7 +85,6 @@ public class CreatePackagePageController implements Initializable {
                     
         if (validated.get()) {
             int count = dbHandler.checkPackageName(pn);
-            boolean alreadyExists;
             
             if (count == 0) {
                 ArrayList<TextField> textFieldList = new ArrayList<>();

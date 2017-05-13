@@ -7,7 +7,6 @@ import com.Project.Models.SubscriptionRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;

@@ -16,7 +16,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <TableView fx:id="adminViewSubscriptionsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
+            <TableView fx:id="adminViewDeclinedSubscriptionRequestsTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="517.0">
               <columns>
                 <TableColumn fx:id="memberFullNameColumn" prefWidth="135.0" text="Member Name" />
                 <TableColumn fx:id="memberUsernameColumn" prefWidth="135.0" text="Member Username" />

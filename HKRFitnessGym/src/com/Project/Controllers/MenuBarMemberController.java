@@ -30,35 +30,33 @@ public class MenuBarMemberController implements Initializable {
     }    
     
     
-    public void viewAccountMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("/com/Project/FXML/MemberViewPersonalInformation.fxml");
+    public void viewAccountDetailsMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("MemberViewPersonalInformation.fxml");
     }
     
     
-    public void subscribePackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberViewPackages.fxml");
+    public void subscribeToPackageMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("MemberViewPackages.fxml");
     }
     
-    public void viewSubscriptionMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberViewSubscriptions.fxml");
+    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("MemberViewSubscriptions.fxml");
     }
     
     
     public void viewScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberViewSchedule.fxml");
+        setupAndShowStage("MemberViewSchedule.fxml");
     }
     
     public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberViewAnnouncement.fxml");
+        setupAndShowStage("MemberViewAnnouncement.fxml");
     }
     
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/MemberChatPage.fxml");
+        setupAndShowStage("MemberChatPage.fxml");
     }
 
-    public void aboutMenuClick(ActionEvent event) {
-        
-    }
+    
     
     public void setupAndShowStage(String fxmlFile) throws IOException {
         Stage stage = (Stage) menuBarMember.getScene().getWindow();
@@ -74,7 +72,11 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void editAccountMenuClick(ActionEvent event) throws IOException {
+    public void updatePersonalInfoMenuClick(ActionEvent event) throws IOException {
+       setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
+    }
+    
+    public void changePasswordMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
     }
     

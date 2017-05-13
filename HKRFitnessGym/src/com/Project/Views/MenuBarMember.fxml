@@ -10,15 +10,15 @@
   <menus>
       <Menu mnemonicParsing="false" text="Account">
          <items>
-            <MenuItem fx:id="editAccountMenu" mnemonicParsing="false" onAction="#editAccountMenuClick" text="Edit Account Details" />
+            <MenuItem fx:id="updatePersonalInfoMenu" mnemonicParsing="false" onAction="#updatePersonalInfoMenuClick" text="Edit Account Details" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="viewAccountMenu" mnemonicParsing="false" onAction="#viewAccountMenuClick" text="View Account Details" />
+            <MenuItem fx:id="viewAccountDetailsMenu" mnemonicParsing="false" onAction="#viewAccountDetailsMenuClick" text="View Account Details" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Package">
          <items>
-            <MenuItem fx:id="subscribePackageMenu" mnemonicParsing="false" onAction="#subscribePackageMenuClick" text="Subscribe to Package" />
-            <MenuItem fx:id="viewSubscriptionMenu" mnemonicParsing="false" onAction="#viewSubscriptionMenuClick" text="View Subscriptions" />
+            <MenuItem fx:id="subscribeToPackageMenu" mnemonicParsing="false" onAction="#subscribeToPackageMenuClick" text="Subscribe to Package" />
+            <MenuItem fx:id="viewSubscriptionsMenu" mnemonicParsing="false" onAction="#viewSubscriptionsMenuClick" text="View Subscriptions" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Announcement">

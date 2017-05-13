@@ -77,7 +77,7 @@ public class MenuBarMemberController implements Initializable {
     }
     
     public void changePasswordMenuClick(ActionEvent event) throws IOException {
-       setupAndShowStage("UpdateMemberPersonalInformationPage.fxml");
+       setupAndShowStage("MemberChangePassword.fxml");
     }
     
 }

@@ -82,10 +82,10 @@ public class AdminViewScheduleController implements Initializable {
             while(rs.next()){
                 System.out.println(rs.getDate("date"));
                 System.out.println(rs.getTime("openingTime"));
-                System.out.println(rs.getTime("closeTime"));
+                System.out.println(rs.getTime("closingTime"));
                 System.out.println(rs.getBoolean("isHoliday"));
                 
-                data.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closeTime"), rs.getBoolean("isHoliday")));
+                data.add(new Schedule(rs.getDate("date"), rs.getString("openingTime"), rs.getString("closingTime"), rs.getBoolean("isHoliday")));
             }
             
             

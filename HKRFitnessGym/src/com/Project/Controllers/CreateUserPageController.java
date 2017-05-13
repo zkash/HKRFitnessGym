@@ -1,12 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
+import com.Project.Models.AccountHelper;
+import com.Project.Models.Admin;
+import com.Project.Models.DBHandler;
+import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
+import com.Project.Models.Member;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.sql.Date;
@@ -20,21 +22,16 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.sql.SQLException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Button;
+import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ToggleGroup;
+
 /**
  * FXML Controller class
  *
  * @author shameer
  */
-public class CreateUserPageController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+public class CreateUserPageController implements Initializable {
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;
@@ -44,10 +41,13 @@ public class CreateUserPageController implements Initializable {
     @FXML private TextField ssn;
     @FXML private TextField username;
     @FXML private TextField password;
+    
     @FXML private RadioButton genderMale;
     @FXML private RadioButton genderFemale;
     @FXML private RadioButton genderOther;
+    
     @FXML private DatePicker dateOfBirth;
+    
     @FXML private CheckBox isAdmin;
    
     @FXML private Label invalidMsgFirstName;
@@ -61,105 +61,50 @@ public class CreateUserPageController implements Initializable {
     @FXML private Label invalidMsgPassword;
     @FXML private Label invalidMsgAllData;
     
-    private boolean error;
-    private String adminUsername;
-  //  private int adminId = 1; //ToDO change this
-    private final int adminId = LoginStorage.getInstance().getId();
-    private boolean login;
-    
-    
-    @FXML
-    private ToggleGroup gender;
-    @FXML
-    private Button createUserBtn;
-    
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
+    private final AccountHelper accountHelper = new AccountHelper();
     
+    private final int adminId = LoginStorage.getInstance().getId();
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        changeFocus(firstName, invalidMsgFirstName);
-        changeFocus(middleName, invalidMsgMiddleName);
-        changeFocus(lastName, invalidMsgLastName);
-        changeFocus(address, invalidMsgAddress);
-        changeFocus(phoneNumber, invalidMsgPhoneNumber);
-        changeFocus(email, invalidMsgEmail);
-        changeFocus(ssn, invalidMsgSSN);
-        changeFocus(username, invalidMsgUsername);
-        changeFocus(password, invalidMsgPassword);
+        ArrayList<TextField> textFieldList = new ArrayList<>();
+        textFieldList.add(firstName);
+        textFieldList.add(middleName);
+        textFieldList.add(lastName);
+        textFieldList.add(address);
+        textFieldList.add(phoneNumber);
+        textFieldList.add(email);
+        textFieldList.add(ssn);
+        textFieldList.add(username);
+        textFieldList.add(password);
         
-//        firstName.setText("John");
-//        middleName.setText("James");
-//        lastName.setText("Doerr");
-//        address.setText("CA");
-//        phoneNumber.setText("3423421");
-//        email.setText("john@johndoerr.com");
-//        ssn.setText("441233-1324");
-//        username.setText("johnd");
-//        password.setText("johnd1");
-//        this.adminSSN = LoginStatus.getSSN();
-//        this.login = LoginStatus.getLogin();
-  
-
+        accountHelper.changeFocusInCreateUser(firstName, textFieldList, invalidMsgFirstName);
+        accountHelper.changeFocusInCreateUser(middleName, textFieldList, invalidMsgMiddleName);
+        accountHelper.changeFocusInCreateUser(lastName, textFieldList, invalidMsgLastName);
+        accountHelper.changeFocusInCreateUser(address, textFieldList, invalidMsgAddress);
+        accountHelper.changeFocusInCreateUser(phoneNumber, textFieldList, invalidMsgPhoneNumber);
+        accountHelper.changeFocusInCreateUser(email, textFieldList, invalidMsgEmail);
+        accountHelper.changeFocusInCreateUser(ssn, textFieldList, invalidMsgSSN);
+        accountHelper.changeFocusInCreateUser(username, textFieldList, invalidMsgUsername);
+        accountHelper.changeFocusInCreateUser(password, textFieldList, invalidMsgPassword);
     }     
-    
-//    public void setAdminUsername(String uname) {
-//        this.adminUsername = uname;
-//    }
-//    
-//    public void setAdminSSN() {
-//        this.adminSSN = 1234567890;
-//    }
-    
-    public void setTextOnCondition(boolean condition, Label lbl) {
-        if(condition) {
-            lbl.setText("Invalid Value"); 
-        }
-        else {
-            lbl.setText("");
-        }
-    }
-   
-    public void changeFocus(TextField tf, Label lbl) {
-        lbl.setText("");
-        tf.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
-            if(!newPropertyValue) {
-                if (tf == firstName || tf == middleName || tf == lastName) {
-                    setTextOnCondition(helper.hasDigit(tf.getText()), lbl);
-                }
-                else if (tf == address) {  
-                    String notAddressRegex = "[0-9]+";
-                    setTextOnCondition(address.getText().matches(notAddressRegex), lbl);
-                }
-                else if (tf == phoneNumber) {
-                    setTextOnCondition(helper.hasChar(phoneNumber.getText()), lbl);
-                }
-                else if (tf == email) {
-                    String emailRegex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-                    String ead = email.getText();
-                    setTextOnCondition(!helper.isEmpty(ead) && !ead.matches(emailRegex), lbl);
-                }
-                else if (tf == ssn) {
-                    String ssnRegex = "[0-9]{6}-[0-9]{4}";
-                    String ssnum = ssn.getText();
-                    setTextOnCondition(!helper.isEmpty(ssnum) && !ssnum.matches(ssnRegex), lbl);
-                }
-                else if (tf == username) {
-                    String unRegex = "^[A-Za-z][A-za-z0-9]*";
-                    String uname = username.getText();
-                    setTextOnCondition(!helper.isEmpty(uname) && !uname.matches(unRegex), lbl);
-                }
-                else if (tf == password) {
-                    String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
-                    String pwd = password.getText();
-                    setTextOnCondition(!helper.isEmpty(pwd) && !pwd.matches(pwRegex), lbl);
-                }
-            }
-        });
-    }
 
+    
+    /**
+     * Handles the create user button click
+     * @param event
+     * @throws SQLException
+     * @throws IOException 
+     */
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -196,30 +141,15 @@ public class CreateUserPageController implements Initializable {
         if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
                 helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
                 helper.isEmpty(ssnum) || helper.isEmpty(un) || helper.isEmpty(pw)) {
-            //invalidMsgAllData.setText("Enter All Data");
             helper.showDialogBox(true, "Enter all data");
         }
         else {
             String[] ssnParts = ssnum.split("-");
-            System.out.println(ssnParts[0]);
-            System.out.println(ssnParts[1]);
-            String ssnumberStr = ssnParts[0] + ssnParts[1];
-            System.out.println(ssnumberStr);
             int ssn1 = Integer.parseInt(ssnParts[0]);
             int ssn2 = Integer.parseInt(ssnParts[1]);
-            //System.out.println("P1 " + p1);
-            //System.out.println("P2 " + p2);
-            //int ssnumber = p1*10000 + p2;
-           // int ssnumber = Integer.valueOf(ssnParts[0])*10000 + Integer.valueOf(ssnParts[1]);  //to get full SSN multiply first part by 10000 and add the second part
             int pnumber = Integer.parseInt(pnum);
-            
-            //int ssnumber = Integer.parseInt(ssnumberStr);
-          //  System.out.println(ssnumber);
-            System.out.println(dob);
-            
             Date birthDate = Date.valueOf(dob);
-            System.out.println("DATE D " + birthDate.getClass().getName());
-                    
+                   
             if(helper.isEmpty(invalidMsgFirstName.getText()) &&
                 helper.isEmpty(invalidMsgMiddleName.getText()) &&  
                 helper.isEmpty(invalidMsgLastName.getText()) &&
@@ -229,16 +159,13 @@ public class CreateUserPageController implements Initializable {
                 helper.isEmpty(invalidMsgSSN.getText()) &&
                 helper.isEmpty(invalidMsgUsername.getText()) &&
                 helper.isEmpty(invalidMsgPassword.getText())) {
-                System.out.println("reached here");
                 boolean alreadyExists;
-                System.out.println(isAdmin.isSelected());
+                
                 if (isAdmin.isSelected()) {
                     alreadyExists = dbHandler.checkUsernameAndSSN("Admin", un, ssn1, ssn2);
                 }
                 else {
-                    System.out.println("hell");
                     alreadyExists = dbHandler.checkUsernameAndSSN("Member", un, ssn1, ssn2);
-                    System.out.println(alreadyExists);
                 }
                 
                 if(alreadyExists) {
@@ -247,25 +174,28 @@ public class CreateUserPageController implements Initializable {
                 else {
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
-                    
+                    String hashedPassword = helper.hash(pw);
+                    System.out.println("hadheh " + hashedPassword);
+                    System.out.println("LENGTH " + hashedPassword.length());
                     if (isAdmin.isSelected()) {
-                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
+                        //Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createAdminAccount(admin);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewAdminAccounts.fxml");
-                
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewAdminAccounts.fxml");
                     }
                     else {
-                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
+                       // Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createMemberAccount(member, adminId);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewMemberAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewMemberAccounts.fxml");
                     }
+                    
                     helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);
                     helper.clearRadioButton(genderMale, genderFemale, genderOther);
                     dateOfBirth.getEditor().clear();
                     isAdmin.setSelected(false);
-                    } 
+                } 
             }
         }        
     } 
 }
-

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminMainPageController">
+   <top>
+      <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="createAccountBtn" layoutX="78.0" layoutY="117.0" mnemonicParsing="false" onAction="#createAccountBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Account">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="createScheduleBtn" layoutX="328.0" layoutY="117.0" mnemonicParsing="false" onAction="#createScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Schedule">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="createAnnouncementBtn" layoutX="328.0" layoutY="165.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Announcement">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="createPackageBtn" layoutX="78.0" layoutY="165.0" mnemonicParsing="false" onAction="#createPackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Package" AnchorPane.topAnchor="165.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Label layoutX="31.0" layoutY="343.0" text="Welcome! You are logged in as" AnchorPane.bottomAnchor="15.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="loggedUserLbl" layoutX="196.0" layoutY="342.0" textFill="#ab0eaa" underline="true" AnchorPane.bottomAnchor="15.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Button fx:id="chatBtn" layoutX="328.0" layoutY="215.0" mnemonicParsing="false" onAction="#chatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="viewSubscriptionsBtn" layoutX="78.0" layoutY="214.0" mnemonicParsing="false" onAction="#viewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+          
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

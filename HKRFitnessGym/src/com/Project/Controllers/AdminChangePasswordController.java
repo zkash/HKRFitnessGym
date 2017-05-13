@@ -21,10 +21,11 @@ public class AdminChangePasswordController implements Initializable {
     @FXML private PasswordField oldPassword;
     @FXML private PasswordField newPassword;
 
+    private final Helper helper = new Helper();
+    
     private final int id = LoginStorage.getInstance().getId();
     private final String accountType = LoginStorage.getInstance().getAccountType();
-    private final Helper helper = new Helper();
-
+   
     /**
      * Initializes the controller class.
      * @param url

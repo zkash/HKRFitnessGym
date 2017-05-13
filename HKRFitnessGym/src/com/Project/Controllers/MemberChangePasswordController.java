@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Controllers;
 
-import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import java.io.IOException;
@@ -17,7 +11,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 /**
@@ -25,23 +18,32 @@ import javafx.scene.control.PasswordField;
  * @author shameer
  */
 public class MemberChangePasswordController implements Initializable {
-
-    @FXML
-    private Label errorMessage;
-    @FXML
-    private PasswordField oldPassword;
-    @FXML
-    private PasswordField newPassword;  
-    private int id = LoginStorage.getInstance().getId();
-    private String accountType = LoginStorage.getInstance().getAccountType();
-    private DBHandler dbHandler = new DBHandler();
-    private Helper helper = new Helper();
+    @FXML private PasswordField oldPassword;
+    @FXML private PasswordField newPassword;
     
+    private final Helper helper = new Helper();
+    
+    private final int id = LoginStorage.getInstance().getId();
+    private final String accountType = LoginStorage.getInstance().getAccountType();
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void initialize(URL url, ResourceBundle rb) {
     }
     
+    
+    /**
+     * Checks for old password and saves the new password
+     * @param event
+     * @throws SQLException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     * @throws IOException 
+     */
     @FXML
     private void savePassword(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, IOException {
         String enteredOldPassword = oldPassword.getText();
@@ -50,7 +52,5 @@ public class MemberChangePasswordController implements Initializable {
         if(changedPassword) {
             helper.navigateScene(event, "MemberMainPage.fxml");
         }
-
-    }
-    
+    }   
 }

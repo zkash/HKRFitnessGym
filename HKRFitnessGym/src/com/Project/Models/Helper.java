@@ -7,6 +7,7 @@ package com.Project.Models;
 
 import com.sun.javafx.scene.control.skin.TableViewSkin;
 import java.awt.Color;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +23,7 @@ import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -44,6 +46,20 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
  * @author shameer
  */
 public class Helper {
+    
+    /**
+     * Loads the properties file that has system email and password to handle forgot password
+     * @return 
+     */
+    private Properties loadProperties() {
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream("src/com/Project/Properties/hash.properties")) {
+            properties.load(fis);
+        }
+        catch (Exception e) {
+        }
+        return properties;
+    }
     
     //Check if string is empty
     public boolean isEmpty(String str) {
@@ -315,10 +331,19 @@ public class Helper {
         public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
             String generatedPassword;
             try {
-                MessageDigest hashingAlgorithm = MessageDigest.getInstance("");
-                String salt = "";
+                Properties senderProperties = loadProperties();
+                System.out.println("1");
+                String algorithm = senderProperties.getProperty("hashingAlgorithm");
+                String saltCode = senderProperties.getProperty("salt");
+                MessageDigest hashingAlgorithm = MessageDigest.getInstance(algorithm);
+                
+                System.out.println("2");
+                String salt = senderProperties.getProperty(saltCode);
+              
+               System.out.println("3");
                 String passwordAndSalt = salt + password;
-                hashingAlgorithm.update(passwordAndSalt.getBytes());
+                System.out.println("HASHED " + passwordAndSalt);
+                        hashingAlgorithm.update(passwordAndSalt.getBytes());
                 generatedPassword = bytesToString(hashingAlgorithm.digest());
                 System.out.println("gen " + generatedPassword);
                 return generatedPassword;

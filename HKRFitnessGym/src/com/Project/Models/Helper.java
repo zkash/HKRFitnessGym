@@ -335,10 +335,12 @@ public class Helper {
                 System.out.println("1");
                 String algorithm = senderProperties.getProperty("hashingAlgorithm");
                 String saltCode = senderProperties.getProperty("salt");
-                MessageDigest hashingAlgorithm = MessageDigest.getInstance(algorithm);
+                //MessageDigest hashingAlgorithm = MessageDigest.getInstance(algorithm);
+                MessageDigest hashingAlgorithm = MessageDigest.getInstance("SHA-256");
                 
                 System.out.println("2");
-                String salt = senderProperties.getProperty(saltCode);
+                //String salt = senderProperties.getProperty(saltCode);
+                String salt = senderProperties.getProperty("rushhoureight");
               
                System.out.println("3");
                 String passwordAndSalt = salt + password;

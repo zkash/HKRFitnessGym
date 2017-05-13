@@ -179,11 +179,13 @@ public class CreateUserPageController implements Initializable {
                     System.out.println("LENGTH " + hashedPassword.length());
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
+                        //Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createAdminAccount(admin);
                         helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewAdminAccounts.fxml");
                     }
                     else {
                         Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
+                       // Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createMemberAccount(member, adminId);
                         helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewMemberAccounts.fxml");
                     }

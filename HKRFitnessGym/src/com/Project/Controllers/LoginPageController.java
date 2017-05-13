@@ -101,6 +101,7 @@ public class LoginPageController implements Initializable {
                 String hashedPassword = helper.hash(pwd);
                 System.out.println("HASHING " + hashedPassword);
                 id = dbHandler.getId(uname, hashedPassword, accountType);
+               // id = dbHandler.getId(uname, pwd, accountType);
                 if(id == 0) {
                     helper.showDialogBox(true, "Wrong Password");
                 }

@@ -11,13 +11,13 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
           <top>
-    <!--  <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />-->
+      <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
          <center>
             <AnchorPane prefHeight="410.0" prefWidth="610.0" BorderPane.alignment="CENTER">
                <children>
-             <!--      <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" /> -->
-             <!--      <fx:include fx:id="signOutBtn" source="SignOutBtn.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" /> -->
+                   <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+                   <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
                   <TextArea fx:id="messageArea" layoutX="14.0" layoutY="101.0" prefHeight="144.0" prefWidth="575.0" />
                   <TextArea fx:id="message" layoutX="14.0" layoutY="251.0" prefHeight="56.0" prefWidth="462.0" />
                   <Button fx:id="enter" layoutX="483.0" layoutY="251.0" mnemonicParsing="false" onAction="#saveMessage" prefHeight="54.0" prefWidth="105.0" text="Send">

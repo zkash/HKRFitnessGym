@@ -1935,36 +1935,43 @@ System.out.println("DSDSAS " + data);
      public ResultSet searchSchedule(String date){
         Connection conn = null;
         PreparedStatement prepStmt = null;
-        ResultSet rs = null;
+        //ResultSet rs = null;
         try {
             DBHandler db = new DBHandler();
             String statement = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
             conn = db.establishConnection();
             prepStmt = conn.prepareStatement(statement);
-            rs = prepStmt.executeQuery();
+            ResultSet rs = prepStmt.executeQuery();
             System.out.println("Success");
+            return rs;
             
         } catch (Exception e) {
             System.out.println("error. Not found.");
+            return null;
         }
-        return rs;
+        
     }
      
      public ResultSet adminRitriveSchedule(){
         Connection conn = null;
-        PreparedStatement prepStmt = null;
-        ResultSet rs = null;
+       // PreparedStatement prepStmt = null;
+        //ResultSet rs = null;
         try {
-            DBHandler db = new DBHandler();
-            String statement = "select * frome schedule";
-            conn = db.establishConnection();
-            prepStmt = conn.prepareStatement(statement);
-            rs = prepStmt.executeQuery();
+           // DBHandler db = new DBHandler();
+            String statement = "select * from schedule";
+            conn = establishConnection();
+            PreparedStatement prepStmt = conn.prepareStatement(statement);
+            System.out.println("1");
+            System.out.println("PS " + prepStmt);
+            ResultSet rs = prepStmt.executeQuery();
+            System.out.println("2");
+            return rs;
             
         } catch (Exception e) {
             System.out.println("Cannot ritrive schedule.");
+            return null;
         }
-        return rs;
+      //  return rs;
     }
      
      public static void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
@@ -1973,7 +1980,7 @@ System.out.println("DSDSAS " + data);
         try{
             DBHandler db = new DBHandler();
             Connection conn = db.establishConnection();
-            String selectStatement = "INSERT INTO schedule ( date, openingTime, closeTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
+            String selectStatement = "INSERT INTO schedule ( date, openingTime, closingTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
             PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
             prepStmt.setDate(1, s.getDate()); // remove ++ from here, do it in last
             prepStmt.setString(2, s.getOpeningTime());

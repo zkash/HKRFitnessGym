@@ -134,14 +134,24 @@ public class AdminViewScheduleController implements Initializable {
         
         adminViewScheduleTable.setItems(searchData);
     }
-//    
-    public void update(ActionEvent event){
-        
+    
+    @FXML
+    public void update(ActionEvent event) throws IOException{
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/UpdateAdminSchedule.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
+    public void reset(ActionEvent event){
+        getScheduleDetial();
     }
     
     @FXML
     public void search(ActionEvent event){
-        System.out.println("S " + search.getText());
         if(search.getText().isEmpty()){
             getScheduleDetial();
         }
@@ -170,7 +180,7 @@ public class AdminViewScheduleController implements Initializable {
             
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.OK){
-               // dbHandler.deleteSchedule(scheduleSelect.get(0).getDate());
+                dbHandler.deleteSchedule(scheduleSelect.get(0).getDate());
                 scheduleSelect.forEach(allSchedule::remove);
             }
             else{
@@ -178,53 +188,4 @@ public class AdminViewScheduleController implements Initializable {
             }
         }
     }
-    
-//    @FXML
-//    public void search() throws ParseException{
-//        /*if(search.getText().isEmpty()){
-//            getScheduleDetial();
-//        }
-//        else{
-//            getSearchedDetial();
-//        }*/
-//    }
-//    
-//    @FXML
-//    public void delete(ActionEvent event){
-//        /*ObservableList<Schedule> scheduleSelect, allSchedule;
-//        allSchedule = adminViewScheduleTable.getItems();
-//        scheduleSelect = adminViewScheduleTable.getSelectionModel().getSelectedItems();
-//        
-//        if(scheduleSelect.isEmpty()){
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error Message");
-//            alert.setHeaderText("ERROR");
-//            alert.setContentText("Please select a scheule.");
-//            alert.showAndWait();
-//        }
-//        else{
-//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//            alert.setHeaderText("Confirm Deletion");
-//            alert.setContentText("Are you sure you want to delete the schedule?");
-//            
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if(result.get() == ButtonType.OK){
-//                DBHandler.deleteSchedule(scheduleSelect.get(0).getDate());
-//                scheduleSelect.forEach(allSchedule::remove);
-//            }
-//            else{
-//                alert.close();
-//            }
-//        }*/
-//    }
-//    
-//    /*@FXML
-//    public void logoutButton(ActionEvent event) throws IOException{
-//        Node node = (Node) event.getSource();
-//        Stage stage = (Stage) node.getScene().getWindow();
-//        Parent root = FXMLLoader.load(getClass().getResource("/com/Project/FXML/LoginPage.fxml"));
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
-//    }*/
 }

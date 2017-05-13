@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 
 /**
  *
@@ -1974,12 +1976,12 @@ System.out.println("DSDSAS " + data);
       //  return rs;
     }
      
-     public static void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
+     public void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
         //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
         //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
         try{
             DBHandler db = new DBHandler();
-            Connection conn = db.establishConnection();
+            Connection conn = establishConnection();
             String selectStatement = "INSERT INTO schedule ( date, openingTime, closingTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
             PreparedStatement prepStmt = (PreparedStatement) conn.prepareStatement(selectStatement);
             prepStmt.setDate(1, s.getDate()); // remove ++ from here, do it in last
@@ -1996,8 +1998,42 @@ System.out.println("DSDSAS " + data);
         }
     }
      
+     public void deleteSchedule(Date date){
+        Connection conn = null;
+        PreparedStatement prepStmt = null;
+        ResultSet rs = null;
+        try {
+            String statement = "DELETE FROM Schedule WHERE date = ?";
+            conn = establishConnection();
+            prepStmt = conn.prepareStatement(statement);
+            prepStmt.setDate(1, date);
+            prepStmt.execute();
+            System.out.println("Success removed");
+            
+        } catch (Exception e) {
+            System.out.println("error. Not delete.");
+        }
+    }
      
-     
+     public boolean exisitDate(DatePicker dp) throws SQLException{
+         Connection conn = null;
+         Date date = Date.valueOf(dp.getValue());
+         String statement = "SELECT count(date) FROM schedule WHERE date = ?";
+         conn = establishConnection();
+         PreparedStatement prepStmt = conn.prepareStatement(statement);
+         prepStmt.setDate(1,date);
+         ResultSet rs = prepStmt.executeQuery();
+         int count = 0;
+         while(rs.next()){
+             count = rs.getInt(1);
+         }
+         if(count==0) {
+             return true;
+         }
+         else {
+             return false;
+         }
+     }
      
      public static Iterable<com.Project.JDBC.DTO.Announcement> getAnnouncementList(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

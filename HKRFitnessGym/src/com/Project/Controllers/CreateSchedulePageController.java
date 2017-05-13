@@ -131,7 +131,7 @@ public class CreateSchedulePageController implements Initializable {
         cm = closingMin.getText();
         
         try {
-            checkBox();
+            check();
         } 
         catch (Exception e) {
             e.printStackTrace();
@@ -140,66 +140,118 @@ public class CreateSchedulePageController implements Initializable {
     }
     
     
-    public void checkBox() throws Exception{
+    public void check() throws Exception{
         checkHoliday();
         
         //choose date part
+        
         if(scheduleDate.getValue() == null) {
-            invalidMsgAnnouncement.setText("Pick Up A Date");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Pick Up A Date");
+            alert.show();
+            //invalidMsgAnnouncement.setText("Pick Up A Date");
         }
         else if(scheduleDate.getValue().isBefore(currentDate())){
-            invalidMsgAnnouncement.setText("Invalid Date");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Invalid Date");
+            alert.show();
+            //invalidMsgAnnouncement.setText("Invalid Date");
         }
-        
+        else if(!db.exisitDate(scheduleDate)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Date already in database");
+            alert.show();
+            //invalidMsgAnnouncement.setText("Date already in database");
+        }
         // opening time box
         else if(!Helper.isInteger(oh) || !Helper.isInteger(om)) {
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgOpeningTime.setText("Invalid Time");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Invalid Time");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgOpeningTime.setText("Invalid Time");
         }
         else if((Integer.valueOf(oh)<1) || (Integer.valueOf(oh)>12)){
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgOpeningTime.setText("Out Of Range");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Out Of Range");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgOpeningTime.setText("Out Of Range");
         }
         else if((Integer.valueOf(om)<0) || (Integer.valueOf(om)>59)){
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgOpeningTime.setText("Out Of Range");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Out Of Range");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgOpeningTime.setText("Out Of Range");
         }
         
         else if(closingTimeState.getSelectionModel().isEmpty() || openingTimeState.getSelectionModel().isEmpty()){
-                invalidMsgAnnouncement.setText("");
-                invalidMsgAllData.setText("Choose parts of day.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Choose state of day");
+            alert.show();
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgAllData.setText("Choose parts of day.");
         }
         
         //closing time
         else if(!Helper.isInteger(ch) || !Helper.isInteger(cm)) {
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgClosingTime.setText("Invalid Time");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Invalid Time");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgClosingTime.setText("Invalid Time");
         }
         else if((Integer.valueOf(ch)<1) || (Integer.valueOf(ch)>12)){
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgClosingTime.setText("Out Of Range");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Out Of Range");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgClosingTime.setText("Out Of Range");
         }
         else if((Integer.valueOf(cm)<0) || (Integer.valueOf(cm)>59)){
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgClosingTime.setText("Out Of Range");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Out Of Range");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgClosingTime.setText("Out Of Range");
         }
         else if(isMorning(openingTimeState) && isMorning(closingTimeState)){
+            
             timeFormat();
             if(d1.after(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("ERROR");
+                alert.setContentText("Invalid Time");
+                alert.show();
+                //invalidMsgAllData.setText("");
+                //invalidMsgAnnouncement.setText("");
+                //invalidMsgClosingTime.setText("Invalid Time");
             }
             else if(d1.equals(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("ERROR");
+                alert.setContentText("Invalid Time");
+                alert.show();
+                //invalidMsgAllData.setText("");
+                //invalidMsgAnnouncement.setText("");
+                //invalidMsgClosingTime.setText("Invalid Time");
             }
             else{
                 saveToDatabase();
@@ -209,23 +261,35 @@ public class CreateSchedulePageController implements Initializable {
             timeFormat();
             
             if(d1.after(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("ERROR");
+                alert.setContentText("Invalid Time");
+                alert.show();
+                //invalidMsgAllData.setText("");
+                //invalidMsgAnnouncement.setText("");
+                //invalidMsgClosingTime.setText("Invalid Time");
             }
             else if(d1.equals(d2)){
-                invalidMsgAllData.setText("");
-                invalidMsgAnnouncement.setText("");
-                invalidMsgClosingTime.setText("Invalid Time");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("ERROR");
+                alert.setContentText("Invalid Time");
+                alert.show();
+                //invalidMsgAllData.setText("");
+                //invalidMsgAnnouncement.setText("");
+                //invalidMsgClosingTime.setText("Invalid Time");
             }
             else{
                 saveToDatabase();
             }
         }
         else if(isMorning(closingTimeState) && !isMorning(openingTimeState)){
-            invalidMsgAllData.setText("");
-            invalidMsgAnnouncement.setText("");
-            invalidMsgClosingTime.setText("Invalid Time");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Invalid Time");
+            alert.show();
+            //invalidMsgAllData.setText("");
+            //invalidMsgAnnouncement.setText("");
+            //invalidMsgClosingTime.setText("Invalid Time");
         }
         else{
             saveToDatabase();

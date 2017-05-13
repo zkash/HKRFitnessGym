@@ -8,8 +8,11 @@ package com.Project.Models;
 import com.sun.javafx.scene.control.skin.TableViewSkin;
 import java.awt.Color;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -308,4 +311,31 @@ public class Helper {
                 catch (IllegalAccessException | InvocationTargetException e) { e.printStackTrace(); }
             }
         }
-}
+        
+        public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+            String generatedPassword = "";
+            try {
+                MessageDigest hashingAlgorithm = MessageDigest.getInstance("");
+                String salt = "";
+                String passwordAndSalt = salt + password;
+                hashingAlgorithm.update(passwordAndSalt.getBytes());
+                String generatedpassword = bytesToString(hashingAlgorithm.digest());
+                System.out.println("gen " + generatedpassword);
+                return generatedPassword;
+            }
+            catch(NoSuchAlgorithmException ex) {
+                showDialogBox(true, "Could not hash password");
+                return null;
+            }
+        }
+        
+        public String bytesToString(byte[] bytes) {
+            StringBuilder output = new StringBuilder();
+            for(byte b : bytes) {
+                output.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            }
+            System.out.println("OUTPIT " + output.toString());
+            return output.toString();
+        }
+        
+    }

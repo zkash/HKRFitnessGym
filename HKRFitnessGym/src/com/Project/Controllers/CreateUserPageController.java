@@ -8,6 +8,7 @@ import com.Project.Models.LoginStorage;
 import com.Project.Models.Member;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.sql.Date;
@@ -103,7 +104,7 @@ public class CreateUserPageController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void createUserBtnClick(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
         //Clear error messages
         invalidMsgAllData.setText("");
 
@@ -173,16 +174,18 @@ public class CreateUserPageController implements Initializable {
                 else {
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
-                    
+                    String hashedPassword = helper.hash(pw);
+                    System.out.println("hadheh " + hashedPassword);
+                    System.out.println("LENGTH " + hashedPassword.length());
                     if (isAdmin.isSelected()) {
-                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
                         dbHandler.createAdminAccount(admin);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewAdminAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewAdminAccounts.fxml");
                     }
                     else {
-                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
+                        Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
                         dbHandler.createMemberAccount(member, adminId);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/FXML/AdminViewMemberAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewMemberAccounts.fxml");
                     }
                     
                     helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);

@@ -5,7 +5,6 @@
  */
 package com.Project.Models;
 
-import static com.Project.JDBC.DAO.DBhandler.establishConnection;
 import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;

@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBhandler;
+import com.Project.Models.DBHandler;
 import com.Project.JDBC.DTO.Announcement;
 import com.Project.Models.Helper;
 import java.net.URL;
@@ -76,7 +76,7 @@ public class CreateAnnouncementPageController implements Initializable {
             }
             // Saves message after fulfill conditions.
             else if(message.getText().length() <= 100 && message.getText().length() > 0){
-                DBhandler.saveAnnouncement(dateformat.format(date), message.getText());
+                DBHandler.saveAnnouncement(dateformat.format(date), message.getText());
                 message.clear();
                 
             }
@@ -88,7 +88,7 @@ public class CreateAnnouncementPageController implements Initializable {
      // Retrieves messages from database.
     private void loadMessage() {
         messageArea.clear();
-        for (Announcement announcement : DBhandler.getAnnouncementList(("SELECT * FROM announcement"))) {
+        for (Announcement announcement : DBHandler.getAnnouncementList(("SELECT * FROM announcement"))) {
             messageArea.appendText(announcement.getTime() + " : " + announcement.getMessage() + "\n");
             }
         }

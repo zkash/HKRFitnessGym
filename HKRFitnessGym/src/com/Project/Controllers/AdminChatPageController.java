@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBhandler;
+import com.Project.Models.DBHandler;
 import com.Project.JDBC.DTO.Chat;
 import com.Project.Models.LoginStorage;
 import java.net.URL;
@@ -33,7 +33,7 @@ public class AdminChatPageController implements Initializable {
     @FXML
     private Button enter;
     
-    private DBhandler dbHandler = new DBhandler();
+    private DBHandler dbHandler = new DBHandler();
     private int id =  LoginStorage.getInstance().getId();
     private String accountType = LoginStorage.getInstance().getAccountType();
     
@@ -56,7 +56,7 @@ public class AdminChatPageController implements Initializable {
             }
             // If none of conditions apply, message will be saved.
             else if (message.getText().length() <= 100 && message.getText().length() > 0) {
-                DBhandler.saveMessage(datef.format(date), DBhandler.getLoggedUser(), message.getText());
+                DBHandler.saveMessage(datef.format(date), DBHandler.getLoggedUser(), message.getText());
                 message.clear();
            }
         } catch (Exception e) {

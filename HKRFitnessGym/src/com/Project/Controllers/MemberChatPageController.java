@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DAO.DBhandler;
+import com.Project.Models.DBHandler;
 import com.Project.JDBC.DTO.Chat;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -55,7 +55,7 @@ public class MemberChatPageController implements Initializable {
             }
             // If none of conditions apply, message will be saved.
             else if (message.getText().length() <= 100 && message.getText().length() > 0) {
-                DBhandler.saveMessage(datef.format(date), DBhandler.getLoggedUser(), message.getText());
+                DBHandler.saveMessage(datef.format(date), DBHandler.getLoggedUser(), message.getText());
                 message.clear();
                
             }

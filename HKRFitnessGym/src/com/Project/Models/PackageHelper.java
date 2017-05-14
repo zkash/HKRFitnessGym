@@ -1,8 +1,8 @@
 package com.Project.Models;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -25,8 +25,8 @@ public class PackageHelper {
     private String packageCost;
     private String packageStartTime;
     private String packageEndTime;
-    private LocalDate packageStartDate;
-    private LocalDate packageEndDate;
+    private Date packageStartDate;
+    private Date packageEndDate;
 
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
@@ -91,8 +91,8 @@ public class PackageHelper {
         packageCost = textFieldList.get(1).getText();
         packageStartTime = textFieldList.get(2).getText();
         packageEndTime = textFieldList.get(3).getText();
-        packageStartDate = datePickerList.get(0).getValue();
-        packageEndDate = datePickerList.get(1).getValue();
+        packageStartDate = helper.convertLocalDateToSQLDate(datePickerList.get(0).getValue());
+        packageEndDate = helper.convertLocalDateToSQLDate(datePickerList.get(1).getValue());
         
         //Get AM/PM text
         String packageStartTimeState = (String)comboBoxList.get(0).getValue();
@@ -122,8 +122,8 @@ public class PackageHelper {
                     pack = new Package(
                             packageName, 
                             Float.valueOf(packageCost), 
-                            helper.convertLocalDateToSQLDate(packageStartDate), 
-                            helper.convertLocalDateToSQLDate(packageEndDate), 
+                            packageStartDate, 
+                            packageEndDate, 
                             packageStartTime, 
                             packageEndTime);
                     handleTask(todo, packageNameOld, event, stage, pack, adminId, textFieldList, datePickerList);
@@ -133,8 +133,8 @@ public class PackageHelper {
                 pack = new Package(
                         packageName, 
                             Float.valueOf(packageCost), 
-                            helper.convertLocalDateToSQLDate(packageStartDate), 
-                            helper.convertLocalDateToSQLDate(packageEndDate), 
+                            packageStartDate, 
+                            packageEndDate, 
                             packageStartTime, 
                             packageEndTime);
                 handleTask(todo, packageNameOld, event, stage, pack, adminId, textFieldList, datePickerList);

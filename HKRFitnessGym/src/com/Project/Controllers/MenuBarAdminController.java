@@ -49,7 +49,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void createAccountMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateUserPage.fxml");
+        setupAndShowStage("CreateUser.fxml");
     }
     
     
@@ -68,8 +68,8 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void editPersonalInformationMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("UpdateAdminPersonalInformationPage.fxml");
+    public void updatePersonalInformationMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("UpdateAdminPersonalInformation.fxml");
     }
     
     
@@ -99,7 +99,7 @@ public class MenuBarAdminController implements Initializable {
      * @throws IOException 
      */
     public void createPackageMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreatePackagePage.fxml");
+        setupAndShowStage("CreatePackage.fxml");
     }
 
     
@@ -112,56 +112,6 @@ public class MenuBarAdminController implements Initializable {
         setupAndShowStage("AdminViewPackages.fxml");
     }
     
-    
-    /**
-     * Navigates to Create Schedule page
-     * @param event
-     * @throws IOException 
-     */
-    public void addScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateSchedulePage.fxml");
-    }
-    
-    
-    /**
-     * Navigates to View Schedule page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminViewSchedule.fxml");
-    }
-    
-    
-    /**
-     * Navigates to Create Announcement page
-     * @param event
-     * @throws IOException 
-     */
-    public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("CreateAnnouncementPage.fxml");
-    }
-   
-    
-    /**
-     * Navigates to View Announcement page
-     * @param event
-     * @throws IOException 
-     */
-    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminViewAnnouncement.fxml");
-    }
-    
-    
-    /**
-     * Navigates to Change Password page
-     * @param event
-     * @throws IOException 
-     */
-    public void changePasswordMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("ChangePassword.fxml");
-    }
-
     
     /**
      * Navigates to View Subscription Requests page
@@ -184,7 +134,7 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to View Declined Subsription Requests page
+     * Navigates to View Declined Subscription Requests page
      * @param event
      * @throws IOException 
      */
@@ -194,12 +144,61 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
+     * Navigates to Create Schedule page
+     * @param event
+     * @throws IOException 
+     */
+    public void addScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreateSchedule.fxml");
+    }
+    
+    
+    /**
+     * Navigates to View Schedule page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewSchedule.fxml");
+    }
+    
+    
+    /**
+     * Navigates to Create Announcement page
+     * @param event
+     * @throws IOException 
+     */
+    public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("CreateAnnouncement.fxml");
+    }
+   
+    
+    /**
+     * Navigates to View Announcement page
+     * @param event
+     * @throws IOException 
+     */
+    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminViewAnnouncement.fxml");
+    }
+    
+    
+    /**
      * Navigates to Chat page
      * @param event
      * @throws IOException 
      */
     public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("/com/Project/FXML/AdminChatPage.fxml");
-        
+        setupAndShowStage("AdminChat.fxml");   
     }
+    
+    
+    /**
+     * Navigates to Change Password page
+     * @param event
+     * @throws IOException 
+     */
+    public void changePasswordMenuClick(ActionEvent event) throws IOException {
+        setupAndShowStage("AdminChangePassword.fxml");
+    }  
 }

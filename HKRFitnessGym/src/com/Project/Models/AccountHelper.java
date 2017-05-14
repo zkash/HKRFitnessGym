@@ -15,8 +15,8 @@ import javafx.scene.control.TextField;
  * @author shameer
  */
 public class AccountHelper {
-    Helper helper = new Helper();
-    DBHandler dbHandler = new DBHandler();
+    private final Helper helper = new Helper();
+    private final DBHandler dbHandler = new DBHandler();
     
     /**
      * Sets text on label when given condition is true
@@ -142,7 +142,6 @@ public class AccountHelper {
      * @throws SQLException 
      */
      public void updateBtnClick(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
-        //Clear error messages
         Label invalidMsgAllData = labelList.get(0);
         Label invalidMsgFirstName = labelList.get(1);
         Label invalidMsgMiddleName = labelList.get(2);

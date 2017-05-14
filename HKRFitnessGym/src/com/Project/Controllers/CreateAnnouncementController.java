@@ -5,11 +5,14 @@
  */
 package com.Project.Controllers;
 
+import com.Project.Models.Announcement;
 import com.Project.Models.DBHandler;
-import com.Project.JDBC.DTO.Announcement;
+
 import com.Project.Models.Helper;
+import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -25,13 +28,17 @@ import javafx.scene.control.TextField;
  *
  * @author shameer
  */
-public class CreateAnnouncementPageController implements Initializable {
+public class CreateAnnouncementController implements Initializable {
     @FXML
         private TextArea messageArea, message;
         @FXML
         private Button enter;
         @FXML
         private Label errorMessage;
+        @FXML
+        private TextField titleTextField;
+        
+         private final int adminId = LoginStorage.getInstance().getId();
         
        
 
@@ -43,7 +50,7 @@ public class CreateAnnouncementPageController implements Initializable {
     //private String accountType = LoginStorage.getInstance().getAccountType();
         
     private final Helper helper = new Helper();
-    
+     private final DBHandler dbHandler = new DBHandler();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -62,8 +69,14 @@ public class CreateAnnouncementPageController implements Initializable {
     }  
     @FXML
     private void saveAnnouncement(ActionEvent event){
-        Date date = new Date();
+        //Date date = new Date();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy.MM.dd 'at' H:mm ");
+        java.sql.Date date = helper.getCurrentDateInSqlDate();
+        System.out.println("DATE " + date);
+        LocalTime currentTime= helper.getCurrentTime();
+        System.out.println("CT " + currentTime);
+        //java.sql.Date sqlDate = (java.sql.Date) date;
+        String title = titleTextField.getText();
         try{
             // It checks if field is unfilled.
             if(message.getText().length()== 0){
@@ -76,7 +89,16 @@ public class CreateAnnouncementPageController implements Initializable {
             }
             // Saves message after fulfill conditions.
             else if(message.getText().length() <= 100 && message.getText().length() > 0){
-                DBHandler.saveAnnouncement(dateformat.format(date), message.getText());
+                //dbHandler.saveAnnouncement(dateformat.format(date), message.getText());
+                String body = message.getText();
+                Announcement announcement = new Announcement();
+                announcement.setDate(date);
+                //announcement.setTime(time);
+                announcement.setTime(currentTime.toString());
+                announcement.setTitle(title);
+                announcement.setBody(body);
+                announcement.setAdminId(adminId);
+                dbHandler.saveAnnouncement(announcement);
                 message.clear();
                 
             }
@@ -89,7 +111,7 @@ public class CreateAnnouncementPageController implements Initializable {
     private void loadMessage() {
         messageArea.clear();
         for (Announcement announcement : DBHandler.getAnnouncementList(("SELECT * FROM announcement"))) {
-            messageArea.appendText(announcement.getTime() + " : " + announcement.getMessage() + "\n");
+            messageArea.appendText(announcement.getTime() + " : " + announcement.getBody() + "\n");
             }
         }
     

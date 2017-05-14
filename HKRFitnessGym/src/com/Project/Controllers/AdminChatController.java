@@ -6,7 +6,7 @@
 package com.Project.Controllers;
 
 import com.Project.Models.DBHandler;
-import com.Project.JDBC.DTO.Chat;
+
 import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -23,7 +23,7 @@ import javafx.scene.control.TextArea;
  *
  * @author KN
  */
-public class AdminChatPageController implements Initializable {
+public class AdminChatController implements Initializable {
     @FXML
     private TextArea messageArea;
     @FXML

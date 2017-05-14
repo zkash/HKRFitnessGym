@@ -27,7 +27,7 @@ import javafx.beans.binding.BooleanBinding;
  *
  * @author shameer
  */
-public class CreatePackagePageController implements Initializable {
+public class CreatePackageController implements Initializable {
     @FXML private Label invalidMsgPackageName;
     @FXML private Label invalidMsgPackageCost;
     @FXML private Label invalidMsgPackageStartTime;
@@ -85,11 +85,8 @@ public class CreatePackagePageController implements Initializable {
                     
         if (validated.get()) {
             int count = dbHandler.checkPackageName(pn);
-            boolean alreadyExists;
             
             if (count == 0) {
-                alreadyExists = false;
-                
                 ArrayList<TextField> textFieldList = new ArrayList<>();
                 textFieldList.add(packageName);
                 textFieldList.add(packageCost);
@@ -107,9 +104,8 @@ public class CreatePackagePageController implements Initializable {
                 String todo = "Create";
                 packageHelper.btnClick(todo, pn, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
             }
-            else {
-                alreadyExists = true;
-                helper.showDialogBox(alreadyExists, "Package with same name already exists");
+            else {              
+                helper.showDialogBox(true, "Package with same name already exists");
                 helper.clearTextField(packageName);
             }
         }

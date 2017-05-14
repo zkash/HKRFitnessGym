@@ -31,7 +31,7 @@ import javafx.scene.control.CheckBox;
  * @author shameer
  */
 
-public class CreateUserPageController implements Initializable {
+public class CreateUserController implements Initializable {
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;
@@ -175,17 +175,14 @@ public class CreateUserPageController implements Initializable {
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
                     String hashedPassword = helper.hash(pw);
-                    System.out.println("hadheh " + hashedPassword);
-                    System.out.println("LENGTH " + hashedPassword.length());
+                    
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
-                        //Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createAdminAccount(admin);
                         helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewAdminAccounts.fxml");
                     }
                     else {
                         Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
-                       // Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, pw);
                         dbHandler.createMemberAccount(member, adminId);
                         helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewMemberAccounts.fxml");
                     }

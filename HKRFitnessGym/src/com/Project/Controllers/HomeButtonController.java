@@ -21,10 +21,10 @@ public class HomeButtonController {
      */
     public void homeBtnClick(ActionEvent event) throws IOException {
         if(accountType.equals("Admin")) {
-            helper.navigateScene(event, "AdminMainPage.fxml");
+            helper.navigateScene(event, "AdminMainMenu.fxml");
         }
         else if(accountType.equals("Member")) {
-            helper.navigateScene(event, "MemberMainPage.fxml");
+            helper.navigateScene(event, "MemberMainMenu.fxml");
         } 
     }
 }

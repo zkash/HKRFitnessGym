@@ -19,9 +19,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
 import javafx.event.ActionEvent;
@@ -46,7 +49,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
  * @author shameer
  */
 public class Helper {
-    
+    private DBHandler dbHandler = new DBHandler();
     /**
      * Loads the properties file that has system email and password to handle forgot password
      * @return 
@@ -199,7 +202,7 @@ public class Helper {
         
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == noBtn) {
-            Parent root = FXMLLoader.load(Helper.class.getResource(nextScene));
+            Parent root = FXMLLoader.load(Helper.class.getResource("/com/Project/Views/" + nextScene));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();    
@@ -361,4 +364,104 @@ public class Helper {
             return output.toString();
         }
         
+        public java.sql.Date convertUtilDateToSqlDate(java.util.Date utilDate) {
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+            return sqlDate;
+        }
+        
+        public java.sql.Date getCurrentDateInSqlDate() {
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            return date;
+        }
+        
+//         public java.util.Date getCurrentTime() {
+//        DateFormat sdf = new SimpleDateFormat("H:mm");
+//        java.util.Date d = new java.util.Date();
+//        String dateStr = sdf.format(d);
+//        java.util.Date date = null;
+//        try {
+//           date = sdf.parse(dateStr);
+//            System.out.println("Date " + date);
+//        }
+//        catch(ParseException e)
+//        {
+//        
+//        }
+//        return date;
+        
+        public boolean checkOldPasswordAndChangePassword(int id, String accountType, String enteredOldPassword, String enteredNewPassword) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+            String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
+        System.out.println("heresave " + oldPasswordFromDB);
+        
+        String hashedEnteredOldPassword = hash(enteredOldPassword);
+            System.out.println("fdsad " + hashedEnteredOldPassword);
+            boolean changedPassword = false;
+        if (hashedEnteredOldPassword.equals(oldPasswordFromDB)) {
+            
+            String pwRegex = "(?=[a-zA-Z]*[0-9])(?=[0-9]*[a-zA-Z])^[0-9a-zA-Z]{5,}$"; //minimum 1 alpha, 1 number, 5 chars
+            
+            if (!enteredNewPassword.matches(pwRegex)) {
+                showDialogBox(true, "New password must be at least 5 characters, a digit is required");
+            } else if (enteredNewPassword.equals(enteredOldPassword)) {
+                showDialogBox(true, "New password must be different than old password");
+            } //  Update password using DBHandler method.
+            else {
+                String hashedNewPassword = hash(enteredNewPassword);
+                System.out.println("has " + hashedNewPassword);
+                dbHandler.updatePassword(accountType, id, hashedNewPassword);
+                changedPassword = true;
+                showDialogBox(false, "Your password has been changed.");
+            }
+        }
+        else {
+            showDialogBox(true, "Entered old password is not the correct old password");
+        }
+        return changedPassword;
+        }
+        
+        public int convertTimeToMinuteSinceMidnight(String time) {
+        String[] timeDivided = time.split(":");
+        int hour = Integer.parseInt(timeDivided[0]);
+        int minute = Integer.parseInt(timeDivided[1]);
+        int minutesSinceMidnight = (hour * 60) + minute;
+        return minutesSinceMidnight;
     }
+        
+        public String hourFormat(java.util.Date date){
+            DateFormat sdf2 = new SimpleDateFormat("HH");
+            String tFourH = sdf2.format(date);
+            return tFourH;
+        }
+        
+        public String minuteFormat(java.util.Date date){
+            DateFormat sdf2 = new SimpleDateFormat("mm");
+            String tFourH = sdf2.format(date);
+            return tFourH;
+        }
+        
+        public java.util.Date hourFormat(String time) throws ParseException{
+            DateFormat sdf = new SimpleDateFormat("HH");
+            java.util.Date d = sdf.parse(time);
+            return d;
+        }
+        
+        public java.util.Date minuteFormat(String time) throws ParseException{
+            DateFormat sdf = new SimpleDateFormat("mm");
+            java.util.Date d = sdf.parse(time);
+            return d;
+        }
+        
+        public int toInteger(String string){
+            int number = Integer.parseInt(string);
+            return number;
+        }
+        
+        public Time toSqlTime(String string) throws ParseException{
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+            long ms = sdf.parse(string).getTime();
+            Time t = new Time(ms);
+            return t;
+        }
+}
+    
+    

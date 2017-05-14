@@ -12,26 +12,13 @@ import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.util.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;;
 import java.text.SimpleDateFormat;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -41,46 +28,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;import java.text.SimpleDateFormat;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
  *
  * @author shameer
  */
-public class CreateSchedulePageController implements Initializable {
+public class CreateScheduleController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -327,21 +282,6 @@ public class CreateSchedulePageController implements Initializable {
     
     private void checkHoliday(){
         schedule.setIsHoliday(isHoliday.isSelected());
-    }
-    
-    public void mouseChecked(MouseEvent e){
-        if(openingTime.getText().isEmpty()){
-            openingTime.setText("12");
-        }
-        else if(openingMin.getText().isEmpty()){
-            openingMin.setText("00");
-        }
-        else if(closingTime.getText().isEmpty()){
-            closingTime.setText("12");
-        }
-        else if(closingMin.getText().isEmpty()){
-            closingMin.setText("00");
-        }
     }
     
     public void timeFormat() throws ParseException{

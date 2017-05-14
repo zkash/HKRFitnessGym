@@ -7,12 +7,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateSchedulePageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.CreateScheduleController">
     <top>
         <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
     <center>
-      <AnchorPane fx:id="borderPane" onMouseClicked="#mouseChecked" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="borderPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
           <children>
             <Label layoutX="125.0" layoutY="84.0" text="Date*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="126.0" layoutY="41.0" text="Create Schedule" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">

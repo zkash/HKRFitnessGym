@@ -13,7 +13,7 @@
                   <MenuItem fx:id="createAccountMenu" mnemonicParsing="false" onAction="#createAccountMenuClick" text="Create Account" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="viewPersonalInformationMenu" mnemonicParsing="false" onAction="#viewPersonalInformationMenuClick" text="View Personal Information" />
-                  <MenuItem fx:id="editPersonalInformationMenu" mnemonicParsing="false" onAction="#editPersonalInformationMenuClick" text="Edit Personal Information" />
+                  <MenuItem fx:id="updatePersonalInformationMenu" mnemonicParsing="false" onAction="#updatePersonalInformationMenuClick" text="Update Personal Information" />
                   <SeparatorMenuItem mnemonicParsing="false" />
             <Menu mnemonicParsing="false" text="View Accounts">
               <items>

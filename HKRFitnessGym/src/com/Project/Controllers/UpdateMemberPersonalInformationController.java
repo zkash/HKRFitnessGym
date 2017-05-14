@@ -1,10 +1,10 @@
 package com.Project.Controllers;
 
 import com.Project.Models.AccountHelper;
-import com.Project.Models.Admin;
 import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
+import com.Project.Models.Member;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import javafx.scene.control.TextField;
  *
  * @author shameer
  */
-public class UpdateAdminPersonalInformationPageController implements Initializable {
+public class UpdateMemberPersonalInformationController implements Initializable {
     @FXML private TextField firstName;
     @FXML private TextField middleName;
     @FXML private TextField lastName;
@@ -54,10 +54,10 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
     private final AccountHelper accountHelper = new AccountHelper();
     
     private int ssnOld1, ssnOld2;
-    
-    private final int adminId = LoginStorage.getInstance().getId();
+
+    private final int memberId = LoginStorage.getInstance().getId();
     private final String accountType = LoginStorage.getInstance().getAccountType();
-    
+
     /**
      * Initializes the controller class.
      * @param url
@@ -82,15 +82,14 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         accountHelper.changeFocusInUpdateInfo(email, textFieldList, invalidMsgEmail);
         accountHelper.changeFocusInUpdateInfo(ssn, textFieldList, invalidMsgSSN);
         
-        ObservableList<Admin> data = null;
+        ObservableList<Member> data = null;
 
         try {
-            data = dbHandler.getAdminPersonalInformation(adminId);
+            data = dbHandler.getMemberPersonalInformation(memberId);
             if(data.isEmpty()) {
                 helper.showDialogBox(true, "There is no such user to view personal details about");
             }
-        } 
-        catch (SQLException e) {
+        } catch (SQLException ex) {
             helper.showDialogBox(true, "There is problem with SQL database");
         }
         
@@ -122,8 +121,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
                 break;
         }
     }     
-
-    
+   
     /**
      * Handles update button click
      * @param event
@@ -135,7 +133,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         radioButtonList.add(genderMale);
         radioButtonList.add(genderFemale);
         radioButtonList.add(genderOther);
-        
+
         ArrayList<Label> labelList = new ArrayList<>();
         labelList.add(invalidMsgAllData);
         labelList.add(invalidMsgFirstName);
@@ -145,6 +143,7 @@ public class UpdateAdminPersonalInformationPageController implements Initializab
         labelList.add(invalidMsgPhoneNumber);
         labelList.add(invalidMsgEmail);
         labelList.add(invalidMsgSSN);
-        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, adminId, ssnOld1, ssnOld2);
+        
+        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
     }
 }

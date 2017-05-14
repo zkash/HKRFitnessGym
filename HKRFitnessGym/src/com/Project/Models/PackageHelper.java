@@ -20,20 +20,27 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class PackageHelper {
-    String packageNameOld;
-    String packageName;
-    String packageCost;
-    String packageStartTime;
-    String packageEndTime;
-    LocalDate packageStartDate;
-    LocalDate packageEndDate;
+    private String packageNameOld;
+    private String packageName;
+    private String packageCost;
+    private String packageStartTime;
+    private String packageEndTime;
+    private LocalDate packageStartDate;
+    private LocalDate packageEndDate;
 
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
     
     private BooleanBinding validated;
+    
+    /**
+     * Binds listener to text fields and labels
+     * @param textfields An array of text fields
+     * @param labels And array of labels
+     * @param validationChecks An array of validation check regular expressions
+     * @return 
+     */
     public BooleanBinding addListenerBindTextFieldsAndLabels(List<TextField> textfields, List<Label> labels, List<String> validationChecks) {
-        
         //Add listeners to the textfields
         IntStream.range(0, textfields.size()).forEach(i -> {
             textfields.get(i).focusedProperty().addListener((observable, oldProperty, newProperty) -> {
@@ -48,7 +55,6 @@ public class PackageHelper {
         
         //Boolean binding true when textfields are filled and labels are empty
         validated = new BooleanBinding() {
-            
             //Bind TextProperty of labels and textfields to the boolean binding
             {
                 super.bind(labels.stream().map(label -> label.textProperty()).toArray(Observable[]::new));
@@ -164,7 +170,7 @@ public class PackageHelper {
                 datePicker.getEditor().clear();
             });
         
-            helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "/com/Project/FXML/AdminViewPackages.fxml");
+            helper.showDialogBoxChoice(stage, "Package successfully created", "Do you want to create another package?", "AdminViewPackages.fxml");
         }
         else if(todo.equals("Update")) {
             dbHandler.updatePackage(pack, packageNameOld, adminId);

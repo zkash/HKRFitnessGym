@@ -56,7 +56,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     private final int memberId = LoginStorage.getInstance().getId();
     private final String username = LoginStorage.getInstance().getUsername();
     
-    ObservableList<Subscription> subscription;
+    ObservableList<Subscription> data, row, allRows;
     
     /**
      * Initializes the controller class.
@@ -66,7 +66,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            subscription = dbHandler.memberViewSubscription();
+            data = dbHandler.memberViewSubscription();
             
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -78,7 +78,7 @@ public class MemberViewSubscriptionsController implements Initializable {
             offeredPriceColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
             messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
             
-            memberViewSubscriptionsTable.setItems(subscription);    
+            memberViewSubscriptionsTable.setItems(data);    
         } 
         catch (SQLException e) {
             helper.showDialogBox(true, "Could not fetch data from database and show in table because of an error");
@@ -93,7 +93,6 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @throws SQLException 
      */
     public void cancelBtnClick(ActionEvent event) throws IOException, SQLException {
-        ObservableList<Subscription> row , allRows;
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
         
@@ -136,8 +135,6 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @throws SQLException 
      */
     public void renewBtnClick(ActionEvent event) throws SQLException {
-        System.out.println("Hello");
-        ObservableList<Subscription> row , allRows;
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
        
@@ -220,7 +217,6 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @throws IOException 
      */
     public void saveDetailsBtnClick(ActionEvent event) throws IOException {
-        ObservableList<Subscription> row , allRows;
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
 

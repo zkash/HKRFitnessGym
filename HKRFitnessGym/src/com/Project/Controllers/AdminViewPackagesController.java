@@ -40,7 +40,7 @@ public class AdminViewPackagesController implements Initializable {
     
     @FXML private TextField searchPackage;
     
-    @FXML private UpdatePackageInformationPageController updatePackageInformationPageController;
+    @FXML private UpdatePackageInformationController updatePackageInformationPageController;
 
     private final DBHandler dbHandler = new DBHandler();
     private final Helper helper = new Helper();
@@ -156,7 +156,6 @@ public class AdminViewPackagesController implements Initializable {
      * @throws InvocationTargetException 
      */
     public void setDataInTable(ObservableList<Package> data) throws IllegalArgumentException, InvocationTargetException {
-        // Set cell value factory to TableView
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));

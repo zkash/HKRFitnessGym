@@ -5,6 +5,7 @@ import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -37,8 +38,9 @@ public class CreatePasswordController implements Initializable {
      * Handles create password button click
      * @param event
      * @throws SQLException 
+     * @throws java.security.NoSuchAlgorithmException 
      */
-    public void createBtnClick(ActionEvent event) throws SQLException {
+    public void createBtnClick(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
         String pwd1 = password1.getText();
         String pwd2 = password2.getText();
         
@@ -52,7 +54,8 @@ public class CreatePasswordController implements Initializable {
         {            
             if(pwd1.equals(pwd2)) {
                 try {
-                    dbHandler.updatePassword(accountType, id, pwd1);
+                    String hashedPassword = helper.hash(pwd1);
+                    dbHandler.updatePassword(accountType, id, hashedPassword);
                     helper.showDialogBox(false, "Password updated");
                     helper.navigateScene(event, "LoginPage.fxml");
                 }

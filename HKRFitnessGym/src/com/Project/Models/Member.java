@@ -7,7 +7,15 @@ import java.sql.Date;
  * @author shameer
  */
 public class Member extends Person {
-    private String adminFullName = null;
+    private String adminFullName;
+    
+    /**
+     * Initializer constructor
+     */
+    public Member() {
+        this.adminFullName = null;
+    }
+    
     
     /**
      * Constructor for MemberViewPersonalInformationController, UpdateMemberPersonalInformationPageController

@@ -7,25 +7,36 @@ import java.sql.Date;
  * @author shameer
  */
 public class Subscription extends Package {
-    private String subscriptionStatus = null;
-    private String declineMessage = null;
-    private String subscriptionAdminFullName = null;
-    private String memberFullName = null;
-    private String memberUsername = null;
+    private String subscriptionStatus;
+    private String declineMessage;
+    private String subscriptionAdminFullName;
+    private String memberFullName;
+    private String memberUsername;
     
-    private Date subscriptionStartDate = null;
-    private Date subscriptionEndDate = null;
+    private Date subscriptionStartDate;
+    private Date subscriptionEndDate;
     
-    private int packageId = 0;
-    private int memberId = 0;
-    private int subscriptionId = 0;
+    private int packageId;
+    private int memberId;
+    private int subscriptionId;
     
-    private float offerPrice = 0;
+    private float offerPrice;
     
     /**
-     * Default constructor
+     * Initializer constructor
      */
     public Subscription() {
+        this.subscriptionStatus = null;
+        this.declineMessage = null;
+        this.subscriptionAdminFullName = null;
+        this.memberFullName = null;
+        this.memberUsername = null;
+        this.subscriptionStartDate = null;
+        this.subscriptionEndDate = null;
+        this.packageId = 0;
+        this.memberId = 0;
+        this.subscriptionId = 0;
+        this.offerPrice = 0;
     }
         
     

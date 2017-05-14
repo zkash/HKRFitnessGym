@@ -7,10 +7,20 @@ import java.sql.Date;
  * @author shameer
  */
 public class ForgotPasswordRequest {
-    private Date date = null;
-    private String time = null;
-    private String code = null;
-    private int id = 0;
+    private Date date;
+    private String time;
+    private String code ;
+    private int id;
+
+    /**
+     * Initializer constructor
+     */
+    public ForgotPasswordRequest() {
+        this.date = null;
+        this.time = null;
+        this.code = null;
+        this.id = 0;
+    }
     
     /**
      * Accessor method for date

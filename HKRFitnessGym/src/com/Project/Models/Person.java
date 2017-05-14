@@ -7,24 +7,44 @@ import java.sql.Date;
  * @author shameer
  */
 public class Person {
-    private String firstName = null;
-    private String middleName = null;
-    private String lastName = null;
-    private String gender = null;
-    private String address = null;
-    private String email = null;
-    private String username = null;
-    private String password = null;
-    private String fullName = null;
-    private String fullSSN = null;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String gender;
+    private String address;
+    private String email;
+    private String username;
+    private String password;
+    private String fullName;
+    private String fullSSN;
     
-    private Date dateOfBirth = null;
+    private Date dateOfBirth;
     
-    private int phoneNumber = 0;
-    private int ssn1 = 0;
-    private int ssn2 = 0;
+    private int phoneNumber;
+    private int ssn1;
+    private int ssn2;
     
+    /**
+     * Initializer constructor
+     */
+    public Person() {
+        this.firstName = null;
+        this.middleName = null;
+        this.lastName = null;
+        this.gender = null;
+        this.address = null;
+        this.email = null;
+        this.username = null;
+        this.password = null;
+        this.fullName = null;
+        this.fullSSN = null;
+        this.dateOfBirth = null;
+        this.phoneNumber = 0;
+        this.ssn1 = 0;
+        this.ssn2 = 0;
+    }
 
+    
     /**
      * Constructor for AdminViewAdminAccounts, AdminViewMemberAccounts
      * @param fullName Full name of user

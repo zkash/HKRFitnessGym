@@ -7,23 +7,32 @@ import java.sql.Date;
  * @author shameer
  */
 public class Package {
-    private String packageName = null;
-    private String startTime = null;
-    private String endTime = null;
-    private String adminFullName = null;
+    private String packageName;
+    private String startTime;
+    private String endTime;
+    private String adminFullName;
     
-    private Date startDate = null;
-    private Date endDate = null;
+    private Date startDate;
+    private Date endDate;
     
-    private int packageId = 0;
-    private int numberOfSubscriber = 0;
+    private int packageId;
+    private int numberOfSubscriber;
     
-    private float price = 0;
+    private float price;
     
     /**
-     * Default constructor
+     * Initializer constructor
      */
     public Package() {
+        this.packageName = null;
+        this.startTime = null;
+        this.endTime = null;
+        this.adminFullName = null;
+        this.startDate = null;
+        this.endDate = null;
+        this.packageId = 0;
+        this.numberOfSubscriber = 0;
+        this.price = 0;
     }
     
     

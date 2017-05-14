@@ -7,9 +7,18 @@ import java.sql.Date;
  * @author shameer
  */
 public class SubscriptionRequest extends Subscription {
-    private String memberFullName = null;
-    private String memberUsername = null;
+    private String memberFullName;
+    private String memberUsername;
  
+    /**
+     * Initializer constructor
+     */
+    public SubscriptionRequest() {
+        this.memberFullName = null;
+        this.memberUsername = null;
+    }
+    
+    
     /**
      * Constructor for getSubscriptionRequest, searchInAdminViewSubscriptionRequests
      * @param packageName Name of package

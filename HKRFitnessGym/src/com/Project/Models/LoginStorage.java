@@ -1,7 +1,5 @@
 package com.Project.Models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -11,9 +9,9 @@ import javafx.beans.property.StringProperty;
  */
 public class LoginStorage {
     private static LoginStorage loginStorage;
-    private final IntegerProperty id = new SimpleIntegerProperty();
-    private final StringProperty username = new SimpleStringProperty();
-    private final StringProperty accountType = new SimpleStringProperty();
+    private int id = 0;
+    private StringProperty username = new SimpleStringProperty();
+    private String accountType = null;
     
     /**
      * Default constructor
@@ -36,28 +34,28 @@ public class LoginStorage {
     
     /**
      * Sets the id of the account
-     * @param i The id of the account
+     * @param id The id of the account
      */
-    public void setId(int i) {
-        id.set(i);
+    public void setId(int id) {
+        this.id = id;
     }
     
     
     /**
      * Sets the username of the account
-     * @param un The username of the account
+     * @param username The username of the account
      */
-    public void setUsername(String un) {
-        username.set(un);
+    public void setUsername(String username) {
+        this.username.set(username);
     }
     
     
     /**
      * Sets the type of the account
-     * @param accType The type of the account
+     * @param accountType The type of the account
      */
-    public void setAccountType(String accType) {
-        accountType.set(accType);
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
     
     
@@ -66,7 +64,7 @@ public class LoginStorage {
      * @return The id of the account
      */
     public int getId() {
-        return id.get();
+        return id;
     }
     
     
@@ -84,7 +82,7 @@ public class LoginStorage {
      * @return The type of the account
      */
     public String getAccountType() {
-        return accountType.get();
+        return accountType;
     }
     
     

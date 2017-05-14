@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.Optional;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,19 +67,9 @@ public class MemberViewSubscriptionsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            data = dbHandler.memberViewSubscription(memberId);
-            
-            packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-            priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-            startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-            endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-            subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
-            subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
-            subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
-            offeredPriceColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
-            messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
-            
-            memberViewSubscriptionsTable.setItems(data);    
+            String filter = "All";
+            data = dbHandler.memberViewSubscription(memberId, filter);
+            setDataInTable(data);    
         } 
         catch (SQLException e) {
             helper.showDialogBox(true, "Could not fetch data from database and show in table because of an error");
@@ -212,6 +203,82 @@ public class MemberViewSubscriptionsController implements Initializable {
 
     
     /**
+     * Handles radio box with label 'All' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterAllSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "All";
+        setDataInTableByFilter(filter);
+    }
+    
+    
+    /**
+     * Handles radio box with label 'Active' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterActiveSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Active";
+        setDataInTableByFilter(filter);
+    }
+    
+    
+    /**
+     * Handles radio box with label 'Expired' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterExpiredSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Expired";
+        setDataInTableByFilter(filter);
+    }
+    
+    
+    /**
+     * Handles radio box with label 'Cancelled' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Cancelled";
+        setDataInTableByFilter(filter);
+    }
+    
+    /**
+     * Handles radio box with label 'Requested' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterRequestedSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Requested";
+        setDataInTableByFilter(filter);
+    }
+    
+    /**
+     * Handles radio box with label 'Declined' click
+     * @param event
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void subscriptionFilterDeclinedSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Declined";
+        setDataInTableByFilter(filter);
+    }
+    
+    
+    /**
      * Creates a PDF file of subscription details and saves it location selected by the user
      * @param event
      * @throws IOException 
@@ -310,5 +377,37 @@ public class MemberViewSubscriptionsController implements Initializable {
         alert.getButtonTypes().setAll(yesBtn, noBtn);
         Optional<ButtonType> result = alert.showAndWait();
         return result;
+    }
+    
+    
+    /**
+     * Sets data in table view
+     * @param data 
+     */
+    public void setDataInTable(ObservableList<Subscription> data) {
+        packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        subscriptionStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStartDate"));
+        subscriptionEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionEndDate"));
+        subscriptionStatusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
+        offeredPriceColumn.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
+        messageColumn.setCellValueFactory(new PropertyValueFactory<>("declineMessage"));
+        memberViewSubscriptionsTable.setItems(data);   
+    }
+    
+    
+    /**
+     * Gets the data from database, sets in in table, and fixes the width of the columns
+     * @param filter
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
+    public void setDataInTableByFilter(String filter) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        data = dbHandler.memberViewSubscription(memberId, filter);
+        setDataInTable(data);
+        helper.fitColumns(memberViewSubscriptionsTable); 
     }
 }

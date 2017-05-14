@@ -1116,7 +1116,7 @@ System.out.println("DSDSAS " + data);
         
     }
     
-    public ObservableList<Subscription> memberViewSubscription(int memberId) throws SQLException {
+    public ObservableList<Subscription> memberViewSubscription(int memberId, String filter) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
@@ -1124,6 +1124,27 @@ System.out.println("DSDSAS " + data);
                 + "ON pk.packageId = sub.Package_packageId "
                 + " WHERE Member_memberId = ?";
                 //+ "WHERE sub.isCancelled = 0";
+                
+//                if(filter.equals("All")) {
+//            query = query + "  AND subscriptionStatus = 'Requested' AND subscriptionStatus = 'Declined' "
+//                    + "AND subscriptionStatus = 'Active' AND subscriptionStatus = 'Expired' AND subscriptionStatus = 'Cancelled'";
+//        }
+        if(filter.equals("Active")) {
+            query = query + "  AND subscriptionStatus = 'Active'";
+        }
+        else if(filter.equals("Expired")) {
+            query = query + "  AND subscriptionStatus = 'Expired'";
+        }
+        else if(filter.equals("Cancelled")) {
+            query = query + "  AND subscriptionStatus = 'Cancelled'";
+        }
+                 else if(filter.equals("Requested")) {
+            query = query + " AND subscriptionStatus = 'Requested'";
+        }
+                
+                 else if(filter.equals("Declined")) {
+            query = query + "  AND subscriptionStatus = 'Declined'";
+        }
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, memberId);
         ResultSet rs = statement.executeQuery();

@@ -93,8 +93,8 @@ public class MemberViewSubscriptionsController implements Initializable {
         else {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             switch (subscriptionStatus) {
-                case "Cancelled":
-                    helper.showDialogBox(true, "You have already cancelled this subscription or this subscription has already expired");
+                case "Canceled":
+                    helper.showDialogBox(true, "You have already canceled this subscription or this subscription has already expired");
                     break;
                 case "Requested":
                     helper.showDialogBox(true, "You cannot cancel this subscription. \nYour subscription request is being processed");
@@ -108,7 +108,7 @@ public class MemberViewSubscriptionsController implements Initializable {
                     if (result.get().getText().equals("Yes")) {
                         try {
                             dbHandler.cancelSubscription(subscriptionId);
-                            helper.showDialogBox(false, "Successfully cancelled subscription");
+                            helper.showDialogBox(false, "Successfully canceled subscription");
                             row.forEach(allRows::remove);
                         }
                         catch(SQLException e) {
@@ -242,14 +242,14 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     
     /**
-     * Handles radio box with label 'Cancelled' click
+     * Handles radio box with label 'Canceled' click
      * @param event
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
-        String filter = "Cancelled";
+    public void subscriptionFilterCanceledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Canceled";
         setDataInTableByFilter(filter);
     }
     

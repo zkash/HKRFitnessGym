@@ -885,8 +885,8 @@ public class DBHandler {
             case "Expired":
                 query = query + "  AND subscriptionStatus = 'Expired'";
                 break;
-            case "Cancelled":
-                query = query + "  AND subscriptionStatus = 'Cancelled'";
+            case "Canceled":
+                query = query + "  AND subscriptionStatus = 'Canceled'";
                 break;
             case "Requested":
                 query = query + " AND subscriptionStatus = 'Requested'";
@@ -928,7 +928,7 @@ public class DBHandler {
     
     public void cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET subscriptionStatus = 'Cancelled' WHERE subscriptionId = ?";
+        String query = "UPDATE Subscription SET subscriptionStatus = 'Canceled' WHERE subscriptionId = ?";
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setInt(1, subscriptionId);
         statement.executeUpdate();
@@ -1266,8 +1266,8 @@ public class DBHandler {
             case "Expired":
                 query = query + "  WHERE subscriptionStatus = 'Expired'";
                 break;
-            case "Cancelled":
-                query = query + "  WHERE subscriptionStatus = 'Cancelled'";
+            case "Canceled":
+                query = query + "  WHERE subscriptionStatus = 'Canceled'";
                 break;
             default:
                 break;

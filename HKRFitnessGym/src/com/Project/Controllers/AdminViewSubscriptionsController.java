@@ -165,14 +165,14 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     
     /**
-     * Handles radio box with label 'Cancelled' click
+     * Handles radio box with label 'Canceled' click
      * @param event
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void subscriptionFilterCancelledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
-        String filter = "Cancelled";
+    public void subscriptionFilterCanceledSelected(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        String filter = "Canceled";
         setDataInTableByFilter(filter);
     }
     

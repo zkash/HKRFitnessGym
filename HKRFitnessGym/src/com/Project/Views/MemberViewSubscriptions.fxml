@@ -57,7 +57,7 @@
                   <Font size="11.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="subscriptionFilterCancelled" layoutX="483.0" layoutY="472.0" mnemonicParsing="false" onAction="#subscriptionFilterCancelledSelected" text="Cancelled" toggleGroup="$filterView">
+            <RadioButton fx:id="subscriptionFilterCanceled" layoutX="483.0" layoutY="472.0" mnemonicParsing="false" onAction="#subscriptionFilterCanceledSelected" text="Canceled" toggleGroup="$filterView">
                <font>
                   <Font size="11.0" />
                </font>

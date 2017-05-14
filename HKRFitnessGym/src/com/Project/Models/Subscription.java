@@ -46,25 +46,25 @@ public class Subscription extends Package {
             super(packageName);
         }
         
-        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid) {
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date subscriptionStartDate, Date sed, int sid) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
-            this.subscriptionStartDate = ssd;
+            this.subscriptionStartDate = subscriptionStartDate;
             this.subscriptionEndDate = sed;
             this.subscriptionId = sid;
             
         }
         
-        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, float op) {
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date subscriptionStartDate, Date sed, int sid, float op) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
-            this.subscriptionStartDate = ssd;
+            this.subscriptionStartDate = subscriptionStartDate;
             this.subscriptionEndDate = sed;
             this.subscriptionId = sid;
             this.offerPrice = op;
         }
         
-        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date ssd, Date sed, int sid, String dm) {
+        public Subscription(String packageName, Float price, Date packageStartDate, Date packageEndDate, String startTime, String endTime, Date subscriptionStartDate, Date sed, int sid, String dm) {
             super(packageName, price, packageStartDate, packageEndDate, startTime, endTime);
-            this.subscriptionStartDate = ssd;
+            this.subscriptionStartDate = subscriptionStartDate;
             this.subscriptionEndDate = sed;
             this.subscriptionId = sid;
             this.declineMessage = dm;
@@ -119,9 +119,9 @@ public class Subscription extends Package {
         return subscriptionAdminFullName;
     }
     
-    public void setSubscriptionStartDate(Date ssd) {
-        System.out.println(" outside2 " + ssd);
-        this.subscriptionStartDate = ssd;
+    public void setSubscriptionStartDate(Date subscriptionStartDate) {
+        System.out.println(" outside2 " + subscriptionStartDate);
+        this.subscriptionStartDate = subscriptionStartDate;
         System.out.println(" outside ");
     }
     

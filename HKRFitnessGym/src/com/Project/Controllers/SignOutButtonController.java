@@ -30,7 +30,7 @@ public class SignOutButtonController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void signOutBtnClick(ActionEvent event) throws IOException {
+    public void handleSignOutBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "LoginPage.fxml");
     } 
 }

@@ -48,7 +48,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void createAccountMenuClick(ActionEvent event) throws IOException {
+    public void handleCreateAccountMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("CreateUser.fxml");
     }
     
@@ -58,7 +58,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewPersonalInformationMenuClick(ActionEvent event) throws IOException {
+    public void handleViewPersonalInformationMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewPersonalInformation.fxml");
     }
     
@@ -68,7 +68,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void updatePersonalInformationMenuClick(ActionEvent event) throws IOException {
+    public void handleUpdatePersonalInformationMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("UpdateAdminPersonalInformation.fxml");
     }
     
@@ -78,7 +78,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewAdminAccountsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewAdminAccountsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewAdminAccounts.fxml");
     }
     
@@ -88,7 +88,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewMemberAccountsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewMemberAccountsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewMemberAccounts.fxml");
     }
     
@@ -98,7 +98,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void createPackageMenuClick(ActionEvent event) throws IOException {
+    public void handleCreatePackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("CreatePackage.fxml");
     }
 
@@ -108,7 +108,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewPackageMenuClick(ActionEvent event) throws IOException {
+    public void handleViewPackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewPackages.fxml");
     }
     
@@ -118,7 +118,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewSubscriptionRequests.fxml");
     }
     
@@ -128,7 +128,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewSubscriptionsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewSubscriptions.fxml");
     }
     
@@ -138,7 +138,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewDeclinedSubscriptionRequests.fxml");
     }
     
@@ -148,7 +148,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void addScheduleMenuClick(ActionEvent event) throws IOException {
+    public void handleAddScheduleMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("CreateSchedule.fxml");
     }
     
@@ -158,7 +158,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+    public void handleViewScheduleMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewSchedule.fxml");
     }
     
@@ -168,7 +168,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void createAnnouncementMenuClick(ActionEvent event) throws IOException {
+    public void handleCreateAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("CreateAnnouncement.fxml");
     }
    
@@ -178,7 +178,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+    public void handleViewAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewAnnouncement.fxml");
     }
     
@@ -188,7 +188,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+    public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminChat.fxml");   
     }
     
@@ -198,7 +198,7 @@ public class MenuBarAdminController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void changePasswordMenuClick(ActionEvent event) throws IOException {
+    public void handleChangePasswordMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminChangePassword.fxml");
     }  
 }

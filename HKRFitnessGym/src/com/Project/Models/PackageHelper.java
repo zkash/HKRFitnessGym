@@ -84,7 +84,7 @@ public class PackageHelper {
      * @throws SQLException
      * @throws IOException 
      */
-    public void btnClick(String todo, String packName, ActionEvent event, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList, ArrayList<ComboBox> comboBoxList, Stage stage, int adminId) throws SQLException, IOException {
+    public void handleButtonClick(String todo, String packName, ActionEvent event, ArrayList<TextField> textFieldList, ArrayList<DatePicker> datePickerList, ArrayList<ComboBox> comboBoxList, Stage stage, int adminId) throws SQLException, IOException {
         Package pack;
         packageNameOld = packName;
         packageName = textFieldList.get(0).getText();

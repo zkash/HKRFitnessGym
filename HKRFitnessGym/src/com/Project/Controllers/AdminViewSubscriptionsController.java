@@ -68,7 +68,7 @@ public class AdminViewSubscriptionsController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchSubscription.getText(); 
         String memberFirstName = null, memberMiddleName = null, memberLastName = null, memberUsername = null, packageName = null, adminFirstName = null, adminMiddleName = null, adminLastName = null;
         
@@ -118,7 +118,7 @@ public class AdminViewSubscriptionsController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String filter = "All";
         setDataInTableByFilter(filter);
         

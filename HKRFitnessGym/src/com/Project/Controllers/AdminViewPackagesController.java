@@ -71,7 +71,7 @@ public class AdminViewPackagesController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchPackage.getText();
         data = dbHandler.searchInAdminViewPackage(searchQuery);
         setDataInTable(data);
@@ -86,7 +86,7 @@ public class AdminViewPackagesController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewPackages();
         setDataInTable(data);
         helper.fitColumns(adminViewPackagesTable); 
@@ -99,7 +99,7 @@ public class AdminViewPackagesController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleDeleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row , allRows;
         allRows = adminViewPackagesTable.getItems();
         row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
@@ -130,7 +130,7 @@ public class AdminViewPackagesController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleUpdateBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Package> row = adminViewPackagesTable.getSelectionModel().getSelectedItems(); 
         String packageName = row.get(0).getPackageName();
         data = dbHandler.getPackageInfoAdmin(packageName);

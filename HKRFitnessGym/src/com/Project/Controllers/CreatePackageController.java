@@ -77,7 +77,7 @@ public class CreatePackageController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void createPackageBtnClick(ActionEvent event) throws SQLException, IOException {   
+    public void handleCreatePackageBtnClick(ActionEvent event) throws SQLException, IOException {   
         String pn = packageName.getText();
 
         Node node = (Node) event.getSource();
@@ -102,7 +102,7 @@ public class CreatePackageController implements Initializable {
                 comboBoxList.add(packageEndTimeState);
                 
                 String todo = "Create";
-                packageHelper.btnClick(todo, pn, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
+                packageHelper.handleButtonClick(todo, pn, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
             }
             else {              
                 helper.showDialogBox(true, "Package with same name already exists");

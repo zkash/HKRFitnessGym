@@ -87,7 +87,7 @@ public class LoginPageController implements Initializable {
      * @throws SQLException 
      */
     @FXML
-    private void loginBtnClick(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException {
+    private void handleLoginBtnClick(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException {
         String uname = usernameTextField.getText();
         String pwd = passwordTextField.getText();
         if(!helper.isEmpty(uname) && !helper.isEmpty(pwd) && accountTypeComboBox.getValue() != null) {

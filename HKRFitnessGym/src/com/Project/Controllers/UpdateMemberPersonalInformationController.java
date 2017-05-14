@@ -128,7 +128,7 @@ public class UpdateMemberPersonalInformationController implements Initializable 
      * @throws SQLException 
      */
     @FXML
-    public void updateBtnClick(ActionEvent event) throws SQLException {
+    public void handleUpdateBtnClick(ActionEvent event) throws SQLException {
         ArrayList<RadioButton> radioButtonList = new ArrayList<>();
         radioButtonList.add(genderMale);
         radioButtonList.add(genderFemale);
@@ -144,6 +144,6 @@ public class UpdateMemberPersonalInformationController implements Initializable 
         labelList.add(invalidMsgEmail);
         labelList.add(invalidMsgSSN);
         
-        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
+        accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
     }
 }

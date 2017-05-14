@@ -45,7 +45,7 @@ public class AdminChangePasswordController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void savePassword(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, IOException {   
+    private void handleSavePasswordBtnClick(ActionEvent event) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, IOException {   
         String enteredOldPassword = oldPassword.getText();
         String enteredNewPassword = newPassword.getText();
         boolean changedPassword = helper.checkOldPasswordAndChangePassword(id, accountType, enteredOldPassword, enteredNewPassword);

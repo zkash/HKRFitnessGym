@@ -83,7 +83,7 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @throws IOException
      * @throws SQLException 
      */
-    public void cancelBtnClick(ActionEvent event) throws IOException, SQLException {
+    public void handleCancelBtnClick(ActionEvent event) throws IOException, SQLException {
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
         
@@ -125,7 +125,7 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @param event
      * @throws SQLException 
      */
-    public void renewBtnClick(ActionEvent event) throws SQLException {
+    public void handleRenewBtnClick(ActionEvent event) throws SQLException {
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
        
@@ -283,7 +283,7 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void saveDetailsBtnClick(ActionEvent event) throws IOException {
+    public void handleSaveDetailsBtnClick(ActionEvent event) throws IOException {
         allRows = memberViewSubscriptionsTable.getItems();
         row = memberViewSubscriptionsTable.getSelectionModel().getSelectedItems(); 
 

@@ -36,7 +36,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void updatePersonalInfoBtnClick(ActionEvent event) throws IOException {
+    private void handleUpdatePersonalInfoBtnClick(ActionEvent event) throws IOException {
       helper.navigateScene(event, "UpdateMemberPersonalInformation.fxml");
     }  
     
@@ -47,7 +47,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void subscribeToPackageBtnClick(ActionEvent event) throws IOException {
+    private void handleSubscribeToPackageBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "MemberViewPackages.fxml");
     }  
     
@@ -58,7 +58,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
+    private void handleViewSubscriptionsBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "MemberViewSubscriptions.fxml");
     } 
     
@@ -69,7 +69,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void viewScheduleBtnClick(ActionEvent event) throws IOException {
+    private void handleViewScheduleBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "MemberViewSchedule.fxml");
     }  
     
@@ -80,7 +80,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void viewAnnouncementBtnClick(ActionEvent event) throws IOException {
+    private void handleViewAnnouncementBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "MemberViewAnnouncement.fxml"); 
     } 
     
@@ -91,7 +91,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void chatBtnClick(ActionEvent event) throws IOException {
+    private void handleChatBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "MemberChat.fxml");
     }    
 }

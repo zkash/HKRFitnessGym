@@ -72,7 +72,7 @@ public class AdminViewAdminAccountsController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleDeleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Admin> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
@@ -109,7 +109,7 @@ public class AdminViewAdminAccountsController implements Initializable {
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void searchAdminBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchAdminBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchAdmin.getText(); 
         
         String fn = null, mn = null, ln = null, add = null, un = null, ead = null;
@@ -191,7 +191,7 @@ public class AdminViewAdminAccountsController implements Initializable {
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewAdminAccounts();
         setDataInTable(data);
         helper.fitColumns(adminViewAccountsTable); 

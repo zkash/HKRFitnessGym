@@ -35,13 +35,13 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="cancelBtn" layoutX="420.0" layoutY="356.0" mnemonicParsing="false" onAction="#cancelBtnClick" text="Cancel Subscription" />
+            <Button fx:id="cancelBtn" layoutX="420.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleCancelBtnClick" text="Cancel Subscription" />
             <DatePicker fx:id="subscriptionStartDatePicker" layoutX="44.0" layoutY="414.0" />
             <DatePicker fx:id="subscriptionEndDatePicker" layoutX="44.0" layoutY="465.0" />
             <Label layoutX="44.0" layoutY="397.0" text="When do you want to start your subscription?" />
             <Label layoutX="44.0" layoutY="449.0" text="Till to which date will you take part in the package?" />
-            <Button fx:id="renewBtn" layoutX="44.0" layoutY="502.0" mnemonicParsing="false" onAction="#renewBtnClick" text="Renew Subscription" />
-            <Button fx:id="saveDetailsBtn" layoutX="316.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveDetailsBtnClick" text="Save Details" />
+            <Button fx:id="renewBtn" layoutX="44.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleRenewBtnClick" text="Renew Subscription" />
+            <Button fx:id="saveDetailsBtn" layoutX="316.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleSaveDetailsBtnClick" text="Save Details" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="101.0" layoutX="386.0" layoutY="400.0" opacity="0.1" stroke="BLACK" strokeType="INSIDE" width="174.0" />
             <Label layoutX="394.0" layoutY="406.0" text="Filter " />
             <RadioButton fx:id="subscriptionFilterAll" layoutX="395.0" layoutY="428.0" mnemonicParsing="false" onAction="#subscriptionFilterAllSelected" text="All">

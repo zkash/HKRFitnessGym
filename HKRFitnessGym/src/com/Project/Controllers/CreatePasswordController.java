@@ -40,7 +40,7 @@ public class CreatePasswordController implements Initializable {
      * @throws SQLException 
      * @throws java.security.NoSuchAlgorithmException 
      */
-    public void createBtnClick(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
+    public void handleCreateBtnClick(ActionEvent event) throws SQLException, NoSuchAlgorithmException {
         String pwd1 = password1.getText();
         String pwd2 = password2.getText();
         

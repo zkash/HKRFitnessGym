@@ -46,15 +46,15 @@
                </font>
             </CheckBox>
             <TextField fx:id="searchSubscription" layoutX="44.0" layoutY="358.0" onAction="#searchBtnClick" />
-            <Button fx:id="searchBtn" layoutX="222.0" layoutY="358.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" />
-            <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="358.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
+            <Button fx:id="searchBtn" layoutX="222.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search" />
+            <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleResetSearchBtnClick" text="Reset" />
             <CheckBox fx:id="searchMemberFullName" layoutX="44.0" layoutY="394.0" mnemonicParsing="false" text="Member Name">
                <font>
                   <Font size="11.0" />
                </font>
             </CheckBox>
-            <Button fx:id="acceptRequestBtn" layoutX="425.0" layoutY="358.0" mnemonicParsing="false" onAction="#acceptRequestBtnClick" text="Accept" />
-            <Button fx:id="declineRequestBtn" layoutX="497.0" layoutY="358.0" mnemonicParsing="false" onAction="#declineRequestBtnClick" text="Decline" />
+            <Button fx:id="acceptRequestBtn" layoutX="425.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleAcceptRequestBtnClick" text="Accept" />
+            <Button fx:id="declineRequestBtn" layoutX="497.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleDeclineRequestBtnClick" text="Decline" />
            
          </children>
       </AnchorPane>

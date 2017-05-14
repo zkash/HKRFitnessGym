@@ -16,8 +16,8 @@ import javafx.beans.property.StringProperty;
  * @author shameer
  */
 public class SubscriptionRequest extends Subscription {
-    private StringProperty memberFullName = null;
-    private StringProperty memberUsername = null;
+    private String memberFullName = null;
+    private String memberUsername = null;
  
     
     
@@ -26,21 +26,21 @@ public class SubscriptionRequest extends Subscription {
     }
     
     public String getMemberFullName() {
-        return memberFullName.get();
+        return memberFullName;
     }
     
     public String getSubscriberUsername() {
-        return memberUsername.get();
+        return memberUsername;
     }
     
 
 
     public void setMemberFullName(String mfn) {
-        memberFullName = new SimpleStringProperty(mfn);
+        this.memberFullName = mfn;
     }
     
     public void setMemberUsername(String mun) {
-        memberUsername = new SimpleStringProperty(mun);
+        this.memberUsername = mun;
     }
     
 

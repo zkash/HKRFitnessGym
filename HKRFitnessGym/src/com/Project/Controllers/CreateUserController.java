@@ -179,12 +179,12 @@ public class CreateUserController implements Initializable {
                     if (isAdmin.isSelected()) {
                         Admin admin = new Admin(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
                         dbHandler.createAdminAccount(admin);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewAdminAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "AdminViewAdminAccounts.fxml");
                     }
                     else {
                         Member member = new Member(fn,mn,ln, gen, birthDate, add, pnumber, ead, ssn1, ssn2, un, hashedPassword);
                         dbHandler.createMemberAccount(member, adminId);
-                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "/com/Project/Views/AdminViewMemberAccounts.fxml");
+                        helper.showDialogBoxChoice(stage, "User account successfully created", "Do you want to create another account?", "AdminViewMemberAccounts.fxml");
                     }
                     
                     helper.clearTextField(firstName, middleName, lastName, address, phoneNumber, email, ssn, username, password);

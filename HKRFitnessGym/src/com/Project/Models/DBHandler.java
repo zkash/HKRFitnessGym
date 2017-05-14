@@ -1116,14 +1116,16 @@ System.out.println("DSDSAS " + data);
         
     }
     
-    public ObservableList<Subscription> memberViewSubscription() throws SQLException {
+    public ObservableList<Subscription> memberViewSubscription(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
                 + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
                 + "INNER JOIN package AS pk "
-                + "ON pk.packageId = sub.Package_packageId ";
+                + "ON pk.packageId = sub.Package_packageId "
+                + " WHERE Member_memberId = ?";
                 //+ "WHERE sub.isCancelled = 0";
         PreparedStatement statement = conn.prepareStatement(query);
+        statement.setInt(1, memberId);
         ResultSet rs = statement.executeQuery();
         ObservableList<Subscription> subscription = FXCollections.observableArrayList();
         Subscription sub;

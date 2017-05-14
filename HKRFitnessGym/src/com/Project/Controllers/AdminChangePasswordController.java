@@ -50,7 +50,7 @@ public class AdminChangePasswordController implements Initializable {
         String enteredNewPassword = newPassword.getText();
         boolean changedPassword = helper.checkOldPasswordAndChangePassword(id, accountType, enteredOldPassword, enteredNewPassword);
         if(changedPassword) {
-            helper.navigateScene(event, "AdminMainPage.fxml");
+            helper.navigateScene(event, "AdminMainMenu.fxml");
         }
     }
 }

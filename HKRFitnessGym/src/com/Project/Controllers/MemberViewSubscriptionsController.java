@@ -66,7 +66,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            data = dbHandler.memberViewSubscription();
+            data = dbHandler.memberViewSubscription(memberId);
             
             packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
             priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));

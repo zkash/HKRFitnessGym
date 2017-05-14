@@ -50,7 +50,7 @@ public class MemberChangePasswordController implements Initializable {
         String enteredNewPassword = newPassword.getText();
         boolean changedPassword = helper.checkOldPasswordAndChangePassword(id, accountType, enteredOldPassword, enteredNewPassword);
         if(changedPassword) {
-            helper.navigateScene(event, "MemberMainPage.fxml");
+            helper.navigateScene(event, "MemberMainMenu.fxml");
         }
     }   
 }

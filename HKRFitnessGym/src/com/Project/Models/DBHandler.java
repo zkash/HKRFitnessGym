@@ -561,7 +561,7 @@ public class DBHandler {
         try {
             String query = String.format("SELECT Package.*, Admin.firstName, "
                     + "Admin.middleName, Admin.lastName FROM Package, Admin "
-                    + "WHERE Admin.adminId = Package.Admin_adminId ");
+                    + "WHERE Admin.adminId = Package.Admin_adminId");
 
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();

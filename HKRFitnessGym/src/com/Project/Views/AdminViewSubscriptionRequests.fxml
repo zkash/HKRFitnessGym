@@ -45,7 +45,7 @@
                   <Font size="11.0" />
                </font>
             </CheckBox>
-            <TextField fx:id="searchSubscription" layoutX="44.0" layoutY="358.0" onAction="#searchBtnClick" />
+            <TextField fx:id="searchSubscription" layoutX="44.0" layoutY="358.0" onAction="#handleSearchBtnClick" />
             <Button fx:id="searchBtn" layoutX="222.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search" />
             <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleResetSearchBtnClick" text="Reset" />
             <CheckBox fx:id="searchMemberFullName" layoutX="44.0" layoutY="394.0" mnemonicParsing="false" text="Member Name">

@@ -21,8 +21,8 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField id="textField1" fx:id="usernameTextField" layoutX="213.0" layoutY="181.0" onAction="#loginBtnClick" prefHeight="31.0" prefWidth="215.0" />
-      <PasswordField id="passwordField1" fx:id="passwordTextField" layoutX="213.0" layoutY="241.0" onAction="#loginBtnClick" prefHeight="31.0" prefWidth="215.0" />
+      <TextField id="textField1" fx:id="usernameTextField" layoutX="213.0" layoutY="181.0" onAction="#handleLoginBtnClick" prefHeight="31.0" prefWidth="215.0" />
+      <PasswordField id="passwordField1" fx:id="passwordTextField" layoutX="213.0" layoutY="241.0" onAction="#handleLoginBtnClick" prefHeight="31.0" prefWidth="215.0" />
       <Label id="label1" layoutX="214.0" layoutY="164.0" text="Username">
          <effect>
             <SepiaTone />

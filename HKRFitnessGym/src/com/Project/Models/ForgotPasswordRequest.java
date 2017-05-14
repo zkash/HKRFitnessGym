@@ -17,7 +17,7 @@ public class ForgotPasswordRequest {
      * @return The date of password request
      */
     public Date getDate() {
-        return date;
+        return this.date;
     }
     
     
@@ -26,7 +26,7 @@ public class ForgotPasswordRequest {
      * @return The time of password request
      */
     public String getTime() {
-        return time;
+        return this.time;
     }
     
     
@@ -35,7 +35,7 @@ public class ForgotPasswordRequest {
      * @return The randomly generated code
      */
     public String getCode() {
-        return code;
+        return this.code;
     }
     
     
@@ -44,7 +44,7 @@ public class ForgotPasswordRequest {
      * @return The id of the user requests the password
      */
     public int getId() {
-        return id;
+        return this.id;
     }
     
     

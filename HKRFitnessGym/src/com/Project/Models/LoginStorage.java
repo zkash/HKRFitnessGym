@@ -64,7 +64,7 @@ public class LoginStorage {
      * @return The id of the account
      */
     public int getId() {
-        return id;
+        return this.id;
     }
     
     
@@ -73,7 +73,7 @@ public class LoginStorage {
      * @return The username of the account
      */
     public String getUsername() {
-        return username.get();
+        return this.username.get();
     }
     
     
@@ -82,7 +82,7 @@ public class LoginStorage {
      * @return The type of the account
      */
     public String getAccountType() {
-        return accountType;
+        return this.accountType;
     }
     
     
@@ -91,6 +91,6 @@ public class LoginStorage {
      * @return The username property
      */
     public StringProperty usernameProperty() {
-        return username;
+        return this.username;
     }
 }

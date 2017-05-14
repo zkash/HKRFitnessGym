@@ -96,7 +96,7 @@ public class Package {
      * @return Name of package
      */
     public String getPackageName() {
-        return packageName;
+        return this.packageName;
     }
 
     
@@ -105,7 +105,7 @@ public class Package {
      * @return Price of package
      */
     public float getPrice() {
-        return price;
+        return this.price;
     }
 
     
@@ -114,7 +114,7 @@ public class Package {
      * @return Start date of package
      */
     public Date getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
     
@@ -123,7 +123,7 @@ public class Package {
      * @return End date of package
      */
     public Date getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
     
@@ -132,7 +132,7 @@ public class Package {
      * @return Start time of package in a day
      */
     public String getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     
@@ -141,7 +141,7 @@ public class Package {
      * @return End time of package in a day
      */
     public String getEndTime() {
-        return endTime;
+        return this.endTime;
     }
     
     
@@ -150,7 +150,7 @@ public class Package {
      * @return Id of package
      */
     public int getPackageId() {
-        return packageId;
+        return this.packageId;
     }
     
     
@@ -159,7 +159,7 @@ public class Package {
      * @return Full name of administrator who created the package
      */
     public String getAdminFullName() {
-        return adminFullName;
+        return this.adminFullName;
     }
     
     
@@ -168,7 +168,7 @@ public class Package {
      * @return Number of subscribers in a package
      */
     public int getNumberOfSubscriber() {
-        return numberOfSubscriber;
+        return this.numberOfSubscriber;
     }
     
     

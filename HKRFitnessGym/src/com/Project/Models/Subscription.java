@@ -76,7 +76,7 @@ public class Subscription extends Package {
      * @return Start date of subscription
      */
     public Date getSubscriptionStartDate() {
-        return subscriptionStartDate;
+        return this.subscriptionStartDate;
     }
     
     
@@ -85,7 +85,7 @@ public class Subscription extends Package {
      * @return End date of subscription
      */
     public Date getSubscriptionEndDate() {
-        return subscriptionEndDate;
+        return this.subscriptionEndDate;
     }
     
     
@@ -95,7 +95,7 @@ public class Subscription extends Package {
      */
     @Override
     public int getPackageId() {
-        return packageId;
+        return this.packageId;
     }
     
     
@@ -104,7 +104,7 @@ public class Subscription extends Package {
      * @return Id of member
      */
     public int getMemberId() {
-        return memberId;
+        return this.memberId;
     }
     
     
@@ -113,7 +113,7 @@ public class Subscription extends Package {
      * @return Subscription status - Active, Canceled, Expired, Requested, Declined
      */
     public String getSubscriptionStatus() {
-        return subscriptionStatus;
+        return this.subscriptionStatus;
     }
     
     
@@ -122,7 +122,7 @@ public class Subscription extends Package {
      * @return Id of Subscription
      */
     public int getSubscriptionId() {
-        return subscriptionId;
+        return this.subscriptionId;
     }
     
     
@@ -131,7 +131,7 @@ public class Subscription extends Package {
      * @return Full name of member
      */
     public String getMemberFullName() {
-        return memberFullName;
+        return this.memberFullName;
     }
     
     
@@ -140,7 +140,7 @@ public class Subscription extends Package {
      * @return Username of member
      */
     public String getMemberUsername() {
-        return memberUsername;
+        return this.memberUsername;
     }
     
     
@@ -149,7 +149,7 @@ public class Subscription extends Package {
      * @return Offer price for package subscription request when accepted by an admin
      */
     public float getOfferPrice() {
-        return offerPrice;
+        return this.offerPrice;
     }
     
     
@@ -158,7 +158,7 @@ public class Subscription extends Package {
      * @return Decline message for a package subscription request when declined by an admin
      */
     public String getDeclineMessage() {
-        return declineMessage;
+        return this.declineMessage;
     }
     
     
@@ -167,7 +167,7 @@ public class Subscription extends Package {
      * @return Full name of admin who handled the subscription
      */
     public String getSubscriptionAdminFullName() {
-        return subscriptionAdminFullName;
+        return this.subscriptionAdminFullName;
     }
     
     

@@ -33,7 +33,7 @@ public class SubscriptionRequest extends Subscription {
      */
     @Override
     public String getMemberFullName() {
-        return memberFullName;
+        return this.memberFullName;
     }
     
     
@@ -42,7 +42,7 @@ public class SubscriptionRequest extends Subscription {
      * @return Username of member
      */
     public String getSubscriberUsername() {
-        return memberUsername;
+        return this.memberUsername;
     }
     
 

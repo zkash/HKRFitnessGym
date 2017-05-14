@@ -137,7 +137,7 @@ public class AdminViewPackagesController implements Initializable {
         
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/Project/Views/UpdatePackageInformationPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/Project/Views/UpdatePackageInformation.fxml"));
         Parent root = (Parent)loader.load();
         
         updatePackageInformationPageController = loader.getController();

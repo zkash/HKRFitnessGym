@@ -99,7 +99,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
                         float packageCost = row.get(0).getPrice();
                         float offerPrice = Float.valueOf(offerPriceString);
                         
-                        if((offerPrice > packageCost) && (offerPrice < 0)) {
+                        if((offerPrice > packageCost) || (offerPrice < 0)) {
                             helper.showDialogBox(true, "Offer price cannot be more than package price or less than 0.\nIt should be less than or equal to the package price.");
                         }
                         else {

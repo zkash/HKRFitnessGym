@@ -293,67 +293,67 @@ public class MemberViewSubscriptionsController implements Initializable {
         else {
             String subscriptionStatus = row.get(0).getSubscriptionStatus();
             
-            if(subscriptionStatus.equals("Requested") || subscriptionStatus.equals("Declined")) {
-                helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request is being processed");
-            }
-            else {
-                String fileName = "HKRFitnessGym_Subscription_Invoice_" + row.get(0).getSubscriptionId() + ".pdf";
-                
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Save Invoice");
-                fileChooser.setInitialFileName(fileName);
-                fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-                
-                File file = fileChooser.showSaveDialog(stage);
-                String filePath = file.getAbsolutePath();
-        
-                try {
-                    PDDocument document = new PDDocument();
-                    PDPage page = new PDPage();
-                    document.addPage(page);
-                    try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-                        helper.putTextInPdf(contentStream, 30, 210, 700, "HKRFitnessGym");
-                        helper.putTextInPdf(contentStream, 20, 230, 670, "Subscription Details");
-                        helper.putTextInPdf(contentStream, 15, 100, 630, "Username: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 630, username);
-                        helper.putTextInPdf(contentStream, 15, 100, 580, "Subscription ID: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 580, Integer.toString(row.get(0).getSubscriptionId()));
-                        helper.putTextInPdf(contentStream, 15, 100, 530, "Subscription Status: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 530, row.get(0).getSubscriptionStatus());
-                        helper.putTextInPdf(contentStream, 15, 100, 480, "Package Name: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 480, row.get(0).getPackageName());
-                        helper.putTextInPdf(contentStream, 15, 100, 430, "Package Cost: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 430, Float.toString(row.get(0).getPrice()));
-                        helper.putTextInPdf(contentStream, 15, 100, 380, "Package Start Date: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 380, helper.convertDateToString(row.get(0).getStartDate()));
-                        helper.putTextInPdf(contentStream, 15, 100, 330, "Package End Date: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 330, helper.convertDateToString(row.get(0).getEndDate()));
-                        helper.putTextInPdf(contentStream, 15, 100, 280, "Start Time: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 280, row.get(0).getStartTime());
-                        helper.putTextInPdf(contentStream, 15, 100, 230, "Start Time: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 230, row.get(0).getEndTime());
-                        helper.putTextInPdf(contentStream, 15, 100, 180, "Subscription Start Date: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 180, helper.convertDateToString(row.get(0).getSubscriptionStartDate()));
-                        helper.putTextInPdf(contentStream, 15, 100, 130, "Subscription End Date: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 130, helper.convertDateToString(row.get(0).getSubscriptionEndDate()));
-                        helper.putTextInPdf(contentStream, 15, 100, 80, "Offered Price: ");
-                        helper.putTextInPdf(contentStream, 20, 400, 80, Float.toString(row.get(0).getOfferPrice()));
-                        
-                        helper.drawRectangleInPdf(contentStream, 55, 40, 500, 700, Color.white, "Stroke");
-                        
-                        helper.drawLineInPdf(contentStream, 40, 30, 570, 30, Color.black, 1);
-                        helper.drawLineInPdf(contentStream, 55, 660, 555, 660, Color.black, 1);
-                        
-                        contentStream.close();
-                    }
+            switch (subscriptionStatus) {
+                case "Requested":
+                    helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request is being processed");
+                    break;
+                case "Declined":
+                    helper.showDialogBox(true, "You cannot save invoice for this subscription. \nYour subscription request has been declined");
+                    break;
+                default:
+                    String fileName = "HKRFitnessGym_Subscription_Invoice_" + row.get(0).getSubscriptionId() + ".pdf";
+                    Node node = (Node) event.getSource();
+                    Stage stage = (Stage) node.getScene().getWindow();
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Save Invoice");
+                    fileChooser.setInitialFileName(fileName);
+                    fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+                    File file = fileChooser.showSaveDialog(stage);
+                    String filePath = file.getAbsolutePath();
+                    try {
+                        PDDocument document = new PDDocument();
+                        PDPage page = new PDPage();
+                        document.addPage(page);
+                        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                            helper.putTextInPdf(contentStream, 30, 210, 700, "HKRFitnessGym");
+                            helper.putTextInPdf(contentStream, 20, 230, 670, "Subscription Details");
+                            helper.putTextInPdf(contentStream, 15, 100, 630, "Username: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 630, username);
+                            helper.putTextInPdf(contentStream, 15, 100, 580, "Subscription ID: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 580, Integer.toString(row.get(0).getSubscriptionId()));
+                            helper.putTextInPdf(contentStream, 15, 100, 530, "Subscription Status: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 530, row.get(0).getSubscriptionStatus());
+                            helper.putTextInPdf(contentStream, 15, 100, 480, "Package Name: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 480, row.get(0).getPackageName());
+                            helper.putTextInPdf(contentStream, 15, 100, 430, "Package Cost: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 430, Float.toString(row.get(0).getPrice()));
+                            helper.putTextInPdf(contentStream, 15, 100, 380, "Package Start Date: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 380, helper.convertDateToString(row.get(0).getStartDate()));
+                            helper.putTextInPdf(contentStream, 15, 100, 330, "Package End Date: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 330, helper.convertDateToString(row.get(0).getEndDate()));
+                            helper.putTextInPdf(contentStream, 15, 100, 280, "Start Time: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 280, row.get(0).getStartTime());
+                            helper.putTextInPdf(contentStream, 15, 100, 230, "Start Time: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 230, row.get(0).getEndTime());
+                            helper.putTextInPdf(contentStream, 15, 100, 180, "Subscription Start Date: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 180, helper.convertDateToString(row.get(0).getSubscriptionStartDate()));
+                            helper.putTextInPdf(contentStream, 15, 100, 130, "Subscription End Date: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 130, helper.convertDateToString(row.get(0).getSubscriptionEndDate()));
+                            helper.putTextInPdf(contentStream, 15, 100, 80, "Offered Price: ");
+                            helper.putTextInPdf(contentStream, 20, 400, 80, Float.toString(row.get(0).getOfferPrice()));
+                            
+                            helper.drawRectangleInPdf(contentStream, 55, 40, 500, 700, Color.white, "Stroke");
+                            
+                            helper.drawLineInPdf(contentStream, 40, 30, 570, 30, Color.black, 1);
+                            helper.drawLineInPdf(contentStream, 55, 660, 555, 660, Color.black, 1);
+                            
+                            contentStream.close();
+                        }
                         document.save(filePath);
-                }
-                catch(IOException e) {
-                    helper.showDialogBox(true, "File could be saved because of an error");
-                }
+                    }
+                    catch(IOException e) {
+                        helper.showDialogBox(true, "File could be saved because of an error");
+                    }   break;
             }
         }
     }

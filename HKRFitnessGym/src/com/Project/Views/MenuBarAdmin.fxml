@@ -25,7 +25,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Package">
                <items>
-                  <MenuItem fx:id="createPackageMenu" mnemonicParsing="false" onAction="#createPackageMenuClick" text="Create Package" />
+                  <MenuItem fx:id="createPackageMenu" mnemonicParsing="false" onAction="#handleCreatePackageMenuClick" text="Create Package" />
                   <MenuItem fx:id="viewPackageMenu" mnemonicParsing="false" onAction="#handleViewPackageMenuClick" text="View Package" />
                </items>
             </Menu>

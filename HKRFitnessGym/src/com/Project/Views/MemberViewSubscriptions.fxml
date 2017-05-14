@@ -62,29 +62,20 @@
                   <Font size="11.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="subscriptionFilterExpired" layoutX="483.0" layoutY="450.0" mnemonicParsing="false" onAction="#subscriptionFilterExpiredSelected" text="Expired">
+            <RadioButton fx:id="subscriptionFilterExpired" layoutX="483.0" layoutY="450.0" mnemonicParsing="false" onAction="#subscriptionFilterExpiredSelected" text="Expired" toggleGroup="$filterView">
                <font>
                   <Font size="11.0" />
                </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="filterView1" />
-               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="subscriptionFilterRequested" layoutX="395.0" layoutY="450.0" mnemonicParsing="false" onAction="#subscriptionFilterRequestedSelected" text="Requested">
+            <RadioButton fx:id="subscriptionFilterRequested" layoutX="395.0" layoutY="450.0" mnemonicParsing="false" onAction="#subscriptionFilterRequestedSelected" text="Requested" toggleGroup="$filterView">
                <font>
                   <Font size="11.0" />
                </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="filterView2" />
-               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="subscriptionFilterDeclined" layoutX="396.0" layoutY="471.0" mnemonicParsing="false" onAction="#subscriptionFilterDeclinedSelected" text="Declined">
+            <RadioButton fx:id="subscriptionFilterDeclined" layoutX="396.0" layoutY="471.0" mnemonicParsing="false" onAction="#subscriptionFilterDeclinedSelected" text="Declined" toggleGroup="$filterView">
                <font>
                   <Font size="11.0" />
                </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="filterView3" />
-               </toggleGroup>
             </RadioButton>
            
          </children>

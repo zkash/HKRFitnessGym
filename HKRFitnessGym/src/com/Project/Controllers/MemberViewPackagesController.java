@@ -106,7 +106,7 @@ public class MemberViewPackagesController implements Initializable {
         java.util.Date currentDate = helper.getCurrentDate();
 
         if (row.isEmpty()) {
-            helper.showDialogBox(true, "Please select a package first to delete subscribe");
+            helper.showDialogBox(true, "Please select a package to send a subscription request");
         }
         else {
             LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();

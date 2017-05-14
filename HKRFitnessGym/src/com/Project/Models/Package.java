@@ -28,7 +28,7 @@ public class Package {
     
     
     /**
-     * Constructor
+     * Constructor for Subscription class, memberViewPackages, getPackageInfoAdmin
      * @param packageName Name of package
      * @param price Price of package
      * @param startDate Start date of package

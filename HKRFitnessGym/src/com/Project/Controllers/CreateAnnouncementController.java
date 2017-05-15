@@ -38,7 +38,7 @@ public class CreateAnnouncementController implements Initializable {
         private TextField titleTextField;
         
         private final String username = LoginStorage.getInstance().getUsername();
-        
+        private final int adminId = LoginStorage.getInstance().getId();
        
     /**
      * Initializes the controller class.
@@ -84,7 +84,7 @@ public class CreateAnnouncementController implements Initializable {
                 announcement.setTitle(title);
                 announcement.setBody(body);
                 announcement.setUsername(username);
-                
+                announcement.setAdminId(adminId);
                 dbHandler.saveAnnouncement(announcement);
                 message.clear();
                 

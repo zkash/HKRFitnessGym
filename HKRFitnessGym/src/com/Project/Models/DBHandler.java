@@ -1749,4 +1749,78 @@ public class DBHandler {
         }
         return id; 
     }
+    public ObservableList<Announcement> adminViewAnnouncement() throws SQLException {
+        ObservableList<Announcement> adminViewAnnouncement = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT * FROM Accouncement");
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Announcement announcement = new Announcement();
+              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setBody(rs.getString("body"));
+                //announcement.setAdminId(rs.getInt("adminId"));
+                adminViewAnnouncement.add(announcement);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return adminViewAnnouncement;
+    }
+    
+    public ObservableList<Announcement> memberViewAnnouncement() throws SQLException {
+        ObservableList<Announcement> memberViewAnnouncement = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("SELECT * FROM announcement");
+            PreparedStatement stmt = c.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Announcement announcement = new Announcement();
+                //announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setBody(rs.getString("body"));
+                //announcement.setAdminId(rs.getInt("adminId"));
+                memberViewAnnouncement.add(announcement);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return memberViewAnnouncement;
+    }
+
+     public ObservableList<Announcement> searchInAdminViewAnnouncement(String str) throws SQLException {
+      //  ObservableList<Package> searchData = FXCollections.observableArrayList();
+      //  Connection conn = establishConnection();
+        
+      //  String query = "SELECT announcement.*, announcementId, adminId, date, time, title, body FROM announcement";
+      //  PreparedStatement statement = conn.prepareStatement(query);
+      //  System.out.println(statement);
+
+      //ResultSet rs = statement.executeQuery();
+        
+        return null;
+        
+    }
+     public boolean deleteAnnouncement(String an) throws SQLException {
+        boolean deletionError;
+        try (Connection conn = establishConnection()) {
+            String query = "DELETE FROM announcement WHERE announcementId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, an);
+            statement.execute();
+            deletionError = false;
+        }
+        return deletionError;
+    }
     }

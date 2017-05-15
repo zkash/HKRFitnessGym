@@ -1,79 +1,139 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Models;
 
 import java.sql.Date;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author KN
  */
 public class Chat {
+    private String time;
+    private String message;
+    private String senderUsername;
     
-    private SimpleIntegerProperty messageId;
-    private SimpleStringProperty time;
-    private SimpleStringProperty name;
-    private SimpleStringProperty message;
-    private SimpleStringProperty senderUsername;
-    private SimpleStringProperty receiveUsername;
+    private int messageId;
+    private int senderId;
+    
     private Date date;
     
-    public Chat(){
-        this.messageId = new SimpleIntegerProperty();
-        this.time = new SimpleStringProperty();
-        this.name = new SimpleStringProperty();
-        this.message = new SimpleStringProperty();
-        this.senderUsername = new SimpleStringProperty();
-        this.receiveUsername = new SimpleStringProperty();
+    
+    /**
+     * Initializer constructor
+     */
+    public Chat() {
+        this.time = null;
+        this.message = null;
+        this.senderUsername = null;
+        this.messageId = 0;
+        this.senderId = 0;
+        this.date = null;   
     }
         
+    
+    /**
+     * Accessor method for messageId
+     * @return Id of text message content of chat 
+     */
     public Integer getMessageId(){
-        return messageId.get();
+        return this.messageId;
     }
-     public Date getDate() {
-        return date;
+    
+    
+    /**
+     * Accessor method for date
+     * @return Date in which message was posted
+     */
+    public Date getDate() {
+        return this.date;
     }
+    
+    
+    /**
+     * Accessor method for time
+     * @return Time in which message was posted
+     */
     public String getTime(){
-        return time.get();
+        return this.time;
     }
-    public String getName(){
-        return name.get();
+    
+    
+    /**
+     * Accessor method for senderId
+     * @return Id of user who sent the message
+     */
+    public int getSenderId(){
+        return this.senderId;
     }
+    
+    
+    /**
+     * Accessor method for message
+     * @return Text message content of chat 
+     */
     public String getMessage(){
-        return message.get();
+        return this.message;
     }
+    
+    
+    /**
+     * Accessor method for senderUsername 
+     * @return Username of user who sent the message
+     */
     public String getSenderUsername(){
-        return senderUsername.get();
+        return this.senderUsername;
     }
-    public String getReceiveUsername(){
-        return receiveUsername.get();
-    }
+    
+    
+    /**
+     * Mutator method for messageId
+     * @param messageId Id of text message content of chat 
+     */
     public void setMessageId(Integer messageId){
-        this.messageId.set(messageId);
+        this.messageId = messageId;
     }
-     public void setDate(Date date) {
+    
+    
+    /**
+     * Mutator method for date
+     * @param date Date in which message was posted
+     */
+    public void setDate(Date date) {
         this.date = date;
     }
 
+    
+    /**
+     * Mutator method for time
+     * @param time Time in which message was posted
+     */
     public void setTime(String time){
-        this.time.set(time);
+        this.time = time;
     }
-    public void setName(String name){
-        this.name.set(name);
+    
+    
+    /**
+     * Mutator method for senderId
+     * @param senderId Id of user who sent the message
+     */
+    public void setSenderId(int senderId){
+        this.senderId = senderId;
     }
+    
+    
+    /**
+     * Mutator method for message
+     * @param message Text message content of chat 
+     */
     public void setMessage(String message){
-        this.message.set(message);
+        this.message = message;
     }
+    
+    
+    /**
+     * Mutator method for senderUsername 
+     * @param senderUsername Username of user who sent the message
+     */
     public void setSenderUsername(String senderUsername){
-        this.senderUsername.set(senderUsername);
+        this.senderUsername = senderUsername;
     }
-    public void setReceiveUsername(String receiveUsername){
-        this.receiveUsername.set(receiveUsername);
-    }
-
 }

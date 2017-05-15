@@ -1668,7 +1668,7 @@ public class DBHandler {
                 Chat message = new Chat();
                 message.setMessageId(rs.getInt("messageId"));
                 message.setTime(rs.getString("time"));
-                message.setName(rs.getString("name"));
+                //message.setName(rs.getString("name"));
                 message.setMessage(rs.getString("message"));
                 messageList.add(message);
             }

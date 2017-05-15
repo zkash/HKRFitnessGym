@@ -167,6 +167,7 @@ public class AccountHelper {
         String mn;
         
         boolean updated = false;
+        
         if(!helper.isEmpty(middleName.getText())) {
             mn = middleName.getText();
         }
@@ -196,7 +197,6 @@ public class AccountHelper {
         String pnum = phoneNumber.getText();
         String ead = email.getText();
         String ssnum = ssn.getText();
-         System.out.println(helper.isEmpty(fn));
         
         if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
                 helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
@@ -204,7 +204,6 @@ public class AccountHelper {
             helper.showDialogBox(true, "Enter All Data");
         }
         else {
-            System.out.println("HELO");
             String[] ssnParts = ssnum.split("-");
             int ssn1 = Integer.parseInt(ssnParts[0]);
             int ssn2 = Integer.parseInt(ssnParts[1]);

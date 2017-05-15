@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 
 /**
+ * FXML Controller class
  *
  * @author shameer
  */

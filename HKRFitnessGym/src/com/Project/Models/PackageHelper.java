@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
+ * Helper class to handle package creation and update of package information
  *
  * @author shameer
  */

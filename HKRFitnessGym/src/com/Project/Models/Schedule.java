@@ -3,6 +3,7 @@ package com.Project.Models;
 import java.sql.Date;
 
 /**
+ * Class to represent schedule of gym 
  *
  * @author Xuantong
  */

@@ -3,6 +3,7 @@ package com.Project.Models;
 import java.sql.Date;
 
 /**
+ * Class to represent password request if it is forgotten
  *
  * @author shameer
  */

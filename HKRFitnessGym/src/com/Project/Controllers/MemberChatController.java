@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 /**
+ * FXML Controller class
  *
  * @author KN
  */

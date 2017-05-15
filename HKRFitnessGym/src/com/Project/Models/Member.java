@@ -3,6 +3,7 @@ package com.Project.Models;
 import java.sql.Date;
 
 /**
+ * Class to represent member of gym
  *
  * @author shameer
  */

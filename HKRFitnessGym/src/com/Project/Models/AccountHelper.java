@@ -1,4 +1,4 @@
-    package com.Project.Models;
+package com.Project.Models;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 /**
+ * Helper class to handle user account creation and update of personal information
  *
  * @author shameer
  */

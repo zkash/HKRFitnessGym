@@ -4,13 +4,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
+ * Class to represent credential of user in logged-in state
  *
  * @author shameer
  */
 public class LoginStorage {
     private static LoginStorage loginStorage;
     private int id = 0;
-    private StringProperty username = new SimpleStringProperty();
+    private final StringProperty username = new SimpleStringProperty();
     private String accountType = null;
     
     /**

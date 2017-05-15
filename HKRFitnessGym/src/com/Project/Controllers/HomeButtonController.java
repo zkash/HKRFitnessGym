@@ -6,6 +6,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 
 /**
+ * FXML Controller class
  *
  * @author shameer
  */

@@ -50,7 +50,7 @@ public class MemberViewPackagesController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,7 +66,7 @@ public class MemberViewPackagesController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -81,7 +81,7 @@ public class MemberViewPackagesController implements Initializable {
     
     /**
      * Resets the table with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -94,8 +94,8 @@ public class MemberViewPackagesController implements Initializable {
 
     
     /**
-     * Sends a subscription request to admin
-     * @param event
+     * Sends a subscription request to administrator
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleSendSubscriptionRequestBtnClick(ActionEvent event) throws SQLException {
@@ -164,7 +164,7 @@ public class MemberViewPackagesController implements Initializable {
     
     /**
      * Sets data in table view
-     * @param data
+     * @param data ObservableList of Package object
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */

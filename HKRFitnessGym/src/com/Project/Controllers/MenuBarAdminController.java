@@ -23,7 +23,7 @@ public class MenuBarAdminController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {   
@@ -45,7 +45,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Create User page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleCreateAccountMenuClick(ActionEvent event) throws IOException {
@@ -55,7 +55,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Personal Information page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewPersonalInformationMenuClick(ActionEvent event) throws IOException {
@@ -65,7 +65,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Update Personal Information page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleUpdatePersonalInformationMenuClick(ActionEvent event) throws IOException {
@@ -75,7 +75,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Admin Accounts page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewAdminAccountsMenuClick(ActionEvent event) throws IOException {
@@ -85,7 +85,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Member Accounts page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewMemberAccountsMenuClick(ActionEvent event) throws IOException {
@@ -95,7 +95,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Create Package page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleCreatePackageMenuClick(ActionEvent event) throws IOException {
@@ -105,7 +105,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Package page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewPackageMenuClick(ActionEvent event) throws IOException {
@@ -115,7 +115,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Subscription Requests page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
@@ -125,7 +125,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Subscriptions page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewSubscriptionsMenuClick(ActionEvent event) throws IOException {
@@ -135,7 +135,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Declined Subscription Requests page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewDeclinedSubscriptionRequestsMenuClick(ActionEvent event) throws IOException {
@@ -145,7 +145,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Create Schedule page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleAddScheduleMenuClick(ActionEvent event) throws IOException {
@@ -155,7 +155,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Schedule page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewScheduleMenuClick(ActionEvent event) throws IOException {
@@ -165,7 +165,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Create Announcement page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleCreateAnnouncementMenuClick(ActionEvent event) throws IOException {
@@ -175,7 +175,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to View Announcement page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewAnnouncementMenuClick(ActionEvent event) throws IOException {
@@ -185,7 +185,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Chat page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
@@ -195,7 +195,7 @@ public class MenuBarAdminController implements Initializable {
     
     /**
      * Navigates to Change Password page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleChangePasswordMenuClick(ActionEvent event) throws IOException {

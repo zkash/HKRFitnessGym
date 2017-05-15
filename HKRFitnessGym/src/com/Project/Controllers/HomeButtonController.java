@@ -17,7 +17,7 @@ public class HomeButtonController {
     
     /**
      * Handles the home button click and redirects to Admin main page or Member main page depending on logged user account type
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleHomeBtnClick(ActionEvent event) throws IOException {

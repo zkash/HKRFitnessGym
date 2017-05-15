@@ -22,7 +22,7 @@ public class MemberMainMenuController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -32,7 +32,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to Update Personal Information page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -43,7 +43,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to View Packages page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -54,7 +54,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to View Subscriptions page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -65,7 +65,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to View Schedule page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -76,7 +76,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to View Announcement page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -87,7 +87,7 @@ public class MemberMainMenuController implements Initializable {
     
     /**
      * Navigates to Chat page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML

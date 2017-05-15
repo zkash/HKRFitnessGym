@@ -64,7 +64,7 @@ public class UpdatePackageInformationController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,7 +80,7 @@ public class UpdatePackageInformationController implements Initializable {
     
     /**
      * Handles update button click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleUpdateBtnClick(ActionEvent event) throws SQLException, IOException {
@@ -110,7 +110,7 @@ public class UpdatePackageInformationController implements Initializable {
     
     /**
      * Injects AdminViewPackages class in this class and view
-     * @param adminViewPackagesController 
+     * @param adminViewPackagesController Controller class of adminViewPackages
      */
     public void injectAdminViewPackagesController(AdminViewPackagesController adminViewPackagesController) {
         this.adminViewPackagesController = adminViewPackagesController;

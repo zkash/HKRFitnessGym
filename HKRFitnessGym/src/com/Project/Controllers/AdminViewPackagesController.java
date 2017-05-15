@@ -50,7 +50,7 @@ public class AdminViewPackagesController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,7 +66,7 @@ public class AdminViewPackagesController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -81,7 +81,7 @@ public class AdminViewPackagesController implements Initializable {
     
     /**
      * Resets the table with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -95,7 +95,7 @@ public class AdminViewPackagesController implements Initializable {
     
     /**
      * Deletes a package from database and removes the row from the table view
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IOException 
      */
@@ -126,7 +126,7 @@ public class AdminViewPackagesController implements Initializable {
     
     /**
      * Navigates to Update Package Information page
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IOException 
      */
@@ -151,7 +151,7 @@ public class AdminViewPackagesController implements Initializable {
     
     /**
      * Sets data in table view
-     * @param data
+     * @param data ObservableList of Package object
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */

@@ -23,7 +23,7 @@ public class MenuBarMemberController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -45,7 +45,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to Update Personal Information page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleUpdatePersonalInfoMenuClick(ActionEvent event) throws IOException {
@@ -55,7 +55,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to View Personal Information page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewPersonalInformationMenuClick(ActionEvent event) throws IOException {
@@ -65,7 +65,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to View Packages page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleSubscribeToPackageMenuClick(ActionEvent event) throws IOException {
@@ -75,7 +75,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to View Subscriptions page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewSubscriptionsMenuClick(ActionEvent event) throws IOException {
@@ -85,7 +85,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to View Schedule page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewScheduleMenuClick(ActionEvent event) throws IOException {
@@ -95,7 +95,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to View Announcement page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleViewAnnouncementMenuClick(ActionEvent event) throws IOException {
@@ -105,7 +105,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to Chat page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
@@ -115,7 +115,7 @@ public class MenuBarMemberController implements Initializable {
     
     /**
      * Navigates to Change Password page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleChangePasswordMenuClick(ActionEvent event) throws IOException {

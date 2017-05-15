@@ -55,7 +55,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,7 +71,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     /**
      * Accepts a subscription request
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleAcceptRequestBtnClick(ActionEvent event) throws SQLException { 
@@ -122,7 +122,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     /**
      * Declines a subscription request
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleDeclineRequestBtnClick(ActionEvent event) throws SQLException {
@@ -159,7 +159,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -199,7 +199,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     /**
      * Resets the table with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -213,7 +213,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
     
     /**
      * Sets data in table view
-     * @param data 
+     * @param data ObservableList of SubscriptionRequest object
      */
     public void setDataInTable(ObservableList<SubscriptionRequest> data) {
         memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));

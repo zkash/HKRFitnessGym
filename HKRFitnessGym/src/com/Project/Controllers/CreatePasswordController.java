@@ -28,7 +28,7 @@ public class CreatePasswordController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -36,7 +36,7 @@ public class CreatePasswordController implements Initializable {
     
     /**
      * Handles create password button click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      * @throws java.security.NoSuchAlgorithmException 
      */
@@ -44,7 +44,6 @@ public class CreatePasswordController implements Initializable {
         String pwd1 = password1.getText();
         String pwd2 = password2.getText();
         
-        //Set values in LoginStorage
         String accountType = LoginStorage.getInstance().getAccountType();
         int id = LoginStorage.getInstance().getId();
         

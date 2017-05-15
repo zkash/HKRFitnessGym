@@ -18,7 +18,7 @@ public class SignOutButtonController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -27,7 +27,7 @@ public class SignOutButtonController implements Initializable {
     
     /**
      * Handles the sign out button click and redirects to the Login page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleSignOutBtnClick(ActionEvent event) throws IOException {

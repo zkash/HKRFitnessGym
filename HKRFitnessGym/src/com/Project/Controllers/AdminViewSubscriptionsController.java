@@ -47,7 +47,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,7 +63,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -113,7 +113,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Resets the table with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -127,7 +127,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'All' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -140,7 +140,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Active' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -153,7 +153,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Expired' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -166,7 +166,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Canceled' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -179,7 +179,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Sets data in table view
-     * @param data 
+     * @param data ObservableList of Subscription object
      */
     public void setDataInTable(ObservableList<Subscription> data) {
         memberFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
@@ -196,7 +196,7 @@ public class AdminViewSubscriptionsController implements Initializable {
     
     /**
      * Gets the data from database, sets in in table, and fixes the width of the columns
-     * @param filter
+     * @param filter Subscription filter string
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 

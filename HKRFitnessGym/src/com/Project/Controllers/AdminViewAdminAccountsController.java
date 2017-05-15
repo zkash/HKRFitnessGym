@@ -68,7 +68,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     /**
      * Deletes an admin account
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IOException 
      */
@@ -105,7 +105,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
@@ -187,7 +187,7 @@ public class AdminViewAdminAccountsController implements Initializable {
     
     /**
      * Resets the table view with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */

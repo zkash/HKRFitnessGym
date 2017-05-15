@@ -54,7 +54,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,7 +70,7 @@ public class AdminViewMemberAccountsController implements Initializable {
  
     /**
      * Deletes a member account
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IOException 
      */
@@ -107,7 +107,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     
     /**
      * Searches for data as per user's query and filters
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
@@ -189,7 +189,7 @@ public class AdminViewMemberAccountsController implements Initializable {
     
     /**
      * Resets the table view with initial data
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {

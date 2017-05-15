@@ -62,7 +62,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,7 +79,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Cancels a subscription
-     * @param event
+     * @param event ActionEvent
      * @throws IOException
      * @throws SQLException 
      */
@@ -122,7 +122,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Sends a request to renew subscription
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     public void handleRenewBtnClick(ActionEvent event) throws SQLException {
@@ -204,7 +204,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'All' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -217,7 +217,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Active' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -230,7 +230,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Expired' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -243,7 +243,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Canceled' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -255,7 +255,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Requested' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -267,7 +267,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Handles radio box with label 'Declined' click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
@@ -280,7 +280,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Creates a PDF file of subscription details and saves it location selected by the user
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     public void handleSaveDetailsBtnClick(ActionEvent event) throws IOException {
@@ -364,7 +364,7 @@ public class MemberViewSubscriptionsController implements Initializable {
      * @param header The header of the dialog box
      * @param content The message of the dialog box
      * @param nextScene The URL of the scene to redirect to 
-     * @return
+     * @return Optional of ButtonType
      * @throws IOException 
      */
     public static Optional<ButtonType> DialogBoxChoice(String header, String content, String nextScene) throws IOException {    
@@ -382,7 +382,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Sets data in table view
-     * @param data 
+     * @param data ObservableList of Subscription object
      */
     public void setDataInTable(ObservableList<Subscription> data) {
         packageNameColumn.setCellValueFactory(new PropertyValueFactory<>("packageName"));
@@ -400,7 +400,7 @@ public class MemberViewSubscriptionsController implements Initializable {
     
     /**
      * Gets the data from database, sets in in table, and fixes the width of the columns
-     * @param filter
+     * @param filter Subscription filter string
      * @throws SQLException
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 

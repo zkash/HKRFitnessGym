@@ -62,7 +62,7 @@ public class UpdateMemberPersonalInformationController implements Initializable 
     /**
      * Initializes the controller class.
      * @param url Uniform Resource Locator
-     * @param rb Resource Bundle
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -125,7 +125,7 @@ public class UpdateMemberPersonalInformationController implements Initializable 
    
     /**
      * Handles update button click
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException 
      */
     @FXML

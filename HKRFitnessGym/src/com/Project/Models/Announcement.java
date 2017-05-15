@@ -1,88 +1,157 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Models;
 
 import java.sql.Date;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author KN
  */
 public class Announcement {
-    private SimpleIntegerProperty announcementId;
-    private Date date;
-    private SimpleStringProperty time;
-    private SimpleStringProperty title;
-    private SimpleStringProperty body;
+    private String time;
+    private String title;
+    private String body;
     private String username;
-    private SimpleIntegerProperty adminId;
     
+    private int adminId;
+    private int announcementId;
+    
+    private Date date;
+    
+    /**
+     * Initializer constructor
+     */
     public Announcement(){
-        this.announcementId = new SimpleIntegerProperty();
-        this.title = new SimpleStringProperty();
-        this.body = new SimpleStringProperty();
-        this.time = new SimpleStringProperty();
-        this.adminId = new SimpleIntegerProperty();
+        this.title = null;
+        this.body = null;
+        this.time = null;
         this.username = null;
+        this.adminId = 0;
+        this.announcementId = 0;   
     }
         
+    
+    /**
+     * Accessor method for announcementId
+     * @return Id of announcement
+     */
     public Integer getAnnouncementId() {
-        return announcementId.get();
+        return announcementId;
     }
     
+    
+    /**
+     * Accessor method for time
+     * @return Time in which announcement was posted
+     */
     public String getTime() {
-        return time.get();
+        return time;
     }
-     public String getUsername() {
+    
+    
+    /**
+     * Accessor method for username
+     * @return Username of administrator who posted announcement
+     */
+    public String getUsername() {
         return this.username;
     }
     
+    
+    /**
+     * Accessor method for date
+     * @return Date in which announcement was posted
+     */
     public Date getDate() {
         return date;
     }
     
+    
+    /**
+     * Accessor method for body
+     * @return Content message of announcement
+     */
     public String getBody() {
-        return body.get();
+        return body;
     }
+    
+    
+    /**
+     * Accessor method for title
+     * @return Title of announcement
+     */
     public String getTitle() {
-        return title.get();
+        return title;
     }
+    
+    
+    /**
+     * Accessor method for adminId
+     * @return Id of administrator who posted announcement
+     */
     public Integer getAdminId() {
-        return adminId.get();
+        return adminId;
     }
     
     
+    /**
+     * Mutator method for time
+     * @param time Time in which announcement was posted
+     */
     public void setTime(String time) {
-        this.time.set(time);
+        this.time = time;
     }
-     public void setAnnouncementId(Integer announcementId) {
-        this.announcementId.set(announcementId);
+    
+    
+    /**
+     * Mutator method for announcementId
+     * @param announcementId Id of announcement
+     */
+    public void setAnnouncementId(Integer announcementId) {
+        this.announcementId = announcementId;
     }
+    
+    
+    /**
+     * Mutator method for date
+     * @param date Date in which announcement was posted
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public void setBody(String message) {
-        this.body.set(message);
+    
+    /**
+     * Mutator method for body
+     * @param body Content message of announcement
+     */
+    public void setBody(String body) {
+        this.body = body;
     }  
     
-    public void setTitle(String message) {
-        this.title.set(message);
+    
+    /**
+     * Mutator method for title
+     * @param title Title of announcement
+     */
+    public void setTitle(String title) {
+        this.title = title;
     } 
+    
+    
+    /**
+     * Mutator method for username
+     * @param username Username of administrator who posted announcement
+     */
     public void setUsername(String username) {
         this.username = username;
     } 
     
-     public void setAdminId(Integer adminId) {
-        this.adminId.set(adminId);
-    } 
     
-     
-   
-    
+    /**
+     * Mutator method for adminId
+     * @param adminId Id of administrator who posted announcement
+     */
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
+    }   
 }

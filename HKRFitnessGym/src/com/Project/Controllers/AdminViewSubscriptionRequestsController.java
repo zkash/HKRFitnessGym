@@ -74,7 +74,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
      * @param event
      * @throws SQLException 
      */
-    public void acceptRequestBtnClick(ActionEvent event) throws SQLException { 
+    public void handleAcceptRequestBtnClick(ActionEvent event) throws SQLException { 
         allRows = adminViewSubscriptionRequestTable.getItems();
         row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems(); 
         
@@ -99,7 +99,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
                         float packageCost = row.get(0).getPrice();
                         float offerPrice = Float.valueOf(offerPriceString);
                         
-                        if((offerPrice > packageCost) && (offerPrice < 0)) {
+                        if((offerPrice > packageCost) || (offerPrice < 0)) {
                             helper.showDialogBox(true, "Offer price cannot be more than package price or less than 0.\nIt should be less than or equal to the package price.");
                         }
                         else {
@@ -125,7 +125,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
      * @param event
      * @throws SQLException 
      */
-    public void declineRequestBtnClick(ActionEvent event) throws SQLException {
+    public void handleDeclineRequestBtnClick(ActionEvent event) throws SQLException {
         allRows = adminViewSubscriptionRequestTable.getItems();
         row = adminViewSubscriptionRequestTable.getSelectionModel().getSelectedItems(); 
         
@@ -164,7 +164,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchSubscription.getText(); 
         String memberFirstName = null, memberMiddleName = null, memberLastName = null, memberUsername = null, packageName = null;
         
@@ -204,7 +204,7 @@ public class AdminViewSubscriptionRequestsController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.getSubscriptionRequest();
         setDataInTable(data);
         helper.fitColumns(adminViewSubscriptionRequestTable); 

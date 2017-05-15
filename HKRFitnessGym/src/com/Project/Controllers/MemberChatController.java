@@ -55,7 +55,7 @@ public class MemberChatController implements Initializable {
             }
             // If none of conditions apply, message will be saved.
             else if (message.getText().length() <= 100 && message.getText().length() > 0) {
-                DBHandler.saveMessage(datef.format(date), DBHandler.getLoggedUser(), message.getText());
+                //DBHandler.saveMessage(datef.format(date), DBHandler.getLoggedUser(), message.getText());
                 message.clear();
                
             }

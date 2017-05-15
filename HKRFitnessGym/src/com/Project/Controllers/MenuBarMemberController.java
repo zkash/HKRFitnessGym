@@ -48,7 +48,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void updatePersonalInfoMenuClick(ActionEvent event) throws IOException {
+    public void handleUpdatePersonalInfoMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("UpdateMemberPersonalInformation.fxml");
     }
     
@@ -58,7 +58,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewPersonalInformationMenuClick(ActionEvent event) throws IOException {
+    public void handleViewPersonalInformationMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("MemberViewPersonalInformation.fxml");
     }
     
@@ -68,7 +68,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void subscribeToPackageMenuClick(ActionEvent event) throws IOException {
+    public void handleSubscribeToPackageMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("MemberViewPackages.fxml");
     }
     
@@ -78,7 +78,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewSubscriptionsMenuClick(ActionEvent event) throws IOException {
+    public void handleViewSubscriptionsMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("MemberViewSubscriptions.fxml");
     }
     
@@ -88,7 +88,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewScheduleMenuClick(ActionEvent event) throws IOException {
+    public void handleViewScheduleMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("MemberViewSchedule.fxml");
     }
     
@@ -98,7 +98,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void viewAnnouncementMenuClick(ActionEvent event) throws IOException {
+    public void handleViewAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("MemberViewAnnouncement.fxml");
     }
     
@@ -108,7 +108,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void visitChatRoomMenuClick(ActionEvent event) throws IOException {
+    public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("MemberChat.fxml");
     }
     
@@ -118,7 +118,7 @@ public class MenuBarMemberController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    public void changePasswordMenuClick(ActionEvent event) throws IOException {
+    public void handleChangePasswordMenuClick(ActionEvent event) throws IOException {
        setupAndShowStage("MemberChangePassword.fxml");
     }  
 }

@@ -1,351 +1,376 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Models;
 
 import java.sql.Date;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author shameer
  */
 public class Person {
-
-    private final StringProperty firstName;
-    private final StringProperty middleName;
-    private final StringProperty lastName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String gender;
+    private String address;
+    private String email;
+    private String username;
+    private String password;
+    private String fullName;
+    private String fullSSN;
+    
     private Date dateOfBirth;
-    private final StringProperty gender;
-    private final StringProperty address;
-    private final IntegerProperty phoneNumber;
-    private final StringProperty email;
-    private final IntegerProperty ssn1;
-    private final IntegerProperty ssn2;
-    private final StringProperty username;
-    private final StringProperty password;
-    private final StringProperty fullName;
-    private final StringProperty fullSSN;
-
-    //For AdminViewAdminAccounts, AdminViewMemberAccounts
-    public Person(String fullName, String uname, String gen, Date dob,
-            String add, int pnum, String ead, String fullSSN) {
-        this.firstName = new SimpleStringProperty("");
-        this.middleName = new SimpleStringProperty("");
-        this.lastName = new SimpleStringProperty("");
-        this.dateOfBirth = dob;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = null;
-        this.ssn2 = null;
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty("");
-        this.fullName = new SimpleStringProperty(fullName);
-        this.fullSSN = new SimpleStringProperty(fullSSN);
-    }
     
-    // For CreateAdminAccount, CreateMemberAccount
-    public Person(String fn, String mn, String ln, String gen, Date dob, String add, int pnum, String ead, int ssn1, int ssn2, String uname, String pwd) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.gender = new SimpleStringProperty(gen);
-        this.dateOfBirth = dob;
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty(pwd);
-        this.fullName = null;
-        this.fullSSN = null;
-    }
+    private int phoneNumber;
+    private int ssn1;
+    private int ssn2;
     
-    // For AdminViewPersonalInformationController, UpdateAdminPersonalInformationPageController
-    public Person(String fn, String mn, String ln, Date dob, String add,
-            int pnum, String ead, String gen, int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = dob;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
+    /**
+     * Initializer constructor
+     */
+    public Person() {
+        this.firstName = null;
+        this.middleName = null;
+        this.lastName = null;
+        this.gender = null;
+        this.address = null;
+        this.email = null;
         this.username = null;
         this.password = null;
         this.fullName = null;
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
-    
-    
-    
-    public Person(String fullName, String uname, int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty("");
-        this.middleName = new SimpleStringProperty("");
-        this.lastName = new SimpleStringProperty("");
+        this.fullSSN = null;
         this.dateOfBirth = null;
-        this.gender = new SimpleStringProperty("");
-        this.address = new SimpleStringProperty("");
-        this.phoneNumber = new SimpleIntegerProperty();
-        this.email = new SimpleStringProperty("");
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty("");
-        this.fullName = new SimpleStringProperty(fullName);
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
-    
-    
-    
-    public Person(String fn, String mn, String ln, Date dob, String add,
-            int pnum, String uname, String pwd, String ead, String gen,
-            int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = dob;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty(pwd);
-        this.fullName = (StringProperty) (this.firstName.concat(this.middleName)).concat(this.lastName);
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
+        this.phoneNumber = 0;
+        this.ssn1 = 0;
+        this.ssn2 = 0;
     }
 
     
+    /**
+     * Constructor for AdminViewAdminAccounts, AdminViewMemberAccounts
+     * @param fullName Full name of user
+     * @param username Username of user
+     * @param gender Gender of user
+     * @param dateOfBirth Date of birth of user
+     * @param address Address of user
+     * @param phoneNumber Phone number of user
+     * @param email Email of user
+     * @param fullSSN Full social security number of user
+     */ 
+    public Person(String fullName, String username, String gender, Date dateOfBirth,
+            String address, int phoneNumber, String email, String fullSSN) {
+        this.fullName = fullName;
+        this.username = username;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.fullSSN = fullSSN;
+    }
     
-    // Getters
+    
+    /**
+     * Constructor for CreateAdminAccount, CreateMemberAccount
+     * @param firstName First name of user
+     * @param middleName Middle name of user
+     * @param lastName Last name of user
+     * @param gender Gender of user
+     * @param dateOfBirth Date of birth of user
+     * @param address Address of user
+     * @param phoneNumber Phone number of user
+     * @param email Email address of user
+     * @param ssn1 First part (before -) of social security number of user
+     * @param ssn2 Second part (after -) of social security number of user
+     * @param username Username of user
+     * @param password Password of user
+     */
+    public Person(String firstName, String middleName, String lastName, 
+            String gender, Date dateOfBirth, String address, int phoneNumber, 
+            String email, int ssn1, int ssn2, String username, String password) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.ssn1 = ssn1;
+        this.ssn2 = ssn2;
+        this.username = username;
+        this.password = password;
+    }
+    
+    
+    /**
+     * Constructor for AdminViewPersonalInformationController, UpdateAdminPersonalInformationPageController
+     * @param firstName First name of user
+     * @param middleName Middle name of user
+     * @param lastName Last name of user
+     * @param dateOfBirth Date of birth of user
+     * @param address Address of user
+     * @param phoneNumber Phone number  of user
+     * @param email Email address of user
+     * @param gender Gender of user
+     * @param ssn1 First part (before -) of social security number of user
+     * @param ssn2 Second part (after -) of social security number of user
+     */
+    public Person(String firstName, String middleName, String lastName, 
+            Date dateOfBirth, String address, int phoneNumber, String email, 
+            String gender, int ssn1, int ssn2) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.ssn1 = ssn1;
+        this.ssn2 = ssn2;
+        this.fullSSN = Integer.toString(ssn1) + "-" + Integer.toString(ssn2);
+    }
+
+    
+    /**
+     * Accessor method for dateOfBirth
+     * @return Date of birth of user
+     */
     public Date getDateOfBirth() {
-        return dateOfBirth;
+        return this.dateOfBirth;
     }
 
+    
+    /**
+     * Accessor method for firstName
+     * @return First name of user
+     */
     public String getFirstName() {
-        return firstName.get();
+        return this.firstName;
     }
 
+    
+    /**
+     * Accessor method for middleName
+     * @return Middle name of user
+     */
     public String getMiddleName() {
-        return middleName.get();
+        return this.middleName;
     }
 
+    
+    /**
+     * Accessor method for lastName
+     * @return Last name of user
+     */
     public String getLastName() {
-        return lastName.get();
+        return this.lastName;
     }
 
+    
+    /**
+     * Accessor method for gender
+     * @return Gender of user
+     */
     public String getGender() {
-        return gender.get();
+        return this.gender;
     }
 
+    
+    /**
+     * Accessor method for address
+     * @return Address of user
+     */
     public String getAddress() {
-        return address.get();
+        return this.address;
     }
 
+    
+    /**
+     * Accessor method for phoneNumber
+     * @return Phone number of user
+     */
     public int getPhoneNumber() {
-        return phoneNumber.get();
+        return this.phoneNumber;
     }
 
+    
+    /**
+     * Accessor method for email
+     * @return Email address of user
+     */
     public String getEmail() {
-        return email.get();
+        return this.email;
     }
 
+    
+    /**
+     * Accessor method for ssn1
+     * @return First part (before -) of social security number of user
+     */
     public int getSSN1() {
-        return ssn1.get();
+        return this.ssn1;
     }
     
+    
+    /**
+     * Accessor method for ssn2
+     * @return Second part (after -) of social security number of user
+     */
     public int getSSN2() {
-        return ssn2.get();
+        return this.ssn2;
     }
     
+    
+    /**
+     * Accessor method for username
+     * @return Username of user
+     */
     public String getUsername() {
-        return username.get();
+        return this.username;
     }
 
+    
+    /**
+     * Accessor method for password
+     * @return Password of user
+     */
     public String getPassword() {
-        return password.get();
+        return this.password;
     }
     
+    
+    /**
+     * Accessor method for fullName
+     * @return Full name of user
+     */
     public String getFullName() {
-        return fullName.get();
+        return this.fullName;
     }
 
+    
+    /**
+     * Accessor method for fullSSN
+     * @return Full social security number of user
+     */
     public String getFullSSN() {
-        return fullSSN.get();
+        return this.fullSSN;
     }
     
-    //Setters
-    public void setDateOfBirth(Date dob) {
-        dateOfBirth = dob;
+    
+    /**
+     * Mutator method for dateOfBirth
+     * @param dateOfBirth Date of birth of user
+     */
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void setFirstName(String fn) {
-        firstName.set(fn);
+    
+    /**
+     * Mutator method for firstName
+     * @param firstName First name of user
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setMiddleName(String mn) {
-        middleName.set(mn);
+    
+    /**
+     * Mutator method for middleName
+     * @param middleName Middle name of user
+     */
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public void setLastName(String ln) {
-        lastName.set(ln);
+    
+    /**
+     * Mutator method for lastName
+     * @param lastName Last name of user
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setGender(String gen) {
-        gender.set(gen);
+    
+    /**
+     * Mutator method for gender
+     * @param gender Gender of user
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setAddress(String add) {
-        address.set(add);
+    
+    /**
+     * Mutator method for address
+     * @param address Address of user
+     */
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setPhoneNumber(int pnum) {
-        phoneNumber.set(pnum);
+    
+    /**
+     * Mutator method for phoneNumber
+     * @param phoneNumber Phone number of user
+     */
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setEmail(String ead) {
-        email.set(ead);
+    
+    /**
+     * Mutator method for email
+     * @param email Email address of user
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setUsername(String uname) {
-        username.set(uname);
+    
+    /**
+     * Mutator method for username
+     * @param username Username of user
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setPassword(String pwd) {
-        password.set(pwd);
+    
+    /**
+     * Mutator method for password
+     * @param password Password of user
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setSSN1(int ssnum1) {
-        ssn1.set(ssnum1);
-    }
     
-    public void setSSN2(int ssnum2) {
-        ssn2.set(ssnum2);
-    }
-    
-    public void setFullSSN(String fullSSNum) {
-        fullSSN.set(fullSSNum);
+    /**
+     * Mutator method for ssn1
+     * @param ssn1 First part (before -) of social security number of user
+     */
+    public void setSSN1(int ssn1) {
+        this.ssn1 = ssn1;
     }
     
     
-    // Property values
-    public StringProperty firstNameProperty() {
-        return firstName;
+    /**
+     * Mutator method for ssn2
+     * @param ssn2 Second part (after -) of social security number of user
+     */
+    public void setSSN2(int ssn2) {
+        this.ssn2 = ssn2;
     }
     
-    public StringProperty middleNameProperty() {
-        return middleName;
+    
+    /**
+     * Mutator method for fullSSN
+     * @param fullSSN Full social security number of user
+     */
+    public void setFullSSN(String fullSSN) {
+        this.fullSSN = fullSSN;
     }
-    
-    public StringProperty lastNameProperty() {
-        return lastName;
-    }
-    
-//    public StringProperty dobProperty() {
-//        return dateOfBirth;
-//    }
-    
-    public StringProperty genderProperty() {
-        return gender;
-    }
-    
-    public StringProperty addressProperty() {
-        return address;
-    }
-    
-    public IntegerProperty phoneNumberProperty() {
-        return phoneNumber;
-    }
-    
-    public StringProperty emailProperty() {
-        return email;
-    }
-    
-    public IntegerProperty ssn1Property() {
-        return ssn1;
-    }
-    
-    public IntegerProperty ssn2Property() {
-        return ssn2;
-    }
-    
-    public StringProperty usernameProperty() {
-        return username;
-    }
-    
-    public StringProperty passwordProperty() {
-        return password;
-    }
-    
-    public StringProperty fullNameProperty() {
-        return fullName;
-    }
-    
-    public StringProperty fullSSNProperty() {
-        return fullSSN;
-    }
-    
-    public Person(String fn, String mn, String ln, String gen, String add, String ead, String uname, String pwd, int ssn1, int ssn2, int pnum) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = null;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty(pwd);
-        this.fullName = null;
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    }
-    
-//    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2, String fullSSN) {
-//        this.firstName = new SimpleStringProperty(fn);
-//        this.middleName = new SimpleStringProperty(mn);
-//        this.lastName = new SimpleStringProperty(ln);
-//        this.dateOfBirth = dob;
-//        this.gender = new SimpleStringProperty(gen);
-//        this.address = new SimpleStringProperty(add);
-//        this.phoneNumber = new SimpleIntegerProperty(pnum);
-//        this.email = new SimpleStringProperty(ead);
-//        this.ssn1 = new SimpleIntegerProperty(ssn1);
-//        this.ssn2 = new SimpleIntegerProperty(ssn2);
-//        this.username = new SimpleStringProperty(uname);
-//        this.password = new SimpleStringProperty(pwd);
-//        this.fullName = null;
-//        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-//    }
-    
-    public Person(String fn, String mn, String ln, String gen, Date dob, String add, String ead, int pnum, String uname, String pwd, int ssn1, int ssn2) {
-        this.firstName = new SimpleStringProperty(fn);
-        this.middleName = new SimpleStringProperty(mn);
-        this.lastName = new SimpleStringProperty(ln);
-        this.dateOfBirth = dob;
-        this.gender = new SimpleStringProperty(gen);
-        this.address = new SimpleStringProperty(add);
-        this.phoneNumber = new SimpleIntegerProperty(pnum);
-        this.email = new SimpleStringProperty(ead);
-        this.ssn1 = new SimpleIntegerProperty(ssn1);
-        this.ssn2 = new SimpleIntegerProperty(ssn2);
-        this.username = new SimpleStringProperty(uname);
-        this.password = new SimpleStringProperty(pwd);
-        this.fullName = null;
-        this.fullSSN = new SimpleStringProperty(Integer.toString(ssn1) + "-" + Integer.toString(ssn2));
-    } 
 }

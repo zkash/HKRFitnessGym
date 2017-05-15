@@ -1,4 +1,4 @@
-package com.Project.Models;
+    package com.Project.Models;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -141,7 +141,7 @@ public class AccountHelper {
      * @param ssnOld2 Second part of old or current social security number
      * @throws SQLException 
      */
-     public void updateBtnClick(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
+     public void update(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
         Label invalidMsgAllData = labelList.get(0);
         Label invalidMsgFirstName = labelList.get(1);
         Label invalidMsgMiddleName = labelList.get(2);

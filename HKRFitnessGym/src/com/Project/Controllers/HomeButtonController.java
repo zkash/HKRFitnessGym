@@ -19,7 +19,7 @@ public class HomeButtonController {
      * @param event
      * @throws IOException 
      */
-    public void homeBtnClick(ActionEvent event) throws IOException {
+    public void handleHomeBtnClick(ActionEvent event) throws IOException {
         if(accountType.equals("Admin")) {
             helper.navigateScene(event, "AdminMainMenu.fxml");
         }

@@ -1,178 +1,254 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.Project.Models;
 
 import java.sql.Date;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author shameer
  */
 public class Package {
-
-    private StringProperty packageName = null;
-    private FloatProperty price = null;
-    private Date startDate = null;
-    private Date endDate = null;
-    private StringProperty startTime = null;
-    private StringProperty endTime = null;
-    private IntegerProperty packageId = null;
-    private StringProperty adminFullName = null;
-    private IntegerProperty numberOfSubscriber = new SimpleIntegerProperty();
+    private String packageName;
+    private String startTime;
+    private String endTime;
+    private String adminFullName;
     
+    private Date startDate;
+    private Date endDate;
+    
+    private int packageId;
+    private int numberOfSubscriber;
+    
+    private float price;
+    
+    /**
+     * Initializer constructor
+     */
     public Package() {
-        
-    }
-    
-    public Package(String pn, float price, Date sd, Date ed, String st, String et) {
-        this.packageName = new SimpleStringProperty(pn);
-        this.price = new SimpleFloatProperty(price);
-        this.startDate = sd;
-        this.endDate = ed;
-        this.startTime = new SimpleStringProperty(st);
-        this.endTime = new SimpleStringProperty(et);
-        this.packageId = null;
+        this.packageName = null;
+        this.startTime = null;
+        this.endTime = null;
         this.adminFullName = null;
+        this.startDate = null;
+        this.endDate = null;
+        this.packageId = 0;
+        this.numberOfSubscriber = 0;
+        this.price = 0;
     }
     
-    //For adminViewPackages
-    public Package(String pn, float price, Date sd, Date ed, String st, String et, String afn) {
-        this.packageName = new SimpleStringProperty(pn);
-        this.price = new SimpleFloatProperty(price);
-        this.startDate = sd;
-        this.endDate = ed;
-        this.startTime = new SimpleStringProperty(st);
-        this.endTime = new SimpleStringProperty(et);
-        this.packageId = null;
-        this.adminFullName = new SimpleStringProperty(afn);
+    
+    /**
+     * Constructor for Subscription class, memberViewPackages, getPackageInfoAdmin
+     * @param packageName Name of package
+     * @param price Price of package
+     * @param startDate Start date of package
+     * @param endDate End date of package
+     * @param startTime Start time of package in a day
+     * @param endTime End time of package in a day
+     */
+    public Package(String packageName, float price, Date startDate, Date endDate, String startTime, String endTime) {
+        this.packageName = packageName;
+        this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    
+    
+    /**
+     * Constructor for adminViewPackages
+     * @param packageName Name of package
+     * @param price Price of package
+     * @param startDate Start date of package
+     * @param endDate End date of package
+     * @param startTime Start time of package in a day
+     * @param endTime End time of package in a day
+     * @param adminFullName Full name of administrator who created the package
+     */
+    public Package(String packageName, float price, Date startDate, Date endDate, String startTime, String endTime, String adminFullName) {
+        this.packageName = packageName;
+        this.price = price;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.adminFullName = adminFullName;
     }
 
-    //For AdminViewSubscriptions
-    public Package(String pn) {
-        this.packageName = new SimpleStringProperty(pn);
+    
+    /**
+     * Constructor for AdminViewSubscriptions
+     * @param packageName Name of package
+     */
+    public Package(String packageName) {
+        this.packageName = packageName;
     }
     
-    //For MemberViewSubscriptions
-    public Package(String pn, float price, String st, String et) {
-        this.packageName = new SimpleStringProperty(pn);
-        this.price = new SimpleFloatProperty(price);
-        this.startTime = new SimpleStringProperty(st);
-        this.endTime = new SimpleStringProperty(et);
+    
+    /**
+     * Constructor for MemberViewSubscriptions
+     * @param packageName Name of package
+     * @param price Price of package
+     * @param startTime Start time of package in a day
+     * @param endTime End time of package in a day
+     */
+    public Package(String packageName, float price, String startTime, String endTime) {
+        this.packageName = packageName;
+        this.price = price;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
     
-    // Getters
+    
+    /**
+     * Accessor method for packageName
+     * @return Name of package
+     */
     public String getPackageName() {
-        return packageName.get();
+        return this.packageName;
     }
 
+    
+    /**
+     * Accessor method for price
+     * @return Price of package
+     */
     public float getPrice() {
-        return price.get();
+        return this.price;
     }
 
+    
+    /**
+     * Accessor method for startDate
+     * @return Start date of package
+     */
     public Date getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
+    
+    /**
+     * Accessor method for endDate
+     * @return End date of package
+     */
     public Date getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
+    
+    /**
+     * Accessor method for startTime
+     * @return Start time of package in a day
+     */
     public String getStartTime() {
-        return startTime.get();
+        return this.startTime;
     }
 
+    
+    /**
+     * Accessor method for endTime
+     * @return End time of package in a day
+     */
     public String getEndTime() {
-        return endTime.get();
+        return this.endTime;
     }
     
+    
+    /**
+     * Accessor method for packageId
+     * @return Id of package
+     */
     public int getPackageId() {
-        return packageId.get();
+        return this.packageId;
     }
     
+    
+    /**
+     * Accessor method for adminFullName
+     * @return Full name of administrator who created the package
+     */
     public String getAdminFullName() {
-        return adminFullName.get();
+        return this.adminFullName;
     }
     
+    
+    /**
+     * Accessor method for numberOfSubscriber
+     * @return Number of subscribers in a package
+     */
     public int getNumberOfSubscriber() {
-        return numberOfSubscriber.get();
+        return this.numberOfSubscriber;
     }
     
-    //Setters
-    public void setPackageName(String pn) {
-        packageName.set(pn);
+    
+    /**
+     * Mutator method for packageName
+     * @param packageName Name of package
+     */
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
-    public void setPrice(float pri) {
-        price.set(pri);
+    
+    /**
+     * Mutator method for price
+     * @param price Price of package
+     */
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public void setStartDate(Date sd) {
-        startDate = sd;
+    
+    /**
+     * Mutator method for startDate
+     * @param startDate Start date of package
+     */
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setEndDate(Date ed) {
-        endDate = ed;
+    
+    /**
+     * Mutator method for endDate
+     * @param endDate End date of package
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public void setStartTime(String st) {
-        startTime.set(st);
+    
+    /**
+     * Mutator method for startTime
+     * @param startTime Start time of package in a day
+     */
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
     
-    public void setEndTime(String et) {
-        endTime.set(et);
+    
+    /**
+     * Mutator method for endTime
+     * @param endTime End time of package in a day
+     */
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
     
-    public void setAdminFullName(String afn) {
-        adminFullName.set(afn);
+    
+    /**
+     * Mutator method for adminFullName
+     * @param adminFullName Full name of administrator who created the package
+     */
+    public void setAdminFullName(String adminFullName) {
+        this.adminFullName = adminFullName;
     }
     
-    public void setNumberOfSubscriber(int nos) {
-    numberOfSubscriber.set(nos);
-    }
     
-    // Property values
-    public StringProperty packageNameProperty() {
-        return packageName;
-    }
-    
-    public FloatProperty priceProperty() {
-        return price;
-    }
-
-//    public StringProperty startDateProperty() {
-//        return startDate;
-//    }
-//    
-//    public StringProperty endDateProperty() {
-//        return endDate;
-//    }
-    
-    public StringProperty startTimeProperty() {
-        return startTime;
-    }
-    
-    public StringProperty endTimeProperty() {
-        return endTime;
-    }
-    
-    public IntegerProperty packageIdProperty() {
-        return packageId;
-    }
-    
-    public StringProperty adminFullNameProperty() {
-        return adminFullName;
-    }
-    
-    public IntegerProperty numberOfSubscriberProperty() {
-        return numberOfSubscriber;
+    /**
+     * Mutator method for numberOfSubscriber
+     * @param numberOfSubscriber Number of subscribers in a package
+     */
+    public void setNumberOfSubscriber(int numberOfSubscriber) {
+        this.numberOfSubscriber = numberOfSubscriber;
     }
 }

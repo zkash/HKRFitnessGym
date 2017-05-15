@@ -36,7 +36,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void createAccountBtnClick(ActionEvent event) throws IOException {
+    public void handleCreateAccountBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateUser.fxml");
     }
     
@@ -47,7 +47,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void createPackageBtnClick(ActionEvent event) throws IOException {
+    public void handleCreatePackageBtnClick(ActionEvent event) throws IOException {
       helper.navigateScene(event, "CreatePackage.fxml");   
     }
     
@@ -58,7 +58,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void viewSubscriptionsBtnClick(ActionEvent event) throws IOException {
+    public void handleViewSubscriptionsBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "AdminViewSubscriptions.fxml");   
     } 
     
@@ -69,7 +69,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void createScheduleBtnClick(ActionEvent event) throws IOException {
+    public void handleCreateScheduleBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateSchedule.fxml");   
     }
     
@@ -80,7 +80,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void createAnnouncementBtnClick(ActionEvent event) throws IOException {
+    public void handleCreateAnnouncementBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "CreateAnnouncement.fxml");   
     }
     
@@ -91,7 +91,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void chatBtnClick(ActionEvent event) throws IOException {
+    public void handleChatBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "AdminChat.fxml");   
     }
 }

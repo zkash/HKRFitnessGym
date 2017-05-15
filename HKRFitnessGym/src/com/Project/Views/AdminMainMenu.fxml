@@ -17,22 +17,22 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="createAccountBtn" layoutX="78.0" layoutY="117.0" mnemonicParsing="false" onAction="#createAccountBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Account">
+            <Button fx:id="createAccountBtn" layoutX="78.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleCreateAccountBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Account">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="createScheduleBtn" layoutX="328.0" layoutY="117.0" mnemonicParsing="false" onAction="#createScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Schedule">
+            <Button fx:id="createScheduleBtn" layoutX="328.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleCreateScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Schedule">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="createAnnouncementBtn" layoutX="328.0" layoutY="165.0" mnemonicParsing="false" onAction="#createAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Announcement">
+            <Button fx:id="createAnnouncementBtn" layoutX="328.0" layoutY="165.0" mnemonicParsing="false" onAction="#handleCreateAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Announcement">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="createPackageBtn" layoutX="78.0" layoutY="165.0" mnemonicParsing="false" onAction="#createPackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Package" AnchorPane.topAnchor="165.0">
+            <Button fx:id="createPackageBtn" layoutX="78.0" layoutY="165.0" mnemonicParsing="false" onAction="#handleCreatePackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Create Package" AnchorPane.topAnchor="165.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -48,12 +48,12 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="chatBtn" layoutX="328.0" layoutY="215.0" mnemonicParsing="false" onAction="#chatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
+            <Button fx:id="chatBtn" layoutX="328.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleChatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="viewSubscriptionsBtn" layoutX="78.0" layoutY="214.0" mnemonicParsing="false" onAction="#viewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
+            <Button fx:id="viewSubscriptionsBtn" layoutX="78.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleViewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
                <font>
                   <Font size="16.0" />
                </font></Button>

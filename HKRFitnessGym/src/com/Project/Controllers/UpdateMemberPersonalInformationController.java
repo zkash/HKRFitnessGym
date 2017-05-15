@@ -5,6 +5,7 @@ import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
 import com.Project.Models.Member;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -128,7 +129,7 @@ public class UpdateMemberPersonalInformationController implements Initializable 
      * @throws SQLException 
      */
     @FXML
-    public void updateBtnClick(ActionEvent event) throws SQLException {
+    public void handleUpdateBtnClick(ActionEvent event) throws SQLException, IOException {
         ArrayList<RadioButton> radioButtonList = new ArrayList<>();
         radioButtonList.add(genderMale);
         radioButtonList.add(genderFemale);
@@ -144,6 +145,7 @@ public class UpdateMemberPersonalInformationController implements Initializable 
         labelList.add(invalidMsgEmail);
         labelList.add(invalidMsgSSN);
         
-        accountHelper.updateBtnClick(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
+        accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
+        helper.navigateScene(event, "MemberViewPersonalInformation.fxml");
     }
 }

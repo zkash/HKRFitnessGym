@@ -17,17 +17,17 @@
    <left>
       <AnchorPane prefHeight="368.0" prefWidth="602.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="updatePersonalInfoBtn" layoutX="72.0" layoutY="121.0" mnemonicParsing="false" onAction="#updatePersonalInfoBtnClick" prefHeight="30.0" prefWidth="200.0" text="Update Personal Info">
+            <Button fx:id="updatePersonalInfoBtn" layoutX="72.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleUpdatePersonalInfoBtnClick" prefHeight="30.0" prefWidth="200.0" text="Update Personal Info">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="viewAnnouncementBtn" layoutX="328.0" layoutY="169.0" mnemonicParsing="false" onAction="#viewAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Announcement">
+            <Button fx:id="viewAnnouncementBtn" layoutX="328.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleViewAnnouncementBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Announcement">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="subscribeToPackageBtn" layoutX="72.0" layoutY="169.0" mnemonicParsing="false" onAction="#subscribeToPackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Subscribe to Package" AnchorPane.topAnchor="169.0">
+            <Button fx:id="subscribeToPackageBtn" layoutX="72.0" layoutY="169.0" mnemonicParsing="false" onAction="#handleSubscribeToPackageBtnClick" prefHeight="30.0" prefWidth="200.0" text="Subscribe to Package" AnchorPane.topAnchor="169.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -43,17 +43,17 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="viewScheduleBtn" layoutX="328.0" layoutY="121.0" mnemonicParsing="false" onAction="#viewScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Schedule">
+            <Button fx:id="viewScheduleBtn" layoutX="328.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleViewScheduleBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Schedule">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="chatBtn" layoutX="328.0" layoutY="218.0" mnemonicParsing="false" onAction="#chatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
+            <Button fx:id="chatBtn" layoutX="328.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleChatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="viewSubscriptionsBtn" layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#viewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
+            <Button fx:id="viewSubscriptionsBtn" layoutX="72.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleViewSubscriptionsBtnClick" prefHeight="30.0" prefWidth="200.0" text="View Subscriptions">
                <font>
                   <Font size="16.0" />
                </font>

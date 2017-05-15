@@ -53,6 +53,7 @@ public class UpdateAdminScheduleController implements Initializable {
     
     DBHandler db = new DBHandler();
     private Schedule schedule = new Schedule();
+    private Helper help = new Helper();
     
     @FXML private DatePicker scheduleDate;
     @FXML private TextField openingTime;
@@ -133,7 +134,7 @@ public class UpdateAdminScheduleController implements Initializable {
             //invalidMsgAnnouncement.setText("Invalid Date");
         }
         // opening time box
-        else if(!Helper.isInteger(oh) || !Helper.isInteger(om)) {
+        else if(!help.isInteger(oh) || !help.isInteger(om)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("ERROR");
             alert.setContentText("Invalid Time");
@@ -171,7 +172,7 @@ public class UpdateAdminScheduleController implements Initializable {
         }
         
         //closing time
-        else if(!Helper.isInteger(ch) || !Helper.isInteger(cm)) {
+        else if(!help.isInteger(ch) || !help.isInteger(cm)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("ERROR");
             alert.setContentText("Invalid Time");
@@ -282,7 +283,7 @@ public class UpdateAdminScheduleController implements Initializable {
     }
     
     private void setDate(){
-        schedule.setDate(Helper.toSQLDate(scheduleDate.getValue()));
+        schedule.setDate(help.convertLocalDateToSQLDate(scheduleDate.getValue()));
     }
     
     private void checkHoliday(){

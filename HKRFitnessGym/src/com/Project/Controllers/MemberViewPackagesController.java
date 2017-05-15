@@ -71,7 +71,7 @@ public class MemberViewPackagesController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchPackage.getText();
         data = dbHandler.searchInMemberViewPackage(searchQuery);
         setDataInTable(data);
@@ -86,7 +86,7 @@ public class MemberViewPackagesController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.memberViewPackages();
         setDataInTable(data);
         helper.fitColumns(memberViewPackagesTable);
@@ -98,7 +98,7 @@ public class MemberViewPackagesController implements Initializable {
      * @param event
      * @throws SQLException 
      */
-    public void sendSubscriptionRequestBtnClick(ActionEvent event) throws SQLException {
+    public void handleSendSubscriptionRequestBtnClick(ActionEvent event) throws SQLException {
         ObservableList<Package> row , allRows;
         allRows = memberViewPackagesTable.getItems();
         row = memberViewPackagesTable.getSelectionModel().getSelectedItems(); 
@@ -106,7 +106,7 @@ public class MemberViewPackagesController implements Initializable {
         java.util.Date currentDate = helper.getCurrentDate();
 
         if (row.isEmpty()) {
-            helper.showDialogBox(true, "Please select a package first to delete subscribe");
+            helper.showDialogBox(true, "Please select a package to send a subscription request");
         }
         else {
             LocalDate subsriptionStartLocalDate = subscriptionStartDatePicker.getValue();

@@ -33,11 +33,11 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="searchBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
-            <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" onAction="#searchBtnClick" AnchorPane.bottomAnchor="30.0" />
-            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="364.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
-            <Button fx:id="deleteBtn" layoutX="503.0" layoutY="364.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Delete" />
-            <Button fx:id="updateBtn" layoutX="434.0" layoutY="364.0" mnemonicParsing="false" onAction="#updateBtnClick" text="Update" />
+            <Button fx:id="searchBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
+            <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" onAction="#handleSearchBtnClick" AnchorPane.bottomAnchor="30.0" />
+            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleResetSearchBtnClick" text="Reset" />
+            <Button fx:id="deleteBtn" layoutX="503.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleDeleteBtnClick" text="Delete" />
+            <Button fx:id="updateBtn" layoutX="434.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleUpdateBtnClick" text="Update" />
            
          </children>
       </AnchorPane>

@@ -4,11 +4,11 @@ import com.Project.Models.Admin;
 import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javafx.fxml.Initializable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,18 +64,7 @@ public class AdminViewAdminAccountsController implements Initializable {
             helper.showDialogBox(true, "Data could not be fetched from database and set in table");
         }  
     }
-    
-    
-    /**
-     * Resets the table view with initial data
-     * @param event
-     * @throws SQLException 
-     */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException {
-        data = dbHandler.adminViewAdminAccounts();
-        setDataInTable(data);
-    }
-    
+
     
     /**
      * Deletes an admin account
@@ -83,7 +72,7 @@ public class AdminViewAdminAccountsController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleDeleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<Admin> row , allRows;
         allRows = adminViewAccountsTable.getItems();
         row = adminViewAccountsTable.getSelectionModel().getSelectedItems(); 
@@ -107,22 +96,21 @@ public class AdminViewAdminAccountsController implements Initializable {
                 helper.showDialogBox(false, "Admin successfully deleted");
                 row.forEach(allRows::remove);
             }
-            catch(NumberFormatException | SQLException e) {
+            catch(NumberFormatException | SQLException ex) {
                 helper.showDialogBox(true, "Could not delete admin because it is associated with other data in the system. \n\nDelete such data before trying to delete the admin");
-            
             }
         }
     }
     
-    public void searchAdminBtnClick(ActionEvent event) throws SQLException {
+    
+    /**
+     * Searches for data as per user's query and filters
+     * @param event
+     * @throws SQLException 
+     * @throws java.lang.reflect.InvocationTargetException 
+     */
+    public void handleSearchAdminBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchAdmin.getText(); 
-        ArrayList<CheckBox> checkboxes = new ArrayList<>();
-        checkboxes.add(searchFullName);
-        checkboxes.add(searchUsername);
-        checkboxes.add(searchEmail);
-        checkboxes.add(searchSSN);
-        checkboxes.add(searchPhoneNumber);
-        checkboxes.add(searchAddress);
         
         String fn = null, mn = null, ln = null, add = null, un = null, ead = null;
         int pnum = -1, ssn1 = -1, ssn2 = -1;
@@ -151,7 +139,6 @@ public class AdminViewAdminAccountsController implements Initializable {
             }
             else {
                 try {
-                    System.out.println("sfjkhdfs");
                     pnum = Integer.parseInt(searchQuery);
                 }
                 catch (NumberFormatException e) {
@@ -162,17 +149,18 @@ public class AdminViewAdminAccountsController implements Initializable {
         
         if(searchSSN.isSelected()) {
             String ssnRegex = "([0-9]{6}-[0-9]{4})|([0-9]{10})";
+            
             if (searchQuery.matches(ssnRegex)) {
-                //try {
-                    String[] ssnDivided = searchQuery.split("-");
-                    if(ssnDivided.length == 1) {
-                        ssn1 = Integer.parseInt(searchQuery.substring(0, 6));
-                        ssn2 = Integer.parseInt(searchQuery.substring(6, 10));
-                    }
-                    else if (ssnDivided.length == 2) {
-                        ssn1 = Integer.parseInt(ssnDivided[0]);
-                        ssn2 = Integer.parseInt(ssnDivided[1]);
-                    }
+                String[] ssnDivided = searchQuery.split("-");
+                
+                if(ssnDivided.length == 1) {
+                    ssn1 = Integer.parseInt(searchQuery.substring(0, 6));
+                    ssn2 = Integer.parseInt(searchQuery.substring(6, 10));
+                }
+                else if (ssnDivided.length == 2) {
+                    ssn1 = Integer.parseInt(ssnDivided[0]);
+                    ssn2 = Integer.parseInt(ssnDivided[1]);
+                }
             }
             else {
                 helper.showDialogBox(true, "Search query does not match SSN format (either 10 digits or 6 digits followed by - and 4 digits");
@@ -192,33 +180,30 @@ public class AdminViewAdminAccountsController implements Initializable {
         }
         
         data= dbHandler.searchInAdminViewAdminAccounts(fn, mn, ln, add, un, ead, pnum, ssn1, ssn2, "Admin");
-        adminViewAccountsTable.getColumns().clear();
-        fullNameColumn = new TableColumn("Full Name");
-        usernameColumn = new TableColumn("Username");
-        ssnColumn = new TableColumn("SSN");
-        dobColumn = new TableColumn("DOB");
-        genderColumn = new TableColumn("Gender");
-        addressColumn = new TableColumn("Address");
-        emailColumn = new TableColumn("Email");
-        phoneNumberColumn = new TableColumn("Phone");
-          
-         adminViewAccountsTable.getColumns().addAll(fullNameColumn, usernameColumn, ssnColumn, genderColumn, dobColumn, addressColumn, emailColumn, phoneNumberColumn);
-         fullNameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.30837004)); 
-         usernameColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
-         ssnColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
-         dobColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
-         genderColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.10572688));
-         addressColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.40));
-         emailColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.40));
-         phoneNumberColumn.prefWidthProperty().bind(adminViewAccountsTable.widthProperty().multiply(0.17621146));
- 
-//      Set cell value factory to TableView
         setDataInTable(data);
-        
+        helper.fitColumns(adminViewAccountsTable);  
     }
     
+    
+    /**
+     * Resets the table view with initial data
+     * @param event
+     * @throws SQLException 
+     * @throws java.lang.reflect.InvocationTargetException 
+     */
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+        data = dbHandler.adminViewAdminAccounts();
+        setDataInTable(data);
+        helper.fitColumns(adminViewAccountsTable); 
+    }
+    
+    
+    /**
+     * Sets data in table view
+     * @param data OnservableList of Admin object
+     * @throws IllegalArgumentException 
+     */
     public void setDataInTable(ObservableList<Admin> data) {
-        // Set cell value factory to TableView
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         ssnColumn.setCellValueFactory(new PropertyValueFactory<>("fullSSN"));

@@ -83,7 +83,7 @@ public class UpdatePackageInformationController implements Initializable {
      * @param event
      * @throws SQLException 
      */
-    public void updateBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleUpdateBtnClick(ActionEvent event) throws SQLException, IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         
@@ -103,7 +103,7 @@ public class UpdatePackageInformationController implements Initializable {
                 comboBoxList.add(packageEndTimeState);
                 
                 String todo = "Update";
-                packageHelper.btnClick(todo, packageNameOld, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
+                packageHelper.handleButtonClick(todo, packageNameOld, event, textFieldList, datePickerList, comboBoxList, stage, adminId);
         }
     }
    

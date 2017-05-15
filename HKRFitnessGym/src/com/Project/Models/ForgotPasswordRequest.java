@@ -1,10 +1,6 @@
 package com.Project.Models;
 
 import java.sql.Date;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -12,79 +8,88 @@ import javafx.beans.property.StringProperty;
  */
 public class ForgotPasswordRequest {
     private Date date;
-    private StringProperty time;
-    private StringProperty code;
-    private IntegerProperty id;
+    private String time;
+    private String code ;
+    private int id;
+
+    /**
+     * Initializer constructor
+     */
+    public ForgotPasswordRequest() {
+        this.date = null;
+        this.time = null;
+        this.code = null;
+        this.id = 0;
+    }
     
     /**
-     * Gets the date of password request
+     * Accessor method for date
      * @return The date of password request
      */
     public Date getDate() {
-        return date;
+        return this.date;
     }
     
     
     /**
-     * Gets the time of password request
+     * Accessor method for time
      * @return The time of password request
      */
     public String getTime() {
-        return time.get();
+        return this.time;
     }
     
     
     /**
-     * Gets the randomly generated code
+     * Accessor method for code
      * @return The randomly generated code
      */
     public String getCode() {
-        return code.get();
+        return this.code;
     }
     
     
     /**
-     * Gets the id of the user requests the password
+     * Accessor method for id
      * @return The id of the user requests the password
      */
     public int getId() {
-        return id.get();
+        return this.id;
     }
     
     
     /**
-     * Sets the date of password request
-     * @param d The date of password request
+     * Mutator method for date
+     * @param date The date of password request
      */
-    public void setDate(Date d) {
-        date = d;
+    public void setDate(Date date) {
+        this.date = date;
     }
     
     
     /**
-     * Sets the time of password request
-     * @param t The time of password request
+     * Mutator method for time
+     * @param time The time of password request
      */
-    public void setTime(String t) {
-        System.out.println("T " + t);
-        time = new SimpleStringProperty(t);
+    public void setTime(String time) {
+        this.time = time;
     }
     
     
     /**
-     * Sets the randomly generated code
-     * @param c The randomly generated code
+     * Mutator method for code
+     * @param code The randomly generated code
      */
-    public void setCode(String c) {
-        code = new SimpleStringProperty(c);
+    public void setCode(String code) {
+        this.code = code;
     }
     
     
     /**
-     * Sets the id of the user requests the password
-     * @param i The id of the user requests the password
+     * Mutator method for id
+     * @param id The id of the user requests the password
      */
-    public void setId(int i) {
-        id = new SimpleIntegerProperty(i);
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -30,9 +30,9 @@ import javafx.stage.Stage;
  * @author shameer
  */
 public class MemberViewAnnouncementController implements Initializable {
-    @FXML private TableView<com.Project.Models.Announcement> MemberViewAnnouncementTable;
-    @FXML private TableColumn<com.Project.Models.Announcement, Integer> announcementIdColumn;
-    @FXML private TableColumn<com.Project.Models.Announcement, Integer> adminIdColumn; 
+    @FXML private TableView<com.Project.Models.Announcement> memberViewAnnouncementTable;
+    //@FXML private TableColumn<com.Project.Models.Announcement, Integer> announcementIdColumn;
+    @FXML private TableColumn<com.Project.Models.Announcement, Integer> adminColumn; 
     @FXML private TableColumn<com.Project.Models.Announcement, String> dateColumn;
     @FXML private TableColumn<com.Project.Models.Announcement, String> timeColumn;
     @FXML private TableColumn<com.Project.Models.Announcement, String> titleColumn;
@@ -73,7 +73,7 @@ public class MemberViewAnnouncementController implements Initializable {
         String searchQuery = searchAnnouncement.getText();
         data = dbHandler.searchInAdminViewAnnouncement(searchQuery);
         setDataInTable(data);
-        helper.fitColumns(MemberViewAnnouncementTable);  
+        helper.fitColumns(memberViewAnnouncementTable);  
     }
     
     
@@ -87,7 +87,7 @@ public class MemberViewAnnouncementController implements Initializable {
     public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewAnnouncement();
         setDataInTable(data);
-        helper.fitColumns(MemberViewAnnouncementTable); 
+        helper.fitColumns(memberViewAnnouncementTable); 
     }
     
     
@@ -99,8 +99,8 @@ public class MemberViewAnnouncementController implements Initializable {
      */
     public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<com.Project.Models.Announcement> row , allRows;
-        allRows = MemberViewAnnouncementTable.getItems();
-        row = MemberViewAnnouncementTable.getSelectionModel().getSelectedItems(); 
+        allRows = memberViewAnnouncementTable.getItems();
+        row = memberViewAnnouncementTable.getSelectionModel().getSelectedItems(); 
         
       /*  if (row.isEmpty()) {
             helper.showDialogBox(true, "Please select an announcement to delete.");
@@ -130,13 +130,13 @@ public class MemberViewAnnouncementController implements Initializable {
 
     public void setDataInTable(ObservableList<Announcement> data) throws IllegalArgumentException, InvocationTargetException {
         // Set cell value factory to TableView
-        announcementIdColumn.setCellValueFactory(new PropertyValueFactory<>("announcementId"));
-        adminIdColumn.setCellValueFactory(new PropertyValueFactory<>("adminId"));
+      //  announcementIdColumn.setCellValueFactory(new PropertyValueFactory<>("announcementId"));
+        adminColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         bodyColumn.setCellValueFactory(new PropertyValueFactory<>("body"));
-        MemberViewAnnouncementTable.setItems(data); 
+        memberViewAnnouncementTable.setItems(data); 
     }
     
 }

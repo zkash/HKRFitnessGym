@@ -37,7 +37,7 @@ public class CreateAnnouncementController implements Initializable {
         @FXML
         private TextField titleTextField;
         
-        private final int adminId = LoginStorage.getInstance().getId();
+        private final String username = LoginStorage.getInstance().getUsername();
         
        
     /**
@@ -83,7 +83,8 @@ public class CreateAnnouncementController implements Initializable {
                 announcement.setTime(currentTime.toString());
                 announcement.setTitle(title);
                 announcement.setBody(body);
-                announcement.setAdminId(adminId);
+                announcement.setUsername(username);
+                
                 dbHandler.saveAnnouncement(announcement);
                 message.clear();
                 

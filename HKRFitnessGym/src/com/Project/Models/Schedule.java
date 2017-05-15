@@ -1,98 +1,131 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.Project.JDBC.DTO;
+package com.Project.Models;
 
-/**
- *
- * @author Xuantong
- */
 import java.sql.Date;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Xuantong
  */
 public class Schedule {
     private Date date;
-    private SimpleStringProperty openingTime;
-    private SimpleStringProperty closingTime;
+    private String openingTime;
+    private String closingTime;
     private boolean isHoliday;
-    private SimpleIntegerProperty id;
+    private int id;
     
+    /**
+     * Initializer constructor
+     */
     public Schedule(){
         this.date = null;
-        this.openingTime = new SimpleStringProperty("");
-        this.closingTime = new SimpleStringProperty("");
-        this.isHoliday = isHoliday;
+        this.openingTime = null;
+        this.closingTime = null;
+        this.isHoliday = false;
+        this.id = 0;
     }
     
+    
+    /**
+     * Constructor to handle schedule
+     * @param date Schedule date
+     * @param openingTime Opening time of gym in given date
+     * @param closingTime Closing time of gym in given date
+     * @param isHoliday Value to denote if the given date is holiday or not
+     */
     public Schedule(Date date, String openingTime, String closingTime, Boolean isHoliday) {
         this.date = date;
-        this.openingTime = new SimpleStringProperty(openingTime);
-        this.closingTime = new SimpleStringProperty(closingTime);
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
         this.isHoliday = isHoliday;
     }
     
+    
+    /**
+     * Accessor method for date
+     * @return Schedule date
+     */
     public Date getDate() {
-        return date;
+        return this.date;
     }
     
+    
+    /**
+     * Accessor method for openingTime
+     * @return Opening time of gym in given date
+     */
     public String getOpeningTime() {
-        return openingTime.get();
+        return this.openingTime;
     }
     
+    
+    /**
+     * Accessor method for closingTime
+     * @return Closing time of gym in given date
+     */
     public String getClosingTime() {
-        return closingTime.get();
+        return this.closingTime;
     } 
     
+    
+    /**
+     * Accessor method for isHoliday
+     * @return Value to denote if the given date is holiday or not
+     */
     public Boolean getIsHoliday() {
-        return isHoliday;
+        return this.isHoliday;
     }
     
+    
+    /**
+     * Accessor method for id
+     * @return Id of administrator who created schedule
+     */
+    public int getId() {
+        return this.id;
+    }
+    
+    
+    /**
+     * Mutator method for date
+     * @param date Schedule date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
     
-    public void setOpeningTime(String ot) {
-        openingTime.set(ot);
+    
+    /**
+     * Mutator method for openingTime
+     * @param openingTime Opening time of gym in given date
+     */
+    public void setOpeningTime(String openingTime) {
+        this.openingTime = openingTime;
     }
     
-    public void setClosingTime(String ct) {
-        closingTime.set(ct);
+    
+    /**
+     * Mutator method for closingTime
+     * @param closingTime Closing time of gym in given date
+     */
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
     }
     
+    
+    /**
+     * Mutator method for isHoliday
+     * @param isHoliday Value to denote if the given date is holiday or not
+     */
     public void setIsHoliday(Boolean isHoliday) {
         this.isHoliday = isHoliday;
     }
-
+    
+    
     /**
-     * @return the id
-     */
-    public int getId() {
-        return id.get();
-    }
-
-    /**
-     * @param id the id to set
+     * Mutator method for id
+     * @param id Id of administrator who created schedule
      */
     public void setId(int id) {
-        this.id.set(id);
-    }
-    
-    //property value
-    public SimpleStringProperty openingTimeProperty(){
-        return openingTime;
-    }
-    
-    public SimpleStringProperty closingTimeProperty(){
-        return closingTime;
-    }
-    
-    public SimpleIntegerProperty idProperty(){
-        return id;
+        this.id = id;
     }
 }

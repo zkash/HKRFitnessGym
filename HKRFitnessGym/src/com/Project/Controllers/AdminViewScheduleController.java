@@ -10,8 +10,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
 
-import com.Project.JDBC.DTO.Schedule;
 import com.Project.Models.DBHandler;
+import com.Project.Models.Schedule;
 import com.sun.javafx.collections.ElementObservableListDecorator;
 import java.io.IOException;
 import java.net.URL;

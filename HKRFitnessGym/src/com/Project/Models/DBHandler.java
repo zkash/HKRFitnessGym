@@ -1,6 +1,5 @@
 package com.Project.Models;
 
-import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Date;

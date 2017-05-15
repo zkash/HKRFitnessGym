@@ -146,7 +146,9 @@ public class UpdateAdminPersonalInformationController implements Initializable {
         labelList.add(invalidMsgPhoneNumber);
         labelList.add(invalidMsgEmail);
         labelList.add(invalidMsgSSN);
-        accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, adminId, ssnOld1, ssnOld2);
-        helper.navigateScene(event, "AdminViewPersonalInformation.fxml");
+        boolean updated = accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, adminId, ssnOld1, ssnOld2);
+        if(updated) {
+            helper.navigateScene(event, "AdminViewPersonalInformation.fxml");
+        }
     }
 }

@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewAnnouncementController">
-    
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewAnnouncementController">
+    <top>
+        <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
+    </top>
+   <center>
+      <AnchorPane prefHeight="418.0" prefWidth="616.0" BorderPane.alignment="CENTER">
+         <children>
+            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <TableView fx:id="adminViewAnnouncementTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="537.0">
+              <columns>
+                <TableColumn fx:id="announcementIdColumn" prefWidth="61.0" text="AnnId" />
+                  <TableColumn fx:id="adminIdColumn" prefWidth="72.0" text="AdminId" />
+                  <TableColumn fx:id="dateColumn" prefWidth="82.0" text="Date" />
+                  <TableColumn fx:id="timeColumn" prefWidth="71.0" text="Time" />
+                <TableColumn fx:id="titleColumn" prefWidth="90.0" text="Title" />
+                  <TableColumn fx:id="bodyColumn" prefWidth="160.0" text="Body" />
+                  
+              </columns>
+            </TableView>
+            <Label layoutX="98.0" layoutY="33.0" text="Announcement" AnchorPane.leftAnchor="98.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Button fx:id="searchBtn" layoutX="225.0" layoutY="372.0" mnemonicParsing="false" onAction="#searchBtnClick" text="Search" AnchorPane.bottomAnchor="30.0" />
+            <TextField fx:id="searchPackage" layoutX="44.0" layoutY="365.0" onAction="#searchBtnClick" AnchorPane.bottomAnchor="30.0" />
+            <Button fx:id="resetSearchBtn" layoutX="294.0" layoutY="357.0" mnemonicParsing="false" onAction="#resetSearchBtnClick" text="Reset" />
+            <Button fx:id="deleteBtn" layoutX="518.0" layoutY="357.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Delete" />
+         <!--   <Button fx:id="updateBtn" layoutX="434.0" layoutY="364.0" mnemonicParsing="false" onAction="#updateBtnClick" text="Update" /> -->
+           
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

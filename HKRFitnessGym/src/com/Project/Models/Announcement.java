@@ -55,6 +55,9 @@ public class Announcement {
     public void setTime(String time) {
         this.time.set(time);
     }
+     public void setAnnouncementId(Integer announcementId) {
+        this.announcementId.set(announcementId);
+    }
     public void setDate(Date date) {
         this.date = date;
     }

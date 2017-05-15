@@ -145,7 +145,9 @@ public class UpdateMemberPersonalInformationController implements Initializable 
         labelList.add(invalidMsgEmail);
         labelList.add(invalidMsgSSN);
         
-        accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
-        helper.navigateScene(event, "MemberViewPersonalInformation.fxml");
+        boolean updated = accountHelper.update(accountType, textFieldList, radioButtonList, labelList, dateOfBirth, memberId, ssnOld1, ssnOld2);
+        if(updated) {
+            helper.navigateScene(event, "MemberViewPersonalInformation.fxml");
+        }
     }
 }

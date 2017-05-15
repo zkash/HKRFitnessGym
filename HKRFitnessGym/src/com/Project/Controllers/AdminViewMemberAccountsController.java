@@ -53,8 +53,8 @@ public class AdminViewMemberAccountsController implements Initializable {
    
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url Uniform Resource Locator
+     * @param rb Resource Bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

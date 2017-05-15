@@ -21,8 +21,8 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url Uniform Resource Locator
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -32,7 +32,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to Create User page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -43,7 +43,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to Create Package page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -54,7 +54,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to View Subscriptions page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -65,7 +65,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to Create Schedule page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -76,7 +76,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to Create Announcement page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML
@@ -87,7 +87,7 @@ public class AdminMainMenuController implements Initializable {
     
     /**
      * Navigates to Chat page
-     * @param event
+     * @param event ActionEvent
      * @throws IOException 
      */
     @FXML

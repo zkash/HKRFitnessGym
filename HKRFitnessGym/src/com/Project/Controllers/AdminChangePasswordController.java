@@ -29,8 +29,8 @@ public class AdminChangePasswordController implements Initializable {
    
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url Uniform Resource Locator
+     * @param rb ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -39,7 +39,7 @@ public class AdminChangePasswordController implements Initializable {
     
     /**
      * Checks for old password and saves the new password
-     * @param event
+     * @param event ActionEvent
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException

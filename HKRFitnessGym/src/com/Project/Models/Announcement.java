@@ -19,6 +19,7 @@ public class Announcement {
     private SimpleStringProperty time;
     private SimpleStringProperty title;
     private SimpleStringProperty body;
+    private String username;
     private SimpleIntegerProperty adminId;
     
     public Announcement(){
@@ -27,14 +28,18 @@ public class Announcement {
         this.body = new SimpleStringProperty();
         this.time = new SimpleStringProperty();
         this.adminId = new SimpleIntegerProperty();
+        this.username = null;
     }
         
-    public Integer getMessageId() {
+    public Integer getAnnouncementId() {
         return announcementId.get();
     }
     
     public String getTime() {
         return time.get();
+    }
+     public String getUsername() {
+        return this.username;
     }
     
     public Date getDate() {
@@ -55,6 +60,9 @@ public class Announcement {
     public void setTime(String time) {
         this.time.set(time);
     }
+     public void setAnnouncementId(Integer announcementId) {
+        this.announcementId.set(announcementId);
+    }
     public void setDate(Date date) {
         this.date = date;
     }
@@ -65,6 +73,9 @@ public class Announcement {
     
     public void setTitle(String message) {
         this.title.set(message);
+    } 
+    public void setUsername(String username) {
+        this.username = username;
     } 
     
      public void setAdminId(Integer adminId) {

@@ -13,7 +13,6 @@ import com.Project.Models.LoginStorage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,8 +28,8 @@ import javafx.scene.control.TextField;
  * @author shameer
  */
 public class CreateAnnouncementController implements Initializable {
-    @FXML
-        private TextArea messageArea, message;
+        @FXML
+        private TextArea message;
         @FXML
         private Button enter;
         @FXML
@@ -38,39 +37,26 @@ public class CreateAnnouncementController implements Initializable {
         @FXML
         private TextField titleTextField;
         
-         private final int adminId = LoginStorage.getInstance().getId();
-        
+        private final String username = LoginStorage.getInstance().getUsername();
+        private final int adminId = LoginStorage.getInstance().getId();
        
-
     /**
      * Initializes the controller class.
      */
   
-    //private int id =  LoginStorage.getInstance().getId();
-    //private String accountType = LoginStorage.getInstance().getAccountType();
-        
-    private final Helper helper = new Helper();
+     private final Helper helper = new Helper();
      private final DBHandler dbHandler = new DBHandler();
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //checkPosition();
     }    
-    
-    public void announcementBtnClick(ActionEvent event) {
-        //Clear error message
-        errorMessage.setText("");
-        
-        String m = message.getText();
-        String ma = messageArea.getText();
-        if(helper.isEmpty(m) || helper.isEmpty(ma)) {
-            errorMessage.setText("Enter All Values");
-        }
-    }  
+   
     @FXML
     private void saveAnnouncement(ActionEvent event){
         //Date date = new Date();
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy.MM.dd 'at' H:mm ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' H:mm ");
         java.sql.Date date = helper.getCurrentDateInSqlDate();
         System.out.println("DATE " + date);
         LocalTime currentTime= helper.getCurrentTime();
@@ -97,35 +83,17 @@ public class CreateAnnouncementController implements Initializable {
                 announcement.setTime(currentTime.toString());
                 announcement.setTitle(title);
                 announcement.setBody(body);
+                announcement.setUsername(username);
                 announcement.setAdminId(adminId);
                 dbHandler.saveAnnouncement(announcement);
                 message.clear();
                 
-            }
+            } else {
+            helper.showDialogBox(true, "Please write your message first.");
+        }
             
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-     // Retrieves messages from database.
-    private void loadMessage() {
-        messageArea.clear();
-        for (Announcement announcement : DBHandler.getAnnouncementList(("SELECT * FROM announcement"))) {
-            messageArea.appendText(announcement.getTime() + " : " + announcement.getBody() + "\n");
-            }
-        }
-    
-    
-    // Checks if logged user has the privileges.
-  /*  private void checkPosition() {
-        if (DBhandler.getId().equals("Admin")) {
-            message.setVisible(true);
-            enter.setVisible(true);
-        }
-        else {
-            message.setVisible(false);
-            enter.setVisible(false);
-        }
-    }*/
-    
 }

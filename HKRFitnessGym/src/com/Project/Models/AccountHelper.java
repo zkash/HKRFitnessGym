@@ -141,7 +141,7 @@ public class AccountHelper {
      * @param ssnOld2 Second part of old or current social security number
      * @throws SQLException 
      */
-     public void update(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
+     public boolean update(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
         Label invalidMsgAllData = labelList.get(0);
         Label invalidMsgFirstName = labelList.get(1);
         Label invalidMsgMiddleName = labelList.get(2);
@@ -161,9 +161,13 @@ public class AccountHelper {
         TextField ssn = textFieldList.get(6);
         
         String fn = firstName.getText();
+         
         String ln = lastName.getText();
         
         String mn;
+        
+        boolean updated = false;
+        
         if(!helper.isEmpty(middleName.getText())) {
             mn = middleName.getText();
         }
@@ -197,7 +201,7 @@ public class AccountHelper {
         if(helper.isEmpty(fn) || helper.isEmpty(ln) || helper.isEmpty(gen) || dob == null || 
                 helper.isEmpty(add) || helper.isEmpty(pnum) || helper.isEmpty(ead) || 
                 helper.isEmpty(ssnum)) {
-            invalidMsgAllData.setText("Enter All Data");
+            helper.showDialogBox(true, "Enter All Data");
         }
         else {
             String[] ssnParts = ssnum.split("-");
@@ -217,11 +221,13 @@ public class AccountHelper {
                     Admin admin;
                     admin = new Admin(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
                     dbHandler.updateAdminPersonalInformation("Admin", admin, id, ssnOld1, ssnOld2);
+                    updated = true;
                 }
                 else if(accountType.equals("Member")) {
                     Member member;
                     member = new Member(fn, mn, ln, birthDate, add, pnumber, ead, gen, ssn1, ssn2);
                     dbHandler.updateMemberPersonalInformation("Member", member, id, ssnOld1, ssnOld2);   
+                    updated = true;
                 }
                 helper.showDialogBox(false, "Member details successfully updated");
             }
@@ -229,5 +235,6 @@ public class AccountHelper {
                 helper.showDialogBox(true, "Could not update admin details");
             }
         }
+        return updated;
      }
 }

@@ -135,12 +135,12 @@ public class AdminViewScheduleController implements Initializable {
         adminViewScheduleTable.setItems(searchData);
     }
 //    
-    public void update(ActionEvent event){
+    public void handleUpdateBtnClick(ActionEvent event){
         
     }
     
     @FXML
-    public void search(ActionEvent event){
+    public void handleSearchBtnClick(ActionEvent event){
         System.out.println("S " + search.getText());
         if(search.getText().isEmpty()){
             getScheduleDetial();
@@ -151,7 +151,7 @@ public class AdminViewScheduleController implements Initializable {
     }
     
     @FXML
-    public void delete(ActionEvent event){
+    public void handleDeleteBtnClick(ActionEvent event){
         ObservableList<Schedule> scheduleSelect, allSchedule;
         allSchedule = adminViewScheduleTable.getItems();
         scheduleSelect = adminViewScheduleTable.getSelectionModel().getSelectedItems();

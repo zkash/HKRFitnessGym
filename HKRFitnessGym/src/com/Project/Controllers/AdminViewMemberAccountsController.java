@@ -111,7 +111,7 @@ public class AdminViewMemberAccountsController implements Initializable {
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void handleSearchMemberBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchMember.getText(); 
 
         String fn = null, mn = null, ln = null, add = null, un = null, ead = null;

@@ -62,7 +62,7 @@ public class AdminViewAnnouncementController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchAnnouncement.getText();
         data = dbHandler.searchInAdminViewAnnouncement(searchQuery);
         setDataInTable(data);
@@ -77,7 +77,7 @@ public class AdminViewAnnouncementController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewAnnouncement();
         setDataInTable(data);
         helper.fitColumns(adminViewAnnouncementTable); 
@@ -90,7 +90,7 @@ public class AdminViewAnnouncementController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void deleteBtnClick(ActionEvent event) throws SQLException, IOException {
+    public void handleDeleteBtnClick(ActionEvent event) throws SQLException, IOException {
         ObservableList<com.Project.Models.Announcement> row , allRows;
         allRows = adminViewAnnouncementTable.getItems();
         row = adminViewAnnouncementTable.getSelectionModel().getSelectedItems(); 

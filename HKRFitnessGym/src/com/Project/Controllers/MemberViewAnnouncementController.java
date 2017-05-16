@@ -69,7 +69,7 @@ public class MemberViewAnnouncementController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void searchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchAnnouncement.getText();
         data = dbHandler.searchInAdminViewAnnouncement(searchQuery);
         setDataInTable(data);
@@ -84,7 +84,7 @@ public class MemberViewAnnouncementController implements Initializable {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    public void resetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleResetSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         data = dbHandler.adminViewAnnouncement();
         setDataInTable(data);
         helper.fitColumns(memberViewAnnouncementTable); 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -39,8 +40,6 @@
                   <Font size="11.0" />
                </font>
             </CheckBox>
-            <Button fx:id="resetSearchBtn" layoutX="291.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleResetSearchBtnClick" text="Reset" />
-            <Button fx:id="searchBtn" layoutX="223.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search" />
             <TextField fx:id="searchSubscription" layoutX="44.0" layoutY="361.0" onAction="#handleSearchBtnClick" />
             <CheckBox fx:id="searchMemberUsername" layoutX="44.0" layoutY="420.0" mnemonicParsing="false" text="Member Username">
                <font>
@@ -57,6 +56,24 @@
                   <Font size="11.0" />
                </font>
             </CheckBox>
+            <Button fx:id="searchBtn" layoutX="232.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search">
+               <graphic>
+                  <ImageView fitHeight="56.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/Images/search.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="resetSearchBtn" layoutX="321.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleResetSearchBtnClick" text="Reset">
+               <graphic>
+                  <ImageView fitHeight="56.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/Images/reset.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
            
          </children>
       </AnchorPane>

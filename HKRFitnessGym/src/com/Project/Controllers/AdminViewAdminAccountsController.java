@@ -109,7 +109,7 @@ public class AdminViewAdminAccountsController implements Initializable {
      * @throws SQLException 
      * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void handleSearchAdminBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
+    public void handleSearchBtnClick(ActionEvent event) throws SQLException, IllegalArgumentException, InvocationTargetException {
         String searchQuery = searchAdmin.getText(); 
         
         String fn = null, mn = null, ln = null, add = null, un = null, ead = null;

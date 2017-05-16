@@ -40,7 +40,7 @@
             </Label>
             <fx:include fx:id="signOutBtn" source="signOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TextField fx:id="searchAdmin" layoutX="44.0" layoutY="365.0" onAction="#handleSearchAdminBtnClick" AnchorPane.bottomAnchor="100.0" />
-            <Button fx:id="searchAdminBtn" layoutX="226.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleSearchAdminBtnClick" text="Search" AnchorPane.bottomAnchor="100.0">
+            <Button fx:id="searchBtn" layoutX="226.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleSearchBtnClick" text="Search" AnchorPane.bottomAnchor="100.0">
                <graphic>
                   <ImageView fitHeight="56.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>

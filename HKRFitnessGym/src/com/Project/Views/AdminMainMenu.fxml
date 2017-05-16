@@ -44,7 +44,7 @@
                </font>
             </Label>
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Button fx:id="chatBtn" layoutX="328.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleChatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
+            <Button fx:id="settingsBtn" layoutX="328.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleSettingsBtnClick" prefHeight="30.0" prefWidth="200.0" text="Settings">
                <font>
                   <Font size="15.0" />
                </font>

@@ -44,7 +44,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="chatBtn" layoutX="328.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleChatBtnClick" prefHeight="30.0" prefWidth="200.0" text="Chat">
+            <Button fx:id="settingsBtn" layoutX="328.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSettingsBtnClick" prefHeight="30.0" prefWidth="200.0" text="Settings">
                <font>
                   <Font size="16.0" />
                </font>

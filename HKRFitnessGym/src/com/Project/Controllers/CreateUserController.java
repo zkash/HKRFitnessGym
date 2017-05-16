@@ -104,7 +104,7 @@ public class CreateUserController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void handleCreateUserBtnClick(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
+    public void handleCreateBtnClick(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
         //Clear error messages
         invalidMsgAllData.setText("");
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -66,7 +67,6 @@
                </tooltip></PasswordField>
             <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
-            <Button fx:id="createUserBtn" layoutX="456.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleCreateUserBtnClick" text="Create" />
             <Label layoutX="127.0" layoutY="55.0" text="Create User Account" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
                <font>
                   <Font size="18.0" />
@@ -90,6 +90,15 @@
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <Label fx:id="invalidMsgAllData" layoutX="331.0" layoutY="476.0" prefWidth="100.0" textFill="RED" />
             <CheckBox fx:id="isAdmin" layoutX="123.0" layoutY="467.0" mnemonicParsing="false" text="Administrator" />
+            <Button fx:id="createBtn" layoutX="431.0" layoutY="501.0" mnemonicParsing="false" onAction="#handleCreateBtnClick" text="  Create">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/Images/save.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
           </children>
       </AnchorPane>
    </center>

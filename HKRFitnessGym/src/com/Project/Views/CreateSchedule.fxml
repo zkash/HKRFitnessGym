@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -20,7 +21,6 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="createScheduleBtn" layoutX="439.0" layoutY="329.0" mnemonicParsing="false" onAction="#createScheduleBtnClick" text="Create" AnchorPane.leftAnchor="439.0" />
             <Label layoutX="125.0" layoutY="337.0" text="* denotes compulsory values" AnchorPane.leftAnchor="125.0">
                <font>
                   <Font size="10.0" />
@@ -44,6 +44,15 @@
             <TextField fx:id="closingMin" layoutX="313.0" layoutY="159.0" prefHeight="27.0" prefWidth="67.0" promptText="00" text="00" />
             <Label layoutX="300.0" layoutY="114.0" prefHeight="27.0" prefWidth="12.0" text=":" />
             <Label layoutX="300.0" layoutY="155.0" prefHeight="27.0" prefWidth="12.0" text=":" />
+            <Button fx:id="createBtn" layoutX="405.0" layoutY="324.0" mnemonicParsing="false" onAction="#handleCreateBtnClick" text="  Create">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/Images/save.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
           </children>
       </AnchorPane>
    </center>

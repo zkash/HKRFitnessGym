@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -59,7 +60,14 @@
                </tooltip></TextField>
             <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
-            <Button fx:id="updateBtn" layoutX="456.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleUpdateBtnClick" text="Update" />
+            <Button fx:id="updateBtn" layoutX="439.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleUpdateBtnClick" text="Update">
+               <graphic>
+                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/Images/update.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <Label layoutX="127.0" layoutY="55.0" text="Update Personal Information" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
                <font>
                   <Font size="18.0" />

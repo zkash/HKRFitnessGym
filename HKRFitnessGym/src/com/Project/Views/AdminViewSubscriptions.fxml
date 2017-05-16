@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewSubscriptionsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="600.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.AdminViewSubscriptionsController">
     <top>
         <fx:include fx:id="menuBarAdmin" source="MenuBarAdmin.fxml" />
     </top>
@@ -51,7 +51,7 @@
                   <Font size="11.0" />
                </font>
             </CheckBox>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="101.0" layoutX="401.0" layoutY="361.0" opacity="0.1" stroke="BLACK" strokeType="INSIDE" width="164.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b5f61" height="101.0" layoutX="401.0" layoutY="361.0" opacity="0.41" stroke="BLACK" strokeType="INSIDE" width="164.0" />
             <Label layoutX="407.0" layoutY="366.0" text="Filter " />
             <CheckBox fx:id="searchAdminFullName" layoutX="185.0" layoutY="420.0" mnemonicParsing="false" text="Admin Name">
                <font>

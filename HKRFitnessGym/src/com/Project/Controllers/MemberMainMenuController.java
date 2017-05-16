@@ -91,7 +91,7 @@ public class MemberMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void handleChatBtnClick(ActionEvent event) throws IOException {
-        helper.navigateScene(event, "MemberChat.fxml");
+    private void handleSettingsBtnClick(ActionEvent event) throws IOException {
+        helper.navigateScene(event, "MemberChangePassword.fxml");
     }    
 }

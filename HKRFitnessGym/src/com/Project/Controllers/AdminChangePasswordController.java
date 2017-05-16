@@ -40,7 +40,7 @@ public class AdminChangePasswordController implements Initializable {
     /**
      * Checks for old password and saves the new password
      * @param event ActionEvent
-     * @throws SQLException
+     * @throws SQLException 
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      * @throws IOException 

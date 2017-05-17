@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<MenuBar fx:id="menuBarMember" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MenuBarMemberController">
+  <menus>
+      <Menu mnemonicParsing="false" text="Account">
+         <items>
+            <MenuItem fx:id="updatePersonalInfoMenu" mnemonicParsing="false" onAction="#handleUpdatePersonalInfoMenuClick" text="Update Account Details" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="viewPersonalInformationMenu" mnemonicParsing="false" onAction="#handleViewPersonalInformationMenuClick" text="View Personal Information" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Package">
+         <items>
+            <MenuItem fx:id="subscribeToPackageMenu" mnemonicParsing="false" onAction="#handleSubscribeToPackageMenuClick" text="Subscribe to Package" />
+            <MenuItem fx:id="viewSubscriptionsMenu" mnemonicParsing="false" onAction="#handleViewSubscriptionsMenuClick" text="View Subscriptions" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Schedule">
+         <items>
+            <MenuItem fx:id="viewScheduleMenu" mnemonicParsing="false" onAction="#handleViewScheduleMenuClick" text="View Schedule" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Announcement">
+         <items>
+            <MenuItem fx:id="viewAnnouncementMenu" mnemonicParsing="false" onAction="#handleViewAnnouncementMenuClick" text="View Announcement" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Chat">
+         <items>
+            <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#handleVisitChatRoomMenuClick" text="Visit Chat Room" />
+         </items>
+      </Menu>
+            <Menu mnemonicParsing="false" text="Settings">
+               <items>
+                  <MenuItem fx:id="changePasswordMenu" mnemonicParsing="false" onAction="#handleChangePasswordMenuClick" text="Change Password" />
+               </items>
+            </Menu>
+         </menus>
+</MenuBar>

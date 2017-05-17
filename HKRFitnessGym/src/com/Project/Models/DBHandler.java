@@ -1,6 +1,5 @@
 package com.Project.Models;
 
-import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,6 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 /**
+ * Database handler class
  *
  * @author shameer
  */
@@ -1810,7 +1810,7 @@ public class DBHandler {
                 Chat message = new Chat();
                 message.setMessageId(rs.getInt("messageId"));
                 message.setTime(rs.getString("time"));
-                message.setName(rs.getString("name"));
+                //message.setName(rs.getString("name"));
                 message.setMessage(rs.getString("message"));
                 messageList.add(message);
             }

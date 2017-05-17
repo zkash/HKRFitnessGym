@@ -38,6 +38,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
+ * Helper class
  *
  * @author shameer
  */

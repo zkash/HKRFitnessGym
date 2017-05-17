@@ -308,7 +308,7 @@ public class CreateScheduleController implements Initializable {
         }
         return true;
     }
-    
+   
     private LocalDate currentDate(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate localDate = LocalDate.now();

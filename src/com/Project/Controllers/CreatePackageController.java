@@ -77,7 +77,7 @@ public class CreatePackageController implements Initializable {
      * @throws SQLException
      * @throws IOException 
      */
-    public void handlePackageBtnClick(ActionEvent event) throws SQLException, IOException {   
+    public void handleCreateBtnClick(ActionEvent event) throws SQLException, IOException {   
         String pn = packageName.getText();
 
         Node node = (Node) event.getSource();

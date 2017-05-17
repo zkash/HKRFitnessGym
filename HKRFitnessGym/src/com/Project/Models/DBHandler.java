@@ -1,6 +1,5 @@
 package com.Project.Models;
 
-import com.Project.JDBC.DTO.Schedule;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,6 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 /**
+ * Database handler class
  *
  * @author shameer
  */
@@ -1810,7 +1810,7 @@ public class DBHandler {
                 Chat message = new Chat();
                 message.setMessageId(rs.getInt("messageId"));
                 message.setTime(rs.getString("time"));
-                message.setName(rs.getString("name"));
+                //message.setName(rs.getString("name"));
                 message.setMessage(rs.getString("message"));
                 messageList.add(message);
             }
@@ -1824,7 +1824,7 @@ public class DBHandler {
     // To save announcements into database.
     public void saveAnnouncement(Announcement announcement) throws SQLException {
         try (Connection conn = establishConnection()) {
-        String query = "Insert Into accouncement"
+        String query = "Insert Into announcement"
                     + "(date, time, title, body, numberOfViews, Admin_adminId)"
                     + "Values (?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(query);
@@ -1832,11 +1832,13 @@ public class DBHandler {
         stmt.setString(2, announcement.getTime());
         stmt.setString(3, announcement.getTitle());
         stmt.setString(4, announcement.getBody());
+        
         stmt.setInt(5, 1);
         stmt.setInt(6, announcement.getAdminId());
         stmt.execute();
         }
 
+        
     
    
  /*
@@ -1890,5 +1892,131 @@ public class DBHandler {
             
         }
         return id; 
+    }
+    public ObservableList<Announcement> adminViewAnnouncement() throws SQLException {
+        ObservableList<Announcement> adminViewAnnouncement = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        try {
+            String query = String.format("select title, body, date, time, username from announcement" 
+                    + " inner join admin on announcement.Admin_adminId = admin.adminId");
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Announcement announcement = new Announcement();
+              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setUsername(rs.getString("username"));
+                adminViewAnnouncement.add(announcement);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return adminViewAnnouncement;
+    }
+    
+    public ObservableList<Announcement> memberViewAnnouncement() throws SQLException {
+        ObservableList<Announcement> memberViewAnnouncement = FXCollections.observableArrayList();
+       Connection conn = establishConnection();
+        System.out.println("1");
+        try {
+            String query = String.format("select title, body, date, time, username from announcement" 
+                    + " inner join admin on announcement.Admin_adminId = admin.adminId");
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Announcement announcement = new Announcement();
+                //announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setUsername(rs.getString("username"));
+                memberViewAnnouncement.add(announcement);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return memberViewAnnouncement;
+    }
+
+     public ObservableList<Announcement> searchInAdminViewAnnouncement(String str) throws SQLException {
+        ObservableList<Announcement> searchData = FXCollections.observableArrayList();
+        Connection conn = establishConnection();
+        
+        String query = "select title, body, date, time, username from announcement" 
+                    + " inner join admin on announcement.Admin_adminId = admin.adminId"
+                    + " WHERE username LIKE \"%" + str + "%\""
+                    + " OR title LIKE \"%" + str + "%\""
+                    + " OR body LIKE \"%" + str + "%\"";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        System.out.println(statement);
+
+      ResultSet rs = statement.executeQuery();
+      
+       while (rs.next()) {
+                Announcement announcement = new Announcement();
+              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setUsername(rs.getString("username"));
+                searchData.add(announcement);
+            }
+        
+        
+        return searchData;
+     }            
+      public ObservableList<Announcement> searchInMemeberViewAnnouncement(String str) throws SQLException {
+        ObservableList<Announcement> searchData = FXCollections.observableArrayList();
+        Connection conn = establishConnection();
+        
+        String query = "select title, body, date, time, username from announcement" 
+                    + " inner join admin on announcement.Admin_adminId = admin.adminId"
+                    + " WHERE username LIKE \"%" + str + "%\""
+                    + " OR title LIKE \"%" + str + "%\""
+                    + " OR body LIKE \"%" + str + "%\"";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        System.out.println(statement);
+
+      ResultSet rs = statement.executeQuery();
+      
+       while (rs.next()) {
+                Announcement announcement = new Announcement();
+              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
+                announcement.setTime(rs.getString("time"));
+                announcement.setDate(rs.getDate("date"));
+                announcement.setBody(rs.getString("body"));
+                announcement.setTitle(rs.getString("title"));
+                announcement.setUsername(rs.getString("username"));
+                searchData.add(announcement);
+            }
+        
+        
+        return searchData;
+     }            
+    
+     public boolean deleteAnnouncement(String title, String body, String time, Date date) throws SQLException {
+        boolean deletionError;
+        
+        try (Connection conn = establishConnection()) {
+            String query = "DELETE FROM Announcement WHERE title = ? AND body = ? AND time = ? AND date = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, title);
+            statement.setString(2, body);
+            statement.setString(3, time);
+            statement.setDate(4, date);
+            statement.execute();
+            deletionError = false;
+        }
+        return deletionError;
     }
     }

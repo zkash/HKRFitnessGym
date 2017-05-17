@@ -5,10 +5,10 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DTO.Schedule;
 import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;
+import com.Project.Models.Schedule;
 import java.net.URL;
 import java.util.Date;
 import java.sql.SQLException;
@@ -80,7 +80,7 @@ public class CreateScheduleController implements Initializable {
         scheduleDate.setEditable(false);
     }    
     
-    public void createScheduleBtnClick(ActionEvent event) throws SQLException {        
+    public void createBtnClick(ActionEvent event) throws SQLException {        
         oh = openingTime.getText();
         ch = closingTime.getText();
         om = openingMin.getText();

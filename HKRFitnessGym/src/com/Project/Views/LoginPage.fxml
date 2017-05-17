@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -13,13 +14,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.LoginPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.LoginPageController">
    <children>
-      <Button fx:id="loginBtn" layoutX="289.0" layoutY="344.0" mnemonicParsing="false" onAction="#handleLoginBtnClick" pickOnBounds="false" prefHeight="19.0" prefWidth="63.0" text="Login" textFill="#eb142d" />
-      <Button fx:id="exitBtn" layoutX="573.0" layoutY="27.0" mnemonicParsing="false" onAction="#exitBtnClick" text="Exit">
+      <Button fx:id="loginBtn" layoutX="289.0" layoutY="344.0" mnemonicParsing="false" onAction="#handleLoginBtnClick" pickOnBounds="false" text="Login" textFill="#eb142d">
+         <graphic>
+            <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/Images/login.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="exitBtn" layoutX="573.0" layoutY="27.0" mnemonicParsing="false" onAction="#exitBtnClick">
          <font>
             <Font size="14.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/Images/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
       <TextField id="textField1" fx:id="usernameTextField" layoutX="213.0" layoutY="181.0" onAction="#handleLoginBtnClick" prefHeight="31.0" prefWidth="215.0" />
       <PasswordField id="passwordField1" fx:id="passwordTextField" layoutX="213.0" layoutY="241.0" onAction="#handleLoginBtnClick" prefHeight="31.0" prefWidth="215.0" />

@@ -5,7 +5,7 @@
  */
 package com.Project.Controllers;
 
-import com.Project.JDBC.DTO.Schedule;
+import com.Project.Models.Schedule;
 import com.Project.Models.DBHandler;
 import com.Project.Models.Helper;
 import com.Project.Models.LoginStorage;

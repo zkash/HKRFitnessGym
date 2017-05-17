@@ -124,7 +124,7 @@ public class CreateScheduleController implements Initializable {
         scheduleDate.setEditable(false);
     }    
     
-    public void createBtnClick(ActionEvent event) throws SQLException {        
+    public void handleCreateBtnClick(ActionEvent event) throws SQLException {        
         oh = openingTime.getText();
         ch = closingTime.getText();
         om = openingMin.getText();

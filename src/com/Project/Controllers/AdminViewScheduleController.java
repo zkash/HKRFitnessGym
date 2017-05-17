@@ -179,6 +179,10 @@ public class AdminViewScheduleController implements Initializable {
         }
     }
     
+    public void handleResetSearchBtnClick(ActionEvent event){
+        
+    }
+    
 //    @FXML
 //    public void search() throws ParseException{
 //        /*if(search.getText().isEmpty()){

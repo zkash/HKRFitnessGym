@@ -5,8 +5,8 @@
  */
 package com.Project.Controllers;
 
-import com.Project.Models.DBHandler;
 import com.Project.Models.Schedule;
+import com.Project.Models.DBHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;

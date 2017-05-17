@@ -33,7 +33,7 @@
                 <TableColumn fx:id="startTimeColumn" prefWidth="75.0" text="Start Time" />
                   <TableColumn fx:id="endTimeColumn" prefWidth="75.0" text="End Time" />
                   <TableColumn fx:id="membersColumn" prefWidth="70.0" text="Members" />
-                  <TableColumn fx:id="adminFullNameColumn" prefWidth="100.0" text="Admin" />
+                  <TableColumn fx:id="adminFullNameColumn" prefWidth="175.0" text="Admin" />
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Packages" AnchorPane.leftAnchor="92.0">

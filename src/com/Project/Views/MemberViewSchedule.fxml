@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -7,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="625.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberViewScheduleController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="625.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Project.Controllers.MemberViewScheduleController">
     <top>
         <fx:include fx:id="menuBarMember" source="MenuBarMember.fxml" />
     </top>
@@ -18,10 +22,10 @@
             <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
             <TableView fx:id="memberViewScheduleTable" layoutX="44.0" layoutY="74.0" prefHeight="269.0" prefWidth="537.0">
               <columns>
-                <TableColumn fx:id="dateView" prefWidth="188.0" text="Date" />
-                  <TableColumn fx:id="otView" prefWidth="136.0" text="Opening Time" />
-                  <TableColumn fx:id="ctView" prefWidth="123.0" text="Closing Time" />
-                  <TableColumn fx:id="holidayView" prefWidth="69.0" text="Holiday" />
+                <TableColumn fx:id="dateView" prefWidth="180.0" text="Date" />
+                  <TableColumn fx:id="otView" prefWidth="135.0" text="Opening Time" />
+                  <TableColumn fx:id="ctView" prefWidth="135.0" text="Closing Time" />
+                  <TableColumn fx:id="holidayView" prefWidth="90.0" text="Holiday" />
               </columns>
             </TableView>
             <Label layoutX="92.0" layoutY="33.0" text="Schedule" AnchorPane.leftAnchor="92.0">

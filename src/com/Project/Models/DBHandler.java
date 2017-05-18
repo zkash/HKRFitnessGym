@@ -18,27 +18,27 @@ import javafx.collections.ObservableList;
  * @author shameer
  */
 public class DBHandler {
-    static Connection c;
-    private String currentUser;
-    private static int memberId;
-
     private final String databaseName;
     private final String databaseUsername;
     private final String databasePassword;
     private final String connectionURL;
 
+    /**
+     * Initializer constructor
+     */
     public DBHandler() {
         Properties properties = loadProperties();
         databaseName = properties.getProperty("databaseName");
         databaseUsername = properties.getProperty("databaseUsername");
         databasePassword = properties.getProperty("databasePassword");
         connectionURL = "jdbc:mysql://localhost/" + databaseName + "?user=" + databaseUsername + "&password=" + databasePassword + "&useSSL=false";
-   
-        this.currentUser = null;
-        this.memberId = 0;
     }
 
       
+    /**
+     * Establishes connection with database
+     * @return Connection object
+     */
     public Connection establishConnection() {
         Connection conn;
         try {
@@ -54,6 +54,11 @@ public class DBHandler {
         return null;
     }
     
+    
+    /**
+     * Loads properties
+     * @return Properties object
+     */
     private Properties loadProperties() {
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream("src/com/Project/Properties/hkrFitnessGym.properties")) {
@@ -64,6 +69,12 @@ public class DBHandler {
         return properties;
     }
     
+    
+    /**
+     * Views administrator accounts while administrator is logged in 
+     * @return ObservableList of Admin objects
+     * @throws SQLException 
+     */
     public ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -91,6 +102,12 @@ public class DBHandler {
         return null;
     }
 
+    
+    /**
+     * Views member accounts while administrator is logged in 
+     * @return ObservableList of Member objects
+     * @throws SQLException 
+     */
     public ObservableList<Member> adminViewMemberAccounts() throws SQLException {
         ObservableList<Member> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -136,6 +153,11 @@ public class DBHandler {
         return null;  
     }
 
+    
+    /**
+     * Creates an administrator account
+     * @param admin Admin object
+     */
     public void createAdminAccount(Admin admin) {
         Connection conn = establishConnection();
         try {
@@ -164,6 +186,13 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Creates member accounts
+     * @param member Member object
+     * @param adminId Id of administrator creating the member account
+     * @throws SQLException 
+     */
     public void createMemberAccount(Member member, int adminId) throws SQLException {
         Connection conn = establishConnection();
         try {
@@ -194,6 +223,21 @@ public class DBHandler {
     }
 
 
+    /**
+     * Searches for administrator accounts as per user query and filter
+     * @param firstName First name of administrator
+     * @param middleName Middle name of administrator
+     * @param lastName Last name of administrator
+     * @param address Address of administrator
+     * @param username Username of administrator
+     * @param email Email of administrator
+     * @param phoneNumber Phone number of administrator
+     * @param ssn1 First part (before -) of social security number of administrator
+     * @param ssn2 Second part (after -) of social security number of administrator
+     * @param table Name of database table
+     * @return ObservableList of Admin objects
+     * @throws SQLException 
+     */
     public ObservableList<Admin> searchInAdminViewAdminAccounts(String firstName, 
             String middleName, String lastName, String address, String username, 
             String email, int phoneNumber, int ssn1, int ssn2, String table) throws SQLException {
@@ -243,6 +287,22 @@ public class DBHandler {
         return searchData;
     }
 
+    
+    /**
+     * Searches for member accounts as per user query and filter
+     * @param firstName First name of member
+     * @param middleName Middle name of member
+     * @param lastName Last name of member
+     * @param address Address of member
+     * @param username Username of member
+     * @param email Email of member
+     * @param phoneNumber Phone number of member
+     * @param ssn1 First part (before -) of social security number of member
+     * @param ssn2 Second part (after -) of social security number of member
+     * @param table Name of database table
+     * @return ObservableList of Member objects
+     * @throws SQLException 
+     */
     public ObservableList<Member> searchInAdminViewMemberAccounts(String firstName,
             String middleName, String lastName, String address, String username, 
             String email, int phoneNumber, int ssn1, int ssn2, String table) throws SQLException {
@@ -311,6 +371,13 @@ public class DBHandler {
         return searchData;
     }
 
+    
+    /**
+     * Searches for packages as per query and filter while logged in as administrator
+     * @param searchQuery Value to search 
+     * @return ObservableList of Package objects
+     * @throws SQLException 
+     */
     public ObservableList<Package> searchInAdminViewPackage(String searchQuery) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -370,6 +437,13 @@ public class DBHandler {
         return searchData;
     }
     
+    
+    /**
+     * Searches for packages as per query and filter while logged in as member
+     * @param searchQuery Value to search 
+     * @return ObservableList of Package objects
+     * @throws SQLException 
+     */
     public ObservableList<Package> searchInMemberViewPackage(String searchQuery) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -430,6 +504,15 @@ public class DBHandler {
     }
             
             
+    /**
+     * Verifies username and social security number of user 
+     * @param table Name of table in database
+     * @param username Username of user
+     * @param ssn1 First part (before -) of social security number of member
+     * @param ssn2 Second part (after -) of social security number of member
+     * @return True if an account exists based on username and social security number; false if account does not exist
+     * @throws SQLException 
+     */
     public boolean checkUsernameAndSSN(String table, String username, int ssn1, int ssn2) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM " + table + " WHERE username = ? "
@@ -452,6 +535,16 @@ public class DBHandler {
         return alreadyExists;
     }
 
+    
+    /**
+     * Updates administrator's personal information
+     * @param table Name of table in database
+     * @param admin Admin object
+     * @param adminId Id of administrator
+     * @param ssnOld1 First part (before -) of old social security number of member
+     * @param ssnOld2 Second part (after -) of old social security number of member
+     * @throws SQLException 
+     */
     public void updateAdminPersonalInformation(String table, Admin admin, 
             int adminId, int ssnOld1, int ssnOld2) throws SQLException {
         try (Connection conn = establishConnection()) {
@@ -489,6 +582,16 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Updates member's personal information
+     * @param table Name of table in database
+     * @param member Member object
+     * @param memberId Id of member
+     * @param ssnOld1 First part (before -) of old social security number of member
+     * @param ssnOld2 Second part (after -) of old social security number of member
+     * @throws SQLException 
+     */
     public void updateMemberPersonalInformation(String table, Member member, 
             int memberId, int ssnOld1, int ssnOld2) throws SQLException {
         try (Connection conn = establishConnection()) {
@@ -523,6 +626,13 @@ public class DBHandler {
         }
     }
     
+    
+    /**
+     * Creates a package
+     * @param pack Package object
+     * @param adminId Id of administrator creating package
+     * @throws SQLException 
+     */
     public void createPackage(Package pack, int adminId) throws SQLException {
         try (Connection conn = establishConnection()) {
             String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
@@ -541,6 +651,13 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Verifies package name
+     * @param packageName Name of package
+     * @return Number of package if such package exist; 0 if it does not exist
+     * @throws SQLException 
+     */
     public int checkPackageName(String packageName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT count(*) FROM Package WHERE packageName = ?";
@@ -555,7 +672,13 @@ public class DBHandler {
         
         return count;
     }
-
+    
+    
+    /**
+     * Views packages while logged in as administrator
+     * @return ObservableList of Package object
+     * @throws SQLException 
+     */
     public ObservableList<Package> adminViewPackages() throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -619,6 +742,11 @@ public class DBHandler {
     }
 
     
+    /**
+     * Views packages while logged in as member
+     * @return ObservableList of Package object
+     * @throws SQLException 
+     */
     public ObservableList<Package> memberViewPackages() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, startDate, endDate, startTime, "
@@ -640,6 +768,15 @@ public class DBHandler {
         return pack;
     }
     
+    
+    /**
+     * Deletes user account
+     * @param ssn1 First part (before -) of social security number of user
+     * @param ssn2 Second part (after -) of social security number of user
+     * @param username Username of user
+     * @param table Name of table in database
+     * @throws SQLException 
+     */
     public void deleteAccount(int ssn1, int ssn2, String username, String table) throws SQLException {
         try (Connection conn = establishConnection()) {
             String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
@@ -654,6 +791,12 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Deletes a package
+     * @param packageName Name of package
+     * @throws SQLException 
+     */
     public void deletePackage(String packageName) throws SQLException {
         try (Connection conn = establishConnection()) {
             String query = "DELETE FROM Package WHERE packageName = ?";
@@ -663,6 +806,14 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Updates package information
+     * @param pack Package object
+     * @param packageNameOld Old package name
+     * @param adminId Id of administrator updating package information
+     * @throws SQLException 
+     */
     public void updatePackage(Package pack, String packageNameOld, int adminId) throws SQLException {
         try (Connection conn = establishConnection()) {
             String query = "UPDATE Package SET "
@@ -688,6 +839,13 @@ public class DBHandler {
         }
     }
 
+    
+    /**
+     * Gets package information while logged in as administrator
+     * @param packageName Name of package
+     * @return ObservableList of Package object
+     * @throws SQLException 
+     */
     public ObservableList<Package> getPackageInfoAdmin(String packageName) throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -716,6 +874,13 @@ public class DBHandler {
         return null;
     }
 
+    
+    /**
+     * Gets administrator's personal information
+     * @param adminId Id of administrator
+     * @return ObservableList of Admin object
+     * @throws SQLException 
+     */
     public ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
@@ -744,6 +909,12 @@ public class DBHandler {
     }
 
     
+    /**
+     * Gets member's personal information
+     * @param memberId Id of member
+     * @return ObservableList of Member object
+     * @throws SQLException 
+     */
     public ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT firstName, middleName, lastName,"
@@ -771,6 +942,14 @@ public class DBHandler {
         return member;
     }
     
+    
+    /**
+     * Gets user's personal information
+     * @param accountType Type of user account - Admin or Member
+     * @param id Id of user
+     * @return ObservableList of Person object
+     * @throws SQLException 
+     */
      public ObservableList<Person> getPersonalInformation(String accountType, int id) throws SQLException {
         Connection conn = establishConnection();
         String query = "";
@@ -824,6 +1003,12 @@ public class DBHandler {
         return person;
     }
     
+     
+     /**
+      * Views schedule while logged in as member
+      * @return ObservableList of Schedule objects
+      * @throws SQLException 
+      */
     public ObservableList<Schedule> memberViewSchedule() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
@@ -841,6 +1026,13 @@ public class DBHandler {
         return schedule;
     }
     
+    
+    /**
+     * Gets Id of package from its name
+     * @param packageName Name of package
+     * @return Id of package
+     * @throws SQLException 
+     */
     public int getPackageIdFromPackageName(String packageName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageId FROM Package WHERE packageName = ?";
@@ -855,6 +1047,12 @@ public class DBHandler {
         return packageId;
     }
     
+    
+    /**
+     * Subscribes to a package
+     * @param subscription Subscription object
+     * @throws SQLException 
+     */
     public void subscribeToPackage(Subscription subscription) throws SQLException {
         try (Connection conn = establishConnection()) {
             String query = "INSERT INTO Subscription (startDate, endDate, "
@@ -871,6 +1069,14 @@ public class DBHandler {
         }
     }
     
+    
+    /**
+     * Views subscription while logged in as member
+     * @param memberId Id of member
+     * @param filter Table view filter string
+     * @return ObservableList of Subscription object
+     * @throws SQLException 
+     */
     public ObservableList<Subscription> memberViewSubscription(int memberId, String filter) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
@@ -927,6 +1133,12 @@ public class DBHandler {
         return subscription;
     }
     
+    
+    /**
+     * Cancels a subscription
+     * @param subscriptionId Id of subscription
+     * @throws SQLException 
+     */
     public void cancelSubscription(int subscriptionId) throws SQLException {
         Connection conn = establishConnection();
         String query = "UPDATE Subscription SET subscriptionStatus = 'Canceled' WHERE subscriptionId = ?";
@@ -935,7 +1147,15 @@ public class DBHandler {
         statement.executeUpdate();
     }
     
-    public Boolean verifyUsername(String uname, String accountType) throws SQLException {
+    
+    /**
+     * Verifies username for existence
+     * @param username Username of user 
+     * @param accountType Type of account of user - Admin or Member
+     * @return True if account exists; false if account does not exist
+     * @throws SQLException 
+     */
+    public Boolean verifyUsername(String username, String accountType) throws SQLException {
         Connection conn = establishConnection();
         String query = "";
         
@@ -947,7 +1167,7 @@ public class DBHandler {
         }
         
         PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, uname);
+        statement.setString(1, username);
         ResultSet rs = statement.executeQuery();
         int count = 0;
         
@@ -958,6 +1178,14 @@ public class DBHandler {
         return count != 0;     
     }
     
+    
+    /**
+     * Get Id of user account
+     * @param username Username of user
+     * @param password Password of user
+     * @param accountType Type of account of user - Admin or Member
+     * @return Id of user
+     */
     public int getId(String username, String password, String accountType) {
         Connection conn = establishConnection();
         String query = "";
@@ -985,6 +1213,14 @@ public class DBHandler {
         return id;
     }
     
+    
+    /**
+     * Verifies email existence
+     * @param table Name of table in database
+     * @param email Email of user
+     * @return True if the email exists; false if it does not exist
+     * @throws SQLException 
+     */
     public Boolean checkEmailExistence(String table, String email) throws SQLException {
         Connection conn = establishConnection();
         String query = "";
@@ -1011,6 +1247,14 @@ public class DBHandler {
         return emailExists;
     }
     
+    
+    /**
+     * Verifies username and password
+     * @param username Username of user
+     * @param password Password of user
+     * @param accountType Type of account of user - Admin or Member
+     * @return True if user account exists; false if it does not exist
+     */
     public boolean verifyUsernamePassword(String username, String password, String accountType) {
         Connection conn = establishConnection();
         String query = "";
@@ -1038,6 +1282,14 @@ public class DBHandler {
         return accountExists;
     }
     
+    
+    /**
+     * Stores forgot password request and gets its key
+     * @param table Name of table in database
+     * @param forgotPasswordRequest ForgotPasswordRequest object
+     * @return Key of the newly-created forgot password request
+     * @throws SQLException 
+     */
     public int storeForgotPasswordRequestAndGetItsKey(String table, ForgotPasswordRequest forgotPasswordRequest) throws SQLException {
         int autoGeneratedKey = 0;
         try (Connection conn = establishConnection()) {
@@ -1067,6 +1319,16 @@ public class DBHandler {
         return autoGeneratedKey;
     }
     
+    
+    /**
+     * Verifies forgot password random code
+     * @param accountType Type of user account - Admin or Member
+     * @param code User-entered code
+     * @param autoGeneratedId Id of the randomly generated code in the database
+     * @param forgotPasswordRequest ForgotPasswordReqeust object
+     * @return True if the user-entered code matches with randomly generated code in database; false if it does not match
+     * @throws SQLException 
+     */
     public boolean verifyCode(String accountType, String code, int autoGeneratedId, 
             ForgotPasswordRequest forgotPasswordRequest) throws SQLException {
         Connection conn = establishConnection();
@@ -1101,6 +1363,14 @@ public class DBHandler {
         return codeVerification;
     }
     
+    
+    /**
+     * Updates password
+     * @param accountType Types of user account - Admin or Member
+     * @param id Id of user
+     * @param password Password of user
+     * @throws SQLException 
+     */
     public void updatePassword(String accountType, int id, String password) throws SQLException {
         Connection conn = establishConnection();
         String query = "";
@@ -1118,6 +1388,14 @@ public class DBHandler {
         statement.executeUpdate();
     }
     
+    
+    /**
+     * Gets user Id for email verification 
+     * @param accountType Type of user account - Admin or Member
+     * @param username Username of user
+     * @param email Email of user
+     * @return Id of user
+     */
     public int getIdForVerification(String accountType, String username, String email) {
         Connection conn = establishConnection();
         String query = "";
@@ -1147,7 +1425,14 @@ public class DBHandler {
     }
     
     
-    public String getPassword(int id, String accountType) throws SQLException {
+    /**
+     * Gets password
+     * @param id If of user
+     * @param accountType Type of user account - Admin or Member
+     * @return Old password
+     * @throws SQLException 
+     */
+    public String getOldPassword(int id, String accountType) throws SQLException {
         String oldPassword;
         
         try (Connection conn = establishConnection()) {
@@ -1173,6 +1458,11 @@ public class DBHandler {
     }
     
 
+    /**
+     * Gets subscription requests
+     * @return ObservableList of SubscriptionRequest object
+     * @throws SQLException 
+     */
     public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
         ObservableList<SubscriptionRequest> subscriptionRequestList;
         try (Connection conn = establishConnection()) {
@@ -1218,6 +1508,14 @@ public class DBHandler {
         return subscriptionRequestList;
     }
     
+    
+    /**
+     * Accepts subscription request
+     * @param subscriptionId Id of subscription
+     * @param offerPrice Price offered to the member
+     * @param adminId If of administrator accepting the request
+     * @throws SQLException 
+     */
     public void acceptSubscriptionRequest(int subscriptionId, float offerPrice, int adminId) throws SQLException {
         try (Connection conn = establishConnection()) {
             String status = "Active";
@@ -1231,6 +1529,14 @@ public class DBHandler {
         }
     }
     
+    
+    /**
+     * Declines subscription request
+     * @param subscriptionId Id of subscription
+     * @param declineMessage Decline message sent to the member
+     * @param adminId If of administrator declining the request
+     * @throws SQLException 
+     */
     public void declineSubscriptionRequest(int subscriptionId, String declineMessage, int adminId) throws SQLException {
         try (Connection conn = establishConnection()) {
             String status = "Declined";
@@ -1244,7 +1550,14 @@ public class DBHandler {
         }
     }
     
-     public ObservableList<Subscription> adminViewSubscription(String filter) throws SQLException {
+    
+    /**
+     * Views subscription while logged in as administrator
+     * @param filter Table view filter string
+     * @return ObservableList of Subscription object
+     * @throws SQLException 
+     */
+    public ObservableList<Subscription> adminViewSubscription(String filter) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT m.firstName, m.middleName, m.lastName,"
                     + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
@@ -1309,40 +1622,54 @@ public class DBHandler {
         return subscription;
     }
      
-     public ObservableList<Subscription> searchInAdminViewSubscription(String memberFirstName, 
-             String memberMiddleName, String memberLastName, String memberUsername, 
-             String packageName, String adminFirstName, String adminMiddleName, 
-             String adminLastName) throws SQLException {
+    
+    /**
+     * Searches for subscriptions as per query and filter while logged in as administrator
+     * @param memberFirstName First name of member
+     * @param memberMiddleName Middle name of member
+     * @param memberLastName Last name of member
+     * @param memberUsername Username of member
+     * @param packageName Name of package
+     * @param adminFirstName First name of administrator
+     * @param adminMiddleName Middle name of administrator
+     * @param adminLastName Last name of administrator
+     * @return ObservableList of Subscription object
+     * @throws SQLException 
+     */
+    public ObservableList<Subscription> searchInAdminViewSubscription(String memberFirstName, 
+            String memberMiddleName, String memberLastName, String memberUsername, 
+            String packageName, String adminFirstName, String adminMiddleName, 
+            String adminLastName) throws SQLException {
         Connection conn = establishConnection();
-        
-         String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
-                 + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
-                 + " a.middleName, a.lastName FROM Subscription AS sub "
-                 + " INNER JOIN package AS pk"
-                 + " ON pk.packageId = sub.Package_packageId"
-                 + " INNER JOIN member AS m"
-                 + " ON sub.Member_memberId = m.memberId"
-                 + " INNER JOIN admin AS a"
-                 + " ON sub.Admin_adminId = a.adminId"
-                 + " WHERE m.firstName LIKE \"%" + memberFirstName + "%\""
-                 + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
-                 + " OR m.lastname LIKE \"%" + memberLastName + "%\""
-                 + " OR m.username LIKE \"%" + memberUsername + "%\""
-                 + " OR packageName LIKE \"%" + packageName + "%\""
-                 + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
-                 + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
-                 + " OR a.lastname LIKE \"%" + adminLastName + "%\""
-                         + " AND NOT subscriptionStatus = 'Requested'";
+
+        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                + " a.middleName, a.lastName FROM Subscription AS sub "
+                + " INNER JOIN package AS pk"
+                + " ON pk.packageId = sub.Package_packageId"
+                + " INNER JOIN member AS m"
+                + " ON sub.Member_memberId = m.memberId"
+                + " INNER JOIN admin AS a"
+                + " ON sub.Admin_adminId = a.adminId"
+                + " WHERE m.firstName LIKE \"%" + memberFirstName + "%\""
+                + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                + " OR m.username LIKE \"%" + memberUsername + "%\""
+                + " OR packageName LIKE \"%" + packageName + "%\""
+                + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
+                + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
+                + " OR a.lastname LIKE \"%" + adminLastName + "%\""
+                        + " AND NOT subscriptionStatus = 'Requested'";
 
         PreparedStatement statement = conn.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         ObservableList<Subscription> subscription = FXCollections.observableArrayList();
         Subscription sub;
-        
+
         while (rs.next()) {
             sub = new Subscription(rs.getString("packageName"));
-            
+
             if(rs.getString("m.middleName").equals("")) {
                 sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
             }
@@ -1370,7 +1697,13 @@ public class DBHandler {
         return subscription;
     }
      
-     public ObservableList<Subscription> adminViewDeclinedSubscription() throws SQLException {
+    
+    /**
+     * Views declined subscriptions while logged in as administrator
+     * @return ObservableList of Subscription object
+     * @throws SQLException 
+     */
+    public ObservableList<Subscription> adminViewDeclinedSubscription() throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT m.firstName, m.middleName, m.lastName,"
                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
@@ -1418,7 +1751,21 @@ public class DBHandler {
         return subscription;
     }
      
-     public ObservableList<Subscription> searchInAdminViewDeclinedSubscription(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName, String adminFirstName, String adminMiddleName, String adminLastName) throws SQLException {
+    
+    /**
+     * Searches for declined subscriptions as per query and filter while logged in as administrator
+     * @param memberFirstName First name of member
+     * @param memberMiddleName Middle name of member
+     * @param memberLastName Last name of member
+     * @param memberUsername Username of member
+     * @param packageName Name of package
+     * @param adminFirstName First name of administrator
+     * @param adminMiddleName Middle name of administrator
+     * @param adminLastName Last name of administrator
+     * @return
+     * @throws SQLException 
+     */
+    public ObservableList<Subscription> searchInAdminViewDeclinedSubscription(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName, String adminFirstName, String adminMiddleName, String adminLastName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT m.firstName, m.middleName, m.lastName,"
                 + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
@@ -1476,7 +1823,18 @@ public class DBHandler {
         return subscription;
     }
      
-     public ObservableList<SubscriptionRequest> searchInAdminViewSubscriptionRequests(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName) throws SQLException {
+    
+    /**
+     * Searches for subscription requests as per query and filter while logged in as administrator
+     * @param memberFirstName First name of member
+     * @param memberMiddleName Middle name of member
+     * @param memberLastName Last name of member
+     * @param memberUsername Username of member
+     * @param packageName Name of package
+     * @return
+     * @throws SQLException 
+     */
+    public ObservableList<SubscriptionRequest> searchInAdminViewSubscriptionRequests(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName) throws SQLException {
         Connection conn = establishConnection();
         String query = "SELECT m.firstName, m.middleName, m.lastName,"
                 + " m.username, packageName, price, pk.startDate, pk.endDate,"
@@ -1629,9 +1987,9 @@ public class DBHandler {
         return id;
     }
      
-      public static int getLoggedUserId(){
-          return memberId;
-     }
+//      public static int getLoggedUserId(){
+//          //return memberId;
+//     }
 //        // Returns logged user.
 //        public static String getLoggedUser(){
 //            return currentUser;
@@ -1642,7 +2000,8 @@ public class DBHandler {
 //    }        
    
      // Saves message into database.
-    public static void saveMessage(String time, String name, String message){
+    public void saveMessage(String time, String name, String message){
+        Connection c = establishConnection();
         try {  
             PreparedStatement newMessage = c.prepareStatement("INSERT INTO message"
                     + "(time, name, message)"
@@ -1659,7 +2018,7 @@ public class DBHandler {
     // Gets list of messages from database.
     public ObservableList<Chat> getMessageList() throws SQLException {
        ObservableList<Chat> messageList = FXCollections.observableArrayList();
-       Connection conn = establishConnection();
+       Connection c = establishConnection();
         try {
             String query = String.format("SELECT * FROM message");
             PreparedStatement check = c.prepareStatement(query);

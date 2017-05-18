@@ -514,7 +514,7 @@ public class Helper {
      * @throws UnsupportedEncodingException 
      */
     public boolean checkOldPasswordAndChangePassword(int id, String accountType, String enteredOldPassword, String enteredNewPassword) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
+        String oldPasswordFromDB = dbHandler.getOldPassword(id, accountType);
         String hashedEnteredOldPassword = hash(enteredOldPassword);
 
         boolean changedPassword = false;

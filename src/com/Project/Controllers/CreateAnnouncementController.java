@@ -39,6 +39,7 @@ public class CreateAnnouncementController implements Initializable {
         
         private final String username = LoginStorage.getInstance().getUsername();
         private final int adminId = LoginStorage.getInstance().getId();
+        boolean saveAnnouncement = false;
        
     /**
      * Initializes the controller class.
@@ -52,7 +53,12 @@ public class CreateAnnouncementController implements Initializable {
         // TODO
         //checkPosition();
     }    
-   
+    /**
+     * Handles save announcement into database
+     * @param event ActionEvent
+     * @throws SQLException
+     * @throws IOException 
+     */
     @FXML
     private void saveAnnouncement(ActionEvent event){
         //Date date = new Date();
@@ -66,12 +72,14 @@ public class CreateAnnouncementController implements Initializable {
         try{
             // It checks if field is unfilled.
             if(message.getText().length()== 0){
-                errorMessage.setText("Please write your message");
+                //errorMessage.setText("Please write your message");
+                helper.showDialogBox(true, "Please write your message first.");
             }
             // checks the length of message.
-            else if(message.getText().length() >= 100){
-                errorMessage.setText("Maximum 100 characters allowed");
-                message.clear();
+            else if(message.getText().length() >= 300){
+                //errorMessage.setText("Maximum 300 characters allowed");
+                //message.clear();
+                helper.showDialogBox(true, "Maximum 300 characters allowed.");
             }
             // Saves message after fulfill conditions.
             else if(message.getText().length() <= 100 && message.getText().length() > 0){
@@ -87,12 +95,9 @@ public class CreateAnnouncementController implements Initializable {
                 announcement.setAdminId(adminId);
                 dbHandler.saveAnnouncement(announcement);
                 message.clear();
-                
-            } else {
-            helper.showDialogBox(true, "Please write your message first.");
-        }
-            
-        } catch (Exception e){
+                      
+          }    
+        }   catch (Exception e){
             e.printStackTrace();
         }
     }

@@ -74,7 +74,7 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to View Admin Accounts page
+     * Navigates to View Administrator Accounts page
      * @param event ActionEvent
      * @throws IOException 
      */
@@ -180,16 +180,6 @@ public class MenuBarAdminController implements Initializable {
      */
     public void handleViewAnnouncementMenuClick(ActionEvent event) throws IOException {
         setupAndShowStage("AdminViewAnnouncement.fxml");
-    }
-    
-    
-    /**
-     * Navigates to Chat page
-     * @param event ActionEvent
-     * @throws IOException 
-     */
-    public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminChat.fxml");   
     }
     
     

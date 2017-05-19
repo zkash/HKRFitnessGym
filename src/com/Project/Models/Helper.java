@@ -14,12 +14,14 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -513,7 +515,7 @@ public class Helper {
      * @throws UnsupportedEncodingException 
      */
     public boolean checkOldPasswordAndChangePassword(int id, String accountType, String enteredOldPassword, String enteredNewPassword) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        String oldPasswordFromDB = dbHandler.getPassword(id, accountType);
+        String oldPasswordFromDB = dbHandler.getOldPassword(id, accountType);
         String hashedEnteredOldPassword = hash(enteredOldPassword);
 
         boolean changedPassword = false;
@@ -553,6 +555,51 @@ public class Helper {
         int minutesSinceMidnight = (hour * 60) + minute;
         return minutesSinceMidnight;
     }
+
+public String hourFormat(java.util.Date date){
+            DateFormat sdf2 = new SimpleDateFormat("HH");
+            String tFourH = sdf2.format(date);
+            return tFourH;
+        }
+        
+        public String minuteFormat(java.util.Date date){
+            DateFormat sdf2 = new SimpleDateFormat("mm");
+            String tFourH = sdf2.format(date);
+            return tFourH;
+        }
+        
+        public java.util.Date hourFormat(String time) throws ParseException{
+            DateFormat sdf = new SimpleDateFormat("HH");
+            java.util.Date d = sdf.parse(time);
+            return d;
+        }
+        
+        public java.util.Date minuteFormat(String time) throws ParseException{
+            DateFormat sdf = new SimpleDateFormat("mm");
+            java.util.Date d = sdf.parse(time);
+            return d;
+        }
+        
+        public int toInteger(String string){
+            int number = Integer.parseInt(string);
+            return number;
+        }
+        
+        public Time toSqlTime(String string) throws ParseException{
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+            long ms = sdf.parse(string).getTime();
+            Time t = new Time(ms);
+            return t;
+        }
+        
+        public boolean isInteger(String s){
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }    
     
     
      //TODO use above one
@@ -564,15 +611,5 @@ public class Helper {
     public static Date toSQLDate(LocalDate ld){
         Date date = Date.valueOf(ld);
         return date;
-    }
-    
-    //TODO use above one
-    public static boolean isInteger(String s){
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 }

@@ -137,7 +137,7 @@ public class LoginPageController implements Initializable {
     
     
     /**
-     * Redirects to Admin Main Page
+     * Redirects to Administrator Main Page
      * @param event ActionEvent
      * @throws IOException 
      */
@@ -157,7 +157,7 @@ public class LoginPageController implements Initializable {
 
     
     /**
-     * Handles the forget password hyperlink click
+     * Handles the forget password link click
      * @param event ActionEvent
      * @throws IOException
      * @throws AddressException

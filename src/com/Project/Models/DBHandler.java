@@ -1889,51 +1889,36 @@ public class DBHandler {
      
      
      public ResultSet searchSchedule(String date){
-        Connection conn = null;
-        PreparedStatement prepStmt = null;
-        //ResultSet rs = null;
+        Connection conn = establishConnection();
         try {
-            DBHandler db = new DBHandler();
-            String statement = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
-            conn = db.establishConnection();
-            prepStmt = conn.prepareStatement(statement);
-            ResultSet rs = prepStmt.executeQuery();
-            System.out.println("Success");
-            return rs;
-            
-        } catch (Exception e) {
+            String query = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            return rs; 
+        }   catch (SQLException e) {
             System.out.println("error. Not found.");
             return null;
         }
-        
     }
      
      public ResultSet adminRitriveSchedule(){
-        Connection conn = null;
-       // PreparedStatement prepStmt = null;
-        //ResultSet rs = null;
         try {
-           // DBHandler db = new DBHandler();
             String statement = "select * from schedule";
-            conn = establishConnection();
+            Connection conn = establishConnection();
             PreparedStatement prepStmt = conn.prepareStatement(statement);
             System.out.println("1");
             System.out.println("PS " + prepStmt);
             ResultSet rs = prepStmt.executeQuery();
             System.out.println("2");
             return rs;
-            
         } catch (Exception e) {
             System.out.println("Cannot ritrive schedule.");
             return null;
         }
-      //  return rs;
     }
      
      public static void adminCreateSchedule(Schedule s, int adminId) throws SQLException {
-        //String command = String.format("INSERT INTO schedule values (%b, %d, %d)", isHoliday, /*id,*/ ssn);
-        //String c = "insert into schdeule (date, openningTime, closingTime, isHoliday, ssn) values ('"date + op + ct + isHoliday + ssn + ")'";
-        try{
+         try{
             DBHandler db = new DBHandler();
             Connection conn = db.establishConnection();
             String selectStatement = "INSERT INTO schedule ( date, openingTime, closingTime, isHoliday, Admin_adminId) VALUES (?,?,?,?,?)";
@@ -1944,7 +1929,6 @@ public class DBHandler {
             prepStmt.setBoolean(4, s.getIsHoliday());
             prepStmt.setInt(5, adminId);
             prepStmt.executeUpdate();
-            
             System.out.println("the data has been moved into database.");
         }
         catch(Exception e){
@@ -1952,93 +1936,6 @@ public class DBHandler {
         }
     }
      
-     
-     
-     
-     public static Iterable<Announcement> getAnnouncementList(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-        //Returns User id.
-      public int getId(String accountType) {
-        Connection conn = establishConnection();
-        String query = "";
-        if(accountType.equals("Admin")) {
-            query = "SELECT adminId FROM Admin = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT memberId FROM Member = ?";
-        }
-        int id = 0;
-        try {
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, accountType);
-            ResultSet rs = statement.executeQuery();
-            System.out.println(statement);
-            System.out.println(rs);
-            while(rs.next()) {
-                id = rs.getInt(1);
-            }
-        }
-        catch(SQLException e) {
-            
-        }
-        return id;
-    }
-     
-//      public static int getLoggedUserId(){
-//          //return memberId;
-//     }
-//        // Returns logged user.
-//        public static String getLoggedUser(){
-//            return currentUser;
-//    }
-        // Returns positon of user.
-//        public static String getLoggedUserPosition(){
-//            return position;
-//    }        
-   
-     // Saves message into database.
-    public void saveMessage(String time, String name, String message){
-        Connection c = establishConnection();
-        try {  
-            PreparedStatement newMessage = c.prepareStatement("INSERT INTO message"
-                    + "(time, name, message)"
-                    + "VALUES (?, ?, ?)");
-            newMessage.setString(1, time);
-            newMessage.setString(2, name);
-            newMessage.setString(3, message);
-            newMessage.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    // Gets list of messages from database.
-    public ObservableList<Chat> getMessageList() throws SQLException {
-       ObservableList<Chat> messageList = FXCollections.observableArrayList();
-       Connection c = establishConnection();
-        try {
-            String query = String.format("SELECT * FROM message");
-            PreparedStatement check = c.prepareStatement(query);
-            ResultSet rs = check.executeQuery();
-            
-            while (rs.next()) {
-                Chat message = new Chat();
-                message.setMessageId(rs.getInt("messageId"));
-                message.setTime(rs.getString("time"));
-                //message.setName(rs.getString("name"));
-                message.setMessage(rs.getString("message"));
-                messageList.add(message);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return messageList;
-    }
-        
-    
     // To save announcements into database.
     public void saveAnnouncement(Announcement announcement) throws SQLException {
         try (Connection conn = establishConnection()) {
@@ -2050,67 +1947,12 @@ public class DBHandler {
         stmt.setString(2, announcement.getTime());
         stmt.setString(3, announcement.getTitle());
         stmt.setString(4, announcement.getBody());
-        
         stmt.setInt(5, 1);
         stmt.setInt(6, announcement.getAdminId());
         stmt.execute();
         }
-
+    }
         
-    
-   
- /*
-    //To get message list from database.
-    public ObservableList<Announcement> getAnnouncementList() throws SQLException {
-       ObservableList<Announcement> messageList = FXCollections.observableArrayList();
-       Connection conn = establishConnection();
-        try {
-            String query = String.format("SELECT * FROM announcement");
-            PreparedStatement check = c.prepareStatement(query);
-            ResultSet rs = check.executeQuery();
-            
-            while (rs.next()) {
-                Announcement announcements = new Announcement();
-                announcements.setMessageId(rs.getInt("announcementId"));
-                announcements.setTime(rs.getString("time"));
-                announcements.setMessage(rs.getString("message"));
-                messageList.add(announcements);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return messageList;
-    }*/
-     
-    
-    
-    }
-    
-    public int getId(String username, String accountType) {
-       Connection conn = establishConnection();
-        String query = "";
-        if(accountType.equals("Admin")) {
-            query = "SELECT adminId FROM Admin WHERE username = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT memberId FROM Member WHERE username = ?";
-        }
-        int id = 0;
-        try {
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
-            System.out.println(statement);
-            System.out.println(rs);
-            while(rs.next()) {
-                id = rs.getInt(1);
-            }
-        }
-        catch(SQLException e) {
-            
-        }
-        return id; 
-    }
     public ObservableList<Announcement> adminViewAnnouncement() throws SQLException {
         ObservableList<Announcement> adminViewAnnouncement = FXCollections.observableArrayList();
        Connection conn = establishConnection();
@@ -2119,10 +1961,8 @@ public class DBHandler {
                     + " inner join admin on announcement.Admin_adminId = admin.adminId");
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-            
             while (rs.next()) {
                 Announcement announcement = new Announcement();
-              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
                 announcement.setTime(rs.getString("time"));
                 announcement.setDate(rs.getDate("date"));
                 announcement.setBody(rs.getString("body"));
@@ -2148,7 +1988,6 @@ public class DBHandler {
             
             while (rs.next()) {
                 Announcement announcement = new Announcement();
-                //announcement.setAnnouncementId(rs.getInt("announcementId"));
                 announcement.setTime(rs.getString("time"));
                 announcement.setDate(rs.getDate("date"));
                 announcement.setBody(rs.getString("body"));
@@ -2180,7 +2019,6 @@ public class DBHandler {
       
        while (rs.next()) {
                 Announcement announcement = new Announcement();
-              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
                 announcement.setTime(rs.getString("time"));
                 announcement.setDate(rs.getDate("date"));
                 announcement.setBody(rs.getString("body"));
@@ -2188,10 +2026,9 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
-        
-        
         return searchData;
-     }            
+     }   
+     
       public ObservableList<Announcement> searchInMemeberViewAnnouncement(String str) throws SQLException {
         ObservableList<Announcement> searchData = FXCollections.observableArrayList();
         Connection conn = establishConnection();
@@ -2209,7 +2046,6 @@ public class DBHandler {
       
        while (rs.next()) {
                 Announcement announcement = new Announcement();
-              //  announcement.setAnnouncementId(rs.getInt("announcementId"));
                 announcement.setTime(rs.getString("time"));
                 announcement.setDate(rs.getDate("date"));
                 announcement.setBody(rs.getString("body"));
@@ -2217,14 +2053,11 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
-        
-        
         return searchData;
      }            
     
      public boolean deleteAnnouncement(String title, String body, String time, Date date) throws SQLException {
         boolean deletionError;
-        
         try (Connection conn = establishConnection()) {
             String query = "DELETE FROM Announcement WHERE title = ? AND body = ? AND time = ? AND date = ?";
             PreparedStatement statement = conn.prepareStatement(query);

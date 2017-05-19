@@ -67,7 +67,7 @@ public class AdminViewAdminAccountsController implements Initializable {
 
     
     /**
-     * Deletes an admin account
+     * Deletes an administrator account
      * @param event ActionEvent
      * @throws SQLException
      * @throws IOException 

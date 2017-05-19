@@ -74,7 +74,7 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to View Admin Accounts page
+     * Navigates to View Administrator Accounts page
      * @param event ActionEvent
      * @throws IOException 
      */

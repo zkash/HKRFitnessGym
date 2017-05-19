@@ -86,7 +86,7 @@ public class AdminMainMenuController implements Initializable {
     
     
     /**
-     * Navigates to Chat page
+     * Navigates to Change Password page
      * @param event ActionEvent
      * @throws IOException 
      */

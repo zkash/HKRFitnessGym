@@ -48,11 +48,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleViewAnnouncementMenuClick" text="View Announcement" />
                </items>
             </Menu>
-      <Menu mnemonicParsing="false" text="Chat">
-        <items>
-          <MenuItem fx:id="visitChatRoomMenu" mnemonicParsing="false" onAction="#handleVisitChatRoomMenuClick" text="Visit Chat Room" />
-        </items>
-      </Menu>
             <Menu mnemonicParsing="false" text="Settings">
                <items>
                   <MenuItem fx:id="changePasswordMenu" mnemonicParsing="false" onAction="#handleChangePasswordMenuClick" text="Change Password" />

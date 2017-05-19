@@ -104,16 +104,6 @@ public class MenuBarMemberController implements Initializable {
     
     
     /**
-     * Navigates to Chat page
-     * @param event ActionEvent
-     * @throws IOException 
-     */
-    public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("MemberChat.fxml");
-    }
-    
-    
-    /**
      * Navigates to Change Password page
      * @param event ActionEvent
      * @throws IOException 

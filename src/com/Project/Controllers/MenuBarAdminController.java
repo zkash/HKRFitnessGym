@@ -184,16 +184,6 @@ public class MenuBarAdminController implements Initializable {
     
     
     /**
-     * Navigates to Chat page
-     * @param event ActionEvent
-     * @throws IOException 
-     */
-    public void handleVisitChatRoomMenuClick(ActionEvent event) throws IOException {
-        setupAndShowStage("AdminChat.fxml");   
-    }
-    
-    
-    /**
      * Navigates to Change Password page
      * @param event ActionEvent
      * @throws IOException 

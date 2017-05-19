@@ -845,7 +845,35 @@ public class DBHandler {
             statement.executeUpdate();
         }
     }
+       public void updateAnnouncement(Announcement oldAnnouncement, Announcement ann) throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     //   Announcement ann = new Announcement();
 
+        try (Connection conn = establishConnection()) {
+             String query = "UPDATE Announcement SET "
+                    + "title = ?, "
+                    + "body = ?, "
+                    + "time = ?, "
+                    + "date = ? "
+                    + "WHERE title = ?"
+                     + " AND body = ?"
+                     + " AND date = ?"
+                     + " AND time = ?";            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ann.getTitle());
+            statement.setString(2, ann.getBody());
+            statement.setDate(4, ann.getDate());
+            statement.setString(3, ann.getTime());
+            statement.setString(5, oldAnnouncement.getTitle());
+            statement.setString(6, oldAnnouncement.getBody());
+            statement.setString(8, oldAnnouncement.getTime());
+            statement.setDate(7, oldAnnouncement.getDate());
+            System.out.println("st " + statement);
+            
+            statement.executeUpdate();
+                       
+        }
+    }
     
     /**
      * Gets package information while logged in as administrator

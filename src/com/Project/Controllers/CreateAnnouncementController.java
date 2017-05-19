@@ -94,7 +94,8 @@ public class CreateAnnouncementController implements Initializable {
                 announcement.setUsername(username);
                 announcement.setAdminId(adminId);
                 dbHandler.saveAnnouncement(announcement);
-                message.clear();
+                helper.showDialogBox(true, "Announcement updated");
+                helper.navigateScene(event, "AdminViewAnnouncement.fxml");
                       
           }    
         }   catch (Exception e){

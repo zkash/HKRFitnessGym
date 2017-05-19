@@ -2115,15 +2115,14 @@ public class DBHandler {
     public void saveAnnouncement(Announcement announcement) throws SQLException {
         try (Connection conn = establishConnection()) {
         String query = "Insert Into announcement"
-                    + "(date, time, title, body, numberOfViews, Admin_adminId)"
-                    + "Values (?, ?, ?, ?, ?, ?)";
+                    + "(date, time, title, body, Admin_adminId)"
+                    + "Values (?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setDate(1, announcement.getDate());
         stmt.setString(2, announcement.getTime());
         stmt.setString(3, announcement.getTitle());
         stmt.setString(4, announcement.getBody());
-        stmt.setInt(5, 1);
-        stmt.setInt(6, announcement.getAdminId());
+        stmt.setInt(5, announcement.getAdminId());
         stmt.execute();
         }
     }

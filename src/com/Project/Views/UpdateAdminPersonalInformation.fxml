@@ -15,13 +15,35 @@
     <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
           <children>
+            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
+            <Label layoutX="127.0" layoutY="55.0" text="Update Personal Information" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
             <Label layoutX="125.0" layoutY="73.0" text="First Name*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="109.0" text="Middle Name" AnchorPane.leftAnchor="125.0" />
-            <Label layoutX="125.0" layoutY="255.0" prefHeight="17.0" prefWidth="66.0" text="Address*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="149.0" text="Last Name*" AnchorPane.leftAnchor="125.0" />
-            <Label layoutX="125.0" layoutY="291.0" text="Phone Number*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="217.0" text="Date of Birth*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="255.0" prefHeight="17.0" prefWidth="66.0" text="Address*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="291.0" text="Phone Number*" AnchorPane.leftAnchor="125.0" />
             <Label layoutX="125.0" layoutY="326.0" text="Email*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
+            <Label layoutX="124.0" layoutY="508.0" text="* denotes compulsory values">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidMsgFirstName" layoutX="537.0" layoutY="73.0" textFill="RED" />
+            <Label fx:id="invalidMsgMiddleName" layoutX="537.0" layoutY="109.0" textFill="RED" />
+            <Label fx:id="invalidMsgLastName" layoutX="537.0" layoutY="149.0" textFill="RED" />
+            <Label fx:id="invalidMsgAddress" layoutX="537.0" layoutY="255.0" textFill="RED" />
+            <Label fx:id="invalidMsgPhoneNumber" layoutX="537.0" layoutY="291.0" textFill="RED" />
+            <Label fx:id="invalidMsgEmail" layoutX="537.0" layoutY="326.0" textFill="RED" />
+            <Label fx:id="invalidMsgSSN" layoutX="537.0" layoutY="362.0" textFill="RED" />
+            <Label fx:id="invalidMsgAllData" layoutX="331.0" layoutY="476.0" prefWidth="100.0" textFill="RED" />
             <TextField fx:id="firstName" layoutX="313.0" layoutY="68.0" onAction="#handleUpdateBtnClick" prefWidth="210.0" promptText="e.g. John">
                <tooltip>
                   <Tooltip text="Must be characters and not contain numbers" />
@@ -58,8 +80,6 @@
                <tooltip>
                   <Tooltip text="Must be six digits followed by dash(-) followed by four digits" />
                </tooltip></TextField>
-            <Label layoutX="125.0" layoutY="362.0" text="Social Security Number*" AnchorPane.leftAnchor="125.0" />
-            <Label layoutX="125.0" layoutY="186.0" text="Gender*" AnchorPane.leftAnchor="125.0" />
             <Button fx:id="updateBtn" layoutX="439.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleUpdateBtnClick" text="Update">
                <graphic>
                   <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -68,28 +88,6 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Label layoutX="127.0" layoutY="55.0" text="Update Personal Information" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="30.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="124.0" layoutY="508.0" text="* denotes compulsory values">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidMsgFirstName" layoutX="537.0" layoutY="73.0" textFill="RED" />
-            <Label fx:id="invalidMsgMiddleName" layoutX="537.0" layoutY="109.0" textFill="RED" />
-            <Label fx:id="invalidMsgLastName" layoutX="537.0" layoutY="149.0" textFill="RED" />
-            <Label fx:id="invalidMsgAddress" layoutX="537.0" layoutY="255.0" textFill="RED" />
-            <Label fx:id="invalidMsgPhoneNumber" layoutX="537.0" layoutY="291.0" textFill="RED" />
-            <Label fx:id="invalidMsgEmail" layoutX="537.0" layoutY="326.0" textFill="RED" />
-            <Label fx:id="invalidMsgSSN" layoutX="537.0" layoutY="362.0" textFill="RED" />
-            <Label fx:id="invalidMsgUsername" layoutX="537.0" layoutY="396.0" textFill="RED" />
-            <Label fx:id="invalidMsgPassword" layoutX="537.0" layoutY="432.0" textFill="RED" />
-            <fx:include fx:id="homeBtn" source="HomeButton.fxml" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <fx:include fx:id="signOutBtn" source="SignOutButton.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0" />
-            <Label fx:id="invalidMsgAllData" layoutX="331.0" layoutY="476.0" prefWidth="100.0" textFill="RED" />
           </children>
       </AnchorPane>
    </center>

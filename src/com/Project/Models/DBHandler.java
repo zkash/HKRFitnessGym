@@ -84,13 +84,11 @@ public class DBHandler {
      */
     public ObservableList<Admin> adminViewAdminAccounts() throws SQLException {
         ObservableList<Admin> data = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
-        
-        try {
+        try (Connection conn = establishConnection()) {
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Admin");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            
+
             while (rs.next()) {
                 data.add(new Admin(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                         rs.getString("username"),
@@ -102,9 +100,11 @@ public class DBHandler {
                         Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
                 ));
             }
+            conn.close();
             return data;
-        } 
+        }
         catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return null;
     }
@@ -117,13 +117,11 @@ public class DBHandler {
      */
     public ObservableList<Member> adminViewMemberAccounts() throws SQLException {
         ObservableList<Member> data = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
-        
-        try {
+        try (Connection conn = establishConnection()) {
             String query = String.format("SELECT firstName, middleName, lastName, username, ssn1, ssn2, phoneNumber, address, email, gender, dateOfBirth FROM Member");
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            
+
             while (rs.next()) {
                 data.add(new Member(rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
                         rs.getString("username"),
@@ -135,7 +133,7 @@ public class DBHandler {
                         Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
                 ));
             }
-            
+
             for(Member member : data) {
                 String query2 = "SELECT a.firstName, a.middleName, a.lastName"
                         + " From Admin as a"
@@ -143,19 +141,21 @@ public class DBHandler {
                         + " ON a.adminId = m.Admin_adminId";
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 ResultSet rs2 = statement2.executeQuery();
-                
+
                 while(rs2.next()) {
                     if (rs2.getString(2).equals("")) {       //middle name empty or not
                         member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(3)); //firstName + lastName
                     }
                     else {
                         member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
-                    }  
+                    }
                 }
             }
+            conn.close();
             return data;
         }
         catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return null;  
     }
@@ -166,12 +166,12 @@ public class DBHandler {
      * @param admin Admin object
      */
     public void createAdminAccount(Admin admin) {
-        Connection conn = establishConnection();
-        try {
+        try (Connection conn = establishConnection()) {
             String query = "INSERT INTO Admin (firstName, middleName, lastName, "
                     + "gender, dateOfBirth, address, phoneNumber, email, ssn1, "
                     + "ssn2, username, password) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getMiddleName());
@@ -187,9 +187,9 @@ public class DBHandler {
             statement.setString(12, admin.getPassword());
             statement.execute();
             conn.close();
-        } 
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
+        }
+        catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -201,12 +201,12 @@ public class DBHandler {
      * @throws SQLException 
      */
     public void createMemberAccount(Member member, int adminId) throws SQLException {
-        Connection conn = establishConnection();
-        try {
+        try (Connection conn = establishConnection()) {
             String query = "INSERT INTO Member (firstName, middleName, lastName, "
                     + "gender, dateOfBirth, address, phoneNumber, email, ssn1, "
                     + "ssn2, username, password, Admin_adminId) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, member.getFirstName());
             statement.setString(2, member.getMiddleName());
@@ -223,9 +223,9 @@ public class DBHandler {
             statement.setInt(13, adminId);
             statement.execute();
             conn.close();
-        } 
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
+        }
+        catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -249,47 +249,52 @@ public class DBHandler {
             String middleName, String lastName, String address, String username, 
             String email, int phoneNumber, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Admin> searchData = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
         
-        String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + firstName + "%\""
-                + " OR middleName LIKE \"%" + middleName + "%\""
-                + " OR lastName LIKE \"%" + lastName + "%\""
-                + " OR address LIKE \"%" + address + "%\""
-                + " OR username LIKE \"%" + username + "%\""
-                + " OR email = \"" + email + "\""
-                + " OR phoneNumber = " + phoneNumber
-                + " OR (ssn1 = " + ssn1
-                + " AND ssn2 = " + ssn2 + ")";
-        
-        query = query.replace("$tableName", table);
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        
-        while (rs.next()) {
-            if (rs.getString("middleName").equals("")) {
-                searchData.add(new Admin(
-                        rs.getString("firstName") + " " + rs.getString("lastName"),
-                        rs.getString("username"),
-                        rs.getString("gender"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-                ));
-            } 
-            else {
-                searchData.add(new Admin(
-                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                        rs.getString("username"),
-                        rs.getString("gender"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-                ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + firstName + "%\""
+                    + " OR middleName LIKE \"%" + middleName + "%\""
+                    + " OR lastName LIKE \"%" + lastName + "%\""
+                    + " OR address LIKE \"%" + address + "%\""
+                    + " OR username LIKE \"%" + username + "%\""
+                    + " OR email = \"" + email + "\""
+                    + " OR phoneNumber = " + phoneNumber
+                    + " OR (ssn1 = " + ssn1
+                    + " AND ssn2 = " + ssn2 + ")";
+            
+            query = query.replace("$tableName", table);
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                if (rs.getString("middleName").equals("")) {
+                    searchData.add(new Admin(
+                            rs.getString("firstName") + " " + rs.getString("lastName"),
+                            rs.getString("username"),
+                            rs.getString("gender"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                    ));
+                }
+                else {
+                    searchData.add(new Admin(
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                            rs.getString("username"),
+                            rs.getString("gender"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                    ));
+                }
             }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return searchData;
     }
@@ -314,66 +319,71 @@ public class DBHandler {
             String middleName, String lastName, String address, String username, 
             String email, int phoneNumber, int ssn1, int ssn2, String table) throws SQLException {
         ObservableList<Member> searchData = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
         
-        String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + firstName + "%\""
-                + " OR middleName LIKE \"%" + middleName + "%\""
-                + " OR lastName LIKE \"%" + lastName + "%\""
-                + " OR address LIKE \"%" + address + "%\""
-                + " OR username LIKE \"%" + username + "%\""
-                + " OR email = \"" + email + "\""
-                + " OR phoneNumber = " + phoneNumber
-                + " OR (ssn1 = " + ssn1
-                + " AND ssn2 = " + ssn2 + ")";
-        
-        query = query.replace("$tableName", table);
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        
-        while (rs.next()) {
-            if (rs.getString("middleName").equals("")) {
-                searchData.add(new Member(
-                        rs.getString("firstName") + " " + rs.getString("lastName"),
-                        rs.getString("username"),
-                        rs.getString("gender"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-                ));
-            } 
-            else {
-                searchData.add(new Member(
-                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
-                        rs.getString("username"),
-                        rs.getString("gender"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
-                ));
-            }
-        }
-        
-        for(Member member : searchData) {
-            String query2 = "SELECT a.firstName, a.middleName, a.lastName"
-                    + " From Admin as a"
-                    + " INNER JOIN Member as m"
-                    + " ON a.adminId = m.Admin_adminId";
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT * FROM $tableName WHERE firstName LIKE \"%" + firstName + "%\""
+                    + " OR middleName LIKE \"%" + middleName + "%\""
+                    + " OR lastName LIKE \"%" + lastName + "%\""
+                    + " OR address LIKE \"%" + address + "%\""
+                    + " OR username LIKE \"%" + username + "%\""
+                    + " OR email = \"" + email + "\""
+                    + " OR phoneNumber = " + phoneNumber
+                    + " OR (ssn1 = " + ssn1
+                    + " AND ssn2 = " + ssn2 + ")";
             
-            PreparedStatement statement2 = conn.prepareStatement(query2);
-            ResultSet rs2 = statement2.executeQuery();
+            query = query.replace("$tableName", table);
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
             
-            while(rs2.next()) {
-                if (rs2.getString(2).equals("")) {       //middle name empty or not
-                    member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(3)); //firstName + lastName
+            while (rs.next()) {
+                if (rs.getString("middleName").equals("")) {
+                    searchData.add(new Member(
+                            rs.getString("firstName") + " " + rs.getString("lastName"),
+                            rs.getString("username"),
+                            rs.getString("gender"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                    ));
                 }
                 else {
-                    member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+                    searchData.add(new Member(
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName"),
+                            rs.getString("username"),
+                            rs.getString("gender"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            Integer.toString(rs.getInt("ssn1")) + "-" + Integer.toString(rs.getInt("ssn2"))
+                    ));
                 }
             }
+            
+            for(Member member : searchData) {
+                String query2 = "SELECT a.firstName, a.middleName, a.lastName"
+                        + " From Admin as a"
+                        + " INNER JOIN Member as m"
+                        + " ON a.adminId = m.Admin_adminId";
+                
+                PreparedStatement statement2 = conn.prepareStatement(query2);
+                ResultSet rs2 = statement2.executeQuery();
+                
+                while(rs2.next()) {
+                    if (rs2.getString(2).equals("")) {       //middle name empty or not
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(3)); //firstName + lastName
+                    }
+                    else {
+                        member.setAdminFullName(rs2.getString(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+                    }
+                }
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return searchData;
     }
@@ -387,42 +397,42 @@ public class DBHandler {
      */
     public ObservableList<Package> searchInAdminViewPackage(String searchQuery) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
         
-        String query = "SELECT Package.*, Admin.firstName, Admin.middleName, "
-                + "Admin.lastName FROM Package, Admin "
-                + "WHERE Admin.adminId = Package.Admin_adminId "
-                + "AND packageName LIKE '%" + searchQuery +  "%'";
-
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        
-        while (rs.next()) {
-            if (rs.getString("middleName").equals("")) {
-                searchData.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("firstName") + " " + rs.getString("lastName")
-                ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT Package.*, Admin.firstName, Admin.middleName, "
+                    + "Admin.lastName FROM Package, Admin "
+                    + "WHERE Admin.adminId = Package.Admin_adminId "
+                    + "AND packageName LIKE '%" + searchQuery +  "%'";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                if (rs.getString("middleName").equals("")) {
+                    searchData.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                    ));
+                }
+                else {
+                    searchData.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                    ));
+                }
             }
-            else {
-                searchData.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
-                ));
-            }
-        }
-        
-        for (Package pack : searchData) {
+            
+            for (Package pack : searchData) {
                 String name = pack.getPackageName();
                 String query2 = "SELECT COUNT(pk.packageName)"
                         + " From Package as pk"
@@ -440,6 +450,11 @@ public class DBHandler {
                 }
                 
                 pack.setNumberOfSubscriber(Integer.parseInt(count));       
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return searchData;
     }
@@ -453,42 +468,42 @@ public class DBHandler {
      */
     public ObservableList<Package> searchInMemberViewPackage(String searchQuery) throws SQLException {
         ObservableList<Package> searchData = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
         
-        String query = "SELECT Package.*, Admin.firstName, Admin.middleName, "
-                + "Admin.lastName FROM Package, Admin "
-                + "WHERE Admin.adminId = Package.Admin_adminId AND "
-                + "packageName LIKE '%" + searchQuery +  "%'";
-
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        
-        while (rs.next()) {
-            if (rs.getString("middleName").equals("")) {
-                searchData.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("firstName") + " " + rs.getString("lastName")
-                ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT Package.*, Admin.firstName, Admin.middleName, "
+                    + "Admin.lastName FROM Package, Admin "
+                    + "WHERE Admin.adminId = Package.Admin_adminId AND "
+                    + "packageName LIKE '%" + searchQuery +  "%'";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                if (rs.getString("middleName").equals("")) {
+                    searchData.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("lastName")
+                    ));
+                }
+                else {
+                    searchData.add(new Package(
+                            rs.getString("packageName"),
+                            rs.getFloat("price"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
+                    ));
+                }
             }
-            else {
-                searchData.add(new Package(
-                        rs.getString("packageName"),
-                        rs.getFloat("price"),
-                        rs.getDate("startDate"),
-                        rs.getDate("endDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("firstName") + " " + rs.getString("middleName") + " " + rs.getString("lastName")
-                ));
-            }
-        }
-        
-        for (Package pack : searchData) {
+            
+            for (Package pack : searchData) {
                 String name = pack.getPackageName();
                 String query2 = "SELECT COUNT(pk.packageName)"
                         + " From Package as pk"
@@ -506,6 +521,11 @@ public class DBHandler {
                 }
                 
                 pack.setNumberOfSubscriber(Integer.parseInt(count));       
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage()); 
         }
         return searchData;
     }
@@ -521,24 +541,26 @@ public class DBHandler {
      * @throws SQLException 
      */
     public boolean checkUsernameAndSSN(String table, String username, int ssn1, int ssn2) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT count(*) FROM " + table + " WHERE username = ? "
-                + "OR (ssn1 = ? AND ssn2 = ?)";
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        
-        statement.setString(1, username);
-        statement.setInt(2, ssn1);
-        statement.setInt(3, ssn2);
-        
-        ResultSet rs = statement.executeQuery();
-        
         boolean alreadyExists = false;
         
-        while (rs.next()) {
-            alreadyExists = rs.getInt(1) != 0;
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT count(*) FROM " + table + " WHERE username = ? "
+                    + "OR (ssn1 = ? AND ssn2 = ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setInt(2, ssn1);
+            statement.setInt(3, ssn2);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                alreadyExists = rs.getInt(1) != 0;
+            }
+            
+            conn.close();
         }
-        
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage());
+        }
         return alreadyExists;
     }
 
@@ -570,7 +592,6 @@ public class DBHandler {
             
             query = query.replace("$table_name", table);
             PreparedStatement statement = conn.prepareStatement(query);
-            
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getMiddleName());
             statement.setString(3, admin.getLastName());
@@ -584,8 +605,11 @@ public class DBHandler {
             statement.setInt(11, adminId);
             statement.setInt(12, ssnOld1);
             statement.setInt(13, ssnOld2);
-            
             statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage()); 
         }
     }
 
@@ -630,6 +654,10 @@ public class DBHandler {
             statement.setInt(12, ssnOld1);
             statement.setInt(13, ssnOld2);
             statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage());
         }
     }
     
@@ -645,7 +673,6 @@ public class DBHandler {
             String query = "INSERT INTO Package (packageName, price, startDate, endDate, startTime, "
                     + "endTime, Admin_adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
-            
             statement.setString(1, pack.getPackageName());
             statement.setFloat(2, pack.getPrice());
             statement.setDate(3, pack.getStartDate());
@@ -653,8 +680,11 @@ public class DBHandler {
             statement.setString(5, pack.getStartTime());
             statement.setString(6, pack.getEndTime());
             statement.setInt(7, adminId);
-            
             statement.execute();
+            conn.close();
+        }
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -666,17 +696,23 @@ public class DBHandler {
      * @throws SQLException 
      */
     public int checkPackageName(String packageName) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT count(*) FROM Package WHERE packageName = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, packageName);
-        ResultSet rs = statement.executeQuery();
         int count = 0;
         
-        while (rs.next()) {
-            count = rs.getInt(1);
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT count(*) FROM Package WHERE packageName = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, packageName);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+            
+            conn.close();
         }
-        
+        catch(SQLException ex) {
+           System.out.println("Error: " + ex.getMessage());
+        }
         return count;
     }
     
@@ -688,8 +724,8 @@ public class DBHandler {
      */
     public ObservableList<Package> adminViewPackages() throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
-        try {
+        
+        try (Connection conn = establishConnection()) {
             String query = String.format("SELECT Package.*, Admin.firstName, "
                     + "Admin.middleName, Admin.lastName FROM Package, Admin "
                     + "WHERE Admin.adminId = Package.Admin_adminId");
@@ -708,7 +744,7 @@ public class DBHandler {
                             rs.getString("endTime"),
                             rs.getString("firstName") + " " + rs.getString("lastName")
                     ));
-                } 
+                }
                 else {
                     data.add(new Package(
                             rs.getString("packageName"),
@@ -721,7 +757,7 @@ public class DBHandler {
                     ));
                 }
             }
-            
+
             for (Package pack : data) {
                 String name = pack.getPackageName();
                 String query2 = "SELECT COUNT(pk.packageName)"
@@ -730,22 +766,23 @@ public class DBHandler {
                         + " ON pk.packageId = sub.Package_packageId"
                         + " WHERE packageName = \"" + name + "\""
                         + " AND subscriptionStatus = 'Active'";
-                
+
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 ResultSet rs2 = statement2.executeQuery();
                 String count = "";
-                
+
                 while (rs2.next()) {
                     count = rs2.getString(1);
                 }
 
                 pack.setNumberOfSubscriber(Integer.parseInt(count));
             }
-            return data;
-        } 
-        catch (NumberFormatException | SQLException ex) {
+            conn.close();
         }
-        return null;
+        catch (NumberFormatException | SQLException ex) {
+            System.out.println("Error: " + ex.getMessage()); 
+        }
+        return data;
     }
 
     
@@ -755,22 +792,30 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Package> memberViewPackages() throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT packageName, price, startDate, endDate, startTime, "
-                + "endTime FROM Package";
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Package> pack = FXCollections.observableArrayList();
+        ObservableList<Package> pack = null;
         
-        while(rs.next()) {
-            pack.add(new Package(
-                    rs.getString("packageName"),
-                    rs.getFloat("price"),
-                    rs.getDate("startDate"),
-                    rs.getDate("endDate"),
-                    rs.getString("startTime"),
-                    rs.getString("endTime")
-            ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT packageName, price, startDate, endDate, startTime, "
+                    + "endTime FROM Package";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            pack = FXCollections.observableArrayList();
+            
+            while(rs.next()) {
+                pack.add(new Package(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime")
+                ));
+            }
+            
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return pack;
     }
@@ -789,12 +834,14 @@ public class DBHandler {
             String query = "DELETE FROM $table_name WHERE ssn1 = ? AND ssn2 = ? AND username = ?";
             query = query.replace("$table_name", table);
             PreparedStatement statement = conn.prepareStatement(query);
-            
             statement.setInt(1, ssn1);
             statement.setInt(2, ssn2);
             statement.setString(3, username);
-            
             statement.execute();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -810,6 +857,10 @@ public class DBHandler {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, packageName);
             statement.execute(); 
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
 
@@ -833,7 +884,6 @@ public class DBHandler {
                     + "WHERE packageName = ?";
             
             PreparedStatement statement = conn.prepareStatement(query);
-            
             statement.setString(1, pack.getPackageName());
             statement.setFloat(2, pack.getPrice());
             statement.setDate(3, pack.getStartDate());
@@ -841,39 +891,14 @@ public class DBHandler {
             statement.setString(5, pack.getStartTime());
             statement.setString(6, pack.getEndTime());
             statement.setString(7, packageNameOld);
-            
             statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
-       public void updateAnnouncement(Announcement oldAnnouncement, Announcement ann) throws SQLException {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     //   Announcement ann = new Announcement();
-
-        try (Connection conn = establishConnection()) {
-             String query = "UPDATE Announcement SET "
-                    + "title = ?, "
-                    + "body = ?, "
-                    + "time = ?, "
-                    + "date = ? "
-                    + "WHERE title = ?"
-                     + " AND body = ?"
-                     + " AND date = ?"
-                     + " AND time = ?";            
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, ann.getTitle());
-            statement.setString(2, ann.getBody());
-            statement.setDate(4, ann.getDate());
-            statement.setString(3, ann.getTime());
-            statement.setString(5, oldAnnouncement.getTitle());
-            statement.setString(6, oldAnnouncement.getBody());
-            statement.setString(8, oldAnnouncement.getTime());
-            statement.setDate(7, oldAnnouncement.getDate());
-            System.out.println("st " + statement);
-            
-            statement.executeUpdate();
-                       
-        }
-    }
+       
     
     /**
      * Gets package information while logged in as administrator
@@ -883,15 +908,15 @@ public class DBHandler {
      */
     public ObservableList<Package> getPackageInfoAdmin(String packageName) throws SQLException {
         ObservableList<Package> data = FXCollections.observableArrayList();
-        Connection conn = establishConnection();
         
-        try {
+        try (Connection conn = establishConnection()) {
             String query = String.format("SELECT packageName, price, startDate, startTime, "
                     + "endDate, endTime FROM Package WHERE packageName = ?");
+            
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, packageName);
             ResultSet rs = statement.executeQuery();
-            
+
             while (rs.next()) {
                 data.add(new Package(
                         rs.getString("packageName"),
@@ -902,11 +927,13 @@ public class DBHandler {
                         rs.getString("endTime")
                 ));
             }
-            return data;
-        } 
-        catch (SQLException ex) {
+            
+            conn.close();
         }
-        return null;
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return data;
     }
 
     
@@ -917,28 +944,36 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Admin> getAdminPersonalInformation(int adminId) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
-                + " FROM Admin WHERE adminId = ?";
+        ObservableList<Admin> admin = null;
         
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, adminId);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Admin> admin = FXCollections.observableArrayList();
-        
-        while (rs.next()) {
-            admin.add(new Admin(rs.getString("firstName"),
-                    rs.getString("middleName"),
-                    rs.getString("lastName"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getString("gender"),
-                    rs.getInt("ssn1"),
-                    rs.getInt("ssn2")
-            ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT firstName, middleName, lastName,"
+                    + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                    + " FROM Admin WHERE adminId = ?";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, adminId);
+            ResultSet rs = statement.executeQuery();
+            admin = FXCollections.observableArrayList();
+            
+            while (rs.next()) {
+                admin.add(new Admin(rs.getString("firstName"),
+                        rs.getString("middleName"),
+                        rs.getString("lastName"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        rs.getString("gender"),
+                        rs.getInt("ssn1"),
+                        rs.getInt("ssn2")
+                ));
+            }
+            
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return admin;
     }
@@ -951,28 +986,35 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Member> getMemberPersonalInformation(int memberId) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
-                + " FROM Member WHERE memberId = ?";
+        ObservableList<Member> member = null;
         
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, memberId);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Member> member = FXCollections.observableArrayList();
-        
-        while (rs.next()) {
-            member.add(new Member(rs.getString("firstName"),
-                    rs.getString("middleName"),
-                    rs.getString("lastName"),
-                    rs.getDate("dateOfBirth"),
-                    rs.getString("address"),
-                    rs.getInt("phoneNumber"),
-                    rs.getString("email"),
-                    rs.getString("gender"),
-                    rs.getInt("ssn1"),
-                    rs.getInt("ssn2")
-            ));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT firstName, middleName, lastName,"
+                    + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                    + " FROM Member WHERE memberId = ?";
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, memberId);
+            ResultSet rs = statement.executeQuery();
+            member = FXCollections.observableArrayList();
+            while (rs.next()) {
+                member.add(new Member(rs.getString("firstName"),
+                        rs.getString("middleName"),
+                        rs.getString("lastName"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        rs.getString("gender"),
+                        rs.getInt("ssn1"),
+                        rs.getInt("ssn2")
+                ));
+            }
+            
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return member;
     }
@@ -986,54 +1028,60 @@ public class DBHandler {
      * @throws SQLException 
      */
      public ObservableList<Person> getPersonalInformation(String accountType, int id) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
-                + " FROM Admin WHERE adminId = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT firstName, middleName, lastName,"
-                + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
-                + " FROM Member WHERE memberId = ?";
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, id);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Person> person = FXCollections.observableArrayList();
-        
-        if(accountType.equals("Admin")) {
-            while (rs.next()) {
-                person.add(new Admin(rs.getString("firstName"),
-                        rs.getString("middleName"),
-                        rs.getString("lastName"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        rs.getString("gender"),
-                        rs.getInt("ssn1"),
-                        rs.getInt("ssn2")
-                ));
+         ObservableList<Person> person = null;
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT firstName, middleName, lastName,"
+                        + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                        + " FROM Admin WHERE adminId = ?";
             }
-        }
-        else if(accountType.equals("Member")) {
-            while (rs.next()) {
-                person.add(new Member(rs.getString("firstName"),
-                        rs.getString("middleName"),
-                        rs.getString("lastName"),
-                        rs.getDate("dateOfBirth"),
-                        rs.getString("address"),
-                        rs.getInt("phoneNumber"),
-                        rs.getString("email"),
-                        rs.getString("gender"),
-                        rs.getInt("ssn1"),
-                        rs.getInt("ssn2")
-                ));
+            else if(accountType.equals("Member")) {
+                query = "SELECT firstName, middleName, lastName,"
+                        + " dateOfBirth, address, phoneNumber, email, gender, ssn1, ssn2"
+                        + " FROM Member WHERE memberId = ?";
+            }   
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            person = FXCollections.observableArrayList();
+            
+            if(accountType.equals("Admin")) {
+                while (rs.next()) {
+                    person.add(new Admin(rs.getString("firstName"),
+                            rs.getString("middleName"),
+                            rs.getString("lastName"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            rs.getString("gender"),
+                            rs.getInt("ssn1"),
+                            rs.getInt("ssn2")
+                    ));
+                }
             }
+            else if(accountType.equals("Member")) {
+                while (rs.next()) {
+                    person.add(new Member(rs.getString("firstName"),
+                            rs.getString("middleName"),
+                            rs.getString("lastName"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("address"),
+                            rs.getInt("phoneNumber"),
+                            rs.getString("email"),
+                            rs.getString("gender"),
+                            rs.getInt("ssn1"),
+                            rs.getInt("ssn2")
+                    ));
+                }
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return person;
     }
@@ -1045,18 +1093,23 @@ public class DBHandler {
       * @throws SQLException 
       */
     public ObservableList<Schedule> memberViewSchedule() throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Schedule> schedule = FXCollections.observableArrayList();
-        
-        while (rs.next()) {
-            schedule.add(new Schedule(rs.getDate("date"),
-                    rs.getString("openingTime"),
-                    rs.getString("closingTime"),
-                    rs.getBoolean("isHoliday")
-            ));
+        ObservableList<Schedule> schedule = null;
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT date, openingTime, closingTime, isHoliday FROM Schedule";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            schedule = FXCollections.observableArrayList();
+            
+            while (rs.next()) {
+                schedule.add(new Schedule(rs.getDate("date"),
+                        rs.getString("openingTime"),
+                        rs.getString("closingTime"),
+                        rs.getBoolean("isHoliday")
+                ));
+            }
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return schedule;
     }
@@ -1069,15 +1122,22 @@ public class DBHandler {
      * @throws SQLException 
      */
     public int getPackageIdFromPackageName(String packageName) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT packageId FROM Package WHERE packageName = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, packageName);
-        ResultSet rs = statement.executeQuery();
         int packageId = 0;
-        
-        while (rs.next()) {
-            packageId = rs.getInt("packageId");
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT packageId FROM Package WHERE packageName = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, packageName);
+            ResultSet rs = statement.executeQuery();
+            packageId = 0;
+            
+            while (rs.next()) {
+                packageId = rs.getInt("packageId");
+            }
+            
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return packageId;
     }
@@ -1099,8 +1159,11 @@ public class DBHandler {
             statement.setDate(2, subscription.getSubscriptionEndDate());
             statement.setInt(3, subscription.getPackageId());
             statement.setInt(4, subscription.getMemberId());
-            
             statement.execute();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
     
@@ -1113,57 +1176,62 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Subscription> memberViewSubscription(int memberId, String filter) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
-                + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
-                + "INNER JOIN package AS pk "
-                + "ON pk.packageId = sub.Package_packageId "
-                + " WHERE Member_memberId = ?";
-
-        switch (filter) {
-            case "Active":
-                query = query + "  AND subscriptionStatus = 'Active'";
-                break;
-            case "Expired":
-                query = query + "  AND subscriptionStatus = 'Expired'";
-                break;
-            case "Canceled":
-                query = query + "  AND subscriptionStatus = 'Canceled'";
-                break;
-            case "Requested":
-                query = query + " AND subscriptionStatus = 'Requested'";
-                break;
-            case "Declined":
-                query = query + "  AND subscriptionStatus = 'Declined'";
-                break;
-            default:
-                break;
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, memberId);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
-        Subscription sub;
-        
-        while (rs.next()) {
-            sub = new Subscription( 
-                    rs.getString("packageName"),
-                    rs.getFloat("price"),
-                    rs.getString("startTime"),
-                    rs.getString("startTime")
-            );
-
-            sub.setStartDate(rs.getDate("pk.startDate"));
-            sub.setEndDate(rs.getDate("pk.endDate"));
-            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
-            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
-            sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
-            sub.setOfferPrice(rs.getFloat("offerPrice"));
-            sub.setDeclineMessage(rs.getString("declineMessage"));
+        ObservableList<Subscription> subscription = null;
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT packageName, price, pk.startDate, pk.endDate, "
+                    + "startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus, subscriptionId, offerPrice, declineMessage FROM Subscription AS sub "
+                    + "INNER JOIN package AS pk "
+                    + "ON pk.packageId = sub.Package_packageId "
+                    + " WHERE Member_memberId = ?";
             
-            subscription.add(sub);
+            switch (filter) {
+                case "Active":
+                    query = query + "  AND subscriptionStatus = 'Active'";
+                    break;
+                case "Expired":
+                    query = query + "  AND subscriptionStatus = 'Expired'";
+                    break;
+                case "Canceled":
+                    query = query + "  AND subscriptionStatus = 'Canceled'";
+                    break;
+                case "Requested":
+                    query = query + " AND subscriptionStatus = 'Requested'";
+                    break;
+                case "Declined":
+                    query = query + "  AND subscriptionStatus = 'Declined'";
+                    break;
+                default:
+                    break;
+            }   
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, memberId);
+            ResultSet rs = statement.executeQuery();
+            subscription = FXCollections.observableArrayList();
+            Subscription sub;
+            
+            while (rs.next()) {
+                sub = new Subscription(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getString("startTime"),
+                        rs.getString("startTime")
+                );
+                
+                sub.setStartDate(rs.getDate("pk.startDate"));
+                sub.setEndDate(rs.getDate("pk.endDate"));
+                sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+                sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+                sub.setSubscriptionId(rs.getInt("subscriptionId"));
+                sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+                sub.setOfferPrice(rs.getFloat("offerPrice"));
+                sub.setDeclineMessage(rs.getString("declineMessage"));             
+                subscription.add(sub);
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return subscription;
     }
@@ -1175,11 +1243,16 @@ public class DBHandler {
      * @throws SQLException 
      */
     public void cancelSubscription(int subscriptionId) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "UPDATE Subscription SET subscriptionStatus = 'Canceled' WHERE subscriptionId = ?";
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setInt(1, subscriptionId);
-        statement.executeUpdate();
+        try (Connection conn = establishConnection()) {
+            String query = "UPDATE Subscription SET subscriptionStatus = 'Canceled' WHERE subscriptionId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, subscriptionId);
+            statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
     
     
@@ -1190,27 +1263,33 @@ public class DBHandler {
      * @return True if account exists; false if account does not exist
      * @throws SQLException 
      */
-    public Boolean verifyUsername(String username, String accountType) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT count(*) FROM Admin WHERE BINARY username = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT count(*) FROM Member WHERE BINARY username = ?";
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, username);
-        ResultSet rs = statement.executeQuery();
+    public boolean verifyUsername(String username, String accountType) throws SQLException {
         int count = 0;
-        
-        while(rs.next()) {
-            count = rs.getInt(1);
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT count(*) FROM Admin WHERE BINARY username = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT count(*) FROM Member WHERE BINARY username = ?";
+            }
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            
+            while(rs.next()) {
+                count = rs.getInt(1);
+            }
+            
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         
-        return count != 0;     
+        return count != 0;
     }
     
     
@@ -1220,20 +1299,19 @@ public class DBHandler {
      * @param password Password of user
      * @param accountType Type of account of user - Admin or Member
      * @return Id of user
+     * @throws java.sql.SQLException
      */
-    public int getId(String username, String password, String accountType) {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT adminId FROM Admin WHERE BINARY username = ? AND BINARY password = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT memberId FROM Member WHERE BINARY username = ? AND BINARY password = ?";
-        }
-        
+    public int getId(String username, String password, String accountType) throws SQLException {
         int id = 0;
-        try {
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT adminId FROM Admin WHERE BINARY username = ? AND BINARY password = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT memberId FROM Member WHERE BINARY username = ? AND BINARY password = ?";
+            }
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
@@ -1242,8 +1320,11 @@ public class DBHandler {
             while(rs.next()) {
                 id = rs.getInt(1);
             }
+            
+            conn.close();
         }
         catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         return id;
     }
@@ -1256,29 +1337,33 @@ public class DBHandler {
      * @return True if the email exists; false if it does not exist
      * @throws SQLException 
      */
-    public Boolean checkEmailExistence(String table, String email) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
+    public boolean checkEmailExistence(String table, String email) throws SQLException {
+        boolean emailExists = false;
         
-        if(table.equals("Admin")) {
-            query = "SELECT COUNT(*) FROM Admin WHERE email = ? ";
-        }
-        else if(table.equals("Member")) {
-            query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
-        }
-        
-        Boolean emailExists = false;
-        try {
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(table.equals("Admin")) {
+                query = "SELECT COUNT(*) FROM Admin WHERE email = ? ";
+            }
+            else if(table.equals("Member")) {
+                query = "SELECT COUNT(*) FROM Member WHERE email = ? ";
+            }
+            
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
-            
+
             while(rs.next()) {
                 emailExists = rs.getInt(1) > 0;
             }
+            
+            conn.close();
         }
         catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
+        
         return emailExists;
     }
     
@@ -1289,31 +1374,35 @@ public class DBHandler {
      * @param password Password of user
      * @param accountType Type of account of user - Admin or Member
      * @return True if user account exists; false if it does not exist
+     * @throws java.sql.SQLException
      */
-    public boolean verifyUsernamePassword(String username, String password, String accountType) {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT COUNT(*)FROM Admin WHERE BINARY username = ? AND BINARY password = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT COUNT(*) FROM Member WHERE BINARY username = ? AND BINARY password = ?";
-        }
-        
+    public boolean verifyUsernamePassword(String username, String password, String accountType) throws SQLException {
         boolean accountExists = false;
-        try {
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT COUNT(*)FROM Admin WHERE BINARY username = ? AND BINARY password = ?"; 
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT COUNT(*) FROM Member WHERE BINARY username = ? AND BINARY password = ?";
+            }
+            
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
-            
+
             while(rs.next()) {
-                accountExists = rs.getInt(1) == 1; 
+                accountExists = rs.getInt(1) == 1;
             }
+            
+            conn.close();
         }
-        catch (SQLException ex) {
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
+        
         return accountExists;
     }
     
@@ -1350,7 +1439,13 @@ public class DBHandler {
             while(rs.next()) {
                 autoGeneratedKey = rs.getInt(1);
             }
+            
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return autoGeneratedKey;
     }
     
@@ -1366,35 +1461,43 @@ public class DBHandler {
      */
     public boolean verifyCode(String accountType, String code, int autoGeneratedId, 
             ForgotPasswordRequest forgotPasswordRequest) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT COUNT(*) FROM AdminForgotPassword WHERE "
-                    + "BINARY code = ? "
-                    + "AND adminForgotPasswordId = ? "
-                    + "AND date = ? "
-                    + "AND time = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT COUNT(*) FROM MemberForgotPassword WHERE "
-                    + "BINARY code = ? "
-                    + "AND memberForgotPasswordId = ? "
-                    + "AND date = ? "
-                    + "AND time = ?";
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, code);
-        statement.setInt(2, autoGeneratedId);
-        statement.setDate(3, forgotPasswordRequest.getDate());
-        statement.setString(4, forgotPasswordRequest.getTime());
-        ResultSet rs = statement.executeQuery();
         boolean codeVerification = false;
         
-        while(rs.next()) {
-            codeVerification = rs.getInt(1) == 1;
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT COUNT(*) FROM AdminForgotPassword WHERE "
+                        + "BINARY code = ? "
+                        + "AND adminForgotPasswordId = ? "
+                        + "AND date = ? "
+                        + "AND time = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT COUNT(*) FROM MemberForgotPassword WHERE "
+                        + "BINARY code = ? "
+                        + "AND memberForgotPasswordId = ? "
+                        + "AND date = ? "
+                        + "AND time = ?";
+            }   
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, code);
+            statement.setInt(2, autoGeneratedId);
+            statement.setDate(3, forgotPasswordRequest.getDate());
+            statement.setString(4, forgotPasswordRequest.getTime());
+            ResultSet rs = statement.executeQuery();
+            
+            while(rs.next()) {
+                codeVerification = rs.getInt(1) == 1;
+            }
+            
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return codeVerification;
     }
     
@@ -1407,20 +1510,25 @@ public class DBHandler {
      * @throws SQLException 
      */
     public void updatePassword(String accountType, int id, String password) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "UPDATE Admin SET password = ? WHERE adminId = ?";
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "UPDATE Admin SET password = ? WHERE adminId = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "UPDATE Member SET password = ? WHERE memberId = ?";
+            }
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, password);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            conn.close();
         }
-        else if(accountType.equals("Member")) {
-            query = "UPDATE Member SET password = ? WHERE memberId = ?";
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
-        
-        PreparedStatement statement = conn.prepareStatement(query);
-        statement.setString(1, password);
-        statement.setInt(2, id);
-        statement.executeUpdate();
     }
     
     
@@ -1430,32 +1538,35 @@ public class DBHandler {
      * @param username Username of user
      * @param email Email of user
      * @return Id of user
+     * @throws java.sql.SQLException
      */
-    public int getIdForVerification(String accountType, String username, String email) {
-        Connection conn = establishConnection();
-        String query = "";
-        
-        if(accountType.equals("Admin")) {
-            query = "SELECT adminId FROM Admin WHERE username = ? AND email = ?";
-        }
-        else if(accountType.equals("Member")) {
-            query = "SELECT memberId FROM Member WHERE username = ? AND email = ?";
-        }
-        
+    public int getIdForVerification(String accountType, String username, String email) throws SQLException {
         int id = 0;
-        try {
+        try (Connection conn = establishConnection()) {
+            String query = "";
+            
+            if(accountType.equals("Admin")) {
+                query = "SELECT adminId FROM Admin WHERE username = ? AND email = ?";
+            }
+            else if(accountType.equals("Member")) {
+                query = "SELECT memberId FROM Member WHERE username = ? AND email = ?";
+            }
+           
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, email);
             ResultSet rs = statement.executeQuery();
-            
+
             while(rs.next()) {
                 id = rs.getInt(1);
             }
-            return id;
+            
+            conn.close();
         }
-        catch(SQLException ex) {   
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
+        
         return id;
     }
     
@@ -1468,7 +1579,7 @@ public class DBHandler {
      * @throws SQLException 
      */
     public String getOldPassword(int id, String accountType) throws SQLException {
-        String oldPassword;
+        String oldPassword = null;
         
         try (Connection conn = establishConnection()) {
             String query = "";
@@ -1488,7 +1599,13 @@ public class DBHandler {
             while(rs.next()) {
                 oldPassword = rs.getString(1);
             }
+            
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return oldPassword;
     }
     
@@ -1499,7 +1616,8 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<SubscriptionRequest>  getSubscriptionRequest() throws SQLException {
-        ObservableList<SubscriptionRequest> subscriptionRequestList;
+        ObservableList<SubscriptionRequest> subscriptionRequestList = null;
+        
         try (Connection conn = establishConnection()) {
             String query = "SELECT m.firstName, m.middleName, m.lastName,"
                     + " m.username, packageName, price, pk.startDate, pk.endDate,"
@@ -1539,7 +1657,12 @@ public class DBHandler {
                 subscriptionRequest.setMemberUsername(rs.getString("m.username"));
                 subscriptionRequestList.add(subscriptionRequest);
             }
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return subscriptionRequestList;
     }
     
@@ -1561,6 +1684,10 @@ public class DBHandler {
             statement.setInt(3, adminId);
             statement.setInt(4, subscriptionId);
             statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
     
@@ -1582,6 +1709,10 @@ public class DBHandler {
             statement.setInt(3, adminId);
             statement.setInt(4, subscriptionId);
             statement.executeUpdate();
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
     }
     
@@ -1593,8 +1724,10 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Subscription> adminViewSubscription(String filter) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT m.firstName, m.middleName, m.lastName,"
+        ObservableList<Subscription> subscription = null;
+        
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT m.firstName, m.middleName, m.lastName,"
                     + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
                     + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
                     + " a.middleName, a.lastName FROM Subscription AS sub "
@@ -1604,56 +1737,62 @@ public class DBHandler {
                     + " ON sub.Member_memberId = m.memberId"
                     + " INNER JOIN admin AS a"
                     + " ON sub.Admin_adminId = a.adminId";
-        
-        switch (filter) {
-            case "All":
-                query = query + "  WHERE NOT subscriptionStatus = 'Requested' AND NOT subscriptionStatus = 'Declined'";
-                break;
-            case "Active":
-                query = query + "  WHERE subscriptionStatus = 'Active'";
-                break;
-            case "Expired":
-                query = query + "  WHERE subscriptionStatus = 'Expired'";
-                break;
-            case "Canceled":
-                query = query + "  WHERE subscriptionStatus = 'Canceled'";
-                break;
-            default:
-                break;
+            
+            switch (filter) {
+                case "All":
+                    query = query + "  WHERE NOT subscriptionStatus = 'Requested' AND NOT subscriptionStatus = 'Declined'";
+                    break;
+                case "Active":
+                    query = query + "  WHERE subscriptionStatus = 'Active'";
+                    break;
+                case "Expired":
+                    query = query + "  WHERE subscriptionStatus = 'Expired'";
+                    break;
+                case "Canceled":
+                    query = query + "  WHERE subscriptionStatus = 'Canceled'";
+                    break;
+                default:
+                    break;
+            }   
+            
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            subscription = FXCollections.observableArrayList();
+            Subscription sub;
+            
+            while (rs.next()) {
+                sub = new Subscription(rs.getString("packageName"));
+                
+                if(rs.getString("m.middleName").equals("")) {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+                }
+                else {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+                }
+                
+                sub.setMemberUsername(rs.getString("m.username"));
+                sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+                sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+                sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+                sub.setSubscriptionId(rs.getInt("subscriptionId"));
+                sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+                sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+                
+                if(rs.getString("a.middleName").equals("")) {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+                }
+                else {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+                }
+                
+                subscription.add(sub);
+            }
+            conn.close();
+        }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
         
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
-        Subscription sub;
-        
-        while (rs.next()) {
-            sub = new Subscription(rs.getString("packageName"));
-            
-            if(rs.getString("m.middleName").equals("")) {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
-            }
-            else {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
-            }
-            
-            sub.setMemberUsername(rs.getString("m.username"));
-            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
-            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
-            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
-            sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
-            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
-            
-            if(rs.getString("a.middleName").equals("")) {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
-            }
-            else {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
-            }
-            
-            subscription.add(sub);
-        }
         return subscription;
     }
      
@@ -1675,60 +1814,67 @@ public class DBHandler {
             String memberMiddleName, String memberLastName, String memberUsername, 
             String packageName, String adminFirstName, String adminMiddleName, 
             String adminLastName) throws SQLException {
-        Connection conn = establishConnection();
-
-        String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
-                + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
-                + " a.middleName, a.lastName FROM Subscription AS sub "
-                + " INNER JOIN package AS pk"
-                + " ON pk.packageId = sub.Package_packageId"
-                + " INNER JOIN member AS m"
-                + " ON sub.Member_memberId = m.memberId"
-                + " INNER JOIN admin AS a"
-                + " ON sub.Admin_adminId = a.adminId"
-                + " WHERE m.firstName LIKE \"%" + memberFirstName + "%\""
-                + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
-                + " OR m.lastname LIKE \"%" + memberLastName + "%\""
-                + " OR m.username LIKE \"%" + memberUsername + "%\""
-                + " OR packageName LIKE \"%" + packageName + "%\""
-                + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
-                + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
-                + " OR a.lastname LIKE \"%" + adminLastName + "%\""
-                        + " AND NOT subscriptionStatus = 'Requested'";
-
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
-        Subscription sub;
-
-        while (rs.next()) {
-            sub = new Subscription(rs.getString("packageName"));
-
-            if(rs.getString("m.middleName").equals("")) {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
-            }
-            else {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
-            }
+        ObservableList<Subscription> subscription = null;
+        
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId"
+                    + " WHERE m.firstName LIKE \"%" + memberFirstName + "%\""
+                    + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                    + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                    + " OR m.username LIKE \"%" + memberUsername + "%\""
+                    + " OR packageName LIKE \"%" + packageName + "%\""
+                    + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
+                    + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
+                    + " OR a.lastname LIKE \"%" + adminLastName + "%\""
+                    + " AND NOT subscriptionStatus = 'Requested'";
             
-            sub.setMemberUsername(rs.getString("m.username"));
-            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
-            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
-            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
-            sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
-            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            subscription = FXCollections.observableArrayList();
+            Subscription sub;
             
-            if(rs.getString("a.middleName").equals("")) {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            while (rs.next()) {
+                sub = new Subscription(rs.getString("packageName"));
+                
+                if(rs.getString("m.middleName").equals("")) {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+                }
+                else {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+                }
+                
+                sub.setMemberUsername(rs.getString("m.username"));
+                sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+                sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+                sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+                sub.setSubscriptionId(rs.getInt("subscriptionId"));
+                sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+                sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+                
+                if(rs.getString("a.middleName").equals("")) {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+                }
+                else {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+                }
+                
+                subscription.add(sub);
             }
-            else {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
-            }
-            
-            subscription.add(sub);
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return subscription;
     }
      
@@ -1739,50 +1885,58 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Subscription> adminViewDeclinedSubscription() throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
-                + " subscriptionId, sub.Admin_adminId, sub.declineMessage, a.firstName,"
-                + " a.middleName, a.lastName FROM Subscription AS sub "
-                + " INNER JOIN package AS pk"
-                + " ON pk.packageId = sub.Package_packageId"
-                + " INNER JOIN member AS m"
-                + " ON sub.Member_memberId = m.memberId"
-                + " INNER JOIN admin AS a"
-                + " ON sub.Admin_adminId = a.adminId"
-                + " WHERE subscriptionStatus = 'Declined'";
+        ObservableList<Subscription> subscription = null;
         
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
-        Subscription sub;
-        
-        while (rs.next()) {
-            sub = new Subscription(rs.getString("packageName"));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId"
+                    + " WHERE subscriptionStatus = 'Declined'";
             
-            if(rs.getString("m.middleName").equals("")) {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
-            }
-            else {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
-            }
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            subscription = FXCollections.observableArrayList();
+            Subscription sub;
             
-            sub.setMemberUsername(rs.getString("m.username"));
-            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
-            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
-            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
-            sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
-
-            if(rs.getString("a.middleName").equals("")) {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            while (rs.next()) {
+                sub = new Subscription(rs.getString("packageName"));
+                
+                if(rs.getString("m.middleName").equals("")) {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+                }
+                else {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+                }
+                
+                sub.setMemberUsername(rs.getString("m.username"));
+                sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+                sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+                sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+                sub.setSubscriptionId(rs.getInt("subscriptionId"));
+                sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+                
+                if(rs.getString("a.middleName").equals("")) {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+                }
+                else {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+                }
+                
+                subscription.add(sub);
             }
-            else {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
-            }
-            
-            subscription.add(sub);
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return subscription;
     }
      
@@ -1801,60 +1955,68 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<Subscription> searchInAdminViewDeclinedSubscription(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName, String adminFirstName, String adminMiddleName, String adminLastName) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
-                + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
-                + " a.middleName, a.lastName FROM Subscription AS sub "
-                + " INNER JOIN package AS pk"
-                + " ON pk.packageId = sub.Package_packageId"
-                + " INNER JOIN member AS m"
-                + " ON sub.Member_memberId = m.memberId"
-                + " INNER JOIN admin AS a"
-                + " ON sub.Admin_adminId = a.adminId"
-                + " WHERE subscriptionStatus = 'Declined'"
-                + " AND (m.firstName LIKE \"%" + memberFirstName + "%\""
-                + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
-                + " OR m.lastname LIKE \"%" + memberLastName + "%\""
-                + " OR m.username LIKE \"%" + memberUsername + "%\""
-                + " OR packageName LIKE \"%" + packageName + "%\""
-                + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
-                + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
-                + " OR a.lastname LIKE \"%" + adminLastName + "%\")"
-                + " AND NOT subscriptionStatus = 'Requested'";
-
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<Subscription> subscription = FXCollections.observableArrayList();
-        Subscription sub;
+        ObservableList<Subscription> subscription = null;
         
-        while (rs.next()) {
-            sub = new Subscription(rs.getString("packageName"));
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId, sub.Admin_adminId, sub.offerPrice, sub.declineMessage, a.firstName,"
+                    + " a.middleName, a.lastName FROM Subscription AS sub "
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " INNER JOIN admin AS a"
+                    + " ON sub.Admin_adminId = a.adminId"
+                    + " WHERE subscriptionStatus = 'Declined'"
+                    + " AND (m.firstName LIKE \"%" + memberFirstName + "%\""
+                    + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                    + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                    + " OR m.username LIKE \"%" + memberUsername + "%\""
+                    + " OR packageName LIKE \"%" + packageName + "%\""
+                    + " OR a.firstName LIKE \"%" + adminFirstName + "%\""
+                    + " OR a.middleName LIKE \"%" + adminMiddleName + "%\""
+                    + " OR a.lastname LIKE \"%" + adminLastName + "%\")"
+                    + " AND NOT subscriptionStatus = 'Requested'";
             
-            if(rs.getString("m.middleName").equals("")) {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
-            }
-            else {
-                sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
-            }
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            subscription = FXCollections.observableArrayList();
+            Subscription sub;
             
-            sub.setMemberUsername(rs.getString("m.username"));
-            sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
-            sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
-            sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
-            sub.setSubscriptionId(rs.getInt("subscriptionId"));
-            sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
-            sub.setDeclineMessage(rs.getString("sub.declineMessage"));
-            
-            if(rs.getString("a.middleName").equals("")) {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+            while (rs.next()) {
+                sub = new Subscription(rs.getString("packageName"));
+                
+                if(rs.getString("m.middleName").equals("")) {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+                }
+                else {
+                    sub.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("m.lastName"));
+                }
+                
+                sub.setMemberUsername(rs.getString("m.username"));
+                sub.setSubscriptionStartDate(rs.getDate("sub.startDate"));
+                sub.setSubscriptionEndDate(rs.getDate("sub.endDate"));
+                sub.setSubscriptionStatus(rs.getString("subscriptionStatus"));
+                sub.setSubscriptionId(rs.getInt("subscriptionId"));
+                sub.setOfferPrice(rs.getFloat("sub.offerPrice"));
+                sub.setDeclineMessage(rs.getString("sub.declineMessage"));
+                
+                if(rs.getString("a.middleName").equals("")) {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.lastName"));
+                }
+                else {
+                    sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
+                }
+                
+                subscription.add(sub);
             }
-            else {
-                sub.setSubscriptionAdminFullName(rs.getString("a.firstName") + " " + rs.getString("a.middleName") + " " + rs.getString("a.lastName"));
-            }
-
-            subscription.add(sub);
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return subscription;
     }
      
@@ -1870,68 +2032,75 @@ public class DBHandler {
      * @throws SQLException 
      */
     public ObservableList<SubscriptionRequest> searchInAdminViewSubscriptionRequests(String memberFirstName, String memberMiddleName, String memberLastName, String memberUsername, String packageName) throws SQLException {
-        Connection conn = establishConnection();
-        String query = "SELECT m.firstName, m.middleName, m.lastName,"
-                + " m.username, packageName, price, pk.startDate, pk.endDate,"
-                + " startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus,"
-                + " subscriptionId FROM Subscription AS sub"
-                + " INNER JOIN package AS pk"
-                + " ON pk.packageId = sub.Package_packageId"
-                + " INNER JOIN member AS m"
-                + " ON sub.Member_memberId = m.memberId"
-                + " WHERE (m.firstName LIKE \"%" + memberFirstName + "%\""
-                 + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
-                 + " OR m.lastname LIKE \"%" + memberLastName + "%\""
-                 + " OR m.username LIKE \"%" + memberUsername + "%\""
-                 + " OR packageName LIKE \"%" + packageName + "%\")"
-                 + " AND subscriptionStatus = 'Requested'";
+        ObservableList<SubscriptionRequest> subscriptionRequestList = null;
         
-        PreparedStatement statement = conn.prepareStatement(query);
-        ResultSet rs = statement.executeQuery();
-        ObservableList<SubscriptionRequest> subscriptionRequestList = FXCollections.observableArrayList();
-       
-        while(rs.next()) {
-            SubscriptionRequest subscriptionRequest;
-            subscriptionRequest = new SubscriptionRequest(
-                    rs.getString("packageName"),
-                    rs.getFloat("price"),
-                    rs.getDate("pk.startDate"),
-                    rs.getDate("pk.endDate"),
-                    rs.getString("startTime"),
-                    rs.getString("startTime"),
-                    rs.getDate("sub.startDate"),
-                    rs.getDate("sub.endDate"),
-                    rs.getInt("subscriptionId")
-            );
+        try (Connection conn = establishConnection()) {
+            String query = "SELECT m.firstName, m.middleName, m.lastName,"
+                    + " m.username, packageName, price, pk.startDate, pk.endDate,"
+                    + " startTime, endTime, sub.startDate, sub.endDate, subscriptionStatus,"
+                    + " subscriptionId FROM Subscription AS sub"
+                    + " INNER JOIN package AS pk"
+                    + " ON pk.packageId = sub.Package_packageId"
+                    + " INNER JOIN member AS m"
+                    + " ON sub.Member_memberId = m.memberId"
+                    + " WHERE (m.firstName LIKE \"%" + memberFirstName + "%\""
+                    + " OR m.middleName LIKE \"%" + memberMiddleName + "%\""
+                    + " OR m.lastname LIKE \"%" + memberLastName + "%\""
+                    + " OR m.username LIKE \"%" + memberUsername + "%\""
+                    + " OR packageName LIKE \"%" + packageName + "%\")"
+                    + " AND subscriptionStatus = 'Requested'";
             
-            if(rs.getString("m.middleName").equals("")) {
-                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            subscriptionRequestList = FXCollections.observableArrayList();
+            
+            while(rs.next()) {
+                SubscriptionRequest subscriptionRequest;
+                subscriptionRequest = new SubscriptionRequest(
+                        rs.getString("packageName"),
+                        rs.getFloat("price"),
+                        rs.getDate("pk.startDate"),
+                        rs.getDate("pk.endDate"),
+                        rs.getString("startTime"),
+                        rs.getString("startTime"),
+                        rs.getDate("sub.startDate"),
+                        rs.getDate("sub.endDate"),
+                        rs.getInt("subscriptionId")
+                );
+                
+                if(rs.getString("m.middleName").equals("")) {
+                    subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.lastName"));
+                }
+                else {
+                    subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("lastName"));
+                }
+                
+                subscriptionRequest.setMemberUsername(rs.getString("m.username"));
+                subscriptionRequestList.add(subscriptionRequest);
             }
-            else {
-                 subscriptionRequest.setMemberFullName(rs.getString("m.firstName") + " " + rs.getString("m.middleName") + " " + rs.getString("lastName"));
-            }
-            subscriptionRequest.setMemberUsername(rs.getString("m.username"));
-            subscriptionRequestList.add(subscriptionRequest);
+            conn.close();
         }
+        catch(SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
         return subscriptionRequestList;
     }
      
      
-     
-     
-     
-     
-     
-     
-     public ResultSet searchSchedule(String date){
+
+    
+    public ResultSet searchSchedule(String date) throws SQLException{
         Connection conn = establishConnection();
         try {
             String query = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
+            conn.close();
             return rs; 
         }   catch (SQLException e) {
             System.out.println("error. Not found.");
+            conn.close();
             return null;
         }
     }
@@ -1945,6 +2114,7 @@ public class DBHandler {
             System.out.println("PS " + prepStmt);
             ResultSet rs = prepStmt.executeQuery();
             System.out.println("2");
+            conn.close();
             return rs;
         } catch (Exception e) {
             System.out.println("Cannot ritrive schedule.");
@@ -1965,6 +2135,7 @@ public class DBHandler {
             prepStmt.setInt(5, adminId);
             prepStmt.executeUpdate();
             System.out.println("the data has been moved into database.");
+            conn.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -1982,13 +2153,14 @@ public class DBHandler {
             prepStmt.setDate(1, date);
             prepStmt.execute();
             System.out.println("Success removed");
+            conn.close();
             
         } catch (Exception e) {
             System.out.println("error. Not delete.");
         }
     }
      
-     public void fillComboBox(ObservableList option){
+     public void fillComboBox(ObservableList option) throws SQLException{
          Connection conn = null;
          try {
              String query = "SELECT date FROM schedule ORDER BY date DESC";
@@ -2001,6 +2173,7 @@ public class DBHandler {
          } catch (Exception e) {
              System.out.println("fill combox error: "+ e);
          }
+         conn.close();
      }
      
      public void updateSchedule(Schedule s){
@@ -2016,15 +2189,15 @@ public class DBHandler {
             prepStmt.executeUpdate();
             
             System.out.println("the data has been updated");
+            conn.close();
         }
         catch(Exception e){
             e.printStackTrace();
         }
      }
      
-     public void loadScheduleData(ComboBox schedule,DatePicker dp,TextField oh,TextField om,TextField ch,TextField cm,ComboBox openingTimeState,ComboBox closingTimeState,CheckBox cb){
+     public void loadScheduleData(ComboBox schedule,DatePicker dp,TextField oh,TextField om,TextField ch,TextField cm,ComboBox openingTimeState,ComboBox closingTimeState,CheckBox cb) throws SQLException{
          Connection conn = null;
-         Helper help = new Helper();
          try {
              String query = "SELECT * FROM schedule WHERE date=?";
              conn = establishConnection();
@@ -2047,9 +2220,10 @@ public class DBHandler {
                      cb.setSelected(false);
                  }
              }
-         } catch (Exception e) {
+         } catch (SQLException | ParseException e) {
              System.out.println("fill combox error: "+ e);
          }
+         conn.close();
      }
      
      public String getScheduleOpeningHour(String time) throws ParseException{
@@ -2071,6 +2245,7 @@ public class DBHandler {
          String om = Integer.toString(calendar.get(Calendar.MINUTE));
          return help.minuteFormat(help.minuteFormat(om));
      }
+     
      public String getScheduleClosingHour(String time) throws ParseException{
          Helper help = new Helper();
          Time closingTime = help.toSqlTime(time);
@@ -2080,6 +2255,7 @@ public class DBHandler {
          String ch = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY));
          return help.hourFormat(help.hourFormat(ch));
      }
+     
      public String getScheduleClosingMin(String time) throws ParseException{
          Helper help = new Helper();
          Time closingTime = help.toSqlTime(time);
@@ -2103,9 +2279,11 @@ public class DBHandler {
              count = rs.getInt(1);
          }
          if(count==0) {
+             conn.close();
              return true;
          }
          else {
+             conn.close();
              return false;
          }
      }
@@ -2124,6 +2302,7 @@ public class DBHandler {
         stmt.setString(4, announcement.getBody());
         stmt.setInt(5, announcement.getAdminId());
         stmt.execute();
+        conn.close();
         }
     }
         
@@ -2147,6 +2326,7 @@ public class DBHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        conn.close();
         return adminViewAnnouncement;
     }
     
@@ -2173,6 +2353,7 @@ public class DBHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        conn.close();
         return memberViewAnnouncement;
     }
 
@@ -2200,6 +2381,7 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
+       conn.close();
         return searchData;
      }   
      
@@ -2227,6 +2409,7 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
+       conn.close();
         return searchData;
      }            
     
@@ -2241,7 +2424,34 @@ public class DBHandler {
             statement.setDate(4, date);
             statement.execute();
             deletionError = false;
+            conn.close();
         }
         return deletionError;
+    }
+     public void updateAnnouncement(Announcement oldAnnouncement, Announcement ann) throws SQLException {
+        try (Connection conn = establishConnection()) {
+             String query = "UPDATE Announcement SET "
+                    + "title = ?, "
+                    + "body = ?, "
+                    + "time = ?, "
+                    + "date = ? "
+                    + "WHERE title = ?"
+                    + " AND body = ?"
+                    + " AND date = ?"
+                    + " AND time = ?";            
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ann.getTitle());
+            statement.setString(2, ann.getBody());
+            statement.setDate(4, ann.getDate());
+            statement.setString(3, ann.getTime());
+            statement.setString(5, oldAnnouncement.getTitle());
+            statement.setString(6, oldAnnouncement.getBody());
+            statement.setString(8, oldAnnouncement.getTime());
+            statement.setDate(7, oldAnnouncement.getDate());
+            System.out.println("st " + statement);
+            
+            statement.executeUpdate();
+            conn.close();            
+        }
     }
     }

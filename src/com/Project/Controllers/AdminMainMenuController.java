@@ -91,7 +91,7 @@ public class AdminMainMenuController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    public void handleSettingsBtnClick(ActionEvent event) throws IOException {
+    public void handleChangePasswordBtnClick(ActionEvent event) throws IOException {
         helper.navigateScene(event, "AdminChangePassword.fxml");   
     }
 }

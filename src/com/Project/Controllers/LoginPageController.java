@@ -96,7 +96,7 @@ public class LoginPageController implements Initializable {
             int id;
             boolean usernameValid = dbHandler.verifyUsername(uname, accountType);
             if(!usernameValid) {
-                helper.showDialogBox(true, "Unexisting account");
+                helper.showDialogBox(true, "Account does not exist");
             }
             else {
                 String hashedPassword = helper.hash(pwd);

@@ -15,4 +15,7 @@
          </image>
       </ImageView>
    </graphic>
+   <tooltip>
+        <Tooltip text="Home" />
+    </tooltip>
 </Button>

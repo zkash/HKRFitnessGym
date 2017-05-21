@@ -140,6 +140,7 @@ public class AccountHelper {
      * @param id Id of Admin or Member
      * @param ssnOld1 First part of old or current social security number 
      * @param ssnOld2 Second part of old or current social security number
+     * @return True if updated; false if not updated
      * @throws SQLException 
      */
      public boolean update(String accountType, ArrayList<TextField> textFieldList, ArrayList<RadioButton> radioButtonList, ArrayList<Label> labelList, DatePicker dateOfBirth, int id, int ssnOld1, int ssnOld2) throws SQLException {
@@ -230,7 +231,7 @@ public class AccountHelper {
                     dbHandler.updateMemberPersonalInformation("Member", member, id, ssnOld1, ssnOld2);   
                     updated = true;
                 }
-                helper.showDialogBox(false, "Member details successfully updated");
+                helper.showDialogBox(false, "Users details successfully updated");
             }
             else {
                 helper.showDialogBox(true, "Could not update admin details");

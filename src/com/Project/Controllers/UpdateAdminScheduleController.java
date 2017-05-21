@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -77,7 +79,11 @@ public class UpdateAdminScheduleController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        db.fillComboBox(option);
+        try {
+            db.fillComboBox(option);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateAdminScheduleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dataList.setItems(option);
         
         openingTimeState.getItems().addAll("AM", "PM");
@@ -86,7 +92,7 @@ public class UpdateAdminScheduleController implements Initializable {
     }
     
     @FXML
-    public void comboBoxAction(){
+    public void comboBoxAction() throws SQLException{
         db.loadScheduleData(
                 dataList, 
                 scheduleDate, 

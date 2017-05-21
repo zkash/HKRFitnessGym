@@ -129,6 +129,7 @@ public class UpdateAdminPersonalInformationController implements Initializable {
      * Handles update button click
      * @param event ActionEvent
      * @throws SQLException 
+     * @throws java.io.IOException 
      */
     @FXML
     public void handleUpdateBtnClick(ActionEvent event) throws SQLException, IOException {

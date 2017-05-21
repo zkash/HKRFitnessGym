@@ -116,8 +116,8 @@ public class PackageHelper {
                     (packageStartTimeState.equals("PM") && packageEndTimeState.equals("AM"))) {
                 //End time before start time
                 if (convertTimeToMinuteSinceMidnight(packageStartTime) > convertTimeToMinuteSinceMidnight(packageEndTime)) {
-                    helper.showDialogBox(true, "Start time cannot be earlier than end time");
-                    helper.clearTextField(textFieldList.get(1), textFieldList.get(2));
+                    helper.showDialogBox(true, "Start time cannot be later than end time");
+                    helper.clearTextField(textFieldList.get(2), textFieldList.get(3));
                 }
                 else {
                     pack = new Package(

@@ -2096,11 +2096,10 @@ public class DBHandler {
             String query = "SELECT * FROM Schedule WHERE date LIKE\"%" + date + "%\"";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            conn.close();
+           // conn.close();
             return rs; 
         }   catch (SQLException e) {
             System.out.println("error. Not found.");
-            conn.close();
             return null;
         }
     }
@@ -2114,7 +2113,7 @@ public class DBHandler {
             System.out.println("PS " + prepStmt);
             ResultSet rs = prepStmt.executeQuery();
             System.out.println("2");
-            conn.close();
+          //  conn.close();
             return rs;
         } catch (Exception e) {
             System.out.println("Cannot ritrive schedule.");
@@ -2135,7 +2134,7 @@ public class DBHandler {
             prepStmt.setInt(5, adminId);
             prepStmt.executeUpdate();
             System.out.println("the data has been moved into database.");
-            conn.close();
+            //conn.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -2153,7 +2152,7 @@ public class DBHandler {
             prepStmt.setDate(1, date);
             prepStmt.execute();
             System.out.println("Success removed");
-            conn.close();
+            //conn.close();
             
         } catch (Exception e) {
             System.out.println("error. Not delete.");
@@ -2173,7 +2172,7 @@ public class DBHandler {
          } catch (Exception e) {
              System.out.println("fill combox error: "+ e);
          }
-         conn.close();
+        // conn.close();
      }
      
      public void updateSchedule(Schedule s){
@@ -2189,7 +2188,7 @@ public class DBHandler {
             prepStmt.executeUpdate();
             
             System.out.println("the data has been updated");
-            conn.close();
+          //  conn.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -2223,7 +2222,7 @@ public class DBHandler {
          } catch (SQLException | ParseException e) {
              System.out.println("fill combox error: "+ e);
          }
-         conn.close();
+       //  conn.close();
      }
      
      public String getScheduleOpeningHour(String time) throws ParseException{
@@ -2279,11 +2278,11 @@ public class DBHandler {
              count = rs.getInt(1);
          }
          if(count==0) {
-             conn.close();
+           //  conn.close();
              return true;
          }
          else {
-             conn.close();
+            // conn.close();
              return false;
          }
      }
@@ -2302,7 +2301,7 @@ public class DBHandler {
         stmt.setString(4, announcement.getBody());
         stmt.setInt(5, announcement.getAdminId());
         stmt.execute();
-        conn.close();
+       // conn.close();
         }
     }
         
@@ -2326,7 +2325,7 @@ public class DBHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        conn.close();
+      //  conn.close();
         return adminViewAnnouncement;
     }
     
@@ -2353,7 +2352,7 @@ public class DBHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        conn.close();
+        //conn.close();
         return memberViewAnnouncement;
     }
 
@@ -2381,7 +2380,7 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
-       conn.close();
+     //  conn.close();
         return searchData;
      }   
      
@@ -2409,7 +2408,7 @@ public class DBHandler {
                 announcement.setUsername(rs.getString("username"));
                 searchData.add(announcement);
             }
-       conn.close();
+      // conn.close();
         return searchData;
      }            
     
@@ -2424,7 +2423,7 @@ public class DBHandler {
             statement.setDate(4, date);
             statement.execute();
             deletionError = false;
-            conn.close();
+          //  conn.close();
         }
         return deletionError;
     }
@@ -2451,7 +2450,7 @@ public class DBHandler {
             System.out.println("st " + statement);
             
             statement.executeUpdate();
-            conn.close();            
+           // conn.close();            
         }
     }
     }
